@@ -38,7 +38,6 @@ function NavItem({ item, active }) {
   const theme = useTheme();
 
   const isActiveRoot = active(item.path);
-  console.log(item);
   const { title, path, icon, info, children } = item;
 
   const [open, setOpen] = useState(isActiveRoot);
@@ -149,8 +148,8 @@ export default function NavSection({ navConfig, ...other }) {
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
-        {navConfig.map((item) => (
-          <li>
+        {navConfig.map((item, index) => (
+          <li key={index + 1}>
             <NavItem key={item.title} item={item} active={match} />
           </li>
         ))}

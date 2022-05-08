@@ -3,31 +3,20 @@ import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import {
-  Card,
-  Stack,
-  Button,
-  Container,
-  Typography,
-  ListItemIcon,
- 
-} from '@mui/material';
+import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
 // components
 import MainModalAssessments from '../../../components/main/assessment-modal/MainModalAssessments';
-import MainModuleFilter from "../../../components/main/MainModuleFilter";
+import MainModuleFilter from '../../../components/main/MainModuleFilter';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
-
-
 
 const Assessments = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
 
   const modalHandleClose = (value) => {
-    console.log('value', value);
     setModalOpen(value);
     setEditModalOpen(value);
   };
@@ -93,23 +82,15 @@ const Assessments = () => {
   ];
   const options = {
     filterType: 'dropdown',
-    responsive: "stacked",
-      filter: false,
-      download: false,
-      print: false
+    responsive: 'stacked',
+    filter: false,
+    download: false,
+    print: false,
   };
 
-  const getInputValue = (value) => {
-    console.log('value', value);
-  };
-
-
-
-
-
+  const getInputValue = (value) => {};
 
   return (
-
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -127,7 +108,7 @@ const Assessments = () => {
           </Button>
         </Stack>
         <Card>
-        <MainModuleFilter/>
+          <MainModuleFilter />
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
@@ -158,7 +139,6 @@ const Assessments = () => {
         buttonLabel="Update Assessment"
       />
     </Page>
-
   );
 };
 
