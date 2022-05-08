@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
@@ -7,11 +7,23 @@ import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormContr
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+import { useCreatePostQuery } from '../../../redux/services/login/LoginService';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const data = {
+    username: 'impathan007@gmail.com',
+    password: '123456',
+  };
+  const [skip, setSkip] = useState(true);
+  const [userData, setUserData] = useState(data);
+
+  const CreatePost = useCreatePostQuery(userData, {
+    skip,
+  });
+  console.log('post Add Hoi', CreatePost);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -28,7 +40,13 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+      const data = {
+        username: 'impathan007@gmail.com',
+        password: '123456',
+      };
+      setSkip((prev) => !prev);
+      console.log('click');
+      // navigate('/dashboard/app', { replace: true });
     },
   });
 
