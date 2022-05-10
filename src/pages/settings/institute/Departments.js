@@ -25,11 +25,15 @@ import SettingsModal from '../../../components/settings/SettingsModal';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
+import { useDepartmentQuery } from '../../../redux/services/settings/DepartmentService';
+
 // mock
 
 const Departments = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
+  const response = useDepartmentQuery();
+  console.log("response", response);
 
   const modalHandleClose = (value) => {
     console.log('value', value);

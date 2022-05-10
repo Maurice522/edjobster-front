@@ -26,7 +26,7 @@ import {
 export default function DashboardApp() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.auth.auth);
+  const auth = useSelector((state) => state.login.auth);
   useEffect(() => {
     if (!auth) {
       navigate('/login');

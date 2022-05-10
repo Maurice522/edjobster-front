@@ -13,7 +13,7 @@ import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 
 export default function App() {
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.auth.auth);
+  const auth = useSelector((state) => state.login.auth);
   useEffect(() => {
     if (!auth) {
       navigate('login');
