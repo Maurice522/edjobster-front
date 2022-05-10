@@ -14,31 +14,29 @@ import sessionStorage from 'reduxjs-toolkit-persist/es/storage/session';
 import thunk from 'redux-thunk';
 import autoMergeLevel1 from 'reduxjs-toolkit-persist/lib/stateReconciler/autoMergeLevel1';
 import AuthReducer from './auth/AuthReducer';
-import { emptySplitApi } from './services/BaseUrl';
+import { apiBasePath } from './services/BaseUrl';
 
-const sessionStorageTransform = createTransform(
-  // it is usefull to hide the value from session storage.
-  (state) => {},
-  (state) => {
-    // console.log('state', state);
-    // Object.assign({}, state, {
-    //     session: { ...state.session, timestamp: Date.now() },
-    //   }),
-    // {}
-  }
-);
+// const sessionStorageTransform = createTransform(
+//   // it is usefull to hide the value from session storage.
+//   (state) => { },
+//   (state) =>
+//     // console.log('state', state);
+//     ({ ...state, session: { ...state.session, timestamp: Date.now() }, }),
+//   {}
+
+// );
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage: sessionStorage,
   stateReconciler: autoMergeLevel1,
-  transforms: [sessionStorageTransform],
+  // transforms: [sessionStorageTransform],
 };
 
 const reducers = combineReducers({
-  auth: AuthReducer,
-  api: emptySplitApi.reducer,
+  login: AuthReducer,
+  api: apiBasePath.reducer,
 });
 const _persistedReducer = persistReducer(persistConfig, reducers);
 
@@ -49,8 +47,8 @@ export const store = configureStore({
       serializableCheck: {
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(thunk, emptySplitApi.middleware),
-  // preloadedState: ,
+    }).concat(thunk, apiBasePath.middleware),
+  // preloadedState: true,
   devTools: process.env.NODE_ENV !== 'production',
 });
 

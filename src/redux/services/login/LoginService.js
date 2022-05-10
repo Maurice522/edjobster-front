@@ -1,21 +1,17 @@
-import { emptySplitApi } from '../BaseUrl';
+import { apiBasePath } from '../BaseUrl';
 import { apiUrl } from '../../../utils/api';
 
-console.log('apiUrl.signIn', apiUrl.signIn);
-const extendedApi = emptySplitApi.injectEndpoints({
+const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
-    createPost: build.query({
-      query: (data) => {
-        console.log('data', data);
-        return {
-          url: `${apiUrl.signIn}`,
-          method: 'POST',
-          body: data,
-        };
-      },
+    login: build.query({
+      query: (data) => ({
+        url: `${apiUrl.signIn}`,
+        method: 'POST',
+        body: data,
+      }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useCreatePostQuery } = extendedApi;
+export const { useLoginQuery } = extendedApi;
