@@ -1,21 +1,37 @@
 import { apiBasePath } from '../BaseUrl';
 import { apiUrl } from '../../../utils/api';
 
-console.log("spiBase", apiBasePath);
+
 
 const extendedApi = apiBasePath.injectEndpoints({
     endpoints: (build) => ({
-        department: build.query({
-            query: (header) => {
-                console.log(header);
-                return {
-                    url: `${apiUrl.department}`,
-                    method: 'GET',
-                }
-            },
+        departmentGet: build.query({
+            query: () => ({
+                url: `${apiUrl.department}`,
+            }),
+        }),
+        addDepartment: build.mutation({
+            query: (data) => ({
+                url: `${apiUrl.department}`,
+                method: "POST",
+                body: data,
+            })
+        }),
+        updateDepartment: build.mutation({
+            query: (data) => ({
+                url: `${apiUrl.department}`,
+                method: "POST",
+                body: data,
+            })
+        }),
+        deleteDepartment: build.mutation({
+            query: (id) => ({
+                url: `${apiUrl.department}?id=${id}`,
+                method: "DELETE",
+            })
         }),
     }),
     overrideExisting: false,
 });
 
-export const { useDepartmentQuery } = extendedApi;
+export const { useDepartmentGetQuery, useAddDepartmentMutation, useUpdateDepartmentMutation, useDeleteDepartmentMutation } = extendedApi;

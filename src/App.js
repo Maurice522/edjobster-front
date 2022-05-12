@@ -16,9 +16,9 @@ export default function App() {
   const auth = useSelector((state) => state.login.auth);
   useEffect(() => {
     if (!auth) {
-      navigate('login');
+      navigate('/login');
     }
-  }, [auth]);
+  }, [auth, navigate]);
 
   return (
     <ThemeProvider>
