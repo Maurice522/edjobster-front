@@ -31,7 +31,7 @@ export default function DashboardApp() {
     if (!auth) {
       navigate('/login');
     }
-  }, [auth]);
+  }, [auth, navigate]);
 
   return (
     <Page title="Dashboard">

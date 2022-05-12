@@ -10,6 +10,7 @@ import Typography from './Typography';
 import CssBaseline from './CssBaseline';
 import Autocomplete from './Autocomplete';
 import Dialogue from './Dialogue';
+import DataTable from './DataTable';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,7 @@ export default function ComponentsOverrides(theme) {
     Typography(theme),
     CssBaseline(theme),
     Autocomplete(theme),
-    Dialogue(theme)
+    Dialogue(theme),
+    DataTable(theme),
   );
 }
