@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 // material
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -12,11 +13,12 @@ import { useLoginQuery } from '../../../redux/services/login/LoginService';
 import { authTokenAction, authAction } from '../../../redux/auth/AuthReducer';
 
 // ----------------------------------------------------------------------
-
+const customId = "custom-id-yes";
 export default function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const [skip, setSkip] = useState(true);
+  const [btnLoader, setBtnLoader] = useState(false);
   const [userData, setUserData] = useState({
     username: "",
     password: ""
@@ -25,13 +27,35 @@ export default function LoginForm() {
   const loginResponse = useLoginQuery(userData, {
     skip,
   });
-  useEffect(() => {
-    if (loginResponse.isSuccess) {
-      dispatch(authTokenAction(loginResponse.data.access));
-      navigate('/dashboard/app', { replace: true });
-    }
-  }, [userData, dispatch, loginResponse, navigate])
+  console.log("loginResponse", loginResponse);
+  // useEffect(() => {
 
+  if (loginResponse.isError) {
+    toast.error(loginResponse.error.data.msg, {
+      theme: "colored",
+      toastId: customId
+    });
+
+  }
+  if (loginResponse.isSuccess) {
+    dispatch(authTokenAction(loginResponse.data.access));
+    toast.success("Success !! ", {
+      theme: "colored"
+    });
+    navigate('/dashboard/app', { replace: true });
+  }
+  // }, [userData, dispatch, loginResponse, navigate, btnLoader, setBtnLoader])
+
+  useEffect(() => {
+    if (!skip) {
+      setTimeout(() => {
+        console.log("skip", skip);
+
+        setSkip(true);
+      }, 1000);
+    }
+
+  }, [skip])
 
 
   const [showPassword, setShowPassword] = useState(false);
@@ -54,7 +78,6 @@ export default function LoginForm() {
         password: values.password
       })
       setSkip((prev) => !prev);
-      console.log('click', values);
       dispatch(authAction(true));
 
     },
@@ -116,7 +139,7 @@ export default function LoginForm() {
           </Link>
         </Stack>
 
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loginResponse.isLoading}>
           Login
         </LoadingButton>
       </Form>
