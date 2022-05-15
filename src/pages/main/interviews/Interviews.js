@@ -23,28 +23,12 @@ import {
   Box,
 } from '@mui/material';
 // components
-import MainModalInterviews from '../../../components/main/interviews-modal/MainModalInterviews';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
 
 const Interviews = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editmodalOpen, setEditModalOpen] = useState(false);
-
-  const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
-  };
-
-  const addNewDepartmentHandler = () => {
-    setModalOpen(true);
-  };
-
-  const onEditModalHandler = () => {
-    setEditModalOpen(true);
-  };
   const columns = [
     {
       name: 'name',
@@ -78,7 +62,7 @@ const Interviews = () => {
   );
   const editAndDeleteButton = (
     <>
-      <Button onClick={onEditModalHandler}>
+      <Button component={RouterLink} to="/dashboard/interviews/edit-interview">
         <ListItemIcon style={{ justifyContent: 'center' }}>
           <Iconify icon="eva:edit-fill" width={24} height={24} />
         </ListItemIcon>
@@ -124,8 +108,7 @@ const Interviews = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
-            onClick={addNewDepartmentHandler}
+            to="/dashboard/interviews/create-interview"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Create Interview
@@ -292,29 +275,6 @@ const Interviews = () => {
           <MUIDataTable title={'Interview List'} data={data} columns={columns} options={options} />
         </Card>
       </Container>
-
-      <MainModalInterviews
-        open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Add Interview"
-        type="text"
-        textBoxLabel="Interview Name"
-        id="interviewName"
-        name="Interview"
-        getInputValue={getInputValue}
-        buttonLabel="Add Interview"
-      />
-      <MainModalInterviews
-        open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit Interview"
-        type="text"
-        textBoxLabel="Interview Name"
-        id="editinterviewName"
-        name="Interview"
-        getInputValue={getInputValue}
-        buttonLabel="Update Interview"
-      />
     </Page>
   );
 };
