@@ -27,7 +27,7 @@ const CareerSite = () => {
         <Card sx={{ minWidth: 275, p: 4 }} variant="outlined">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3} justifyContent="center">
-              <Grid item xs={7}>
+              <Grid item xs={12} md={7}>
                 <TextField
                   autoFocus
                   margin="dense"

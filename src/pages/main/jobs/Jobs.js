@@ -23,28 +23,14 @@ import {
   Box,
 } from '@mui/material';
 // components
-import MainModalJobs from '../../../components/main/job-modal/MainModalJobs';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
 
 const Jobs = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editmodalOpen, setEditModalOpen] = useState(false);
+  
 
-  const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
-  };
-
-  const addNewDepartmentHandler = () => {
-    setModalOpen(true);
-  };
-
-  const onEditModalHandler = () => {
-    setEditModalOpen(true);
-  };
   const columns = [
     {
       name: 'name',
@@ -78,7 +64,7 @@ const Jobs = () => {
   );
   const editAndDeleteButton = (
     <>
-      <Button onClick={onEditModalHandler}>
+      <Button component={RouterLink} to="/dashboard/jobs/edit-job">
         <ListItemIcon style={{ justifyContent: 'center' }}>
           <Iconify icon="eva:edit-fill" width={24} height={24} />
         </ListItemIcon>
@@ -124,8 +110,7 @@ const Jobs = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
-            onClick={addNewDepartmentHandler}
+            to="/dashboard/jobs/create-job"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Job
@@ -292,29 +277,6 @@ const Jobs = () => {
           <MUIDataTable title={'Job List'} data={data} columns={columns} options={options} />
         </Card>
       </Container>
-
-      <MainModalJobs
-        open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Add Job"
-        type="text"
-        textBoxLabel="Job Name"
-        id="jobName"
-        name="Job"
-        getInputValue={getInputValue}
-        buttonLabel="Add Job"
-      />
-      <MainModalJobs
-        open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit Job"
-        type="text"
-        textBoxLabel="Job Name"
-        id="editjobName"
-        name="Job"
-        getInputValue={getInputValue}
-        buttonLabel="Update Job"
-      />
     </Page>
   );
 };

@@ -3,7 +3,6 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
 import { Link as RouterLink } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Stepper from '@mui/material/Stepper';
@@ -34,8 +33,8 @@ function getStepContent(step) {
   }
 }
 
-const MainModalJobs = (props) => {
-  const { open, handleClose } = props;
+const CreateJob = () => {
+ 
   const [textValue, setTextValue] = useState({
     name: '',
     address: '',
@@ -45,11 +44,9 @@ const MainModalJobs = (props) => {
     city: '',
   });
 
-  const handleChange = () => {};
 
-  const modalCloseHandler = () => {
-    handleClose(false);
-  };
+
+ 
 
   const onInputChangeHandler = (e) => {
     setTextValue(e.target.value);
@@ -106,22 +103,12 @@ const MainModalJobs = (props) => {
 
   return (
     <>
-      <Dialog
-        open={open}
-        fullWidth
-        fullScreen
-        onClose={() => {
-          handleClose(false);
-        }}
-        aria-labelledby="alertmodalCloseHandler-dialog-title"
-        aria-describedby="alert-dialog-description"
-        BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
-      >
-        <div>
-          <Grid container spacing={2} padding="20px">
+     
+      <div >
+          <Grid container spacing={2} padding="20px" >
             <Grid item xs={6} display="flex">
               <Grid>
-                <IconButton edge="start" color="inherit" onClick={modalCloseHandler} aria-label="close">
+                <IconButton edge="start" color="inherit"  aria-label="close" component={RouterLink} to="/dashboard/jobs">
                   <CloseIcon />
                 </IconButton>
               </Grid>
@@ -199,10 +186,12 @@ const MainModalJobs = (props) => {
               </div>
             </div>
           </Card>
-        </div>
-      </Dialog>
-    </>
+    
+     
+    
+          </div>
+          </>
   );
 };
 
-export default MainModalJobs;
+export default CreateJob;

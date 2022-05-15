@@ -1,34 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
+import {
+  Card,
+  Stack,
+  Button,
+  Container,
+  Typography,
+  ListItemIcon,
+} from '@mui/material';
 // components
-import MainModalAssessments from '../../../components/main/assessment-modal/MainModalAssessments';
-import MainModuleFilter from '../../../components/main/MainModuleFilter';
+import MainModuleFilter from "../../../components/main/MainModuleFilter";
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
 
 const Assessments = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editmodalOpen, setEditModalOpen] = useState(false);
-
-  const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
-  };
-
-  const addNewAssessmentHandler = () => {
-    setModalOpen(true);
-  };
-
-  const onEditModalHandler = () => {
-    setEditModalOpen(true);
-  };
-
+ 
   const columns = [
     {
       name: 'name',
@@ -62,7 +53,7 @@ const Assessments = () => {
   );
   const editAndDeleteButton = (
     <>
-      <Button onClick={onEditModalHandler}>
+      <Button component={RouterLink} to="/dashboard/assessments/edit-assessment">
         <ListItemIcon style={{ justifyContent: 'center' }}>
           <Iconify icon="eva:edit-fill" width={24} height={24} />
         </ListItemIcon>
@@ -88,8 +79,6 @@ const Assessments = () => {
     print: false,
   };
 
-  const getInputValue = (value) => {};
-
   return (
     <Page title="User">
       <Container>
@@ -100,8 +89,7 @@ const Assessments = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
-            onClick={addNewAssessmentHandler}
+            to="/dashboard/assessments/create-assessment"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Assessment
@@ -115,29 +103,6 @@ const Assessments = () => {
           <MUIDataTable title={'Assessment List'} data={data} columns={columns} options={options} />
         </Card>
       </Container>
-
-      <MainModalAssessments
-        open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Add Assessment"
-        type="text"
-        textBoxLabel="Assessment Name"
-        id="assessmentName"
-        name="Assessment"
-        getInputValue={getInputValue}
-        buttonLabel="Add Assessment"
-      />
-      <MainModalAssessments
-        open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit Assessment"
-        type="text"
-        textBoxLabel="Assessment Name"
-        id="editAssessmentName"
-        name="Assessment"
-        getInputValue={getInputValue}
-        buttonLabel="Update Assessment"
-      />
     </Page>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
@@ -10,10 +10,8 @@ import {
   Container,
   Typography,
   ListItemIcon,
- 
 } from '@mui/material';
 // components
-import MainModalCandidates from "../../../components/main/candidate-modal/MainModalCandidates"
 import MainModuleFilter from "../../../components/main/MainModuleFilter";
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
@@ -23,23 +21,6 @@ import Iconify from '../../../components/Iconify';
 
 
 const Candidates = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editmodalOpen, setEditModalOpen] = useState(false);
-
-  const modalHandleClose = (value) => {
-    console.log('value', value);
-    setModalOpen(value);
-    setEditModalOpen(value);
-  };
-
-  const addNewcandidateHandler = () => {
-    setModalOpen(true);
-  };
-
-  const onEditModalHandler = () => {
-    setEditModalOpen(true);
-  };
-
   const columns = [
     {
       name: 'name',
@@ -73,7 +54,7 @@ const Candidates = () => {
   );
   const editAndDeleteButton = (
     <>
-      <Button onClick={onEditModalHandler}>
+      <Button component={RouterLink} to="/dashboard/candidates/edit-candidate">
         <ListItemIcon style={{ justifyContent: 'center' }}>
           <Iconify icon="eva:edit-fill" width={24} height={24} />
         </ListItemIcon>
@@ -98,16 +79,6 @@ const Candidates = () => {
       download: false,
       print: false
   };
-
-  const getInputValue = (value) => {
-    console.log('value', value);
-  };
-
-
-
-
-
-
   return (
 
     <Page title="User">
@@ -119,8 +90,7 @@ const Candidates = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
-            onClick={addNewcandidateHandler}
+            to="/dashboard/candidates/create-candidate"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New candidate
@@ -134,29 +104,6 @@ const Candidates = () => {
           <MUIDataTable title={'candidate List'} data={data} columns={columns} options={options} />
         </Card>
       </Container>
-
-      <MainModalCandidates
-        open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Add candidate"
-        type="text"
-        textBoxLabel="candidate Name"
-        id="candidateName"
-        name="candidate"
-        getInputValue={getInputValue}
-        buttonLabel="Add candidate"
-      />
-      <MainModalCandidates
-        open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit candidate"
-        type="text"
-        textBoxLabel="candidate Name"
-        id="editcandidateName"
-        name="candidate"
-        getInputValue={getInputValue}
-        buttonLabel="Update candidate"
-      />
     </Page>
 
   );
