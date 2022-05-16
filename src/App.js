@@ -29,7 +29,7 @@ export default function App() {
       <ScrollToTop />
       <BaseOptionChartStyle />
       <Router />
-      <ToastContainer limit={1} />
+      <ToastContainer limit={1} autoClose={1000} />
     </ThemeProvider>
   );
 }

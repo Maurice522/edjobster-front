@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -21,6 +22,7 @@ import {
   TablePagination,
   ListItemIcon,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // components
 import SettingsModal from '../../../components/settings/SettingsModal';
 import Page from '../../../components/Page';
@@ -29,17 +31,19 @@ import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
 import { useDepartmentGetQuery, useAddDepartmentMutation, useUpdateDepartmentMutation, useDeleteDepartmentMutation } from '../../../redux/services/settings/DepartmentService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
+import { showToast } from "../../../utils/toast";
 
 // mock
 
 const Departments = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const [getValue, setGetValue] = useState({})
   const { data, isLoading, refetch } = useDepartmentGetQuery();
   const [AddDepartment, AddDepartmentInfo] = useAddDepartmentMutation();
   const [UpdateDepartment, UpdateDepartmentInfo] = useUpdateDepartmentMutation();
   const [DeleteDepartment, DeleteDepartmentInfo] = useDeleteDepartmentMutation();
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [btnLoader, setBtnLoader] = useState(false)
 
   const [addValue, setAddValue] = useState({
     name: ""
@@ -49,9 +53,39 @@ const Departments = () => {
     name: ""
   });
   const [modalName, setModalName] = useState("add");
+  console.log(AddDepartmentInfo);
 
-  if (isLoading || DeleteDepartmentInfo.isLoading || AddDepartmentInfo.isLoading || UpdateDepartmentInfo.isLoading) {
+  useEffect(() => {
+    if (AddDepartmentInfo.isSuccess) {
+      setModalOpen(false);
+      refetch();
+      showToast("success", "department successfully added.");
+      setBtnLoader(false);
+    }
+    if (AddDepartmentInfo.isError) {
+      showToast("error", AddDepartmentInfo.error.data.msg);
+      setBtnLoader(false);
+    }
+    if (UpdateDepartmentInfo.isSuccess) {
+      refetch();
+      showToast("success", "department successfully updated.");
+      setEditModalOpen(false);
+      setBtnLoader(false);
+    }
+    if (UpdateDepartmentInfo.isError) {
+      showToast("error", UpdateDepartmentInfo.error.data.msg);
+      setBtnLoader(false);
+    }
+  }, [modalOpen, AddDepartmentInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDepartmentInfo])
+
+  if (isLoading) {
     return <DataTableLazyLoading />
+  }
+  if (DeleteDepartmentInfo.isSuccess) {
+    showToast("success", "department successfully deleted.")
+  }
+  if (DeleteDepartmentInfo.isError) {
+    showToast("error", DeleteDepartmentInfo.error.data.msg)
   }
 
 
@@ -74,6 +108,7 @@ const Departments = () => {
   };
 
   const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex)
     const dataArr = data.data;
     const currentDataObj = dataArr[dataIndex];
     await DeleteDepartment(currentDataObj.id);
@@ -103,27 +138,23 @@ const Departments = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ justifyContent: 'center' }}>
-                <Iconify icon="eva:edit-fill" width={24} height={24} />
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
+              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <Button onClick={() => onDeleteHandler(dataIndex)}>
-              <ListItemIcon style={{ justifyContent: 'center' }}>
+            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error" onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}>
+              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
-            </Button>
+            </LoadingButton>
           </>
         )
       },
     },
   ];
-  
-  const labelStatus = (
-    <Label variant="ghost" color={'success'}>
-      {sentenceCase('active')}
-    </Label>
-  );
+
+
 
 
   const options = {
@@ -132,15 +163,13 @@ const Departments = () => {
 
 
   const addClickHandler = async () => {
+    setBtnLoader(true);
     if (modalName === "Add") {
       await AddDepartment(addValue);
-      refetch()
-      setModalOpen(false);
       setAddValue({ name: "" })
     } else {
       await UpdateDepartment(editValue);
-      refetch();
-      setEditModalOpen(false);
+
     }
 
   }
@@ -185,6 +214,7 @@ const Departments = () => {
         onChange={addChangeHandler}
         buttonlabel="Add Department"
         addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
       <SettingsModal
         open={editmodalOpen}
@@ -198,6 +228,7 @@ const Departments = () => {
         onChange={editChangeHandler}
         buttonlabel="Update Department"
         addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
     </Page>
   );
