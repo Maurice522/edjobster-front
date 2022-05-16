@@ -19,7 +19,7 @@ import Iconify from '../../../components/Iconify';
 // mock
 
 const Assessments = () => {
- 
+
   const columns = [
     {
       name: 'name',

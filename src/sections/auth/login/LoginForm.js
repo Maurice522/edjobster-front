@@ -2,15 +2,16 @@ import * as Yup from 'yup';
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 // material
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
-import { useLoginQuery, useAddLoginMutation } from '../../../redux/services/login/LoginService';
+import { useAddLoginMutation } from '../../../redux/services/login/LoginService';
 import { authTokenAction, authAction } from '../../../redux/auth/AuthReducer';
+import { showToast } from '../../../utils/toast';
 
 // ----------------------------------------------------------------------
 const customId = "custom-id-yes";
@@ -22,16 +23,11 @@ export default function LoginForm() {
 
 
   if (AddLoginInfo.isError) {
-    toast.error(AddLoginInfo.error.data.msg, {
-      theme: "colored",
-      toastId: customId
-    });
-
+    showToast("error", AddLoginInfo.error.data.msg)
   }
   const successToast = async () => {
-    await toast.success("Welcome to edjobster !! ", {
-      theme: "colored"
-    });
+    await showToast("success", "Welcome to edjobster !! ")
+
   }
   useEffect(() => {
     if (AddLoginInfo.isSuccess) {
