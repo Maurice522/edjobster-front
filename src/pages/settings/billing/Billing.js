@@ -40,7 +40,7 @@ const Billing = () => {
 
   return (
     <>
-      <DialogContent>
+      
         <Box sx={{ flexGrow: 1 }}>
           <Card style={{ padding: 40 }}>
             <Grid container spacing={2} justifyContent="center">
@@ -170,7 +170,7 @@ const Billing = () => {
             </Grid>
           </Card>
         </Box>
-      </DialogContent>
+     
     </>
   );
 };

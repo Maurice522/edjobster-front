@@ -118,6 +118,7 @@ const Departments = () => {
       },
     },
   ];
+  
   const labelStatus = (
     <Label variant="ghost" color={'success'}>
       {sentenceCase('active')}
@@ -137,7 +138,6 @@ const Departments = () => {
       setModalOpen(false);
       setAddValue({ name: "" })
     } else {
-      console.log("editValue", editValue);
       await UpdateDepartment(editValue);
       refetch();
       setEditModalOpen(false);

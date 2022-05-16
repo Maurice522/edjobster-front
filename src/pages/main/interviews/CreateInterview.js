@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
+import { Link as RouterLink } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Box, FormControl, InputLabel, Select, DialogActions, TextField, MenuItem } from '@mui/material';
@@ -12,8 +12,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 // import FileUpload from 'react-material-file-upload';
 
-const MainModalInterviews = (props) => {
-  const { open, handleClose } = props;
+const CreateInterview = () => {
   const [textValue, setTextValue] = useState({
     interviewName: '',
     date: '',
@@ -28,10 +27,6 @@ const MainModalInterviews = (props) => {
 
   const handleChange = () => {};
 
-  const modalCloseHandler = () => {
-    handleClose(false);
-  };
-
   const onInputChangeHandler = (e) => {
     setTextValue(e.target.value);
     const myObj = {};
@@ -41,22 +36,10 @@ const MainModalInterviews = (props) => {
   //   const [files, setFiles] = React.useState([]);
   return (
     <>
-      <Dialog
-        open={open}
-        fullWidth
-        fullScreen
-        onClose={() => {
-          handleClose(false);
-        }}
-        aria-labelledby="alertmodalCloseHandler-dialog-title"
-        aria-describedby="alert-dialog-description"
-        BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
-      >
-        <div>
           <Grid container spacing={2} padding="20px">
             <Grid item xs={6} display="flex">
               <Grid>
-                <IconButton edge="start" color="inherit" onClick={modalCloseHandler} aria-label="close">
+                <IconButton edge="start" color="inherit" component={RouterLink} to="/dashboard/interviews"  aria-label="close">
                   <CloseIcon />
                 </IconButton>
               </Grid>
@@ -251,18 +234,18 @@ const MainModalInterviews = (props) => {
 
           <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
             <Box>
-              <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
+              <Button autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Preview
               </Button>
-              <Button onClick={modalCloseHandler} variant="contained">
+              <Button variant="contained">
                 Create
               </Button>
             </Box>
           </DialogActions>
-        </div>
-      </Dialog>
+     
+     
     </>
   );
 };
 
-export default MainModalInterviews;
+export default CreateInterview;
