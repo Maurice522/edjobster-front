@@ -12,20 +12,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
 const SettingsModal = (props) => {
-  const { open, handleClose, label, getInputValue, buttonLabel } = props;
-  const [textValue, setTextValue] = useState('');
+  // eslint-disable-next-line react/prop-types
+  const { open, handleclose, buttonlabel, textboxlabel, addclickhandler } = props;
+
 
   const modalCloseHandler = () => {
-    handleClose(false);
-  };
-
-  const onInputChangeHandler = (e) => {
-    // console.log(e.target.name);
-    // console.log(e.target.value);
-    setTextValue(e.target.value);
-    const myObj = {};
-    myObj[e.target.name] = e.target.value;
-    getInputValue(myObj);
+    handleclose(false);
   };
 
   return (
@@ -35,14 +27,14 @@ const SettingsModal = (props) => {
         fullWidth
         maxWidth="xs"
         onClose={() => {
-          handleClose(false);
+          handleclose(false);
         }}
         aria-labelledby="alertmodalCloseHandler-dialog-title"
         aria-describedby="alert-dialog-description"
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>{label}</DialogTitle>
+          <DialogTitle>{textboxlabel}</DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2}>
@@ -53,8 +45,6 @@ const SettingsModal = (props) => {
                     variant="standard"
                     fullWidth
                     {...props}
-                    value={textValue}
-                    onChange={onInputChangeHandler}
                   />
                 </Grid>
               </Grid>
@@ -65,8 +55,8 @@ const SettingsModal = (props) => {
               <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <Button onClick={modalCloseHandler} variant="contained">
-                {buttonLabel}
+              <Button onClick={() => addclickhandler()} variant="contained">
+                {buttonlabel}
               </Button>
             </Box>
           </DialogActions>
