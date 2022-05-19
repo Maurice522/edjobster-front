@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
@@ -24,6 +24,8 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
+// eslint-disable-next-line import/no-unresolved
+import { sortedDataFn } from 'src/utils/getSortedData';
 import SettingsModal from '../../../components/settings/SettingsModal';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
@@ -32,6 +34,7 @@ import Iconify from '../../../components/Iconify';
 import { useDepartmentGetQuery, useAddDepartmentMutation, useUpdateDepartmentMutation, useDeleteDepartmentMutation } from '../../../redux/services/settings/DepartmentService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import { showToast } from "../../../utils/toast";
+
 
 // mock
 
@@ -43,7 +46,7 @@ const Departments = () => {
   const [UpdateDepartment, UpdateDepartmentInfo] = useUpdateDepartmentMutation();
   const [DeleteDepartment, DeleteDepartmentInfo] = useDeleteDepartmentMutation();
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [btnLoader, setBtnLoader] = useState(false)
+  const [btnLoader, setBtnLoader] = useState(false);
 
   const [addValue, setAddValue] = useState({
     name: ""
@@ -53,7 +56,11 @@ const Departments = () => {
     name: ""
   });
   const [modalName, setModalName] = useState("add");
-  console.log(AddDepartmentInfo);
+
+  const sortedData = useMemo(() => {
+    const result = sortedDataFn(data.data);
+    return result
+  }, [data.data])
 
   useEffect(() => {
     if (AddDepartmentInfo.isSuccess) {
@@ -61,28 +68,37 @@ const Departments = () => {
       refetch();
       showToast("success", "department successfully added.");
       setBtnLoader(false);
+      AddDepartmentInfo.reset();
+      setAddValue({ name: "" })
     }
     if (AddDepartmentInfo.isError) {
       showToast("error", AddDepartmentInfo.error.data.msg);
       setBtnLoader(false);
+      AddDepartmentInfo.reset();
     }
     if (UpdateDepartmentInfo.isSuccess) {
       refetch();
       showToast("success", "department successfully updated.");
       setEditModalOpen(false);
       setBtnLoader(false);
+      UpdateDepartmentInfo.reset();
+
     }
     if (UpdateDepartmentInfo.isError) {
       showToast("error", UpdateDepartmentInfo.error.data.msg);
       setBtnLoader(false);
+      UpdateDepartmentInfo.reset();
     }
-  }, [modalOpen, AddDepartmentInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDepartmentInfo])
+  }, [modalOpen, AddDepartmentInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDepartmentInfo, addValue, setAddValue])
+
+
 
   if (isLoading) {
     return <DataTableLazyLoading />
   }
   if (DeleteDepartmentInfo.isSuccess) {
-    showToast("success", "department successfully deleted.")
+    showToast("success", "department successfully deleted.");
+    DeleteDepartmentInfo.reset();
   }
   if (DeleteDepartmentInfo.isError) {
     showToast("error", DeleteDepartmentInfo.error.data.msg)
@@ -100,7 +116,7 @@ const Departments = () => {
   };
 
   const onEditModalHandler = (dataIndex) => {
-    const dataArr = data.data;
+    const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     setEditValue(currentDataObj)
     setEditModalOpen(true);
@@ -109,7 +125,7 @@ const Departments = () => {
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex)
-    const dataArr = data.data;
+    const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteDepartment(currentDataObj.id);
     refetch();
@@ -117,9 +133,10 @@ const Departments = () => {
   const columns = [
     {
       name: "id",
-      label: "Id",
+      label: "Department Id",
       options: {
-        display: false
+        filter: true,
+        sort: true,
       }
     },
     {
@@ -166,10 +183,8 @@ const Departments = () => {
     setBtnLoader(true);
     if (modalName === "Add") {
       await AddDepartment(addValue);
-      setAddValue({ name: "" })
     } else {
       await UpdateDepartment(editValue);
-
     }
 
   }
@@ -199,7 +214,7 @@ const Departments = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={'Department List'} data={data.data} columns={columns} options={options} />
+          <MUIDataTable title={'Department List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
       <SettingsModal

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -22,6 +22,8 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
+// eslint-disable-next-line import/no-unresolved
+import { sortedDataFn } from 'src/utils/getSortedData';
 import SettingsModal from '../../../components/settings/SettingsModal';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
@@ -52,26 +54,35 @@ const Degrees = () => {
   });
   const [modalName, setModalName] = useState("add");
 
+  const sortedData = useMemo(() => {
+    const result = sortedDataFn(data.data);
+    return result
+  }, [data.data])
+
   useEffect(() => {
     if (AddDegreeInfo.isSuccess) {
       setModalOpen(false);
       refetch();
       showToast("success", "degree successfully added.");
       setBtnLoader(false);
+      AddDegreeInfo.reset();
     }
     if (AddDegreeInfo.isError) {
       showToast("error", AddDegreeInfo.error.data.msg);
       setBtnLoader(false);
+      AddDegreeInfo.reset();
     }
     if (UpdateDegreeInfo.isSuccess) {
       refetch();
       showToast("success", "degree successfully updated.");
       setEditModalOpen(false);
       setBtnLoader(false);
+      UpdateDegreeInfo.reset();
     }
     if (UpdateDegreeInfo.isError) {
       showToast("error", UpdateDegreeInfo.error.data.msg);
       setBtnLoader(false);
+      UpdateDegreeInfo.reset();
     }
   }, [modalOpen, AddDegreeInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDegreeInfo])
 
@@ -81,10 +92,12 @@ const Degrees = () => {
     return <DataTableLazyLoading />
   }
   if (DeleteDegreeInfo.isSuccess) {
-    showToast("success", "degree successfully deleted.")
+    showToast("success", "degree successfully deleted.");
+    DeleteDegreeInfo.reset();
   }
   if (DeleteDegreeInfo.isError) {
-    showToast("error", DeleteDegreeInfo.error.data.msg)
+    showToast("error", DeleteDegreeInfo.error.data.msg);
+    DeleteDegreeInfo.reset();
   }
 
 
@@ -101,7 +114,7 @@ const Degrees = () => {
   };
 
   const onEditModalHandler = (dataIndex) => {
-    const dataArr = data.data;
+    const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     setEditValue(currentDataObj)
     setEditModalOpen(true);
@@ -110,7 +123,7 @@ const Degrees = () => {
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex)
-    const dataArr = data.data;
+    const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteDegree(currentDataObj.id);
     refetch();
@@ -119,9 +132,10 @@ const Degrees = () => {
   const columns = [
     {
       name: "id",
-      label: "Id",
+      label: "Degree Id",
       options: {
-        display: false
+        filter: true,
+        sort: true,
       }
     },
     {
@@ -155,7 +169,7 @@ const Degrees = () => {
       },
     },
   ];
-  
+
   const options = {
     filterType: 'dropdown',
   };
@@ -197,7 +211,7 @@ const Degrees = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={' Degree List'} data={data.data} columns={columns} options={options} />
+          <MUIDataTable title={' Degree List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
       <SettingsModal
