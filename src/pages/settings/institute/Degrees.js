@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -20,6 +20,7 @@ import {
   TablePagination,
   ListItemIcon,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 // components
 import SettingsModal from '../../../components/settings/SettingsModal';
 import Page from '../../../components/Page';
@@ -27,6 +28,7 @@ import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import { useDegreeGetQuery, useAddDegreeMutation, useUpdateDegreeMutation, useDeleteDegreeMutation } from "../../../redux/services/settings/DegreeService";
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
+import { showToast } from "../../../utils/toast";
 // mock
 
 const Degrees = () => {
@@ -36,6 +38,8 @@ const Degrees = () => {
   const [AddDegree, AddDegreeInfo] = useAddDegreeMutation();
   const [UpdateDegree, UpdateDegreeInfo] = useUpdateDegreeMutation();
   const [DeleteDegree, DeleteDegreeInfo] = useDeleteDegreeMutation();
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [btnLoader, setBtnLoader] = useState(false)
 
 
   const [addValue, setAddValue] = useState({
@@ -48,9 +52,44 @@ const Degrees = () => {
   });
   const [modalName, setModalName] = useState("add");
 
-  if (isLoading || DeleteDegreeInfo.isLoading || AddDegreeInfo.isLoading || UpdateDegreeInfo.isLoading) {
+  useEffect(() => {
+    if (AddDegreeInfo.isSuccess) {
+      setModalOpen(false);
+      refetch();
+      showToast("success", "degree successfully added.");
+      setBtnLoader(false);
+    }
+    if (AddDegreeInfo.isError) {
+      showToast("error", AddDegreeInfo.error.data.msg);
+      setBtnLoader(false);
+    }
+    if (UpdateDegreeInfo.isSuccess) {
+      refetch();
+      showToast("success", "degree successfully updated.");
+      setEditModalOpen(false);
+      setBtnLoader(false);
+    }
+    if (UpdateDegreeInfo.isError) {
+      showToast("error", UpdateDegreeInfo.error.data.msg);
+      setBtnLoader(false);
+    }
+  }, [modalOpen, AddDegreeInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDegreeInfo])
+
+
+
+  if (isLoading) {
     return <DataTableLazyLoading />
   }
+  if (DeleteDegreeInfo.isSuccess) {
+    showToast("success", "degree successfully deleted.")
+  }
+  if (DeleteDegreeInfo.isError) {
+    showToast("error", DeleteDegreeInfo.error.data.msg)
+  }
+
+
+
+
   const modalHandleClose = (value) => {
     setModalOpen(value);
     setEditModalOpen(value);
@@ -70,6 +109,7 @@ const Degrees = () => {
   };
 
   const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex)
     const dataArr = data.data;
     const currentDataObj = dataArr[dataIndex];
     await DeleteDegree(currentDataObj.id);
@@ -100,16 +140,16 @@ const Degrees = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ justifyContent: 'center' }}>
-                <Iconify icon="eva:edit-fill" width={24} height={24} />
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
+              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <Button onClick={() => onDeleteHandler(dataIndex)}>
-              <ListItemIcon style={{ justifyContent: 'center' }}>
+            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error" onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}>
+              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
-            </Button>
+            </LoadingButton>
           </>
         )
       },
@@ -120,15 +160,12 @@ const Degrees = () => {
     filterType: 'dropdown',
   };
   const addClickHandler = async () => {
+    setBtnLoader(true);
     if (modalName === "Add") {
       await AddDegree(addValue);
-      refetch()
-      setModalOpen(false);
       setAddValue({ name: "" })
     } else {
       await UpdateDegree(editValue);
-      refetch();
-      setEditModalOpen(false);
     }
 
   }
@@ -175,6 +212,7 @@ const Degrees = () => {
         onChange={addChangeHandler}
         buttonlabel="Add Degree"
         addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
       <SettingsModal
         open={editmodalOpen}
@@ -188,6 +226,7 @@ const Degrees = () => {
         onChange={editChangeHandler}
         buttonlabel="Update Degree"
         addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
     </Page>
   );
