@@ -10,10 +10,12 @@ import Slide from '@mui/material/Slide';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { LoadingButton } from '@mui/lab';
+
 
 const SettingsModal = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { open, handleclose, buttonlabel, textboxlabel, addclickhandler } = props;
+  const { open, handleclose, buttonlabel, textboxlabel, addclickhandler, loadingbtn } = props;
 
 
   const modalCloseHandler = () => {
@@ -55,9 +57,9 @@ const SettingsModal = (props) => {
               <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <Button onClick={() => addclickhandler()} variant="contained">
+              <LoadingButton onClick={() => addclickhandler()} variant="contained" loading={loadingbtn}>
                 {buttonlabel}
-              </Button>
+              </LoadingButton>
             </Box>
           </DialogActions>
         </div>

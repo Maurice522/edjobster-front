@@ -3,15 +3,15 @@ import { apiUrl } from '../../../utils/api';
 
 const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
-    login: build.query({
+    addLogin: build.mutation({
       query: (data) => ({
         url: `${apiUrl.signIn}`,
-        method: 'POST',
+        method: "POST",
         body: data,
-      }),
+      })
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginQuery } = extendedApi;
+export const { useAddLoginMutation } = extendedApi;

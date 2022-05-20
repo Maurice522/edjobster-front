@@ -6,18 +6,16 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import DialogContent from '@mui/material/DialogContent';
-import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
 
-const MainModalCandidates = (props) => {
-  const { open, handleClose } = props;
+const CreateCandidate = () => {
+
   const [textValue, setTextValue] = useState({
     firstName: '',
     lastname: '',
@@ -36,15 +34,9 @@ const MainModalCandidates = (props) => {
     Degree: '',
   });
 
-  const modalCloseHandler = () => {
-    handleClose(false);
-  };
 
-  const handleChange = () => {};
-
+  const handleChange=()=>{}
   const onInputChangeHandler = (e) => {
-    // console.log(e.target.name);
-    // console.log(e.target.value);
     setTextValue(e.target.value);
     const myObj = {};
     myObj[e.target.name] = e.target.value;
@@ -52,21 +44,12 @@ const MainModalCandidates = (props) => {
 
   return (
     <>
-      <Dialog
-        open={open}
-        fullWidth
-        fullScreen
-        onClose={() => {
-          handleClose(false);
-        }}
-        aria-labelledby="alertmodalCloseHandler-dialog-title"
-        aria-describedby="alert-dialog-description"
-        BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
-      >
+     
         <Grid container spacing={2} padding="20px">
           <Grid item xs={6} display="flex">
             <Grid>
-              <IconButton edge="start" color="inherit" onClick={modalCloseHandler} aria-label="close">
+              <IconButton edge="start" color="inherit" component={RouterLink}
+                to="/dashboard/candidates"  aria-label="close">
                 <CloseIcon />
               </IconButton>
             </Grid>
@@ -441,9 +424,9 @@ const MainModalCandidates = (props) => {
             </Card>
           </Box>
         </DialogContent>
-      </Dialog>
+      
     </>
   );
 };
 
-export default MainModalCandidates;
+export default CreateCandidate;

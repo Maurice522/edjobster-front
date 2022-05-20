@@ -2,36 +2,40 @@ import * as Yup from 'yup';
 import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 // material
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
-import { useLoginQuery } from '../../../redux/services/login/LoginService';
+import { useAddLoginMutation } from '../../../redux/services/login/LoginService';
 import { authTokenAction, authAction } from '../../../redux/auth/AuthReducer';
+import { showToast } from '../../../utils/toast';
 
 // ----------------------------------------------------------------------
-
+const customId = "custom-id-yes";
 export default function LoginForm() {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-  const [skip, setSkip] = useState(true);
-  const [userData, setUserData] = useState({
-    username: "",
-    password: ""
-  });
+  const dispatch = useDispatch();
 
-  const loginResponse = useLoginQuery(userData, {
-    skip,
-  });
+  const [AddLogin, AddLoginInfo] = useAddLoginMutation();
+
+
+  if (AddLoginInfo.isError) {
+    showToast("error", AddLoginInfo.error.data.msg)
+  }
+  const successToast = async () => {
+    await showToast("success", "Welcome to edjobster !! ")
+
+  }
   useEffect(() => {
-    if (loginResponse.isSuccess) {
-      dispatch(authTokenAction(loginResponse.data.access));
+    if (AddLoginInfo.isSuccess) {
+      dispatch(authTokenAction(AddLoginInfo.data.access));
+      successToast()
       navigate('/dashboard/app', { replace: true });
     }
-  }, [userData, dispatch, loginResponse, navigate])
-
+  }, [AddLoginInfo, dispatch, navigate])
 
 
   const [showPassword, setShowPassword] = useState(false);
@@ -49,18 +53,13 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: (values) => {
-      setUserData({
+      AddLogin({
         username: values.username,
         password: values.password
       })
-      setSkip((prev) => !prev);
-      console.log('click', values);
       dispatch(authAction(true));
 
     },
-    onChange: (e) => {
-      console.log("change", e.target.value);
-    }
   });
 
   const { errors, touched, values, isSubmitting, handleChange, handleSubmit, getFieldProps } = formik;
@@ -116,7 +115,7 @@ export default function LoginForm() {
           </Link>
         </Stack>
 
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={AddLoginInfo.isLoading}>
           Login
         </LoadingButton>
       </Form>
