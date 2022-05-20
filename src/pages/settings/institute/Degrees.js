@@ -36,7 +36,7 @@ import { showToast } from "../../../utils/toast";
 const Degrees = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const { data, isLoading, refetch } = useDegreeGetQuery();
+  const { data = [], isLoading, refetch } = useDegreeGetQuery();
   const [AddDegree, AddDegreeInfo] = useAddDegreeMutation();
   const [UpdateDegree, UpdateDegreeInfo] = useUpdateDegreeMutation();
   const [DeleteDegree, DeleteDegreeInfo] = useDeleteDegreeMutation();
@@ -56,8 +56,8 @@ const Degrees = () => {
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
-    return result
-  }, [data.data])
+    return result;
+  }, [data])
 
   useEffect(() => {
     if (AddDegreeInfo.isSuccess) {

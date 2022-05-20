@@ -41,7 +41,7 @@ import { showToast } from "../../../utils/toast";
 const Departments = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const { data, isLoading, refetch } = useDepartmentGetQuery();
+  const { data = [], isLoading, refetch } = useDepartmentGetQuery();
   const [AddDepartment, AddDepartmentInfo] = useAddDepartmentMutation();
   const [UpdateDepartment, UpdateDepartmentInfo] = useUpdateDepartmentMutation();
   const [DeleteDepartment, DeleteDepartmentInfo] = useDeleteDepartmentMutation();
@@ -59,8 +59,8 @@ const Departments = () => {
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
-    return result
-  }, [data.data])
+    return result;
+  }, [data])
 
   useEffect(() => {
     if (AddDepartmentInfo.isSuccess) {
