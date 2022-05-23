@@ -28,7 +28,7 @@ import { showToast } from "../../../utils/toast";
 const Designations = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const { data, isLoading, refetch } = useDesignationGetQuery();
+  const { data = [], isLoading, refetch } = useDesignationGetQuery();
   const [AddDesignation, AddDesignationInfo] = useAddDesignationMutation();
   const [UpdateDesignation, UpdateDesignationInfo] = useUpdateDesignationMutation();
   const [DeleteDesignation, DeleteDesignationInfo] = useDeleteDesignationMutation();
@@ -47,20 +47,9 @@ const Designations = () => {
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
-    return result
-  }, [data.data])
+    return result;
+  }, [data]);
 
-  if (isLoading) {
-    return <DataTableLazyLoading />
-  }
-  if (DeleteDesignationInfo.isSuccess) {
-    showToast("success", "department successfully deleted.");
-    DeleteDesignationInfo.reset();
-  }
-  if (DeleteDesignationInfo.isError) {
-    showToast("error", DeleteDesignationInfo.error.data.msg)
-  }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (AddDesignationInfo.isSuccess) {
       setModalOpen(false);
@@ -88,6 +77,20 @@ const Designations = () => {
     }
 
   }, [setBtnLoader, AddDesignationInfo, UpdateDesignationInfo])
+
+
+  if (isLoading) {
+    return <DataTableLazyLoading />
+  }
+  if (DeleteDesignationInfo.isSuccess) {
+    showToast("success", "department successfully deleted.");
+    DeleteDesignationInfo.reset();
+  }
+  if (DeleteDesignationInfo.isError) {
+    showToast("error", DeleteDesignationInfo.error.data.msg)
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+
 
 
   const modalHandleClose = (value) => {

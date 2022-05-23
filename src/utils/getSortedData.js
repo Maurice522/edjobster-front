@@ -1,1 +1,1 @@
-export const sortedDataFn = (arr) => arr.slice().sort((a, b) => a.id - b.id)
+export const sortedDataFn = (arr) => arr?.slice()?.sort((a, b) => a.id - b.id);
