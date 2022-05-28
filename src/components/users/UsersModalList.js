@@ -34,7 +34,7 @@ const UserModalList = (props) => {
     password: '',
   });
 
-  const handleChange = () => {};
+  const handleChange = () => { };
 
   const modalCloseHandler = () => {
     handleClose(false);
@@ -155,12 +155,12 @@ const UserModalList = (props) => {
                   <FormControl>
                     <FormLabel id="demo-row-radio-buttons-group-label">Role</FormLabel>
                     <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                      <FormControlLabel value="candidate" control={<Radio />} label="Candidate" />
-                      <FormControlLabel value="internal" control={<Radio />} label="Internal" />
+                      <FormControlLabel value="candidate" control={<Radio />} label="Admin" />
+                      <FormControlLabel value="internal" control={<Radio />} label="HR" />
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-                <Grid item xs={6} sx={{ mt: 2 }}>
+                {/* <Grid item xs={6} sx={{ mt: 2 }}>
                   <TextField
                     autoFocus
                     autoComplete="new-password"
@@ -172,12 +172,12 @@ const UserModalList = (props) => {
                     value={textValue.password}
                     onChange={onInputChangeHandler}
                   />
-                </Grid>
-                <Grid item xs={6}>
+                </Grid> */}
+                {/* <Grid item xs={6}>
                   <FormGroup>
                     <FormControlLabel control={<Checkbox defaultChecked />} label="I AGREE THE" />
                   </FormGroup>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Box>
           </DialogContent>

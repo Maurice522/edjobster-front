@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card,
@@ -20,16 +21,34 @@ import {
   TablePagination,
   ListItemIcon,
 } from '@mui/material';
+// eslint-disable-next-line import/no-unresolved
+import { sortedDataFn } from 'src/utils/getSortedData';
 // components
 import UserModalList from '../../../components/users/UsersModalList';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
+import { useGetUsersApiQuery } from '../../../redux/services/settings/UserService';
+import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
+
 // mock
 
 const List = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
+  const { data = [], isLoading, refetch } = useGetUsersApiQuery();
+
+  console.log("data", data);
+
+  const sortedData = useMemo(() => {
+    const result = sortedDataFn(data.list);
+    return result;
+  }, [data])
+
+  if (isLoading) {
+    return <DataTableLazyLoading />
+  }
+
 
   const modalHandleClose = (value) => {
     console.log('value', value);
@@ -46,7 +65,7 @@ const List = () => {
   };
   const columns = [
     {
-      name: 'name',
+      name: 'first_name',
       label: 'Name',
       options: {
         filter: true,
@@ -65,7 +84,7 @@ const List = () => {
     },
     {
       name: 'phone',
-      label: 'Phone',
+      label: 'Contact Number',
       options: {
         filter: true,
         sort: true,
@@ -80,54 +99,32 @@ const List = () => {
       },
     },
     {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
-    {
       name: 'action',
       label: 'Action',
       options: {
         filter: false,
         sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
+              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
+            // onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteAddressInfo.isLoading : false}
+            >
+              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
+          </>
+        )
       },
     },
   ];
-  const labelStatus = (
-    <Label variant="ghost" color={'success'}>
-      {sentenceCase('active')}
-    </Label>
-  );
-  const editAndDeleteButton = (
-    <>
-      <Button onClick={onEditModalHandler}>
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:edit-fill" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-      <Button>
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-    </>
-  );
-  const data = [
-    {
-      name: 'Abid Gaush Mohd Ansari',
-      email: 'abid.reactdeveloper@gmail.com',
-      phone: '8856823440',
-      department: 'computer',
-      status: labelStatus,
-      action: editAndDeleteButton,
-    },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  ];
+
+
   const options = {
     filterType: 'dropdown',
   };
@@ -155,7 +152,7 @@ const List = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={'Users List'} data={data} columns={columns} options={options} />
+          <MUIDataTable title={'Users List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
       <UserModalList
