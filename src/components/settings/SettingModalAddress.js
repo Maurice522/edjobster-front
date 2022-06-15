@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,19 +16,35 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+// eslint-disable-next-line import/no-unresolved
+import { useGetCountryQuery, useGetStateQuery, useGetCityQuery } from 'src/redux/services/settings/CountryStateCityService';
+
 
 const SettingModalAddress = (props) => {
-  const { open, handleClose } = props;
-  const [textValue, setTextValue] = useState({
-    name: '',
-    address: '',
-    pincode: '',
-    country: '',
-    state: '',
-    city: '',
-  });
+  const { open, handleClose, formData, type, onSubmit } = props;
+  const [fieldValue, setFieldValue] = useState(formData);
+  const [countryId, setCountryId] = useState(skipToken);
+  const [stateId, setStateId] = useState(skipToken);
+  const { data: stateData } = useGetStateQuery(countryId);
+  const { data: countryData } = useGetCountryQuery();
+  const { data: cityData } = useGetCityQuery(stateId);
 
-  const handleChange = () => {};
+  // console.log("formData", formData)
+  // console.log("countryId", countryId);
+
+
+  useEffect(() => {
+    if (formData?.id) {
+      setCountryId(formData.country);
+      setStateId(formData.state);
+      setFieldValue(formData);
+    } else {
+      setFieldValue(formData);
+    }
+
+
+  }, [formData, skipToken])
+
 
   const modalCloseHandler = () => {
     handleClose(false);
@@ -36,10 +53,22 @@ const SettingModalAddress = (props) => {
   const onInputChangeHandler = (e) => {
     // console.log(e.target.name);
     // console.log(e.target.value);
-    setTextValue(e.target.value);
-    const myObj = {};
-    myObj[e.target.name] = e.target.value;
+    if (e.target.name === "country") {
+      setCountryId(e.target.value)
+      setFieldValue({ ...fieldValue, [e.target.name]: e.target.value });
+    }
+    if (e.target.name === "state") {
+      setStateId(e.target.value)
+      setFieldValue({ ...fieldValue, [e.target.name]: e.target.value });
+    }
+    setFieldValue({ ...fieldValue, [e.target.name]: e.target.value });
   };
+
+  const SubmitHanlder = () => {
+    console.log("submit", fieldValue);
+    onSubmit(fieldValue);
+
+  }
 
   return (
     <>
@@ -55,7 +84,7 @@ const SettingModalAddress = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>Add Address</DialogTitle>
+          <DialogTitle>{type === "Add" ? "Add Address" : "Update Address"}</DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2}>
@@ -65,8 +94,8 @@ const SettingModalAddress = (props) => {
                     margin="dense"
                     variant="standard"
                     fullWidth
-                    name="Name"
-                    value={textValue.name}
+                    name="name"
+                    value={fieldValue.name}
                     label="Name"
                     onChange={onInputChangeHandler}
                   />
@@ -79,7 +108,8 @@ const SettingModalAddress = (props) => {
                     fullWidth
                     multiline
                     rows={2}
-                    value={textValue.address}
+                    name="address"
+                    value={fieldValue.address}
                     label="Address"
                     onChange={onInputChangeHandler}
                   />
@@ -91,64 +121,57 @@ const SettingModalAddress = (props) => {
                     variant="standard"
                     label="Pincode"
                     fullWidth
-                    value={textValue.pincode}
+                    name="pincode"
+                    value={fieldValue.pincode}
                     onChange={onInputChangeHandler}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="demo-simple-select-standard-label">Country</InputLabel>
+                    <InputLabel id="select-country">Select Country</InputLabel>
                     <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      value={textValue.country}
-                      onChange={handleChange}
-                      label="Country"
+                      labelId="select-country"
+                      id="country"
+                      name="country"
+                      value={fieldValue.country}
+                      onChange={onInputChangeHandler}
+                      label="Select Country"
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {countryData && countryData?.countries?.map((country) => <MenuItem key={country.id} value={country.id}>{country.name}</MenuItem>)}
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
+                    <InputLabel id="select-state">State</InputLabel>
                     <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      value={textValue.state}
-                      onChange={handleChange}
+                      labelId="select-state"
+                      id="state"
+                      value={fieldValue.state}
+                      onChange={onInputChangeHandler}
                       label="State"
+                      name="state"
                     >
-                      <MenuItem value="">
+                      {stateData ? stateData?.states?.map((state) => <MenuItem key={state.id} value={state.id}>{state.name}</MenuItem>) : <MenuItem value="">
                         <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      </MenuItem>}
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
+                    <InputLabel id="select-city">select City</InputLabel>
                     <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      value={textValue.city}
-                      onChange={handleChange}
-                      label="City"
+                      labelId="select-city"
+                      id="city"
+                      name="city"
+                      value={fieldValue.city}
+                      onChange={onInputChangeHandler}
+                      label="Select City"
                     >
-                      <MenuItem value="">
+                      {cityData ? cityData?.cities?.map((city) => <MenuItem key={city.id} value={city.id}>{city.name}</MenuItem>) : <MenuItem value="">
                         <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      </MenuItem>}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -160,8 +183,8 @@ const SettingModalAddress = (props) => {
               <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <Button onClick={modalCloseHandler} variant="contained">
-                Add Address
+              <Button onClick={SubmitHanlder} variant="contained">
+                {type === "Add" ? "Add Address" : "Update Address"}
               </Button>
             </Box>
           </DialogActions>

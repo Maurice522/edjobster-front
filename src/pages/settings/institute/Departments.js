@@ -101,7 +101,8 @@ const Departments = () => {
     DeleteDepartmentInfo.reset();
   }
   if (DeleteDepartmentInfo.isError) {
-    showToast("error", DeleteDepartmentInfo.error.data.msg)
+    showToast("error", DeleteDepartmentInfo.error.data.msg);
+    DeleteDepartmentInfo.reset();
   }
 
 
