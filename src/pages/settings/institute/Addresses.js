@@ -37,7 +37,6 @@ import { showToast } from "../../../utils/toast";
 
 const Addresses = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetAddressesQuery();
   const [PostAddress, PostAddressInfo] = useAddAddressesMutation();
   const [UpdateAddress, UpdateAddressInfo] = useUpdateAddressesMutation();
@@ -70,7 +69,7 @@ const Addresses = () => {
     }
     if (UpdateAddressInfo.isSuccess) {
       refetch();
-      showToast("success", "department successfully updated.");
+
       setModalOpen(false);
       // setBtnLoader(false);
       UpdateAddressInfo.reset();
@@ -86,8 +85,19 @@ const Addresses = () => {
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
-    return result;
+    console.log("result", result);
+    const dataNewArr = [];
+    result.forEach((value) => {
+      dataNewArr.push({
+        ...value,
+        completeAddress: `${value.address},${value.city_name} - ${value.pincode},${value.state_name},${value.country_name}`,
+
+      })
+    })
+    return dataNewArr;
   }, [data])
+
+  console.log("arry data", sortedData)
 
 
   // delete Address
@@ -112,7 +122,7 @@ const Addresses = () => {
         pincode: value.pincode
       })
     } else {
-      console.log("updateValue", value);
+
       UpdateAddress({
         id: value.id,
         name: value.name,
@@ -124,7 +134,7 @@ const Addresses = () => {
   }
 
   const onDeleteHandler = async (dataIndex) => {
-    setCurrentIndex(dataIndex)
+    setCurrentIndex(dataIndex);
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteAddress(currentDataObj.id);
@@ -132,9 +142,7 @@ const Addresses = () => {
   }
 
   const modalHandleClose = (value) => {
-    // console.log('value', value);
     setModalOpen(value);
-    setEditModalOpen(value);
   };
 
   const emptyObjectFn = (currObj) => {
@@ -148,8 +156,6 @@ const Addresses = () => {
   const addNewAddressHandler = () => {
 
     const emptyObj = emptyObjectFn(addData)
-
-    console.log("emptyObj", emptyObj);
     setAddData(emptyObj);
     setModalOpen(true);
     setModalType("Add");
@@ -189,7 +195,7 @@ const Addresses = () => {
       },
     },
     {
-      name: 'address',
+      name: 'completeAddress',
       label: 'Address',
       options: {
         filter: true,
@@ -228,9 +234,6 @@ const Addresses = () => {
     filterType: 'dropdown',
   };
 
-  const getInputValue = (value) => {
-    // console.log('value', value);
-  };
 
   return (
     <Page title="User">

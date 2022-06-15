@@ -26,7 +26,7 @@ const extendedApi = apiBasePath.injectEndpoints({
         }),
         deleteUserApi: build.mutation({
             query: (id) => ({
-                url: `${apiUrl.user}?id=${id}`,
+                url: `${apiUrl.user}?account_id=${id}`,
                 method: "DELETE",
             })
         }),

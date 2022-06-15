@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
+// eslint-disable-next-line import/no-unresolved
+import { useDepartmentGetQuery } from 'src/redux/services/settings/DepartmentService';
+// eslint-disable-next-line import/no-unresolved
+import { useDesignationGetQuery } from 'src/redux/services/settings/DesignationService';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -21,31 +25,58 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
+// eslint-disable-next-line import/no-unresolved
+import ImagePreview from 'src/components/imagePreview/ImagePreview';
+
 
 const UserModalList = (props) => {
-  const { open, handleClose } = props;
-  const [textValue, setTextValue] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    department: '',
-    designation: '',
-    password: '',
-  });
+  const { open, handleClose, onsubmit, type, formData } = props;
+  const { data: departmentData } = useDepartmentGetQuery();
+  const { data: designationData } = useDesignationGetQuery();
+  const departmentResponse = departmentData?.data;
+  const desginationResponse = designationData?.data;
+  const [textValue, setTextValue] = useState(formData);
+  const [departmentId, setDepartmentId] = useState(null);
+  const [designationId, setDesignationId] = useState(null);
 
-  const handleChange = () => { };
+
+  useEffect(() => {
+    if (formData?.account_id) {
+      const departmentArr = departmentResponse;
+      const designationArr = desginationResponse;
+      const foundDepartment = departmentArr?.find((departmentFound) => departmentFound?.name === formData?.department);
+      const foundDesignation = designationArr?.find((designationFound) => designationFound?.name === formData?.designation)
+
+      console.log("found", foundDesignation);
+      setDepartmentId(foundDepartment?.id);
+      setDesignationId(foundDesignation?.id);
+      setTextValue({
+        ...formData,
+        department: foundDepartment?.id,
+        designation: foundDesignation?.id
+      });
+    } else {
+      setTextValue(formData);
+      setDepartmentId(null);
+      setDesignationId(null);
+    }
+
+  }, [formData, type, departmentResponse, desginationResponse])
+
+
+
+
+
+  const clickHandler = () => {
+    onsubmit(textValue);
+  };
 
   const modalCloseHandler = () => {
     handleClose(false);
   };
 
   const onInputChangeHandler = (e) => {
-    // console.log(e.target.name);
-    // console.log(e.target.value);
-    setTextValue(e.target.value);
-    const myObj = {};
-    myObj[e.target.name] = e.target.value;
+    setTextValue({ ...textValue, [e.target.name]: e.target.value })
   };
 
   return (
@@ -62,40 +93,74 @@ const UserModalList = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>Create List</DialogTitle>
+          <DialogTitle>{type === "Add" ? "Create User" : "Update User"}</DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
+
+              <Grid container>
+                <Grid item md={4}>
+                  <ImagePreview logo={""}
+                    // eslint-disable-next-line no-undef
+                    onFileSelectSuccess={(file) => userLogoChangeHandler(file)}
+                    onFileSelectError={({ error }) => console.log("error", error)}
+                  />
+                </Grid>
+                <Grid item md={8}>
                   <TextField
                     autoFocus
                     margin="dense"
                     variant="standard"
                     fullWidth
-                    name="FirstName"
-                    value={textValue.firstName}
+                    name="first_name"
+                    value={textValue.first_name}
                     label="First Name"
                     onChange={onInputChangeHandler}
                   />
-                </Grid>
-                <Grid item xs={12}>
                   <TextField
                     autoFocus
                     margin="dense"
                     variant="standard"
                     fullWidth
-                    name="LastName"
-                    value={textValue.lastName}
+                    name="last_name"
+                    value={textValue.last_name}
                     label="Last Name"
                     onChange={onInputChangeHandler}
                   />
                 </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                {/* <Grid item xs={12}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    variant="standard"
+                    fullWidth
+                    name="first_name"
+                    value={textValue.first_name}
+                    label="First Name"
+                    onChange={onInputChangeHandler}
+                  />
+                </Grid> */}
+                {/* <Grid item xs={12}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    variant="standard"
+                    fullWidth
+                    name="last_name"
+                    value={textValue.last_name}
+                    label="Last Name"
+                    onChange={onInputChangeHandler}
+                  />
+                </Grid> */}
                 <Grid item xs={6}>
                   <TextField
                     autoFocus
                     margin="dense"
                     variant="standard"
                     label="Email"
+                    name="email"
                     fullWidth
                     value={textValue.email}
                     onChange={onInputChangeHandler}
@@ -109,54 +174,49 @@ const UserModalList = (props) => {
                     variant="standard"
                     label="Phone Number"
                     fullWidth
-                    value={textValue.phoneNumber}
+                    value={textValue.mobile}
                     onChange={onInputChangeHandler}
+                    name="mobile"
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                    <InputLabel id="demo-simple-select-standard-label">Department</InputLabel>
+                    <InputLabel id="department-label">Department</InputLabel>
                     <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
+                      labelId="department-label"
+                      id="department"
+                      name="department"
                       value={textValue.department}
-                      onChange={handleChange}
+                      onChange={onInputChangeHandler}
                       label="Department"
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {departmentResponse?.length > 0 && departmentResponse?.map((department) => <MenuItem key={department?.id} value={department?.id}>{department.name}</MenuItem>)}
+
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                    <InputLabel id="demo-simple-select-standard-label">Designation</InputLabel>
+                    <InputLabel id="designation-label">Designation</InputLabel>
                     <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
+                      labelId="designation-label"
+                      id="designation"
+                      name="designation"
                       value={textValue.designation}
-                      onChange={handleChange}
+                      onChange={onInputChangeHandler}
                       label="Designation"
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {desginationResponse?.length > 0 && desginationResponse?.map((designation) => <MenuItem key={designation?.id} value={designation?.id}>{designation?.name}</MenuItem>)}
+
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={6} sx={{ mt: 2 }}>
                   <FormControl>
-                    <FormLabel id="demo-row-radio-buttons-group-label">Role</FormLabel>
-                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                      <FormControlLabel value="candidate" control={<Radio />} label="Admin" />
-                      <FormControlLabel value="internal" control={<Radio />} label="HR" />
+                    <FormLabel id="role-label">Role</FormLabel>
+                    <RadioGroup row aria-labelledby="role-label" name="role" onChange={onInputChangeHandler} value={textValue.role} >
+                      <FormControlLabel value="A" control={<Radio />} label="Admin" />
+                      <FormControlLabel value="U" control={<Radio />} label="HR" />
                     </RadioGroup>
                   </FormControl>
                 </Grid>
@@ -186,8 +246,8 @@ const UserModalList = (props) => {
               <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <Button onClick={modalCloseHandler} variant="contained">
-                Add List
+              <Button onClick={clickHandler} variant="contained">
+                {type === "Add" ? "Add user" : "Update List"}
               </Button>
             </Box>
           </DialogActions>

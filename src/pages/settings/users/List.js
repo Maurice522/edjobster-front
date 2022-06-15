@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -28,17 +28,56 @@ import UserModalList from '../../../components/users/UsersModalList';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
-import { useGetUsersApiQuery } from '../../../redux/services/settings/UserService';
+import { useGetUsersApiQuery, useAddUserApiMutation, useUpdateUserApiMutation, useDeleteUserApiMutation } from '../../../redux/services/settings/UserService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
+import { showToast } from "../../../utils/toast";
+import SwitchButton from "../../../components/SwitchButton/SwitchButton"
 
 // mock
 
 const List = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [editmodalOpen, setEditModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
   const { data = [], isLoading, refetch } = useGetUsersApiQuery();
+  const [AddUserApi, AddUserApiInfo] = useAddUserApiMutation();
+  const [UpdateUserApi, UpdateUserApiInfo] = useUpdateUserApiMutation();
+  const [DeleteUserApi, DeleteUserApiInfo] = useDeleteUserApiMutation();
+  const [modalType, setModalType] = useState("Add");
+  const [apiData, setApiData] = useState({
+    id: "",
+    account_id: null,
+    first_name: '',
+    last_name: '',
+    email: '',
+    mobile: '',
+    department: '',
+    designation: '',
+    role: "",
+    email_desable: false,
+  })
 
-  console.log("data", data);
+
+
+  useEffect(() => {
+
+    if (AddUserApiInfo.isSuccess) {
+      setModalOpen(false)
+      refetch();
+      showToast("success", AddUserApiInfo.data.msg);
+      AddUserApiInfo.reset()
+    }
+    if (UpdateUserApiInfo.isSuccess) {
+      refetch();
+      setModalOpen(false);
+      showToast("success", UpdateUserApiInfo.data.msg);
+      UpdateUserApiInfo.reset();
+    }
+    if (UpdateUserApiInfo.isError) {
+      showToast("error", UpdateUserApiInfo.error.data.msg)
+      UpdateUserApiInfo.reset();
+    }
+  }, [AddUserApiInfo, UpdateUserApiInfo])
+
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.list);
@@ -48,20 +87,47 @@ const List = () => {
   if (isLoading) {
     return <DataTableLazyLoading />
   }
-
+  console.log("data", sortedData);
 
   const modalHandleClose = (value) => {
-    console.log('value', value);
+
     setModalOpen(value);
-    setEditModalOpen(value);
   };
 
   const addNewListHandler = () => {
+    setModalType("Add")
+    setApiData({
+      id: "",
+      account_id: null,
+      first_name: '',
+      last_name: '',
+      email: '',
+      mobile: '',
+      department: '',
+      designation: '',
+      role: "",
+      email_desable: false,
+    })
     setModalOpen(true);
+    console.log("add user", addNewListHandler)
   };
 
-  const onEditModalHandler = () => {
-    setEditModalOpen(true);
+  const onEditModalHandler = (index) => {
+    const dataArr = sortedData;
+    const currentObj = dataArr[index];
+    setApiData({
+      account_id: currentObj.account_id,
+      first_name: currentObj.first_name,
+      last_name: currentObj.last_name,
+      email: currentObj.email,
+      mobile: currentObj.mobile,
+      department: currentObj.department,
+      designation: currentObj.designation,
+      role: currentObj.role,
+      email_desable: true,
+    })
+    setModalType("Update")
+    setModalOpen(true);
   };
   const columns = [
     {
@@ -99,6 +165,19 @@ const List = () => {
       },
     },
     {
+      name: 'is_active',
+      label: 'Status',
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRenderLite: () => (
+          <>
+            <SwitchButton />
+          </>
+        )
+      },
+    },
+    {
       name: 'action',
       label: 'Action',
       options: {
@@ -112,7 +191,7 @@ const List = () => {
               </ListItemIcon>
             </Button>
             <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
-            // onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteAddressInfo.isLoading : false}
+              onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
             >
               <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
@@ -129,16 +208,58 @@ const List = () => {
     filterType: 'dropdown',
   };
 
-  const getInputValue = (value) => {
-    console.log('value', value);
-  };
+
+
+  const onSubmitHandler = (value) => {
+
+    if (modalType === "Add") {
+      AddUserApi({
+        first_name: value.first_name,
+        last_name: value.last_name,
+        email: value.email,
+        mobile: value.mobile,
+        department: value.department,
+        designation: value.designation,
+        role: value.role
+      })
+    } else {
+      UpdateUserApi({
+        account_id: value.account_id,
+        first_name: value.first_name,
+        last_name: value.last_name,
+        email: value.email,
+        mobile: value.mobile,
+        department: value.department,
+        designation: value.designation,
+        role: value.role
+      })
+    }
+  }
+
+  const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    const dataArr = sortedData;
+    const currentDataObj = dataArr[dataIndex];
+    console.log("click", currentDataObj);
+    await DeleteUserApi(currentDataObj.account_id);
+    refetch();
+
+  }
+  if (DeleteUserApiInfo.isSuccess) {
+    showToast("success", DeleteUserApiInfo.data.msg);
+    DeleteUserApiInfo.reset();
+  }
+  if (DeleteUserApiInfo.isError) {
+    showToast("error", DeleteUserApiInfo.error.data.msg);
+    DeleteUserApiInfo.reset();
+  }
 
   return (
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            List
+            User List
           </Typography>
           <Button
             variant="contained"
@@ -147,7 +268,7 @@ const List = () => {
             onClick={addNewListHandler}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New List
+            Add User
           </Button>
         </Stack>
 
@@ -158,24 +279,9 @@ const List = () => {
       <UserModalList
         open={modalOpen}
         handleClose={modalHandleClose}
-        label="Add List"
-        type="text"
-        textBoxLabel="List Name"
-        id="listName"
-        name="list"
-        getInputValue={getInputValue}
-        buttonLabel="Add List"
-      />
-      <UserModalList
-        open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit List"
-        type="text"
-        textBoxLabel="List Name"
-        id="editListName"
-        name="list"
-        getInputValue={getInputValue}
-        buttonLabel="Update List"
+        onsubmit={onSubmitHandler}
+        type={modalType}
+        formData={apiData}
       />
     </Page>
   );

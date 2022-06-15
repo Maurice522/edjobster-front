@@ -15,6 +15,7 @@ import thunk from 'redux-thunk';
 import autoMergeLevel1 from 'reduxjs-toolkit-persist/lib/stateReconciler/autoMergeLevel1';
 import AuthReducer from './auth/AuthReducer';
 import { apiBasePath } from './services/BaseUrl';
+import { rtkQueryErrorLogger } from './services/UnautthorizationMiddleWare';
 
 // const sessionStorageTransform = createTransform(
 //   // it is usefull to hide the value from session storage.
@@ -47,7 +48,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(thunk, apiBasePath.middleware),
+    }).concat(thunk, apiBasePath.middleware, rtkQueryErrorLogger),
   // preloadedState: true,
   devTools: process.env.NODE_ENV !== 'production',
 });
