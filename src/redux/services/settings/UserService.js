@@ -30,8 +30,15 @@ const extendedApi = apiBasePath.injectEndpoints({
                 method: "DELETE",
             })
         }),
+        activateDeactivateUserApi:build.mutation({
+            query:(data)=>({
+                url :`${apiUrl.activate_deactivate_user}`,
+                method:"POST",
+                body:data
+            })
+        })
 
     }),
     overrideExisting: false,
 });
-export const { useGetUsersApiQuery, useAddUserApiMutation, useUpdateUserApiMutation, useDeleteUserApiMutation } = extendedApi;
+export const { useGetUsersApiQuery, useAddUserApiMutation, useUpdateUserApiMutation, useDeleteUserApiMutation,useActivateDeactivateUserApiMutation } = extendedApi;

@@ -11,7 +11,10 @@ const apiUrl = {
   state: `${baseUrl}common/states/?id=`,
   city: `${baseUrl}common/cities/?id=`,
   address: `${baseUrl}settings/location/`,
-  user: `${baseUrl}account/members/`
+  user: `${baseUrl}account/members/`,
+  activate_deactivate_user: `${baseUrl}account/activate-member/`,
+  stage: `${baseUrl}settings/pipeline-stage/`,
+  pipeline: `${baseUrl}settings/pipeline/`,
 };
 
 export { baseUrl, apiUrl };

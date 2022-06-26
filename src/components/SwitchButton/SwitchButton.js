@@ -59,11 +59,13 @@ const IOSSwitch = styled((props) => (
 }));
 
 
-const SwitchButton = () => {
+const SwitchButton = (props) => {
+
+   
     return (
         <FormGroup>
             <FormControlLabel
-                control={<IOSSwitch sx={{ ml: 6 }} defaultChecked />}
+                control={<IOSSwitch sx={{ ml: 6 }} {...props}/>}
             />
         </FormGroup>
     )

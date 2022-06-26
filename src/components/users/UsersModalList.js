@@ -28,7 +28,6 @@ import Checkbox from '@mui/material/Checkbox';
 // eslint-disable-next-line import/no-unresolved
 import ImagePreview from 'src/components/imagePreview/ImagePreview';
 
-
 const UserModalList = (props) => {
   const { open, handleClose, onsubmit, type, formData } = props;
   const { data: departmentData } = useDepartmentGetQuery();
@@ -39,33 +38,27 @@ const UserModalList = (props) => {
   const [departmentId, setDepartmentId] = useState(null);
   const [designationId, setDesignationId] = useState(null);
 
-
   useEffect(() => {
     if (formData?.account_id) {
       const departmentArr = departmentResponse;
       const designationArr = desginationResponse;
       const foundDepartment = departmentArr?.find((departmentFound) => departmentFound?.name === formData?.department);
-      const foundDesignation = designationArr?.find((designationFound) => designationFound?.name === formData?.designation)
-
-      console.log("found", foundDesignation);
+      const foundDesignation = designationArr?.find(
+        (designationFound) => designationFound?.name === formData?.designation
+      );
       setDepartmentId(foundDepartment?.id);
       setDesignationId(foundDesignation?.id);
       setTextValue({
         ...formData,
         department: foundDepartment?.id,
-        designation: foundDesignation?.id
+        designation: foundDesignation?.id,
       });
     } else {
       setTextValue(formData);
       setDepartmentId(null);
       setDesignationId(null);
     }
-
-  }, [formData, type, departmentResponse, desginationResponse])
-
-
-
-
+  }, [formData, type, departmentResponse, desginationResponse]);
 
   const clickHandler = () => {
     onsubmit(textValue);
@@ -76,7 +69,11 @@ const UserModalList = (props) => {
   };
 
   const onInputChangeHandler = (e) => {
-    setTextValue({ ...textValue, [e.target.name]: e.target.value })
+    setTextValue({ ...textValue, [e.target.name]: e.target.value });
+  };
+
+  const userLogoChangeHandler = (file) => {
+    setTextValue({ ...textValue, photo: file });
   };
 
   return (
@@ -93,16 +90,16 @@ const UserModalList = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>{type === "Add" ? "Create User" : "Update User"}</DialogTitle>
+          <DialogTitle>{type === 'Add' ? 'Create User' : 'Update User'}</DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
-
               <Grid container>
                 <Grid item md={4}>
-                  <ImagePreview logo={""}
+                  <ImagePreview
+                    logo={textValue.photo}
                     // eslint-disable-next-line no-undef
                     onFileSelectSuccess={(file) => userLogoChangeHandler(file)}
-                    onFileSelectError={({ error }) => console.log("error", error)}
+                    onFileSelectError={({ error }) => console.log('error', error)}
                   />
                 </Grid>
                 <Grid item md={8}>
@@ -164,6 +161,7 @@ const UserModalList = (props) => {
                     fullWidth
                     value={textValue.email}
                     onChange={onInputChangeHandler}
+                    disabled={formData?.email_desable}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -190,8 +188,12 @@ const UserModalList = (props) => {
                       onChange={onInputChangeHandler}
                       label="Department"
                     >
-                      {departmentResponse?.length > 0 && departmentResponse?.map((department) => <MenuItem key={department?.id} value={department?.id}>{department.name}</MenuItem>)}
-
+                      {departmentResponse?.length > 0 &&
+                        departmentResponse?.map((department) => (
+                          <MenuItem key={department?.id} value={department?.id}>
+                            {department.name}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -206,15 +208,25 @@ const UserModalList = (props) => {
                       onChange={onInputChangeHandler}
                       label="Designation"
                     >
-                      {desginationResponse?.length > 0 && desginationResponse?.map((designation) => <MenuItem key={designation?.id} value={designation?.id}>{designation?.name}</MenuItem>)}
-
+                      {desginationResponse?.length > 0 &&
+                        desginationResponse?.map((designation) => (
+                          <MenuItem key={designation?.id} value={designation?.id}>
+                            {designation?.name}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={6} sx={{ mt: 2 }}>
                   <FormControl>
                     <FormLabel id="role-label">Role</FormLabel>
-                    <RadioGroup row aria-labelledby="role-label" name="role" onChange={onInputChangeHandler} value={textValue.role} >
+                    <RadioGroup
+                      row
+                      aria-labelledby="role-label"
+                      name="role"
+                      onChange={onInputChangeHandler}
+                      value={textValue.role}
+                    >
                       <FormControlLabel value="A" control={<Radio />} label="Admin" />
                       <FormControlLabel value="U" control={<Radio />} label="HR" />
                     </RadioGroup>
@@ -247,7 +259,7 @@ const UserModalList = (props) => {
                 Cancel
               </Button>
               <Button onClick={clickHandler} variant="contained">
-                {type === "Add" ? "Add user" : "Update List"}
+                {type === 'Add' ? 'Add user' : 'Update List'}
               </Button>
             </Box>
           </DialogActions>

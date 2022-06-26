@@ -12,14 +12,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { LoadingButton } from '@mui/lab';
 
-
 const SettingsModal = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { open, handleclose, buttonlabel, textboxlabel, addclickhandler, loadingbtn } = props;
-
+  const { open, handleclose, textboxlabel, addclickhandler, loadingbtn } = props;
 
   const modalCloseHandler = () => {
-    handleclose(false);
+    handleclose(true);
   };
 
   return (
@@ -41,13 +39,7 @@ const SettingsModal = (props) => {
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    variant="standard"
-                    fullWidth
-                    {...props}
-                  />
+                  <TextField autoFocus margin="dense" variant="standard" fullWidth {...props} />
                 </Grid>
               </Grid>
             </Box>
@@ -58,7 +50,7 @@ const SettingsModal = (props) => {
                 Cancel
               </Button>
               <LoadingButton onClick={() => addclickhandler()} variant="contained" loading={loadingbtn}>
-                {buttonlabel}
+                Add
               </LoadingButton>
             </Box>
           </DialogActions>
