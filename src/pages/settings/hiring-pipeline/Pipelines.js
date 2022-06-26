@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
+
 // material
 import {
   Card,
@@ -20,16 +22,33 @@ import {
   TablePagination,
   ListItemIcon,
 } from '@mui/material';
+
+import { sortedDataFn } from '../../../utils/getSortedData';
+import { showToast } from '../../../utils/toast';
+import {
+  useGetPipelineQuery,
+  useDeletePipelineApiMutation,
+  useAddPipelineApiMutation,
+} from '../../../redux/services/settings/PipelineService';
 // components
-import SettingsModal from '../../../components/settings/SettingsModal';
+import SettingsModal from '../../../components/settings/pipelineModel';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
-
 const Pipelines = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
   const [editmodalOpen, setEditModalOpen] = useState(false);
+  const { data = [], isLoading, refetch } = useGetPipelineQuery();
+  const [AddPipelineApi, AddPipelineApiInfo] = useAddPipelineApiMutation();
+  const [DeletePipelineApi, DeletePipelineInfo] = useDeletePipelineApiMutation();
+  const [modalType, setModalType] = useState('Add');
+  const [stageApidata, setStageApidata] = useState({
+    id: null,
+    name: '',
+    fileds: [],
+  });
 
   const modalHandleClose = (value) => {
     console.log('value', value);
@@ -37,14 +56,69 @@ const Pipelines = () => {
     setEditModalOpen(value);
   };
 
-  const addNewPipelineHandler = () => {
-    setModalOpen(true);
-  };
-
   const onEditModalHandler = () => {
     setEditModalOpen(true);
   };
+
+  const sortData = useMemo(() => {
+    const sortresult = sortedDataFn(data.data);
+    return sortresult;
+  }, [data]);
+
+  useEffect(() => {
+    if (AddPipelineApiInfo.isSuccess) {
+      setModalOpen(false);
+      refetch();
+      showToast('success', AddPipelineApiInfo.data.msg);
+      AddPipelineApiInfo.reset();
+    }
+  }, [AddPipelineApiInfo]);
+
+  const addNewPipelineHandler = () => {
+    setModalOpen(true);
+    setModalType('Add');
+    setStageApidata({
+      id: null,
+      name: '',
+      fileds: [],
+    });
+  };
+  const onSubmitHandler = async (value, index) => {
+    if (modalType === 'Add') {
+      console.log('value', value);
+      const formstagedata = new FormData();
+      formstagedata.append('name', value.name);
+      formstagedata.append('fields', value.fields);
+      await AddPipelineApi(formstagedata);
+    }
+  };
+
+  const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    await DeletePipelineApi(currentDataObj.id);
+  };
+  if (DeletePipelineInfo.isSuccess) {
+    showToast('success', DeletePipelineInfo.data.msg);
+    DeletePipelineInfo.reset();
+    refetch();
+  }
+  if (DeletePipelineInfo.isError) {
+    showToast('error', DeletePipelineInfo.error.data.msg);
+    DeletePipelineInfo.reset();
+    refetch();
+  }
+
   const columns = [
+    {
+      name: 'id',
+      label: 'Id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
     {
       name: 'name',
       label: 'Name',
@@ -54,19 +128,30 @@ const Pipelines = () => {
       },
     },
     {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
-    {
       name: 'action',
       label: 'Action',
       options: {
         filter: false,
         sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
+          </>
+        ),
       },
     },
   ];
@@ -89,18 +174,8 @@ const Pipelines = () => {
       </Button>
     </>
   );
-  const data = [
-    { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  ];
   const options = {
     filterType: 'dropdown',
-  };
-
-  const getInputValue = (value) => {
-    console.log('value', value);
   };
 
   return (
@@ -122,19 +197,20 @@ const Pipelines = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={'Pipeline List'} data={data} columns={columns} options={options} />
+          <MUIDataTable title={'Pipeline List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
       <SettingsModal
         open={modalOpen}
         handleClose={modalHandleClose}
         label="Add Pipeline"
-        type="text"
         textBoxLabel="Pipeline Name"
         id="pipelineName"
         name="pipeline"
-        getInputValue={getInputValue}
         buttonLabel="Add Pipeline"
+        onsubmit={onSubmitHandler}
+        type={modalType}
+        formstagedata={stageApidata}
       />
       <SettingsModal
         open={editmodalOpen}
@@ -144,7 +220,6 @@ const Pipelines = () => {
         textBoxLabel="Pipeline Name"
         id="editPipelineName"
         name="pipeline"
-        getInputValue={getInputValue}
         buttonLabel="Update Pipeline"
       />
     </Page>

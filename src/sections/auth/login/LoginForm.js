@@ -23,7 +23,8 @@ export default function LoginForm() {
 
 
   if (AddLoginInfo.isError) {
-    showToast("error", AddLoginInfo.error.data.msg)
+    showToast("error", AddLoginInfo.error.data.msg);
+    AddLoginInfo.reset();
   }
   const successToast = async () => {
     await showToast("success", "Welcome to edjobster !! ")

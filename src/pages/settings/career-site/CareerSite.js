@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import Button from '@mui/material/Button';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
@@ -13,9 +14,107 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FileUpload from 'react-material-file-upload';
+import { LoadingButton } from '@mui/lab';
+// eslint-disable-next-line import/no-unresolved
+import ImagePreview from 'src/components/imagePreview/ImagePreview';
+// eslint-disable-next-line import/no-unresolved
+import { useGetCompanyInfoQuery, useUpdateCompanyInfoMutation, useUpdateCompanyLogoMutation } from 'src/redux/services/settings/CareerSiteService';
+// eslint-disable-next-line import/no-unresolved
+import { useGetCountryQuery, useGetStateQuery, useGetCityQuery } from 'src/redux/services/settings/CountryStateCityService';
+import { showToast } from '../../../utils/toast';
+
+
+
 
 const CareerSite = () => {
   const [files, setFiles] = React.useState([]);
+  const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+  const { data: countryData } = useGetCountryQuery();
+  const [countryId, setCountryId] = useState(skipToken);
+  const [stateId, setStateId] = useState(skipToken);
+  const { data: stateData } = useGetStateQuery(countryId);
+  const { data: cityData } = useGetCityQuery(stateId);
+  const [UpdateCompany, UpdateCompanyInfo] = useUpdateCompanyInfoMutation();
+  const [UpdateCompanyLogo, UpdateCompanyLogoInfo] = useUpdateCompanyLogoMutation();
+  const [companyData, setCompanyData] = useState({
+    company: "",
+    logo: "",
+    website: "",
+    address: "",
+    landmark: "",
+    country_id: "",
+    state_id: "",
+    city: "",
+    pincode: "",
+    description: ""
+  })
+  console.log("UpdateCompanyLogoInfo", UpdateCompanyLogoInfo);
+
+  useEffect(() => {
+    if (data) {
+      const response = data?.company;
+      setCompanyData({
+        company: response.name,
+        logo: response.logo,
+        website: response.website,
+        address: response.address,
+        landmark: response.landmark,
+        country_id: response.country_id,
+        state_id: response.state_id,
+        city: response.city_id,
+        pincode: response.pincode,
+        description: response.description
+      });
+      setCountryId(data?.company?.country_id);
+      setStateId(data?.company?.state_id)
+    }
+  }, [data])
+
+
+  if (UpdateCompanyInfo.isSuccess) {
+    showToast("success", "career site updated successfully");
+    refetch();
+    UpdateCompanyInfo.reset();
+  }
+  if (UpdateCompanyInfo.isError) {
+    showToast("error", UpdateCompanyInfo.error.data.msg);
+    UpdateCompanyInfo.reset();
+  }
+  if (UpdateCompanyLogoInfo.isSuccess) {
+    showToast("success", UpdateCompanyLogoInfo.data.msg);
+    refetch();
+    UpdateCompanyLogoInfo.reset();
+  }
+  if (UpdateCompanyLogoInfo.isError) {
+    showToast("error", "error while updating logo..");
+    UpdateCompanyLogoInfo.reset();
+  }
+
+  const updateCareerSite = async () => {
+    const formData = new FormData();
+    formData.append('company', companyData.company);
+    formData.append('address', companyData.address);
+    formData.append('landmark', companyData.landmark);
+    formData.append('city', companyData.city);
+    formData.append('pincode', companyData.pincode);
+    formData.append('website', companyData.website);
+    formData.append('description', 'test');
+    await UpdateCompany(formData);
+
+  }
+
+  const companyLogoChangeHandler = async (file) => {
+    console.log("file", file);
+    const formData = new FormData();
+    formData.append('logo', file);
+    await UpdateCompanyLogo(formData);
+  }
+
+  const onInputChangeHandler = (e) => {
+    setCompanyData({ ...companyData, [e.target.name]: e.target.value })
+  }
+
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -33,125 +132,119 @@ const CareerSite = () => {
                   margin="dense"
                   variant="outlined"
                   fullWidth
-                  name="InstituteName"
-                  // value={textValue.name}
+                  name="company"
+                  value={companyData.company}
                   label="Institute Name"
-                  // onChange={onInputChangeHandler}
+                  onChange={onInputChangeHandler}
                 />
               </Grid>
-              <Grid item xs={7}>
-                <FileUpload value={files} onChange={setFiles} />
+              <Grid item xs={12} md={7}>
+                {/* <FileUpload value={files} onChange={setFiles} /> */}
+                <ImagePreview
+                  logo={companyData.logo}
+                  onFileSelectSuccess={(file) => companyLogoChangeHandler(file)}
+                  onFileSelectError={({ error }) => showToast("error", error)}
+                />
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={12} md={7}>
                 <TextField
                   autoFocus
                   margin="dense"
                   variant="outlined"
                   fullWidth
-                  name="InstituteWebsite"
-                  // value={textValue.name}
+                  name="website"
+                  value={companyData.website}
                   label="Institute Website"
-                  // onChange={onInputChangeHandler}
+                  onChange={onInputChangeHandler}
                 />
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={12} md={7}>
                 <TextField
                   autoFocus
                   margin="dense"
                   variant="outlined"
                   fullWidth
-                  name="InstituteAddress"
-                  // value={textValue.name}
+                  name="address"
+                  value={companyData.address}
                   label="Institute Address"
-                  // onChange={onInputChangeHandler}
+                  onChange={onInputChangeHandler}
                 />
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={12} md={7}>
                 <TextField
                   autoFocus
                   margin="dense"
                   variant="outlined"
                   fullWidth
-                  // value={textValue.address}
+                  value={companyData.landmark}
                   label="Address Landmark"
-                  // onChange={onInputChangeHandler}
+                  name="landmark"
+                  onChange={onInputChangeHandler}
                 />
               </Grid>
 
-              <Grid item xs={7}>
+              <Grid item xs={12} md={7}>
                 <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-outlined-label">Country</InputLabel>
+                  <InputLabel id="select-country">Select Country</InputLabel>
                   <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    //   value={textValue.country}
+                    labelId="select-country"
+                    id="country"
+                    value={companyData.country_id}
+                    // onChange={() => console.log("hello")}
+                    // onClick={() => console.log("click")}
+                    label="Select Country"
+                  >
+                    {countryData && countryData?.countries?.map((country) => <MenuItem key={country?.id} value={country?.id}>{country?.name}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={7}>
+                <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
+                  <InputLabel id="select-state">Select State</InputLabel>
+                  <Select
+                    labelId="select-state"
+                    id="state"
+                    value={companyData.state_id}
                     //   onChange={handleChange}
-                    label="Country"
+                    label="Select State"
+                  >
+                    {stateData && stateData?.states?.map((state) => <MenuItem key={state?.id} value={state?.id}>{state?.name}</MenuItem>)}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={7}>
+                <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
+                  <InputLabel id="select-city">Select City</InputLabel>
+                  <Select
+                    labelId="select-city"
+                    id="city"
+                    name="city"
+                    value={companyData.city}
+                    onChange={onInputChangeHandler}
+                    label="Select City"
                   >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {cityData && cityData?.cities?.map((city) => <MenuItem key={city?.id} value={city?.id}>{city?.name}</MenuItem>)}
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={7}>
-                <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-outlined-label">State</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    //   value={textValue.state}
-                    //   onChange={handleChange}
-                    label="State"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={7}>
-                <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-outlined-label">City</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    //   value={textValue.city}
-                    //   onChange={handleChange}
-                    label="City"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={12} md={7}>
                 <TextField
                   autoFocus
                   margin="dense"
                   variant="outlined"
                   label="Pincode"
+                  name="pincode"
                   fullWidth
-                  // value={textValue.pincode}
-                  // onChange={onInputChangeHandler}
+                  value={companyData.pincode}
+                  onChange={onInputChangeHandler}
                 />
               </Grid>
-              <Grid item xs={7}>
-                <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Button autoFocus variant="outlined" style={{ marginRight: 20 }}>
-                    Cancel
-                  </Button>
-                  <Button variant="contained"> Create </Button>
+              <Grid item xs={12} md={7}>
+                <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                  <LoadingButton variant="contained" onClick={updateCareerSite} loading={UpdateCompanyInfo.isLoading}> Update </LoadingButton>
                 </Box>
               </Grid>
             </Grid>

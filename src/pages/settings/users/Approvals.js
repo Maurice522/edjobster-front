@@ -3,6 +3,8 @@ import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
+
 // material
 import {
   Card,
@@ -80,19 +82,26 @@ const Approvals = () => {
       },
     },
     {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
-    {
       name: 'action',
       label: 'Action',
       options: {
         filter: false,
         sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0, color: "#fff" }} variant="contained" color="success" onClick={() => onEditModalHandler(dataIndex)}>
+              {/* <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
+              </ListItemIcon> */}
+              Approve
+            </Button>
+            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
+            // onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteAddressInfo.isLoading : false}
+            >
+              Reject
+            </LoadingButton>
+          </>
+        )
       },
     },
   ];
