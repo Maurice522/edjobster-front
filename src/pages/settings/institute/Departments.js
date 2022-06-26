@@ -31,10 +31,14 @@ import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
-import { useDepartmentGetQuery, useAddDepartmentMutation, useUpdateDepartmentMutation, useDeleteDepartmentMutation } from '../../../redux/services/settings/DepartmentService';
+import {
+  useDepartmentGetQuery,
+  useAddDepartmentMutation,
+  useUpdateDepartmentMutation,
+  useDeleteDepartmentMutation,
+} from '../../../redux/services/settings/DepartmentService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
-import { showToast } from "../../../utils/toast";
-
+import { showToast } from '../../../utils/toast';
 
 // mock
 
@@ -49,62 +53,68 @@ const Departments = () => {
   const [btnLoader, setBtnLoader] = useState(false);
 
   const [addValue, setAddValue] = useState({
-    name: ""
+    name: '',
   });
   const [editValue, setEditValue] = useState({
     id: undefined,
-    name: ""
+    name: '',
   });
-  const [modalName, setModalName] = useState("add");
+  const [modalName, setModalName] = useState('add');
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
     return result;
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
     if (AddDepartmentInfo.isSuccess) {
       setModalOpen(false);
       refetch();
-      showToast("success", "department successfully added.");
+      showToast('success', 'department successfully added.');
       setBtnLoader(false);
       AddDepartmentInfo.reset();
-      setAddValue({ name: "" })
+      setAddValue({ name: '' });
     }
     if (AddDepartmentInfo.isError) {
-      showToast("error", AddDepartmentInfo.error.data.msg);
+      showToast('error', AddDepartmentInfo.error.data.msg);
       setBtnLoader(false);
       AddDepartmentInfo.reset();
     }
     if (UpdateDepartmentInfo.isSuccess) {
       refetch();
-      showToast("success", "department successfully updated.");
+      showToast('success', 'department successfully updated.');
       setEditModalOpen(false);
       setBtnLoader(false);
       UpdateDepartmentInfo.reset();
-
     }
     if (UpdateDepartmentInfo.isError) {
-      showToast("error", UpdateDepartmentInfo.error.data.msg);
+      showToast('error', UpdateDepartmentInfo.error.data.msg);
       setBtnLoader(false);
       UpdateDepartmentInfo.reset();
     }
-  }, [modalOpen, AddDepartmentInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDepartmentInfo, addValue, setAddValue])
-
-
+  }, [
+    modalOpen,
+    AddDepartmentInfo,
+    setModalOpen,
+    refetch,
+    setBtnLoader,
+    setEditModalOpen,
+    UpdateDepartmentInfo,
+    addValue,
+    setAddValue,
+  ]);
 
   if (isLoading) {
-    return <DataTableLazyLoading />
+    return <DataTableLazyLoading />;
   }
   if (DeleteDepartmentInfo.isSuccess) {
-    showToast("success", "department successfully deleted.");
+    showToast('success', 'department successfully deleted.');
     DeleteDepartmentInfo.reset();
   }
   if (DeleteDepartmentInfo.isError) {
-    showToast("error", DeleteDepartmentInfo.error.data.msg);
+    showToast('error', DeleteDepartmentInfo.error.data.msg);
     DeleteDepartmentInfo.reset();
   }
-
 
   const modalHandleClose = (value) => {
     setModalOpen(value);
@@ -113,32 +123,32 @@ const Departments = () => {
 
   const addNewDepartmentHandler = () => {
     setModalOpen(true);
-    setModalName("Add");
+    setModalName('Add');
   };
 
   const onEditModalHandler = (dataIndex) => {
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(currentDataObj)
+    setEditValue(currentDataObj);
     setEditModalOpen(true);
-    setModalName("Edit");
+    setModalName('Edit');
   };
 
   const onDeleteHandler = async (dataIndex) => {
-    setCurrentIndex(dataIndex)
+    setCurrentIndex(dataIndex);
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteDepartment(currentDataObj.id);
     refetch();
-  }
+  };
   const columns = [
     {
-      name: "id",
-      label: "Department Id",
+      name: 'id',
+      label: 'Department Id',
       options: {
         filter: true,
         sort: true,
-      }
+      },
     },
     {
       name: 'name',
@@ -157,45 +167,44 @@ const Departments = () => {
         customBodyRenderLite: (dataIndex) => (
           <>
             <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error" onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
             </LoadingButton>
           </>
-        )
+        ),
       },
     },
   ];
-
-
-
 
   const options = {
     filterType: 'dropdown',
   };
 
-
   const addClickHandler = async () => {
     setBtnLoader(true);
-    if (modalName === "Add") {
+    if (modalName === 'Add') {
       await AddDepartment(addValue);
-    } else {
-      await UpdateDepartment(editValue);
     }
-
-  }
+  };
 
   const addChangeHandler = (e) => {
     setAddValue({ [e.target.name]: e.target.value });
-  }
+  };
   const editChangeHandler = (e) => {
-    setEditValue({ ...editValue, [e.target.name]: e.target.value })
-  }
+    setEditValue({ ...editValue, [e.target.name]: e.target.value });
+  };
   return (
     <Page title="Department">
       <Container>

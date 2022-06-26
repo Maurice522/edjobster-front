@@ -20,31 +20,41 @@ import {
   TableContainer,
   TablePagination,
   ListItemIcon,
+  Tooltip,
 } from '@mui/material';
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
 // components
 import UserModalList from '../../../components/users/UsersModalList';
+import userViewModel from '../../../components/users/userViewModel';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
-import { useGetUsersApiQuery, useAddUserApiMutation, useUpdateUserApiMutation, useDeleteUserApiMutation } from '../../../redux/services/settings/UserService';
+import {
+  useGetUsersApiQuery,
+  useAddUserApiMutation,
+  useUpdateUserApiMutation,
+  useDeleteUserApiMutation,
+  useActivateDeactivateUserApiMutation,
+} from '../../../redux/services/settings/UserService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
-import { showToast } from "../../../utils/toast";
-import SwitchButton from "../../../components/SwitchButton/SwitchButton"
+import { showToast } from '../../../utils/toast';
+import SwitchButton from '../../../components/SwitchButton/SwitchButton';
 
 // mock
 
 const List = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [viewModelOpen, setViewModelOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const { data = [], isLoading, refetch } = useGetUsersApiQuery();
   const [AddUserApi, AddUserApiInfo] = useAddUserApiMutation();
   const [UpdateUserApi, UpdateUserApiInfo] = useUpdateUserApiMutation();
   const [DeleteUserApi, DeleteUserApiInfo] = useDeleteUserApiMutation();
-  const [modalType, setModalType] = useState("Add");
+  const [ActivateDeactivateApi, ActivateDeactivateApiInfo] = useActivateDeactivateUserApiMutation();
+  const [modalType, setModalType] = useState('Add');
+
   const [apiData, setApiData] = useState({
-    id: "",
     account_id: null,
     first_name: '',
     last_name: '',
@@ -52,52 +62,46 @@ const List = () => {
     mobile: '',
     department: '',
     designation: '',
-    role: "",
+    role: '',
     email_desable: false,
-  })
-
-
+    photo: null,
+  });
 
   useEffect(() => {
-
     if (AddUserApiInfo.isSuccess) {
-      setModalOpen(false)
+      setModalOpen(false);
       refetch();
-      showToast("success", AddUserApiInfo.data.msg);
-      AddUserApiInfo.reset()
+      showToast('success', AddUserApiInfo.data.msg);
+      AddUserApiInfo.reset();
     }
     if (UpdateUserApiInfo.isSuccess) {
       refetch();
       setModalOpen(false);
-      showToast("success", UpdateUserApiInfo.data.msg);
+      showToast('success', UpdateUserApiInfo.data.msg);
       UpdateUserApiInfo.reset();
     }
     if (UpdateUserApiInfo.isError) {
-      showToast("error", UpdateUserApiInfo.error.data.msg)
+      showToast('error', UpdateUserApiInfo.error.data.msg);
       UpdateUserApiInfo.reset();
     }
-  }, [AddUserApiInfo, UpdateUserApiInfo])
-
+  }, [AddUserApiInfo, UpdateUserApiInfo]);
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.list);
     return result;
-  }, [data])
+  }, [data]);
 
   if (isLoading) {
-    return <DataTableLazyLoading />
+    return <DataTableLazyLoading />;
   }
-  console.log("data", sortedData);
 
   const modalHandleClose = (value) => {
-
     setModalOpen(value);
   };
 
   const addNewListHandler = () => {
-    setModalType("Add")
+    setModalType('Add');
     setApiData({
-      id: "",
       account_id: null,
       first_name: '',
       last_name: '',
@@ -105,11 +109,10 @@ const List = () => {
       mobile: '',
       department: '',
       designation: '',
-      role: "",
+      role: '',
       email_desable: false,
-    })
+    });
     setModalOpen(true);
-    console.log("add user", addNewListHandler)
   };
 
   const onEditModalHandler = (index) => {
@@ -125,10 +128,18 @@ const List = () => {
       designation: currentObj.designation,
       role: currentObj.role,
       email_desable: true,
-    })
-    setModalType("Update")
+      photo: currentObj.photo,
+    });
+    setModalType('Update');
     setModalOpen(true);
   };
+
+  console.log('model open', viewModelOpen);
+
+  const onViewHandler = () => {
+    setViewModelOpen(true);
+  };
+
   const columns = [
     {
       name: 'first_name',
@@ -136,7 +147,7 @@ const List = () => {
       options: {
         filter: true,
         sort: true,
-        setCellProps: () => ({ style: { maxWidth: '250px' } }),
+        setCellProps: () => ({ style: { maxWidth: '250px', cursor: 'pointer' } }),
       },
     },
     {
@@ -168,13 +179,18 @@ const List = () => {
       name: 'is_active',
       label: 'Status',
       options: {
-        filter: true,
-        sort: true,
-        customBodyRenderLite: () => (
-          <>
-            <SwitchButton />
-          </>
-        )
+        filter: false,
+        sort: false,
+        customBodyRenderLite: (dataIndex) => {
+          const isActive = sortedData[dataIndex];
+
+          return (
+            <SwitchButton
+              checked={isActive.is_active ? 'true' : false}
+              onChange={() => activateDeactivateHandler(dataIndex)}
+            />
+          );
+        },
       },
     },
     {
@@ -185,72 +201,99 @@ const List = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
+            <Button
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="success"
+              onClick={() => onViewHandler(dataIndex)}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="carbon:view-filled" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
             <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
-              onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
             >
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
             </LoadingButton>
           </>
-        )
+        ),
       },
     },
   ];
-
 
   const options = {
     filterType: 'dropdown',
   };
 
+  const activateDeactivateHandler = async (index) => {
+    const currentData = await sortedData[index];
+    ActivateDeactivateApi({
+      account_id: currentData.account_id,
+      status: currentData.is_active ? 'D' : 'A',
+    });
+  };
 
+  // console.log("sortedData",sortedData);
 
-  const onSubmitHandler = (value) => {
+  const onSubmitHandler = async (value, index) => {
+    if (modalType === 'Add') {
+      console.log('value', value);
+      const formData = new FormData();
+      formData.append('first_name', value.first_name);
+      formData.append('last_name', value.last_name);
+      formData.append('email', value.email);
+      formData.append('mobile', value.mobile);
+      formData.append('department', value.department);
+      formData.append('designation', value.designation);
+      formData.append('role', value.role);
+      formData.append('photo', value.photo);
 
-    if (modalType === "Add") {
-      AddUserApi({
-        first_name: value.first_name,
-        last_name: value.last_name,
-        email: value.email,
-        mobile: value.mobile,
-        department: value.department,
-        designation: value.designation,
-        role: value.role
-      })
+      await AddUserApi(formData);
     } else {
-      UpdateUserApi({
-        account_id: value.account_id,
-        first_name: value.first_name,
-        last_name: value.last_name,
-        email: value.email,
-        mobile: value.mobile,
-        department: value.department,
-        designation: value.designation,
-        role: value.role
-      })
+      const formData = new FormData();
+      formData.append('first_name', value.first_name);
+      formData.append('last_name', value.last_name);
+      formData.append('email', value.email);
+      formData.append('mobile', value.mobile);
+      formData.append('department', value.department);
+      formData.append('designation', value.designation);
+      formData.append('role', value.role);
+      formData.append('photo', value.photo);
+      UpdateUserApi(formData);
     }
+  };
+
+  if (ActivateDeactivateApiInfo.isSuccess) {
+    showToast('success', ActivateDeactivateApiInfo.data.msg);
+    refetch();
+    ActivateDeactivateApiInfo.reset();
   }
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    console.log("click", currentDataObj);
     await DeleteUserApi(currentDataObj.account_id);
     refetch();
-
-  }
+  };
   if (DeleteUserApiInfo.isSuccess) {
-    showToast("success", DeleteUserApiInfo.data.msg);
+    showToast('success', DeleteUserApiInfo.data.msg);
     DeleteUserApiInfo.reset();
   }
   if (DeleteUserApiInfo.isError) {
-    showToast("error", DeleteUserApiInfo.error.data.msg);
+    showToast('error', DeleteUserApiInfo.error.data.msg);
     DeleteUserApiInfo.reset();
   }
 
@@ -283,6 +326,7 @@ const List = () => {
         type={modalType}
         formData={apiData}
       />
+      <userViewModel open={viewModelOpen} />
     </Page>
   );
 };

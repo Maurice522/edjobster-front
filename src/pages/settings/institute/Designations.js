@@ -2,14 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import {
-  Card,
-  Stack,
-  Button,
-  Container,
-  Typography,
-  ListItemIcon,
-} from '@mui/material';
+import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 // eslint-disable-next-line import/no-unresolved
@@ -19,11 +12,15 @@ import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
-import { useDesignationGetQuery, useAddDesignationMutation, useUpdateDesignationMutation, useDeleteDesignationMutation } from '../../../redux/services/settings/DesignationService'
+import {
+  useDesignationGetQuery,
+  useAddDesignationMutation,
+  useUpdateDesignationMutation,
+  useDeleteDesignationMutation,
+} from '../../../redux/services/settings/DesignationService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
-import { showToast } from "../../../utils/toast";
+import { showToast } from '../../../utils/toast';
 // mock
-
 
 const Designations = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -36,14 +33,14 @@ const Designations = () => {
   const [btnLoader, setBtnLoader] = useState(false);
 
   const [addValue, setAddValue] = useState({
-    name: ""
+    name: '',
   });
 
   const [editValue, setEditValue] = useState({
     id: undefined,
-    name: ""
+    name: '',
   });
-  const [modalName, setModalName] = useState("add");
+  const [modalName, setModalName] = useState('add');
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
@@ -54,44 +51,40 @@ const Designations = () => {
     if (AddDesignationInfo.isSuccess) {
       setModalOpen(false);
       refetch();
-      showToast("success", "designation successfully added.");
+      showToast('success', 'designation successfully added.');
       setBtnLoader(false);
-      setAddValue({ name: "" });
+      setAddValue({ name: '' });
       AddDesignationInfo.reset();
     }
     if (AddDesignationInfo.isError) {
-      showToast("error", AddDesignationInfo.error.data.msg);
+      showToast('error', AddDesignationInfo.error.data.msg);
       AddDesignationInfo.reset();
     }
     if (UpdateDesignationInfo.isSuccess) {
       refetch();
-      showToast("success", "designation successfully updated.");
+      showToast('success', 'designation successfully updated.');
       setEditModalOpen(false);
       setBtnLoader(false);
       UpdateDesignationInfo.reset();
     }
     if (UpdateDesignationInfo.isError) {
-      showToast("error", UpdateDesignationInfo.error.data.msg);
+      showToast('error', UpdateDesignationInfo.error.data.msg);
       setBtnLoader(false);
       UpdateDesignationInfo.reset();
     }
-
-  }, [setBtnLoader, AddDesignationInfo, UpdateDesignationInfo])
-
+  }, [setBtnLoader, AddDesignationInfo, UpdateDesignationInfo]);
 
   if (isLoading) {
-    return <DataTableLazyLoading />
+    return <DataTableLazyLoading />;
   }
   if (DeleteDesignationInfo.isSuccess) {
-    showToast("success", "department successfully deleted.");
+    showToast('success', 'department successfully deleted.');
     DeleteDesignationInfo.reset();
   }
   if (DeleteDesignationInfo.isError) {
-    showToast("error", DeleteDesignationInfo.error.data.msg)
+    showToast('error', DeleteDesignationInfo.error.data.msg);
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-
-
 
   const modalHandleClose = (value) => {
     setModalOpen(value);
@@ -100,32 +93,32 @@ const Designations = () => {
 
   const addNewDesignationHandler = () => {
     setModalOpen(true);
-    setModalName("Add");
+    setModalName('Add');
   };
 
   const onEditModalHandler = (dataIndex) => {
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(currentDataObj)
+    setEditValue(currentDataObj);
     setEditModalOpen(true);
-    setModalName("Edit");
+    setModalName('Edit');
   };
 
   const onDeleteHandler = async (dataIndex) => {
-    setCurrentIndex(dataIndex)
+    setCurrentIndex(dataIndex);
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteDesignation(currentDataObj.id);
     refetch();
-  }
+  };
   const columns = [
     {
-      name: "id",
-      label: "Designation Id",
+      name: 'id',
+      label: 'Designation Id',
       options: {
         filter: true,
         sort: true,
-      }
+      },
     },
     {
       name: 'name',
@@ -144,21 +137,26 @@ const Designations = () => {
         customBodyRenderLite: (dataIndex) => (
           <>
             <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error" onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteDesignationInfo.isLoading : false}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteDesignationInfo.isLoading : false}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
             </LoadingButton>
           </>
-        )
+        ),
       },
     },
   ];
-
 
   const options = {
     filterType: 'dropdown',
@@ -166,22 +164,20 @@ const Designations = () => {
 
   const addClickHandler = async () => {
     setBtnLoader(true);
-    if (modalName === "Add") {
+    if (modalName === 'Add') {
       await AddDesignation(addValue);
     } else {
       await UpdateDesignation(editValue);
     }
-  }
+  };
 
   const addChangeHandler = (e) => {
     setAddValue({ [e.target.name]: e.target.value });
-  }
+  };
 
   const editChangeHandler = (e) => {
-    setEditValue({ ...editValue, [e.target.name]: e.target.value })
-  }
-
-
+    setEditValue({ ...editValue, [e.target.name]: e.target.value });
+  };
 
   return (
     <Page title="User">

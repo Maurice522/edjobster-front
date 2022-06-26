@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -28,25 +28,128 @@ import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
+import { sortedDataFn } from '../../../utils/getSortedData';
+import { showToast } from '../../../utils/toast';
+import {
+  useGetStagesQuery,
+  useDeleteStageApiMutation,
+  useAddStageApiMutation,
+  useUpdateStageApiMutation,
+} from '../../../redux/services/settings/StageService';
 
 const Stages = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const { data = [], isLoading, refetch } = useGetStagesQuery();
+  const [DeleteStageApi, DeleteStageApiInfo] = useDeleteStageApiMutation();
+  const [AddStage, AddStageInfo] = useAddStageApiMutation();
+  const [UpdateStage, UpdateStageInfo] = useUpdateStageApiMutation();
+  const [btnLoader, setBtnLoader] = useState(false);
+  const [modalName, setModalName] = useState('add');
+
+  const [addValue, setAddValue] = useState({
+    name: '',
+  });
+  const [editValue, setEditValue] = useState({
+    id: undefined,
+    name: '',
+  });
 
   const modalHandleClose = (value) => {
-    console.log('value', value);
     setModalOpen(value);
     setEditModalOpen(value);
   };
 
   const addNewStageHandler = () => {
     setModalOpen(true);
+    setModalName('Add');
   };
 
-  const onEditModalHandler = () => {
+  const sortData = useMemo(() => {
+    const sortresult = sortedDataFn(data.data);
+    return sortresult;
+  }, [data]);
+
+  const onEditModalHandler = (dataIndex) => {
     setEditModalOpen(true);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    setEditValue(currentDataObj);
+    setModalName('Edit');
   };
+
+  const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    await DeleteStageApi(currentDataObj.id);
+  };
+  if (DeleteStageApiInfo.isSuccess) {
+    showToast('success', DeleteStageApiInfo.data.msg);
+    DeleteStageApiInfo.reset();
+    refetch();
+  }
+  if (DeleteStageApiInfo.isError) {
+    showToast('error', DeleteStageApiInfo.error.data.msg);
+    DeleteStageApiInfo.reset();
+    refetch();
+  }
+
+  const addChangeHandler = (e) => {
+    setAddValue({ [e.target.name]: e.target.value });
+  };
+
+  const editChangeHandler = (e) => {
+    setEditValue({ ...editValue, [e.target.name]: e.target.value });
+  };
+
+  const addClickHandler = async () => {
+    setBtnLoader(true);
+    if (modalName === 'Add') {
+      await AddStage(addValue);
+    } else {
+      await UpdateStage(editValue);
+    }
+  };
+
+  useEffect(() => {
+    if (AddStageInfo.isSuccess) {
+      setModalOpen(false);
+      refetch();
+      showToast('success', 'department successfully added.');
+      setBtnLoader(false);
+      AddStageInfo.reset();
+      setAddValue({ name: '' });
+    }
+    if (AddStageInfo.isError) {
+      showToast('error', AddStageInfo.error.data.msg);
+      setBtnLoader(false);
+      AddStageInfo.reset();
+    }
+    if (UpdateStageInfo.isSuccess) {
+      refetch();
+      showToast('success', 'designation successfully updated.');
+      setEditModalOpen(false);
+      setBtnLoader(false);
+      UpdateStageInfo.reset();
+    }
+    if (UpdateStageInfo.isError) {
+      showToast('error', UpdateStageInfo.error.data.msg);
+      setBtnLoader(false);
+      UpdateStageInfo.reset();
+    }
+  }, [modalOpen, AddStageInfo, setModalOpen, UpdateStageInfo, refetch, setBtnLoader, addValue, setAddValue]);
+
   const columns = [
+    {
+      name: 'id',
+      label: 'Id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
     {
       name: 'name',
       label: 'Name',
@@ -64,19 +167,23 @@ const Stages = () => {
         customBodyRenderLite: (dataIndex) => (
           <>
             <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
-            // onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteAddressInfo.isLoading : false}
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteStageApiInfo.isLoading : false}
             >
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
             </LoadingButton>
           </>
-        )
+        ),
       },
     },
   ];
@@ -85,32 +192,9 @@ const Stages = () => {
       {sentenceCase('active')}
     </Label>
   );
-  const editAndDeleteButton = (
-    <>
-      <Button onClick={onEditModalHandler}>
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:edit-fill" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-      <Button>
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-    </>
-  );
-  const data = [
-    { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  ];
+
   const options = {
     filterType: 'dropdown',
-  };
-
-  const getInputValue = (value) => {
-    console.log('value', value);
   };
 
   return (
@@ -127,35 +211,40 @@ const Stages = () => {
             onClick={addNewStageHandler}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Stage
+            Add Stage
           </Button>
         </Stack>
 
         <Card>
-          <MUIDataTable title={'Stage List'} data={data} columns={columns} options={options} />
+          <MUIDataTable title={'Stage List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
       <SettingsModal
         open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Add Stage"
+        handleclose={modalHandleClose}
+        label="Satge Name"
         type="text"
-        textBoxLabel="Stage Name"
+        textboxlabel="Add Stage"
         id="StageName"
-        name="stage"
-        getInputValue={getInputValue}
-        buttonLabel="Add Stage"
+        name="name"
+        value={addValue.name}
+        onChange={addChangeHandler}
+        buttonlabel="Add Stage"
+        addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
       <SettingsModal
         open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit Stage"
+        label="Satge Name"
         type="text"
-        textBoxLabel="Stage Name"
+        textboxlabel="Edit Stage"
         id="editStageName"
-        name="stage"
-        getInputValue={getInputValue}
-        buttonLabel="Update Stage"
+        name="name"
+        value={editValue.name}
+        onChange={editChangeHandler}
+        buttonlabel="Update Stage"
+        addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
     </Page>
   );
