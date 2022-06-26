@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -10,6 +11,7 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
+import CareerSite from './pages/settings/career-site/CareerSite';
 import Departments from './pages/settings/institute/Departments';
 import Designations from './pages/settings/institute/Designations';
 import Addresses from './pages/settings/institute/Addresses';
@@ -25,6 +27,18 @@ import Webforms from './pages/settings/candidate-settings/Webforms';
 import AssessmentCategories from './pages/settings/candidate-settings/AssessmentCategories';
 import JobBoards from './pages/settings/job-boards/JobBoards';
 import Billing from './pages/settings/billing/Billing';
+import Jobs from './pages/main/jobs/Jobs';
+import CreateJob from "./pages/main/jobs/CreateJob"
+import EditJob from './pages/main/jobs/EditJob'
+import Candidates from './pages/main/candidates/Candidates';
+import CreateCandidate from "./pages/main/candidates/CreateCandidate"
+import EditCandidate from './pages/main/candidates/EditCandidate'
+import Interviews from './pages/main/interviews/Interviews';
+import CreateInterview from './pages/main/interviews/CreateInterview'
+import EditInterview from './pages/main/interviews/EditInterview';
+import Assessments from './pages/main/assessments/Assessments';
+import CreateAssessment from './pages/main/assessments/CreateAssessment'
+import EditAssessment from './pages/main/assessments/EditAssessment';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +52,19 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
+        { path: '/dashboard/jobs', element: <Jobs /> },
+        { path: '/dashboard/jobs/create-job', element: <CreateJob /> },
+        { path: '/dashboard/jobs/edit-job', element: <EditJob /> },
+        { path: '/dashboard/candidates', element: <Candidates /> },
+        { path: '/dashboard/candidates/create-candidate', element: <CreateCandidate /> },
+        { path: '/dashboard/candidates/edit-candidate', element: <EditCandidate /> },
+        { path: '/dashboard/interviews', element: <Interviews /> },
+        { path: '/dashboard/interviews/create-interview', element: <CreateInterview /> },
+        { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
+        { path: '/dashboard/assessments', element: <Assessments /> },
+        { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
+        { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
+        { path: '/dashboard/career-site', element: <CareerSite /> },
         { path: 'institute-setting/departments', element: <Departments /> },
         { path: 'institute-setting/designations', element: <Designations /> },
         { path: 'institute-setting/addresses', element: <Addresses /> },

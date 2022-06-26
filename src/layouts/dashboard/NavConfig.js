@@ -30,6 +30,11 @@ const mainSideBarData = [
 
 const settingsSideBarData = [
   {
+    title: 'Career Site',
+    path: '/dashboard/career-site',
+    icon: getIcon('eva:person-add-fill'),
+  },
+  {
     title: 'Institute Setting',
     path: '/dashboard/institute-setting',
     icon: getIcon('eva:pie-chart-2-fill'),
@@ -45,7 +50,7 @@ const settingsSideBarData = [
     path: '/dashboard/users',
     icon: getIcon('eva:people-fill'),
     children: [
-      { title: 'List', path: '/dashboard/users/list' },
+      { title: 'User List', path: '/dashboard/users/list' },
       { title: 'Approvals', path: '/dashboard/users/approvals' },
     ],
   },
