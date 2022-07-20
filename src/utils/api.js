@@ -14,7 +14,10 @@ const apiUrl = {
   user: `${baseUrl}account/members/`,
   activate_deactivate_user: `${baseUrl}account/activate-member/`,
   stage: `${baseUrl}settings/pipeline-stage/`,
+  status: `${baseUrl}settings/pipeline-details/`,
   pipeline: `${baseUrl}settings/pipeline/`,
+  emailCategory: `${baseUrl}settings/email-category/`,
+  emailtamplate: `${baseUrl}settings/email-template/`,
 };
 
 export { baseUrl, apiUrl };

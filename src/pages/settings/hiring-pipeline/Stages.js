@@ -30,6 +30,7 @@ import Iconify from '../../../components/Iconify';
 // mock
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
+import ViewStatus from '../../../components/ViewStatus/ViewStatus';
 import {
   useGetStagesQuery,
   useDeleteStageApiMutation,
@@ -37,11 +38,15 @@ import {
   useUpdateStageApiMutation,
 } from '../../../redux/services/settings/StageService';
 
+import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
+
 const Stages = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
+  const [viewModelOpen, setViewModelOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const { data = [], isLoading, refetch } = useGetStagesQuery();
+  const { data = [], refetch } = useGetStagesQuery();
+  const { statusData = [], isError, isLoading } = useGetStatusApiQuery();
   const [DeleteStageApi, DeleteStageApiInfo] = useDeleteStageApiMutation();
   const [AddStage, AddStageInfo] = useAddStageApiMutation();
   const [UpdateStage, UpdateStageInfo] = useUpdateStageApiMutation();
@@ -56,9 +61,15 @@ const Stages = () => {
     name: '',
   });
 
+  const [viewStatusvalue, setViewStatusValue] = useState({
+    id: undefined,
+    status: [''],
+  });
+
   const modalHandleClose = (value) => {
     setModalOpen(value);
     setEditModalOpen(value);
+    setViewModelOpen(value);
   };
 
   const addNewStageHandler = () => {
@@ -77,6 +88,20 @@ const Stages = () => {
     const currentDataObj = dataArr[dataIndex];
     setEditValue(currentDataObj);
     setModalName('Edit');
+  };
+
+  const onViewStatusHandler = (dataIndex) => {
+    setViewModelOpen(true);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    const statusDataApi = currentDataObj.id;
+    const statusData = statusDataApi;
+    console.log('statusData', statusData);
+    setViewStatusValue(currentDataObj);
+  };
+
+  const onViewChangeHandler = (e) => {
+    setViewStatusValue({ ...viewStatusvalue, [e.target.status]: e.target.value });
   };
 
   const onDeleteHandler = async (dataIndex) => {
@@ -159,6 +184,21 @@ const Stages = () => {
       },
     },
     {
+      name: '',
+      label: '',
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0 }} variant="outlined" onClick={() => onViewStatusHandler(dataIndex)}>
+              View Status
+            </Button>
+          </>
+        ),
+      },
+    },
+    {
       name: 'action',
       label: 'Action',
       options: {
@@ -223,11 +263,10 @@ const Stages = () => {
         open={modalOpen}
         handleclose={modalHandleClose}
         label="Satge Name"
-        type="text"
+        type="Add"
         textboxlabel="Add Stage"
         id="StageName"
         name="name"
-        value={addValue.name}
         onChange={addChangeHandler}
         buttonlabel="Add Stage"
         addclickhandler={addClickHandler}
@@ -236,7 +275,7 @@ const Stages = () => {
       <SettingsModal
         open={editmodalOpen}
         label="Satge Name"
-        type="text"
+        type="edit"
         textboxlabel="Edit Stage"
         id="editStageName"
         name="name"
@@ -245,6 +284,13 @@ const Stages = () => {
         buttonlabel="Update Stage"
         addclickhandler={addClickHandler}
         loadingbtn={btnLoader}
+      />
+
+      <ViewStatus
+        open={viewModelOpen}
+        handleclose={modalHandleClose}
+        onChange={onViewChangeHandler}
+        value={viewStatusvalue.status}
       />
     </Page>
   );

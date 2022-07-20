@@ -29,9 +29,10 @@ import {
   useGetPipelineQuery,
   useDeletePipelineApiMutation,
   useAddPipelineApiMutation,
+  useUpdatePipelineApiMutation,
 } from '../../../redux/services/settings/PipelineService';
 // components
-import SettingsModal from '../../../components/settings/pipelineModel';
+import PipelineModel from '../../../components/settings/pipelineModel';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -42,10 +43,15 @@ const Pipelines = () => {
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetPipelineQuery();
   const [AddPipelineApi, AddPipelineApiInfo] = useAddPipelineApiMutation();
+  const [UpdatePipelineApi, UpdatePipelineApiInfo] = useUpdatePipelineApiMutation();
   const [DeletePipelineApi, DeletePipelineInfo] = useDeletePipelineApiMutation();
   const [modalType, setModalType] = useState('Add');
   const [stageApidata, setStageApidata] = useState({
-    id: null,
+    name: '',
+    fileds: [],
+  });
+  const [editValue, setEditValue] = useState({
+    id: undefined,
     name: '',
     fileds: [],
   });
@@ -56,23 +62,10 @@ const Pipelines = () => {
     setEditModalOpen(value);
   };
 
-  const onEditModalHandler = () => {
-    setEditModalOpen(true);
-  };
-
   const sortData = useMemo(() => {
     const sortresult = sortedDataFn(data.data);
     return sortresult;
   }, [data]);
-
-  useEffect(() => {
-    if (AddPipelineApiInfo.isSuccess) {
-      setModalOpen(false);
-      refetch();
-      showToast('success', AddPipelineApiInfo.data.msg);
-      AddPipelineApiInfo.reset();
-    }
-  }, [AddPipelineApiInfo]);
 
   const addNewPipelineHandler = () => {
     setModalOpen(true);
@@ -83,13 +76,26 @@ const Pipelines = () => {
       fileds: [],
     });
   };
-  const onSubmitHandler = async (value, index) => {
+  const onEditModalHandler = (index) => {
+    const dataArr = sortData;
+    const curentObj = dataArr[index];
+    setEditValue(curentObj);
+    console.log('editValue', editValue);
+    setStageApidata({
+      name: curentObj.name,
+      fileds: curentObj.fileds,
+    });
+    setModalType('Update');
+    setModalOpen(true);
+  };
+  const onSubmitHandler = async (value) => {
     if (modalType === 'Add') {
       console.log('value', value);
-      const formstagedata = new FormData();
-      formstagedata.append('name', value.name);
-      formstagedata.append('fields', value.fields);
-      await AddPipelineApi(formstagedata);
+      const data = {
+        name: value.name,
+        fields: value.fileds,
+      };
+      await AddPipelineApi(data);
     }
   };
 
@@ -109,6 +115,19 @@ const Pipelines = () => {
     DeletePipelineInfo.reset();
     refetch();
   }
+
+  useEffect(() => {
+    if (AddPipelineApiInfo.isSuccess) {
+      showToast('success', AddPipelineApiInfo.data.msg);
+      setModalOpen(false);
+      refetch();
+      AddPipelineApiInfo.reset();
+    }
+    if (AddPipelineApiInfo.isError) {
+      showToast('error', AddPipelineApiInfo.error.data.msg);
+      AddPipelineApi.reset();
+    }
+  }, [AddPipelineApiInfo]);
 
   const columns = [
     {
@@ -200,11 +219,10 @@ const Pipelines = () => {
           <MUIDataTable title={'Pipeline List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
+      <PipelineModel
         open={modalOpen}
         handleClose={modalHandleClose}
-        label="Add Pipeline"
-        textBoxLabel="Pipeline Name"
+        textBoxLabel="Add Pipeline Name"
         id="pipelineName"
         name="pipeline"
         buttonLabel="Add Pipeline"
@@ -212,15 +230,17 @@ const Pipelines = () => {
         type={modalType}
         formstagedata={stageApidata}
       />
-      <SettingsModal
+      <PipelineModel
         open={editmodalOpen}
         handleClose={modalHandleClose}
-        label="Edit Pipeline"
-        type="text"
-        textBoxLabel="Pipeline Name"
-        id="editPipelineName"
+        textBoxLabel="Update Pipeline Name"
+        value={editValue.name}
+        id="pipelineName"
         name="pipeline"
-        buttonLabel="Update Pipeline"
+        buttonLabel="Add Pipeline"
+        onsubmit={onSubmitHandler}
+        type={modalType}
+        formstagedata={stageApidata}
       />
     </Page>
   );
