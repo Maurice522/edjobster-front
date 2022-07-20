@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -20,6 +20,11 @@ import {
   TablePagination,
   ListItemIcon,
 } from '@mui/material';
+
+import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import { sortedDataFn } from '../../../utils/getSortedData';
+import { showToast } from '../../../utils/toast';
+
 // components
 import EmailModalTemplates from '../../../components/email-templates/EmailModalTemplates';
 import Page from '../../../components/Page';
@@ -30,12 +35,20 @@ import Iconify from '../../../components/Iconify';
 const Templates = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
+  const { data = [], isLoading } = useGetEmailTamplateQuery();
 
   const modalHandleClose = (value) => {
     console.log('value', value);
     setModalOpen(value);
     setEditModalOpen(value);
   };
+
+  // Show Data In Table
+
+  const sortData = useMemo(() => {
+    const sortresult = sortedDataFn(data.data);
+    return sortresult;
+  });
 
   const addNewTemplatesHandler = () => {
     setModalOpen(true);
@@ -46,8 +59,16 @@ const Templates = () => {
   };
   const columns = [
     {
-      name: 'name',
-      label: 'Name',
+      name: 'id',
+      label: 'id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'category_name',
+      label: 'Category Name',
       options: {
         filter: true,
         sort: true,
@@ -63,14 +84,6 @@ const Templates = () => {
       },
     },
     {
-      name: 'category',
-      label: 'Category',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
       name: 'type',
       label: 'Type',
       options: {
@@ -79,11 +92,11 @@ const Templates = () => {
       },
     },
     {
-      name: 'status',
-      label: 'Status',
+      name: 'message',
+      label: 'Message',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
       },
     },
     {
@@ -114,19 +127,6 @@ const Templates = () => {
       </Button>
     </>
   );
-  const data = [
-    {
-      name: 'Abid Gaush Mohd Ansari',
-      subject: 'Maths',
-      category: 'algebra',
-      type: 'computer',
-      status: labelStatus,
-      action: editAndDeleteButton,
-    },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  ];
   const options = {
     filterType: 'dropdown',
   };
@@ -154,7 +154,7 @@ const Templates = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={'Template List'} data={data} columns={columns} options={options} />
+          <MUIDataTable title={'Template List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
       <EmailModalTemplates

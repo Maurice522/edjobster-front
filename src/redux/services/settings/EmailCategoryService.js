@@ -3,37 +3,38 @@ import { apiUrl } from '../../../utils/api';
 
 const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
-    getPipeline: build.query({
+    getEmailCategory: build.query({
       query: () => ({
-        url: `${apiUrl.pipeline}`,
+        url: `${apiUrl.emailCategory}`,
       }),
     }),
-    addPipelineApi: build.mutation({
+    addEmailCategory: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.pipeline}`,
+        url: `${apiUrl.emailCategory}`,
         method: 'POST',
         body: data,
       }),
     }),
-    updatePipelineApi: build.mutation({
+    updateEmailCategory: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.pipeline}`,
+        url: `${apiUrl.emailCategory}`,
         method: 'POST',
         body: data,
       }),
     }),
-    deletePipelineApi: build.mutation({
+    deleteEmailCategory: build.mutation({
       query: (id) => ({
-        url: `${apiUrl.pipeline}?id=${id}`,
+        url: `${apiUrl.emailCategory}?id=${id}`,
         method: 'DELETE',
       }),
     }),
   }),
+  overrideExisting: false,
 });
 
 export const {
-  useGetPipelineQuery,
-  useAddPipelineApiMutation,
-  useUpdatePipelineApiMutation,
-  useDeletePipelineApiMutation,
+  useGetEmailCategoryQuery,
+  useDeleteEmailCategoryMutation,
+  useAddEmailCategoryMutation,
+  useUpdateEmailCategoryMutation,
 } = extendedApi;
