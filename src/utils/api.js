@@ -18,6 +18,7 @@ const apiUrl = {
   pipeline: `${baseUrl}settings/pipeline/`,
   emailCategory: `${baseUrl}settings/email-category/`,
   emailtamplate: `${baseUrl}settings/email-template/`,
+  emailVariables: `${baseUrl}settings/email-field/`,
 };
 
 export { baseUrl, apiUrl };

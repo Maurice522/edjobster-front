@@ -21,7 +21,8 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
-import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import { useGetEmailTamplateQuery, useGetEmailVariableTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import {useGetEmailCategoryQuery} from '../../../redux/services/settings/EmailCategoryService'
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
 
@@ -36,6 +37,8 @@ const Templates = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading } = useGetEmailTamplateQuery();
+const {data:categoryData,isLoading:isCategoryLoading}=useGetEmailCategoryQuery()
+const {data:variableData,isLoading:isVariableLoading}=useGetEmailVariableTamplateQuery()
 
   const modalHandleClose = (value) => {
     console.log('value', value);
@@ -167,6 +170,8 @@ const Templates = () => {
         name="list"
         getInputValue={getInputValue}
         buttonLabel="Add List"
+        categoryData={categoryData?.data}
+        variableData={variableData?.data}
       />
       <EmailModalTemplates
         open={editmodalOpen}

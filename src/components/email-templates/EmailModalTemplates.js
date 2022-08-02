@@ -18,15 +18,21 @@ import { Editor } from 'react-draft-wysiwyg';
 import RichTextEditer from '../Rich-text-editer/RichTextEditer';
 
 const EmailModalTemplates = (props) => {
-  const { open, handleClose } = props;
+  const { open, handleClose, categoryData, variableData } = props;
+
   const [textValue, setTextValue] = useState({
-    category: '',
+    category: categoryData,
     subject: '',
-    variables: '',
+    variables: variableData,
     body: '',
   });
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    e.preventDefault();
+    setTextValue({ textValue: e.target.value });
+    //  console.log("mmmm",setTextValue(e.target.value)
+    // )
+  };
 
   const modalCloseHandler = () => {
     handleClose(false);
@@ -71,9 +77,14 @@ const EmailModalTemplates = (props) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {textValue.category?.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+
+                      {/* <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem> */}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -110,9 +121,14 @@ const EmailModalTemplates = (props) => {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {textValue.variables?.map((item) => (
+                        <MenuItem key={item.value} value={item.name}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+
+                      {/* <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem> */}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -131,9 +147,14 @@ const EmailModalTemplates = (props) => {
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-                          <MenuItem value={10}>Ten</MenuItem>
-                          <MenuItem value={20}>Twenty</MenuItem>
-                          <MenuItem value={30}>Thirty</MenuItem>
+                          {textValue.variables?.map((item) => (
+                            <MenuItem key={item.value} value={item.name}>
+                              {item.name}
+                            </MenuItem>
+                          ))}
+
+                          {/* <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem> */}
                         </Select>
                       </FormControl>,
                     ]}
