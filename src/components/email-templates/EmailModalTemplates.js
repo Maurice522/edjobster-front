@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -16,36 +16,74 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Editor } from 'react-draft-wysiwyg';
 import RichTextEditer from '../Rich-text-editer/RichTextEditer';
+import { showToast } from '../../utils/toast';
+import {
+  useAddEmailTemplateMutation
+} from '../../redux/services/settings/EmailTamplateService';
 
 const EmailModalTemplates = (props) => {
   const { open, handleClose, categoryData, variableData } = props;
 
+  const [AddEmailTemplate, AddEmailTemplateInfo] = useAddEmailTemplateMutation();
+
   const [textValue, setTextValue] = useState({
-    category: categoryData,
+    category: '',
     subject: '',
-    variables: variableData,
+    variables: '',
     body: '',
+    type: '',
   });
-
-  const handleChange = (e) => {
+  const onSubjectInputChangeHandler = (e) => {
     e.preventDefault();
-    setTextValue({ textValue: e.target.value });
-    //  console.log("mmmm",setTextValue(e.target.value)
-    // )
-  };
+    setTextValue({ ...textValue, subject: e.target.value })
+  }
+  const handleTypeChange = (e) => {
+    e.preventDefault();
+    setTextValue({ ...textValue, type: e.target.value })
+  }
+  const handleCategoryChange = (e) => {
+    e.preventDefault();
+    setTextValue({ ...textValue, category: e.target.value })
 
+  };
+  const handleVariablesChange = (e) => {
+    e.preventDefault();
+  }
   const modalCloseHandler = () => {
     handleClose(false);
   };
+  const addEmailTemplateHandler = async () => {
+    await AddEmailTemplate({
+      category: textValue.category,
+      type: textValue.type,
+      subject: textValue.subject,
+      message: textValue.body
+    });
 
-  const onInputChangeHandler = (e) => {
-    // console.log(e.target.name);
-    // console.log(e.target.value);
-    setTextValue(e.target.value);
-    const myObj = {};
-    myObj[e.target.name] = e.target.value;
+  }
+  const onInputChangeHandler = (changedText) => {
+    setTextValue({ ...textValue, body: `${changedText.replace('<p>', '').replace('</p>', '')}` })
   };
+  useEffect(() => {
+    if (AddEmailTemplateInfo.isSuccess) {
 
+      showToast('success', 'Email Category successfully added.');
+      handleClose(false);
+      AddEmailTemplateInfo.reset();
+      setTextValue({
+        category: '',
+        subject: '',
+        variables: '',
+        body: '',
+        type: '',
+        message: ''
+      });
+    }
+    if (AddEmailTemplateInfo.isError) {
+      showToast('error', AddEmailTemplateInfo.error.data.msg);
+      AddEmailTemplateInfo.reset();
+    }
+  })
   return (
     <>
       <Dialog
@@ -71,32 +109,30 @@ const EmailModalTemplates = (props) => {
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"
                       value={textValue.category}
-                      onChange={handleChange}
+                      onChange={handleCategoryChange}
                       label="Category"
                     >
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {textValue.category?.map((item) => (
+                      {categoryData?.map((item) => (
                         <MenuItem key={item.id} value={item.id}>
                           {item.name}
                         </MenuItem>
                       ))}
 
-                      {/* <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem> */}
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={6} display="flex" alignItems="flex-end">
                   <FormControl>
-                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                      <FormControlLabel value="candidate" control={<Radio />} label="Candidate" />
-                      <FormControlLabel value="internal" control={<Radio />} label="Internal" />
+                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" onChange={handleTypeChange}>
+                      <FormControlLabel value="C" control={<Radio />} label="Candidate" />
+                      <FormControlLabel value="I" control={<Radio />} label="Internal" />
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <TextField
                     autoFocus
                     margin="dense"
@@ -105,59 +141,34 @@ const EmailModalTemplates = (props) => {
                     name="subject"
                     value={textValue.subject}
                     label="Subject"
-                    onChange={onInputChangeHandler}
+                    onChange={onSubjectInputChangeHandler}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                     <InputLabel id="demo-simple-select-standard-label">Variables</InputLabel>
                     <Select
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"
                       value={textValue.variables}
-                      onChange={handleChange}
+                      onChange={handleVariablesChange}
                       label="Variables"
                     >
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {textValue.variables?.map((item) => (
+                      {variableData?.map((item) => (
                         <MenuItem key={item.value} value={item.name}>
                           {item.name}
                         </MenuItem>
-                      ))}
-
-                      {/* <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem> */}
+                      ))}                      
                     </Select>
                   </FormControl>
-                </Grid>
-                <Grid item xs={12}>
+                </Grid> */}
+                <Grid item xl={12} style={{ heigth: "45vh" }}>
                   <RichTextEditer
-                    toolbarCustomButtons={[
-                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                        <InputLabel id="demo-simple-select-standard-label">Variables</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-standard-label"
-                          id="demo-simple-select-standard"
-                          value={textValue.variables}
-                          onChange={handleChange}
-                          label="Variables"
-                        >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
-                          {textValue.variables?.map((item) => (
-                            <MenuItem key={item.value} value={item.name}>
-                              {item.name}
-                            </MenuItem>
-                          ))}
-
-                          {/* <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem> */}
-                        </Select>
-                      </FormControl>,
-                    ]}
+                    onChange={onInputChangeHandler}
+                    variableData={variableData}
                   />
                 </Grid>
               </Grid>
@@ -168,7 +179,7 @@ const EmailModalTemplates = (props) => {
               <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <Button onClick={modalCloseHandler} variant="contained">
+              <Button onClick={addEmailTemplateHandler} variant="contained">
                 Add Template
               </Button>
             </Box>

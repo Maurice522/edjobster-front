@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 
 import { useGetEmailTamplateQuery, useGetEmailVariableTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
-import {useGetEmailCategoryQuery} from '../../../redux/services/settings/EmailCategoryService'
+import { useGetEmailCategoryQuery } from '../../../redux/services/settings/EmailCategoryService'
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
 
@@ -36,14 +36,14 @@ import Iconify from '../../../components/Iconify';
 const Templates = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const { data = [], isLoading } = useGetEmailTamplateQuery();
-const {data:categoryData,isLoading:isCategoryLoading}=useGetEmailCategoryQuery()
-const {data:variableData,isLoading:isVariableLoading}=useGetEmailVariableTamplateQuery()
+  const { data = [], isLoading ,refetch} = useGetEmailTamplateQuery();
+  const { data: categoryData, isLoading: isCategoryLoading } = useGetEmailCategoryQuery()
+  const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery()
 
   const modalHandleClose = (value) => {
-    console.log('value', value);
     setModalOpen(value);
     setEditModalOpen(value);
+    refetch()
   };
 
   // Show Data In Table
