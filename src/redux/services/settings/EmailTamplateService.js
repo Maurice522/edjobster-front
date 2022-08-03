@@ -19,10 +19,15 @@ const extendedApi = apiBasePath.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-
+    }),
+    deleteEmailTemplate: build.mutation({
+      query: (id) => ({
+        url: `${apiUrl.emailtamplate}?id=${id}`,
+        method: 'DELETE',
+      }),
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetEmailTamplateQuery, useGetEmailVariableTamplateQuery, useAddEmailTemplateMutation } = extendedApi;
+export const { useGetEmailTamplateQuery, useGetEmailVariableTamplateQuery, useAddEmailTemplateMutation, useDeleteEmailTemplateMutation } = extendedApi;

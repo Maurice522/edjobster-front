@@ -22,16 +22,15 @@ import {
 } from '../../redux/services/settings/EmailTamplateService';
 
 const EmailModalTemplates = (props) => {
-  const { open, handleClose, categoryData, variableData } = props;
-
+  const { open, handleClose, categoryData, variableData, emailTemplateData } = props;
   const [AddEmailTemplate, AddEmailTemplateInfo] = useAddEmailTemplateMutation();
 
   const [textValue, setTextValue] = useState({
-    category: '',
-    subject: '',
+    category: emailTemplateData?.category_id ?? '',
+    subject: emailTemplateData?.subject ?? '',
     variables: '',
-    body: '',
-    type: '',
+    body: emailTemplateData?.message ?? '',
+    type: emailTemplateData?.type ?? '',
   });
   const onSubjectInputChangeHandler = (e) => {
     e.preventDefault();
@@ -65,6 +64,15 @@ const EmailModalTemplates = (props) => {
     setTextValue({ ...textValue, body: `${changedText.replace('<p>', '').replace('</p>', '')}` })
   };
   useEffect(() => {
+    setTextValue({
+      category: emailTemplateData?.category_id ?? '',
+      subject: emailTemplateData?.subject ?? '',
+      variables: '',
+      body: emailTemplateData?.message ?? '',
+      type: emailTemplateData?.type ?? '',
+    })
+  }, [emailTemplateData])
+  useEffect(() => {
     if (AddEmailTemplateInfo.isSuccess) {
 
       showToast('success', 'Email Category successfully added.');
@@ -83,7 +91,7 @@ const EmailModalTemplates = (props) => {
       showToast('error', AddEmailTemplateInfo.error.data.msg);
       AddEmailTemplateInfo.reset();
     }
-  })
+  }, [AddEmailTemplateInfo.isSuccess, AddEmailTemplateInfo.isError])
   return (
     <>
       <Dialog
@@ -126,7 +134,7 @@ const EmailModalTemplates = (props) => {
                 </Grid>
                 <Grid item xs={6} display="flex" alignItems="flex-end">
                   <FormControl>
-                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" onChange={handleTypeChange}>
+                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" value={textValue.type} onChange={handleTypeChange}>
                       <FormControlLabel value="C" control={<Radio />} label="Candidate" />
                       <FormControlLabel value="I" control={<Radio />} label="Internal" />
                     </RadioGroup>
@@ -180,7 +188,7 @@ const EmailModalTemplates = (props) => {
                 Cancel
               </Button>
               <Button onClick={addEmailTemplateHandler} variant="contained">
-                Add Template
+                {emailTemplateData ? "Update Template" : "Add Template"}
               </Button>
             </Box>
           </DialogActions>
