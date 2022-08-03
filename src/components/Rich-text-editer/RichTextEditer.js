@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import { makeStyles } from '@mui/styles';
-import { EditorState } from 'draft-js';
+import { EditorState ,convertFromRaw} from 'draft-js';
+// import {  } from 'draft-js';
+
 
 import { convertToHTML } from 'draft-convert';
 
@@ -13,31 +15,42 @@ const useStyles = makeStyles({
 });
 
 const RichTextEditer = (props) => {
+  const content = {
+    entityMap: {},
+    blocks: [
+      {
+        key: '637gr',
+        text: props.body,
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+    ],
+  };
+
+  const contentState = convertFromRaw(content);
   // const classes = useStyles();
-  const [editorState, setEditorState] = useState(
-    () => EditorState.createEmpty(),
-  );
+  const [editorState, setEditorState] = useState(() => EditorState.createWithContent(contentState));
   // const [convertedContent, setConvertedContent] = useState(null);
   const handleEditorChange = (state) => {
     setEditorState(state);
     convertContentToHTML();
-
-  }
+  };
   const convertContentToHTML = () => {
     const currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
     // setConvertedContent(currentContentAsHTML);
-    onChangeHandle(currentContentAsHTML)
-  }
+    onChangeHandle(currentContentAsHTML);
+  };
 
   const onChangeHandle = (data) => {
-    props.onChange(data)
-  }
-
+    props.onChange(data);
+  };
 
   return (
     <>
       <Editor
-       
         editorState={editorState}
         onEditorStateChange={handleEditorChange}
         wrapperClassName="wrapper-class"
@@ -46,15 +59,16 @@ const RichTextEditer = (props) => {
         mention={{
           separator: ' ',
           trigger: '$',
-          suggestions:
-            props.variableData.map((item) => {
-              return { text: item.name, value: item.value.slice(1), url: item.value.slice(1) }
-            })
-        }
-        }
+          suggestions: props.variableData.map((item) => {
+            return { text: item.name, value: item.value.slice(1), url: item.value.slice(1) };
+          }),
+        }}
         hashtag={{}}
       />
-
+      {/* <textarea
+          disabled
+          value={JSON.stringify(contentState, null, 4)}
+        /> */}
       {/* <Editor
         wrapperClassName="demo-wrapper"
         editorClassName="demo-editor"

@@ -44,6 +44,7 @@ const Categories = () => {
   const [DeleteEmailCategory, DeleteEmailCategoryInfo] = useDeleteEmailCategoryMutation();
   const [AddEmailCategory, AddEmailcategoryInfo] = useAddEmailCategoryMutation();
   const [UpdateEMailCategory, UpdateEMailCategoryInfo] = useUpdateEmailCategoryMutation();
+
   const [currentIndex, setCurrentIndex] = useState(null);
   const [btnLoader, setBtnLoader] = useState(false);
   const [modalName, setModalName] = useState('add');

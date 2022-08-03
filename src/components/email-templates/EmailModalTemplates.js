@@ -18,12 +18,14 @@ import { Editor } from 'react-draft-wysiwyg';
 import RichTextEditer from '../Rich-text-editer/RichTextEditer';
 import { showToast } from '../../utils/toast';
 import {
-  useAddEmailTemplateMutation
+  useAddEmailTemplateMutation,
+  useUpdateEmailTemplateMutation,
 } from '../../redux/services/settings/EmailTamplateService';
 
 const EmailModalTemplates = (props) => {
   const { open, handleClose, categoryData, variableData, emailTemplateData } = props;
   const [AddEmailTemplate, AddEmailTemplateInfo] = useAddEmailTemplateMutation();
+  const [UpdateEmailTemplate, UpdateEmailTemplateInfo] = useUpdateEmailTemplateMutation();
 
   const [textValue, setTextValue] = useState({
     category: emailTemplateData?.category_id ?? '',
@@ -34,34 +36,42 @@ const EmailModalTemplates = (props) => {
   });
   const onSubjectInputChangeHandler = (e) => {
     e.preventDefault();
-    setTextValue({ ...textValue, subject: e.target.value })
-  }
+    setTextValue({ ...textValue, subject: e.target.value });
+  };
   const handleTypeChange = (e) => {
     e.preventDefault();
-    setTextValue({ ...textValue, type: e.target.value })
-  }
+    setTextValue({ ...textValue, type: e.target.value });
+  };
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    setTextValue({ ...textValue, category: e.target.value })
-
+    setTextValue({ ...textValue, category: e.target.value });
   };
   const handleVariablesChange = (e) => {
     e.preventDefault();
-  }
+  };
   const modalCloseHandler = () => {
     handleClose(false);
   };
   const addEmailTemplateHandler = async () => {
-    await AddEmailTemplate({
-      category: textValue.category,
-      type: textValue.type,
-      subject: textValue.subject,
-      message: textValue.body
-    });
-
-  }
+    if (emailTemplateData) {
+      await UpdateEmailTemplate({
+        id: emailTemplateData.id,
+        category: textValue.category,
+        type: textValue.type,
+        subject: textValue.subject,
+        message: textValue.body,
+      });
+    } else {
+      await AddEmailTemplate({
+        category: textValue.category,
+        type: textValue.type,
+        subject: textValue.subject,
+        message: textValue.body,
+      });
+    }
+  };
   const onInputChangeHandler = (changedText) => {
-    setTextValue({ ...textValue, body: `${changedText.replace('<p>', '').replace('</p>', '')}` })
+    setTextValue({ ...textValue, body: `${changedText.replace('<p>', '').replace('</p>', '')}` });
   };
   useEffect(() => {
     setTextValue({
@@ -70,11 +80,10 @@ const EmailModalTemplates = (props) => {
       variables: '',
       body: emailTemplateData?.message ?? '',
       type: emailTemplateData?.type ?? '',
-    })
-  }, [emailTemplateData])
+    });
+  }, [emailTemplateData]);
   useEffect(() => {
     if (AddEmailTemplateInfo.isSuccess) {
-
       showToast('success', 'Email Category successfully added.');
       handleClose(false);
       AddEmailTemplateInfo.reset();
@@ -84,14 +93,38 @@ const EmailModalTemplates = (props) => {
         variables: '',
         body: '',
         type: '',
-        message: ''
+        message: '',
       });
     }
     if (AddEmailTemplateInfo.isError) {
       showToast('error', AddEmailTemplateInfo.error.data.msg);
       AddEmailTemplateInfo.reset();
     }
-  }, [AddEmailTemplateInfo.isSuccess, AddEmailTemplateInfo.isError])
+    if (UpdateEmailTemplateInfo.isSuccess) {
+      showToast('success', 'Email Category successfully updated.');
+      handleClose(false);
+      UpdateEmailTemplateInfo.reset();
+      setTextValue({
+        category: '',
+        subject: '',
+        variables: '',
+        body: '',
+        type: '',
+        message: '',
+      });
+    }
+    if (UpdateEmailTemplateInfo.isError) {
+      showToast('error', UpdateEmailTemplateInfo.error.data.msg);
+      UpdateEmailTemplateInfo.reset();
+    }
+  }, [
+    AddEmailTemplateInfo.isSuccess,
+    AddEmailTemplateInfo.isError,
+    AddEmailTemplateInfo,
+    handleClose,
+    UpdateEmailTemplateInfo,
+  ]);
+
   return (
     <>
       <Dialog
@@ -128,13 +161,18 @@ const EmailModalTemplates = (props) => {
                           {item.name}
                         </MenuItem>
                       ))}
-
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={6} display="flex" alignItems="flex-end">
                   <FormControl>
-                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" value={textValue.type} onChange={handleTypeChange}>
+                    <RadioGroup
+                      row
+                      aria-labelledby="demo-row-radio-buttons-group-label"
+                      name="row-radio-buttons-group"
+                      value={textValue.type}
+                      onChange={handleTypeChange}
+                    >
                       <FormControlLabel value="C" control={<Radio />} label="Candidate" />
                       <FormControlLabel value="I" control={<Radio />} label="Internal" />
                     </RadioGroup>
@@ -173,11 +211,8 @@ const EmailModalTemplates = (props) => {
                     </Select>
                   </FormControl>
                 </Grid> */}
-                <Grid item xl={12} style={{ heigth: "45vh" }}>
-                  <RichTextEditer
-                    onChange={onInputChangeHandler}
-                    variableData={variableData}
-                  />
+                <Grid item xl={12} style={{ heigth: '45vh' }}>
+                  <RichTextEditer onChange={onInputChangeHandler} variableData={variableData} body={textValue.body} />
                 </Grid>
               </Grid>
             </Box>
@@ -188,7 +223,7 @@ const EmailModalTemplates = (props) => {
                 Cancel
               </Button>
               <Button onClick={addEmailTemplateHandler} variant="contained">
-                {emailTemplateData ? "Update Template" : "Add Template"}
+                {emailTemplateData ? 'Update Template' : 'Add Template'}
               </Button>
             </Box>
           </DialogActions>

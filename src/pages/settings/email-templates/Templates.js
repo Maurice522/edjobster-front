@@ -22,7 +22,7 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
-import { useGetEmailTamplateQuery, useGetEmailVariableTamplateQuery, useDeleteEmailTemplateMutation } from '../../../redux/services/settings/EmailTamplateService';
+import { useGetEmailTamplateQuery, useGetEmailVariableTamplateQuery, useDeleteEmailTemplateMutation, useUpdateEmailTemplateMutation } from '../../../redux/services/settings/EmailTamplateService';
 import { useGetEmailCategoryQuery } from '../../../redux/services/settings/EmailCategoryService'
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
@@ -63,7 +63,7 @@ const Templates = () => {
   const addNewTemplatesHandler = () => {
     setModalOpen(true);
   };
-
+  
 
   const onEditModalHandler = (dataIndex) => {
     setEditModalOpen(true);
@@ -219,6 +219,7 @@ const Templates = () => {
         textBoxLabel="List Name"
         id="listName"
         name="list"
+        autocomplete="off"
         getInputValue={getInputValue}
         buttonLabel="Add List"
         categoryData={categoryData?.data}
