@@ -19,6 +19,8 @@ const apiUrl = {
   emailCategory: `${baseUrl}settings/email-category/`,
   emailtamplate: `${baseUrl}settings/email-template/`,
   emailVariables: `${baseUrl}settings/email-field/`,
+  webform: `${baseUrl}settings/webform/`,
+  fields: `${baseUrl}settings/webform-fields/`,
 };
 
 export { baseUrl, apiUrl };
