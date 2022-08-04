@@ -41,7 +41,7 @@ const ViewStatus = (props) => {
   useEffect(() => {
     if (AddStatusInfo.isSuccess) {
       refetch();
-      showToast('success', 'Email Category successfully added.');
+      showToast('success', 'Stage Status successfully added.');
       AddStatusInfo.reset();
       setStatusData(['']);
       handleclose(true);
