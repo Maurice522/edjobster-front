@@ -51,6 +51,12 @@ const ViewStatus = (props) => {
       AddStatusInfo.reset();
     }
   }, [AddStatusInfo, handleclose, refetch]);
+
+  useEffect(() => {
+    if (statusDataByid?.data?.status) {
+      setStatusData(statusDataByid?.data?.status);
+    }
+  }, [statusDataByid]);
   return (
     <>
       <Dialog

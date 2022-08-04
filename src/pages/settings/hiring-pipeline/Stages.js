@@ -38,7 +38,6 @@ import {
   useUpdateStageApiMutation,
 } from '../../../redux/services/settings/StageService';
 
-
 const Stages = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
@@ -76,7 +75,6 @@ const Stages = () => {
     // setEditModalOpen(value);
     // setViewModelOpen(value);
   };
-
 
   const addNewStageHandler = () => {
     setModalOpen(true);
@@ -291,14 +289,14 @@ const Stages = () => {
         addclickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-
-      <ViewStatus
-        open={viewModelOpen}
-        handleclose={modalViewHandleClose}
-        onChange={onViewChangeHandler}
-        currentRowValue={viewStatusvalue}
-        
-      />
+      {viewModelOpen && (
+        <ViewStatus
+          open={viewModelOpen}
+          handleclose={modalViewHandleClose}
+          onChange={onViewChangeHandler}
+          currentRowValue={viewStatusvalue}
+        />
+      )}
     </Page>
   );
 };
