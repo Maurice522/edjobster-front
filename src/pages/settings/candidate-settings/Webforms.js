@@ -29,6 +29,7 @@ import {
   useGetWebformQuery,
   useAddWebformApiMutation,
   useUpdateWebformMutation,
+  useDeleteWebformMutation,
 } from '../../../redux/services/settings/WebformService';
 import { useGetWebformFieldsQuery } from '../../../redux/services/settings/FieldServices';
 import Page from '../../../components/Page';
@@ -40,17 +41,14 @@ const Webforms = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetWebformQuery();
+  const [DeleteWebform, DeleteWebformInfo] = useDeleteWebformMutation();
+
   const [btnLoader, setBtnLoader] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
 
-  const [AddWebform, AddWebformInfo] = useAddWebformApiMutation();
-  const [UpdateWebform, UpdateWebformInfo] = useUpdateWebformMutation();
   const [modalName, setModalName] = useState('add');
   const { data: webFormFieldsData } = useGetWebformFieldsQuery();
 
-  const [addValue, setAddvalue] = useState({
-    name: '',
-  });
   const [editValue, setEditValue] = useState({
     id: undefined,
     name: '',
@@ -70,29 +68,6 @@ const Webforms = () => {
     const sortresult = sortedDataFn(data.data);
     return sortresult;
   });
-  const addChangeHandler = (e) => {
-    setAddvalue({ [e.target.name]: e.target.value });
-  };
-
-  const addClickHandler = async () => {
-    setBtnLoader(true);
-    if (modalName === 'Add') {
-      await AddWebform(addValue);
-    } else {
-      await UpdateWebform(editValue);
-    }
-  };
-
-  useEffect(() => {
-    if (AddWebformInfo.isSuccess) {
-      setModalOpen(false);
-      refetch();
-      showToast('success', 'Email Category successfully added.');
-      setBtnLoader(false);
-      AddWebformInfo.reset();
-      setAddvalue({ name: '' });
-    }
-  }, [modalOpen, AddWebformInfo, setModalOpen, refetch, setBtnLoader, addValue, setAddvalue]);
   const addNewWebformHandler = () => {
     setModalOpen(true);
   };
@@ -100,6 +75,28 @@ const Webforms = () => {
   const onEditModalHandler = () => {
     setEditModalOpen(true);
   };
+  // delete Handler
+
+  const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    console.log('dataIndex', dataIndex);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    await DeleteWebform(currentDataObj.id);
+  };
+  useEffect(() => {
+    if (DeleteWebformInfo.isSuccess) {
+      showToast('success', DeleteWebformInfo.data.msg);
+      DeleteWebformInfo.reset();
+      refetch();
+    }
+    if (DeleteWebformInfo.isError) {
+      showToast('error', DeleteWebformInfo.error.data.msg);
+      DeleteWebformInfo.reset();
+      refetch();
+    }
+  }, [DeleteWebformInfo, refetch]);
+
   const columns = [
     {
       name: 'name',
@@ -109,14 +106,7 @@ const Webforms = () => {
         sort: true,
       },
     },
-    {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
+
     {
       name: 'action',
       label: 'Action',
@@ -134,8 +124,8 @@ const Webforms = () => {
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="error"
-              // onClick={() => onDeleteHandler(dataIndex)}
-              // loading={dataIndex === currentIndex ? useDeleteEmailCategoryMutation.isLoading : false}
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? useDeleteWebformMutation.isLoading : false}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />

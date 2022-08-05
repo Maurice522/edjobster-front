@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
@@ -22,8 +22,13 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
-import { useGetEmailTamplateQuery, useGetEmailVariableTamplateQuery, useDeleteEmailTemplateMutation, useUpdateEmailTemplateMutation } from '../../../redux/services/settings/EmailTamplateService';
-import { useGetEmailCategoryQuery } from '../../../redux/services/settings/EmailCategoryService'
+import {
+  useGetEmailTamplateQuery,
+  useGetEmailVariableTamplateQuery,
+  useDeleteEmailTemplateMutation,
+  useUpdateEmailTemplateMutation,
+} from '../../../redux/services/settings/EmailTamplateService';
+import { useGetEmailCategoryQuery } from '../../../redux/services/settings/EmailCategoryService';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
 
@@ -37,20 +42,19 @@ import Iconify from '../../../components/Iconify';
 const Templates = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const { data = [], isLoading ,refetch} = useGetEmailTamplateQuery();
-  const { data: categoryData, isLoading: isCategoryLoading } = useGetEmailCategoryQuery()
-  const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery()
+  const { data = [], isLoading, refetch } = useGetEmailTamplateQuery();
+  const { data: categoryData, isLoading: isCategoryLoading } = useGetEmailCategoryQuery();
+  const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery();
   const [DeleteEmailTemplate, DeleteEmailTemplateInfo] = useDeleteEmailTemplateMutation();
   const [currentIndex, setCurrentIndex] = useState(null);
   const [modalName, setModalName] = useState('add');
 
   const [editValue, setEditValue] = useState();
 
-
   const modalHandleClose = (value) => {
     setModalOpen(value);
     setEditModalOpen(value);
-    refetch()
+    refetch();
   };
 
   // Show Data In Table
@@ -63,7 +67,6 @@ const Templates = () => {
   const addNewTemplatesHandler = () => {
     setModalOpen(true);
   };
-  
 
   const onEditModalHandler = (dataIndex) => {
     setEditModalOpen(true);
@@ -72,7 +75,7 @@ const Templates = () => {
     setEditValue(currentDataObj);
     setModalName('Edit');
   };
-  
+
   /// delete email template
   const onEmailTemplateDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
@@ -80,16 +83,19 @@ const Templates = () => {
     const currentDataObj = dataArr[dataIndex];
     await DeleteEmailTemplate(currentDataObj.id);
   };
-  if (DeleteEmailTemplateInfo.isSuccess) {
-    showToast('success', DeleteEmailTemplateInfo.data.msg);
-    DeleteEmailTemplateInfo.reset();
-    refetch();
-  }
-  if (DeleteEmailTemplateInfo.isError) {
-    showToast('error', DeleteEmailTemplateInfo.error.data.msg);
-    DeleteEmailTemplateInfo.reset();
-    refetch();
-  }
+  useEffect(() => {
+    if (DeleteEmailTemplateInfo.isSuccess) {
+      showToast('success', DeleteEmailTemplateInfo.data.msg);
+      DeleteEmailTemplateInfo.reset();
+      refetch();
+    }
+    if (DeleteEmailTemplateInfo.isError) {
+      showToast('error', DeleteEmailTemplateInfo.error.data.msg);
+      DeleteEmailTemplateInfo.reset();
+      refetch();
+    }
+  }, [DeleteEmailTemplateInfo, refetch]);
+
   const columns = [
     {
       name: 'id',
@@ -140,7 +146,7 @@ const Templates = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)} >
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
@@ -158,9 +164,8 @@ const Templates = () => {
             </LoadingButton>
           </>
         ),
-      }
       },
-    
+    },
   ];
   const labelStatus = (
     <Label variant="ghost" color={'success'}>

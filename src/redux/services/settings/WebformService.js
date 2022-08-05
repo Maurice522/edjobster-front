@@ -22,9 +22,15 @@ const extendedApi = apiBasePath.injectEndpoints({
           body: data,
         }),
       }),
+      deleteWebform: build.mutation({
+        query: (id) => ({
+          url: `${apiUrl.webform}?id=${id}`,
+          method: 'DELETE',
+        }),
+      }),
     }),
     overrideExisting: false,
   });
   
-  export const { useGetWebformQuery, useAddWebformApiMutation,useUpdateWebformMutation } = extendedApi;
+  export const { useGetWebformQuery, useAddWebformApiMutation,useUpdateWebformMutation, useDeleteWebformMutation } = extendedApi;
   

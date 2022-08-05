@@ -145,16 +145,18 @@ const Categories = () => {
     const currentDataObj = dataArr[dataIndex];
     await DeleteEmailCategory(currentDataObj.id);
   };
-  if (DeleteEmailCategoryInfo.isSuccess) {
-    showToast('success', DeleteEmailCategoryInfo.data.msg);
-    DeleteEmailCategoryInfo.reset();
-    refetch();
-  }
-  if (DeleteEmailCategoryInfo.isError) {
-    showToast('error', DeleteEmailCategoryInfo.error.data.msg);
-    DeleteEmailCategoryInfo.reset();
-    refetch();
-  }
+  useEffect(() => {
+    if (DeleteEmailCategoryInfo.isSuccess) {
+      showToast('success', DeleteEmailCategoryInfo.data.msg);
+      DeleteEmailCategoryInfo.reset();
+      refetch();
+    }
+    if (DeleteEmailCategoryInfo.isError) {
+      showToast('error', DeleteEmailCategoryInfo.error.data.msg);
+      DeleteEmailCategoryInfo.reset();
+      refetch();
+    }
+  }, [DeleteEmailCategoryInfo, refetch]);
   const columns = [
     {
       name: 'id',
