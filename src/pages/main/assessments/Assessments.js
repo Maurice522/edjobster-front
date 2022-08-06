@@ -16,10 +16,16 @@ import MainModuleFilter from "../../../components/main/MainModuleFilter";
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
+import {useGetAssesmentQuery} from '../../../redux/services/main/AssesmentService'
 // mock
 
-const Assessments = () => {
 
+
+const Assessments = () => {
+  const { data = [], isLoading, refetch } = useGetAssesmentQuery();
+ 
+  console.log("data is fetching form assesment",data)
+    
   const columns = [
     {
       name: 'name',
@@ -29,14 +35,7 @@ const Assessments = () => {
         sort: true,
       },
     },
-    {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
+
     {
       name: 'action',
       label: 'Action',
@@ -65,12 +64,12 @@ const Assessments = () => {
       </Button>
     </>
   );
-  const data = [
-    { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  ];
+  // const data = [
+  //   { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
+  // ];
   const options = {
     filterType: 'dropdown',
     responsive: 'stacked',
@@ -100,7 +99,7 @@ const Assessments = () => {
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-          <MUIDataTable title={'Assessment List'} data={data} columns={columns} options={options} />
+          <MUIDataTable title={'Assessment List'} data={data?.data} columns={columns} options={options} />
         </Card>
       </Container>
     </Page>

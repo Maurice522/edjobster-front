@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink } from 'react-router-dom';
@@ -8,8 +8,31 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import {  useGetAssesmentQuestionsQuery,
+  useAddAssesmentQuestionsMutation,
+  useUpdateAssesmentQuestionsMutation,
+  useDeleteAssesmentQuestionsMutation,
+  useCheckAssesmentQuestionsMutation,
+  useSelectAssesmentQuestionsMutation,
+  useTextAssesmentQuestionsMutation} from '../../../redux/services/main/AssesmentQuestionsService'
 
 const CreateAssessment = () => {
+ 
+  const {data: assesmentQuestionsData}=useGetAssesmentQuestionsQuery(2);
+  const [addAssesmentQuestions,addAssesmentQuestionsInfo]=useAddAssesmentQuestionsMutation();
+  const [updateAssesmentQuestions,updateAssesmentQuestionsInfo]=useUpdateAssesmentQuestionsMutation();
+  const [deleteAssesmentQuestions,deleteAssesmentQuestionsInfo]=useDeleteAssesmentQuestionsMutation();  
+  const [textAssesmentQuestions,textAssesmentQuestionsInfo]=useTextAssesmentQuestionsMutation();
+  const [selectAssesmentQuestions,selectAssesmentQuestionsInfo]=useSelectAssesmentQuestionsMutation();
+  const [checkAssesmentQuestions,checkAssesmentQuestionsInfo]=useCheckAssesmentQuestionsMutation();
+
+  const [assesmentNmae,setAssesmentName]=useState("");
+
+  const onAssesmentNameInputChangeHandler=(e)=>{
+    setAssesmentName(e.target.value);
+
+  }
+
   return (
     <>
       <Grid container spacing={2} padding="20px">
@@ -65,12 +88,13 @@ const CreateAssessment = () => {
                   autoFocus
                   margin="dense"
                   variant="standard"
-                  placeholder="Enter First Name"
+                  placeholder="Enter Assesment Name"
                   fullWidth
-                  name="firstName"
-                  // value={textValue.jobTitle}
+                  name="aasesmentName"
+                  value={assesmentNmae}
                   label="First Name"
-                  // onChange={onInputChangeHandler}
+                  
+                  onChange={onAssesmentNameInputChangeHandler}
                 />
               </Grid>
               <Grid item style={{ marginBottom: 30 }}>
