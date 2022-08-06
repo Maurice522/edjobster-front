@@ -49,10 +49,8 @@ const Webforms = () => {
   const [modalName, setModalName] = useState('add');
   const { data: webFormFieldsData } = useGetWebformFieldsQuery();
 
-  const [editValue, setEditValue] = useState({
-    id: undefined,
-    name: '',
-  });
+  const [editValue, setEditValue] = useState()
+ 
 
   const modalHandleClose = (value) => {
     setModalOpen(value);
@@ -72,8 +70,9 @@ const Webforms = () => {
     setModalOpen(true);
   };
 
-  const onEditModalHandler = () => {
+  const onEditModalHandler = (dataIndex) => {
     setEditModalOpen(true);
+    setEditValue(data.data[dataIndex])
   };
   // delete Handler
 
@@ -195,7 +194,7 @@ const Webforms = () => {
       {modalOpen && (
         <WebFormsModal
           open={modalOpen}
-          handleclose={modalHandleClose}
+          handleClose={modalHandleClose}
           label="Add Webform"
           type="text"
           textboxlabel="Create an Web form "
@@ -214,8 +213,9 @@ const Webforms = () => {
           textBoxLabel="Update an Web form "
           id="editWebformName"
           name="webform"
-          getInputValue={getInputValue}
+          webFormRowEdit={editValue}
           buttonLabel="Update Webform"
+          webFormFieldsData={webFormFieldsData?.data}
         />
       )}
     </Page>
