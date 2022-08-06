@@ -227,6 +227,7 @@ import Paper from '@mui/material/Paper';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import { LoadingButton } from '@mui/lab';
+import './web_form.css'
 
 import ClearIcon from '@mui/icons-material/Clear';
 import { showToast } from '../../utils/toast';
@@ -349,79 +350,80 @@ const WebFormsModal = (props) => {
         aria-describedby="alert-dialog-description"
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
-        <div>
-          <Container>
-            <DialogTitle>{textboxlabel}</DialogTitle>
-            <DialogContent>
-              <Box sx={{ flexGrow: 1 }}>
-                <Grid container>
-                  <Grid item xs={4}>
-                    <Item>
-                      {' '}
-                      <Grid item xs={12}>
-                        <Typography variant="h4" style={{ float: 'left' }}>
-                          Select Fields
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                          {allWebFormFields &&
-                            allWebFormFields.map((item, index) => (
-                              <Grid item xs={6} key={`fields-${item}-${index}`}>
-                                <Item>
-                                  <Button
-                                    variant={item.selected ? 'contained' : 'outlined'}
-                                    onClick={() => onFieldsButtonClicked(index)}
-                                  >
-                                    {item.name}
-                                  </Button>
-                                </Item>
-                              </Grid>
-                            ))}
-                        </Grid>
-                      </Grid>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Item>
-                      <Grid item xs={12}>
-                        <TextField
-                          placeholder="Give name to your webform"
-                          margin="dense"
-                          autoFocus
-                          variant="outlined"
-                          fullWidth
-                          value={webFormName}
-                          onChange={onWebFormNameInputChange}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                          {selectedFields &&
-                            selectedFields.map((item, index) => (
-                              <Grid
-                                item
-                                xs={6}
-                                style={{ display: 'flex', alignItems: 'center' }}
-                                key={`selectedfield-${item}-${index}`}
-                              >
-                                <Item>
-                                  <TextField
-                                    type={item.type}
-                                    placeholder={item.name}
-                                    margin="dense"
-                                    variant="outlined"
-                                    disabled
-                                    fullWidth
-                                  />
-                                </Item>
-                                <Item>
-                                  <ClearIcon onClick={() => onSelectFieldClose(index)} />
-                                </Item>
-                              </Grid>
-                            ))}
+        {/* <div> */}
+        <Container>
+          <DialogTitle textAlign="center">{textboxlabel}</DialogTitle>
 
-                          {/* <Grid item xs={6}>
+          <DialogContent dividers>
+            <Box sx={{ flexGrow: 1 }}>
+              <Grid container>
+                <Grid item xs={4} overflow="scroll">
+                  <Item>
+                    {' '}
+                    <Grid item xs={12}>
+                      <Typography variant="h4" style={{ float: 'left' }}>
+                        Select Fields
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                        {allWebFormFields &&
+                          allWebFormFields.map((item, index) => (
+                            <Grid item xs={6} key={`fields-${item}-${index}`}>
+                              <Item>
+                                <Button
+                                  variant={item.selected ? 'contained' : 'outlined'}
+                                  onClick={() => onFieldsButtonClicked(index)}
+                                >
+                                  {item.name}
+                                </Button>
+                              </Item>
+                            </Grid>
+                          ))}
+                      </Grid>
+                    </Grid>
+                  </Item>
+                </Grid>
+                <Grid item xs={8}>
+                  <Item>
+                    <Grid item xs={12}>
+                      <TextField
+                        placeholder="Give name to your webform"
+                        margin="dense"
+                        autoFocus
+                        variant="outlined"
+                        fullWidth
+                        value={webFormName}
+                        onChange={onWebFormNameInputChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                        {selectedFields &&
+                          selectedFields.map((item, index) => (
+                            <Grid
+                              item
+                              xs={6}
+                              style={{ display: 'flex', alignItems: 'center' }}
+                              key={`selectedfield-${item}-${index}`}
+                            >
+                              <Item>
+                                <TextField
+                                  type={item.type}
+                                  placeholder={item.name}
+                                  margin="dense"
+                                  variant="outlined"
+                                  disabled
+                                  fullWidth
+                                />
+                              </Item>
+                              <Item>
+                                <ClearIcon onClick={() => onSelectFieldClose(index)} />
+                              </Item>
+                            </Grid>
+                          ))}
+
+                        {/* <Grid item xs={6}>
                             <Item>
                               <TextField autoFocus placeholder="LastName" margin="dense" variant="standard" fullWidth />
                             </Item>
@@ -436,25 +438,25 @@ const WebFormsModal = (props) => {
                               <TextField placeholder="Mobile" autoFocus margin="dense" variant="standard" fullWidth />
                             </Item>
                           </Grid> */}
-                        </Grid>
                       </Grid>
-                    </Item>
-                  </Grid>
+                    </Grid>
+                  </Item>
                 </Grid>
-              </Box>
-            </DialogContent>
-            <DialogActions>
-              <Box>
-                <Button onClick={modalCloseHandler} variant="outlined" style={{ marginRight: 5 }}>
-                  Cancel
-                </Button>
-                <LoadingButton onClick={() => addClickHandler()} variant="contained" loading={loadingbtn}>
-                  {webFormRowEdit ? 'Update' : 'Add'}
-                </LoadingButton>
-              </Box>
-            </DialogActions>
-          </Container>
-        </div>
+              </Grid>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Box>
+              <Button onClick={modalCloseHandler} variant="outlined" style={{ marginRight: 5 }}>
+                Cancel
+              </Button>
+              <LoadingButton onClick={() => addClickHandler()} variant="contained" loading={loadingbtn}>
+                {webFormRowEdit ? 'Update' : 'Add'}
+              </LoadingButton>
+            </Box>
+          </DialogActions>
+        </Container>
+        {/* </div> */}
       </Dialog>
     </>
   );
