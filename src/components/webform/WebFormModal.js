@@ -128,7 +128,7 @@ const WebFormsModal = (props) => {
                           autoFocus
                           placeholder="Give name to your webform"
                           margin="dense"
-                          variant="standard"
+                          variant="outlined"
                           fullWidth
                           value={webFormName}
                           onChange={onWebFormNameInputChange}
@@ -144,7 +144,7 @@ const WebFormsModal = (props) => {
                                   type={item.type}
                                   placeholder={item.name}
                                   margin="dense"
-                                  variant="standard"
+                                  variant="outlined"
                                   disabled
                                   fullWidth
                                 />
