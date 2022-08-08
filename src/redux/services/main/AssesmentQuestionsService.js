@@ -8,7 +8,7 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.assesmentQuestions}?id=${id}`,
       }),
     }),
-   
+
     addAssesmentQuestions: build.mutation({
       query: (data) => ({
         url: `${apiUrl.assesmentQuestions}`,
@@ -24,26 +24,26 @@ const extendedApi = apiBasePath.injectEndpoints({
       }),
     }),
     checkAssesmentQuestions: build.mutation({
-        query: (data) => ({
-          url: `${apiUrl.assesmentQuestions}`,
-          method: 'POST',
-          body: data,
-        }),
+      query: (data) => ({
+        url: `${apiUrl.assesmentQuestions}`,
+        method: 'POST',
+        body: data,
       }),
-      selectAssesmentQuestions: build.mutation({
-        query: (data) => ({
-          url: `${apiUrl.assesmentQuestions}`,
-          method: 'POST',
-          body: data,
-        }),
+    }),
+    selectAssesmentQuestions: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.assesmentQuestions}`,
+        method: 'POST',
+        body: data,
       }),
-      textAssesmentQuestions: build.mutation({
-        query: (data) => ({
-          url: `${apiUrl.assesmentQuestions}`,
-          method: 'POST',
-          body: data,
-        }),
+    }),
+    textAssesmentQuestions: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.assesmentQuestions}`,
+        method: 'POST',
+        body: data,
       }),
+    }),
     deleteAssesmentQuestions: build.mutation({
       query: (id) => ({
         url: `${apiUrl.assesmentQuestions}?id=${id}`,
@@ -61,6 +61,5 @@ export const {
   useDeleteAssesmentQuestionsMutation,
   useCheckAssesmentQuestionsMutation,
   useSelectAssesmentQuestionsMutation,
-  useTextAssesmentQuestionsMutation
-  
+  useTextAssesmentQuestionsMutation,
 } = extendedApi;

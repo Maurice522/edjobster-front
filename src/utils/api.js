@@ -21,7 +21,7 @@ const apiUrl = {
   emailVariables: `${baseUrl}settings/email-field/`,
   webform: `${baseUrl}settings/webform/`,
   fields: `${baseUrl}settings/webform-fields/`,
-  assementCategory: `${baseUrl}obs/assesment-category/`,
+  assementCategory: `${baseUrl}jobs/assesment-category/`,
   assesment:`${baseUrl}jobs/assesment/`,
   assesmentQuestions: `${baseUrl}jobs/assesment-question/`
 };

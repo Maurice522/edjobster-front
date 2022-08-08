@@ -37,5 +37,5 @@ export const {
   useGetAssesmentCategoryQuery,
   useAddAssesmentCategoryMutation,
   useUpdateAssesmentCategoryMutation,
-  useDeleteAssesmenCategorytMutation,
+  useDeleteAssesmentCategoryMutation,
 } = extendedApi;
