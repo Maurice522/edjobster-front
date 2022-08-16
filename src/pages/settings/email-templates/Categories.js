@@ -88,7 +88,6 @@ const Categories = () => {
   // Edit Handler
   const editChangeHandler = (e) => {
     setEditValue({ ...editValue, [e.target.name]: e.target.value });
-    console.log('type hoa');
   };
 
   const onEditModalHandler = (dataIndex) => {

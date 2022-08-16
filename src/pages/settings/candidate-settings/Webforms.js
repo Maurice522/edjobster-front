@@ -78,7 +78,6 @@ const Webforms = () => {
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
-    console.log('dataIndex', dataIndex);
     const dataArr = sortData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteWebform(currentDataObj.id);
