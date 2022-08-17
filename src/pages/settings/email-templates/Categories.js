@@ -44,6 +44,7 @@ const Categories = () => {
   const [DeleteEmailCategory, DeleteEmailCategoryInfo] = useDeleteEmailCategoryMutation();
   const [AddEmailCategory, AddEmailcategoryInfo] = useAddEmailCategoryMutation();
   const [UpdateEMailCategory, UpdateEMailCategoryInfo] = useUpdateEmailCategoryMutation();
+
   const [currentIndex, setCurrentIndex] = useState(null);
   const [btnLoader, setBtnLoader] = useState(false);
   const [modalName, setModalName] = useState('add');
@@ -87,7 +88,6 @@ const Categories = () => {
   // Edit Handler
   const editChangeHandler = (e) => {
     setEditValue({ ...editValue, [e.target.name]: e.target.value });
-    console.log('type hoa');
   };
 
   const onEditModalHandler = (dataIndex) => {
@@ -144,16 +144,18 @@ const Categories = () => {
     const currentDataObj = dataArr[dataIndex];
     await DeleteEmailCategory(currentDataObj.id);
   };
-  if (DeleteEmailCategoryInfo.isSuccess) {
-    showToast('success', DeleteEmailCategoryInfo.data.msg);
-    DeleteEmailCategoryInfo.reset();
-    refetch();
-  }
-  if (DeleteEmailCategoryInfo.isError) {
-    showToast('error', DeleteEmailCategoryInfo.error.data.msg);
-    DeleteEmailCategoryInfo.reset();
-    refetch();
-  }
+  useEffect(() => {
+    if (DeleteEmailCategoryInfo.isSuccess) {
+      showToast('success', DeleteEmailCategoryInfo.data.msg);
+      DeleteEmailCategoryInfo.reset();
+      refetch();
+    }
+    if (DeleteEmailCategoryInfo.isError) {
+      showToast('error', DeleteEmailCategoryInfo.error.data.msg);
+      DeleteEmailCategoryInfo.reset();
+      refetch();
+    }
+  }, [DeleteEmailCategoryInfo, refetch]);
   const columns = [
     {
       name: 'id',

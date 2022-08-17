@@ -3,28 +3,29 @@ import { apiUrl } from '../../../utils/api';
 
 const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
-    getStages: build.query({
+    getAssesment: build.query({
       query: () => ({
-        url: `${apiUrl.stage}`,
+        url: `${apiUrl.assesment}`,
       }),
     }),
-    addStageApi: build.mutation({
+   
+    addAssesment: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.stage}`,
+        url: `${apiUrl.assesment}`,
         method: 'POST',
         body: data,
       }),
     }),
-    updateStageApi: build.mutation({
+    updateAssesment: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.stage}`,
+        url: `${apiUrl.assesment}`,
         method: 'POST',
         body: data,
       }),
     }),
-    deleteStageApi: build.mutation({
+    deleteAssesment: build.mutation({
       query: (id) => ({
-        url: `${apiUrl.stage}?id=${id}`,
+        url: `${apiUrl.assesment}?id=${id}`,
         method: 'DELETE',
       }),
     }),
@@ -32,8 +33,9 @@ const extendedApi = apiBasePath.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetStagesQuery, 
-  useAddStageApiMutation, 
-  useUpdateStageApiMutation, 
-  useDeleteStageApiMutation } =
-  extendedApi;
+export const {
+  useGetAssesmentQuery,
+  useAddAssesmentMutation,
+  useUpdateAssesmentMutation,
+  useDeleteAssesmentMutation,
+} = extendedApi;

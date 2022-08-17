@@ -38,15 +38,13 @@ import {
   useUpdateStageApiMutation,
 } from '../../../redux/services/settings/StageService';
 
-import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
-
 const Stages = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const [viewModelOpen, setViewModelOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const { data = [], refetch } = useGetStagesQuery();
-  const { statusData = [], isError, isLoading } = useGetStatusApiQuery();
+
   const [DeleteStageApi, DeleteStageApiInfo] = useDeleteStageApiMutation();
   const [AddStage, AddStageInfo] = useAddStageApiMutation();
   const [UpdateStage, UpdateStageInfo] = useUpdateStageApiMutation();
@@ -67,9 +65,15 @@ const Stages = () => {
   });
 
   const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
-    setViewModelOpen(value);
+    setModalOpen(false);
+    setEditModalOpen(false);
+    setViewModelOpen(false);
+  };
+
+  const modalViewHandleClose = (value) => {
+    setViewModelOpen(false);
+    // setEditModalOpen(value);
+    // setViewModelOpen(value);
   };
 
   const addNewStageHandler = () => {
@@ -285,13 +289,14 @@ const Stages = () => {
         addclickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-
-      <ViewStatus
-        open={viewModelOpen}
-        handleclose={modalHandleClose}
-        onChange={onViewChangeHandler}
-        value={viewStatusvalue.status}
-      />
+      {viewModelOpen && (
+        <ViewStatus
+          open={viewModelOpen}
+          handleclose={modalViewHandleClose}
+          onChange={onViewChangeHandler}
+          currentRowValue={viewStatusvalue}
+        />
+      )}
     </Page>
   );
 };

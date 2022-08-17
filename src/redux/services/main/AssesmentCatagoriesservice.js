@@ -3,28 +3,29 @@ import { apiUrl } from '../../../utils/api';
 
 const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
-    getEmailCategory: build.query({
+    getAssesmentCategory: build.query({
       query: () => ({
-        url: `${apiUrl.emailCategory}`,
+        url: `${apiUrl.assementCategory}`,
       }),
     }),
-    addEmailCategory: build.mutation({
+
+    addAssesmentCategory: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.emailCategory}`,
+        url: `${apiUrl.assementCategory}`,
         method: 'POST',
         body: data,
       }),
     }),
-    updateEmailCategory: build.mutation({
+    updateAssesmentCategory: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.emailCategory}`,
+        url: `${apiUrl.assementCategory}`,
         method: 'POST',
         body: data,
       }),
     }),
-    deleteEmailCategory: build.mutation({
+    deleteAssesmentCategory: build.mutation({
       query: (id) => ({
-        url: `${apiUrl.emailCategory}?id=${id}`,
+        url: `${apiUrl.assementCategory}?id=${id}`,
         method: 'DELETE',
       }),
     }),
@@ -33,9 +34,8 @@ const extendedApi = apiBasePath.injectEndpoints({
 });
 
 export const {
-  useGetEmailCategoryQuery,
-  useDeleteEmailCategoryMutation,
-  useAddEmailCategoryMutation,
-  useUpdateEmailCategoryMutation,
-  
+  useGetAssesmentCategoryQuery,
+  useAddAssesmentCategoryMutation,
+  useUpdateAssesmentCategoryMutation,
+  useDeleteAssesmentCategoryMutation,
 } = extendedApi;
