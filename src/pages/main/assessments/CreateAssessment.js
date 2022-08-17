@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink, useParams } from 'react-router-dom';
+
 import Grid from '@mui/material/Grid';
 
 // material
 import { Card, Button, Container, Typography, FormControl, Select, MenuItem, InputLabel } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import PreviewAssesment from './PreviewAssesment';
 import { showToast } from '../../../utils/toast';
 
 import { useAddAssesmentMutation } from '../../../redux/services/main/AssesmentService';
@@ -18,6 +20,7 @@ import {
 import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice';
 
 const CreateAssessment = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const { assessmentEditId } = useParams();
   console.log('assessmentEditId', assessmentEditId);
   const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
@@ -41,7 +44,12 @@ const CreateAssessment = () => {
   const [questions, setQuestions] = useState(
     assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.questions : []
   );
-
+  const onPreviewModalOpen = () => {
+    setModalOpen(true);
+  };
+  const onPreviewModalClose = () => {
+    setModalOpen(false);
+  };
   const onAssesmentNameInputChangeHandler = (e) => {
     e.preventDefault();
     setAssesmentName(e.target.value);
@@ -70,9 +78,46 @@ const CreateAssessment = () => {
     questions[questionIndex].answer = parseInt(e.target.value, 10);
     setQuestions([...questions]);
   };
-
+  const isValidateAddQuestion = (questionObj) => {
+    let status = true;
+    if (questionObj.type === 'T') {
+      if (questionObj.question === '' && questionObj.marks === null) {
+        status = false;
+        showToast('error', 'Question Name and Marks are required fields.');
+      } else if (questionObj.question === '') {
+        showToast('error', 'Enter Question');
+        status = false;
+      } else if (questionObj.marks === null) {
+        showToast('error', 'Enter Marks');
+        status = false;
+      }
+    } else if (questionObj.type === 'S' || questionObj.type === 'C' || questionObj.type === 'R') {
+      if (questionObj.question === '' && questionObj.marks === null) {
+        status = false;
+        showToast('error', 'Question Name and Marks are required fields.');
+      } else if (questionObj.question === '') {
+        showToast('error', 'Enter Question');
+        status = false;
+      } else if (questionObj.marks === null) {
+        showToast('error', 'Enter Marks');
+        status = false;
+      } else if (questionObj.type === 'S' && questionObj.answer === null) {
+        showToast('error', 'Enter Answer');
+        status = false;
+      }
+    }
+    return status;
+  };
   const onQuestionDoneClicked = async (questionIndex) => {
-    await addAssesmentQuestions(questions[questionIndex]);
+    if (isValidateAddQuestion(questions[questionIndex])) {
+      if (!assesmentId) {
+        await addAssesment({
+          category: selectedAssesmentCategory,
+          name: assesmentName,
+        });
+      }
+      await addAssesmentQuestions(questions[questionIndex]);
+    }
   };
   const addOptionsSelection = (questionIndex, optIndex) => {
     questions[questionIndex].options = [...questions[questionIndex].options, `Option ${optIndex + 2}`];
@@ -97,8 +142,8 @@ const CreateAssessment = () => {
             type: 'S',
             question: '',
             options: ['Option 1', 'Option 2'],
-            marks: 0,
-            answer: 0,
+            marks: null,
+            answer: null,
           },
         ]);
         break;
@@ -110,7 +155,7 @@ const CreateAssessment = () => {
             type: 'T',
             question: '',
 
-            marks: 0,
+            marks: null,
           },
         ]);
         break;
@@ -122,7 +167,7 @@ const CreateAssessment = () => {
             type: 'C',
             question: '',
             options: ['Option 1', 'Option 2'],
-            marks: 0,
+            marks: null,
           },
         ]);
         break;
@@ -134,7 +179,7 @@ const CreateAssessment = () => {
             type: 'R',
             question: '',
             options: ['Option 1', 'Option 2'],
-            marks: 0,
+            marks: null,
           },
         ]);
         break;
@@ -144,11 +189,25 @@ const CreateAssessment = () => {
     }
   };
 
+  const isValidateSaveAssesment = () => {
+    let status = true;
+    if (selectedAssesmentCategory === undefined || selectedAssesmentCategory === '') {
+      status = false;
+      showToast('error', 'Select Catgegory');
+    } else if (assesmentName === undefined || assesmentName === '') {
+      status = false;
+      showToast('error', 'Enter Assestment Name');
+    }
+    return status;
+  };
+
   const onAssesmentSaveClick = async () => {
-    await addAssesment({
-      category: selectedAssesmentCategory,
-      name: assesmentName,
-    });
+    if (isValidateSaveAssesment()) {
+      await addAssesment({
+        category: selectedAssesmentCategory,
+        name: assesmentName,
+      });
+    }
   };
   useEffect(() => {
     if (assesmentQuestionsData) {
@@ -207,25 +266,26 @@ const CreateAssessment = () => {
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="right">
           <Grid style={{ marginRight: 5 }}>
-            <Button variant="contained" component={RouterLink} to="#" onClick={onAssesmentSaveClick}>
+            <Button variant="contained" onClick={onAssesmentSaveClick}>
               Save
             </Button>
           </Grid>
           <Grid style={{ marginRight: 5 }}>
-            <Button variant="contained" component={RouterLink} to="#">
+            <Button variant="contained" onClick={onPreviewModalOpen}>
               Preview
             </Button>
           </Grid>
         </Grid>
       </Grid>
       <Container>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} component="form">
           <Grid item xs={6}>
             <Card variant="outlined" style={{ padding: 20 }}>
               <Grid item xs={12} style={{ marginBottom: 20 }}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">Assesment Category</InputLabel>
                   <Select
+                    required
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={selectedAssesmentCategory}
@@ -305,6 +365,7 @@ const CreateAssessment = () => {
             <Card variant="outlined" style={{ padding: 20 }}>
               <Grid item xs={12} style={{ marginBottom: 20 }}>
                 <TextField
+                  required
                   autoFocus
                   margin="dense"
                   variant="standard"
@@ -333,6 +394,7 @@ const CreateAssessment = () => {
                     </Grid>
                     <Grid item xs={11}>
                       <TextField
+                        required
                         autoFocus
                         margin="dense"
                         variant="standard"
@@ -347,6 +409,7 @@ const CreateAssessment = () => {
 
                     <Grid item xs={5}>
                       <TextField
+                        required="true"
                         autoFocus
                         margin="dense"
                         variant="standard"
@@ -356,6 +419,7 @@ const CreateAssessment = () => {
                         value={item.marks}
                         onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
                         label="Marks"
+                        type="number"
                       />
                     </Grid>
                     <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
@@ -390,6 +454,7 @@ const CreateAssessment = () => {
                           </Grid>
                           <Grid item xs={12}>
                             <TextField
+                              required
                               autoFocus
                               margin="dense"
                               variant="standard"
@@ -406,6 +471,7 @@ const CreateAssessment = () => {
                             <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
                               <Grid item xs={11}>
                                 <TextField
+                                  required
                                   autoFocus
                                   margin="dense"
                                   variant="standard"
@@ -430,6 +496,7 @@ const CreateAssessment = () => {
                           <Grid item display={'flex'} xs={12}>
                             <Grid item xs={5} style={{ margin: '10px' }}>
                               <TextField
+                                required
                                 autoFocus
                                 margin="dense"
                                 variant="standard"
@@ -439,6 +506,7 @@ const CreateAssessment = () => {
                                 value={item.marks}
                                 onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
                                 label="Marks"
+                                type="number"
                               />
                             </Grid>
 
@@ -446,6 +514,7 @@ const CreateAssessment = () => {
                               <>
                                 <Grid item xs={5} style={{ margin: '10px' }}>
                                   <TextField
+                                    required
                                     autoFocus
                                     margin="dense"
                                     variant="standard"
@@ -485,6 +554,24 @@ const CreateAssessment = () => {
           </Grid>
         </Grid>
       </Container>
+      {modalOpen && (
+        <PreviewAssesment
+          open={modalOpen}
+          selectedAssesmentCategory={selectedAssesmentCategory}
+          assesmentName={assesmentName}
+          questions={questions}
+          handleclose={onPreviewModalClose}
+          label="Email Category Name"
+          type="Add"
+          textboxlabel="Add category"
+          id="categoryName"
+          name="name"
+          // onChange={addChangeHandler}
+          buttonlabel="Add Email category"
+          // addclickhandler={addClickHandler}
+          // loadingbtn={btnLoader}
+        />
+      )}
     </>
   );
 };
