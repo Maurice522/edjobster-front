@@ -14,6 +14,8 @@ import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { Editor } from 'react-draft-wysiwyg';
+import RichTextEditer from '../Rich-text-editer/RichTextEditer';
 
 const EmailModalTemplates = (props) => {
   const { open, handleClose } = props;
@@ -115,16 +117,26 @@ const EmailModalTemplates = (props) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    variant="outlined"
-                    fullWidth
-                    multiline
-                    rows={4}
-                    value={textValue.body}
-                    label="Body"
-                    onChange={onInputChangeHandler}
+                  <RichTextEditer
+                    toolbarCustomButtons={[
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Variables</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.variables}
+                          onChange={handleChange}
+                          label="Variables"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>,
+                    ]}
                   />
                 </Grid>
               </Grid>

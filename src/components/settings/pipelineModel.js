@@ -65,6 +65,7 @@ const PipelineModel = (props) => {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value
     );
+    setStageTextValue({ ...stageTextValue, fileds: typeof value === 'string' ? value.split(',') : value });
     // console.log('value', value);
     // console.log('split value', typeof value === 'string' ? value.split(',') : value);
   };
@@ -107,7 +108,6 @@ const PipelineModel = (props) => {
                     label="Pipleline Name"
                     variant="outlined"
                     fullWidth
-                    name="name"
                     onChange={onInputChangeHandler}
                   />
                 </Grid>
@@ -128,18 +128,17 @@ const PipelineModel = (props) => {
                   input={<OutlinedInput id="select-multiple-chip" label="Add Pipeline filed" />}
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
+                      {selected?.length > 0 && selected?.map((value) => <Chip key={value} label={value} />)}
                     </Box>
                   )}
                   MenuProps={MenuProps}
                 >
-                  {stageResponse.map((value) => (
-                    <MenuItem key={value.name} value={value.name}>
-                      {value.name}
-                    </MenuItem>
-                  ))}
+                  {stageResponse?.length > 0 &&
+                    stageResponse?.map((value) => (
+                      <MenuItem key={value.name} value={value.name}>
+                        {value.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Box>
@@ -150,7 +149,7 @@ const PipelineModel = (props) => {
                 Cancel
               </Button>
               <LoadingButton onClick={() => addclickhandler()} variant="contained" loading={loadingbtn}>
-                {type === 'Add' ? 'Add Pipeline' : 'Update pipeline'}
+                Add
               </LoadingButton>
             </Box>
           </DialogActions>

@@ -15,6 +15,13 @@ const extendedApi = apiBasePath.injectEndpoints({
         body: data,
       }),
     }),
+    updatePipelineApi: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.pipeline}`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
     deletePipelineApi: build.mutation({
       query: (id) => ({
         url: `${apiUrl.pipeline}?id=${id}`,
@@ -24,4 +31,9 @@ const extendedApi = apiBasePath.injectEndpoints({
   }),
 });
 
-export const { useGetPipelineQuery, useAddPipelineApiMutation, useDeletePipelineApiMutation } = extendedApi;
+export const {
+  useGetPipelineQuery,
+  useAddPipelineApiMutation,
+  useUpdatePipelineApiMutation,
+  useDeletePipelineApiMutation,
+} = extendedApi;
