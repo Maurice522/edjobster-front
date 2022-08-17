@@ -126,6 +126,18 @@ const CreateAssessment = () => {
           },
         ]);
         break;
+      case 'R':
+        setQuestions([
+          ...questions,
+          {
+            assesment: assesmentId,
+            type: 'R',
+            question: '',
+            options: ['Option 1', 'Option 2'],
+            marks: 0,
+          },
+        ]);
+        break;
 
       default:
         break;
@@ -244,7 +256,7 @@ const CreateAssessment = () => {
                   <Typography>Multiple Choices Questions</Typography>
                 </Grid>
                 <Grid item xs={4} style={{ margin: '10px' }}>
-                  <Button variant="contained" value="S" onClick={() => onSelectedQuestionTypeClicked('S')}>
+                  <Button variant="contained" value="R" onClick={() => onSelectedQuestionTypeClicked('R')}>
                     {' '}
                     Add
                   </Button>
@@ -262,14 +274,14 @@ const CreateAssessment = () => {
                   </Button>
                 </Grid>
               </Grid>
-              
+
               <Grid item display={'flex'} xs={12} alignItems="center">
                 <Grid item xs={8} style={{ margin: '10px' }}>
                   <Typography>Dropdown</Typography>
                 </Grid>
 
                 <Grid item xs={4} style={{ margin: '10px' }}>
-                  <Button variant="contained" value="C" onClick={() => onSelectedQuestionTypeClicked('C')}>
+                  <Button variant="contained" value="S" onClick={() => onSelectedQuestionTypeClicked('S')}>
                     {' '}
                     Add
                   </Button>
@@ -314,11 +326,7 @@ const CreateAssessment = () => {
                         </Typography>
                       </Grid>
                       <Grid item xs={1}>
-                        <Button
-                          style={{ color: 'red' }}
-
-                          onClick={() => onCloseQuestionDeleteHandler(index)}
-                        >
+                        <Button style={{ color: 'red' }} onClick={() => onCloseQuestionDeleteHandler(index)}>
                           &#10005;
                         </Button>
                       </Grid>
@@ -364,7 +372,8 @@ const CreateAssessment = () => {
                 ) : (
                   <div>
                     {(currentSelectedType === 'S' && item.type === 'S') ||
-                    (currentSelectedType === 'C' && item.type === 'C') ? (
+                    (currentSelectedType === 'C' && item.type === 'C') ||
+                    (currentSelectedType === 'R' && item.type === 'R') ? (
                       <div key={`multiple-${index}`}>
                         <Grid item xs={12} style={{ margin: 15 }}>
                           <Grid display="flex" item xs={12}>
