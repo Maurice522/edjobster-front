@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
@@ -14,8 +14,13 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { useSelector } from 'react-redux';
 
 const JobPreview = () => {
+  const job = useSelector((state) => state.job.job);
+  useEffect(() => {
+    console.log('job detailsssss:', job);
+  }, [job]);
   const [textValue, setTextValue] = useState({
     jobTitle: '',
     numberofVacancies: '',
@@ -47,7 +52,7 @@ const JobPreview = () => {
 
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">
-      <Stack direction="row" alignItems="center"  mb={5}>
+      <Stack direction="row" alignItems="center" mb={5}>
         <IconButton edge="start" color="inherit" aria-label="close" component={RouterLink} to="/dashboard/jobs">
           <CloseIcon />
         </IconButton>
@@ -58,305 +63,303 @@ const JobPreview = () => {
           Publish
         </Button>
       </Stack>
-      <Grid container overflow="scroll" >
-        <Grid item xs={12} display ={'flex'}>
-            <Grid item xs={8} borderRight={'1px solid #ADB5BD'}>
+      <Grid container overflow="scroll">
+        <Grid item xs={12} display={'flex'}>
+          <Grid item xs={8} borderRight={'1px solid #ADB5BD'}>
             <Card sx={{ p: 4, m: 2 }} variant="outlined">
-      <Container>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={4}>
-            <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="jobTitle"
-                value={textValue.jobTitle}
-                label="Job Title"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="numberofVacancies"
-                value={textValue.numberofVacancies}
-                label="Number of Vacancies"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
+              <Container>
+                <Box sx={{ flexGrow: 1 }}>
+                  <Grid container spacing={4}>
+                    <Grid item xs={6}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="jobTitle"
+                        value={textValue.jobTitle}
+                        label="Job Title"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="numberofVacancies"
+                        value={textValue.numberofVacancies}
+                        label="Number of Vacancies"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
 
-            <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Department</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.department}
-                  onChange={handleChange}
-                  label="Department"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="jobOwner"
-                value={textValue.jobOwner}
-                label="Job Owner"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="teamMember"
-                value={textValue.teamMember}
-                label="Team Member"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Type</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.type}
-                  onChange={handleChange}
-                  label="Type"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Job Nature</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.jobNature}
-                  onChange={handleChange}
-                  label="Job Nature"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Education</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.education}
-                  onChange={handleChange}
-                  label="Education"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Major/Speciality</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.majorSpeciality}
-                  onChange={handleChange}
-                  label="Major/Speciality"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Work Ex. min. (years)</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.workMin}
-                  onChange={handleChange}
-                  label="Work Ex. min. (years)"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Work Ex. max. (years)</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.workMax}
-                  onChange={handleChange}
-                  label="Work Ex. max. (years)"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="salaryMin"
-                value={textValue.salaryMin}
-                label="Salary Minimum"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="salaryMax"
-                value={textValue.salaryMax}
-                label="Salary Maximum"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Currency</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.currency}
-                  onChange={handleChange}
-                  label="Currency"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={3}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Salary Type</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.salaryType}
-                  onChange={handleChange}
-                  label="Salary Type"
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="country"
-                value={textValue.country}
-                label="Country"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="city"
-                value={textValue.city}
-                label="City"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="jobDescription"
-                value={textValue.jobDescription}
-                label="Job Description"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
+                    <Grid item xs={6}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Department</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.department}
+                          onChange={handleChange}
+                          label="Department"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="jobOwner"
+                        value={textValue.jobOwner}
+                        label="Job Owner"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="teamMember"
+                        value={textValue.teamMember}
+                        label="Team Member"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Type</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.type}
+                          onChange={handleChange}
+                          label="Type"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Job Nature</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.jobNature}
+                          onChange={handleChange}
+                          label="Job Nature"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Education</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.education}
+                          onChange={handleChange}
+                          label="Education"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Major/Speciality</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.majorSpeciality}
+                          onChange={handleChange}
+                          label="Major/Speciality"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Work Ex. min. (years)</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.workMin}
+                          onChange={handleChange}
+                          label="Work Ex. min. (years)"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Work Ex. max. (years)</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.workMax}
+                          onChange={handleChange}
+                          label="Work Ex. max. (years)"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="salaryMin"
+                        value={textValue.salaryMin}
+                        label="Salary Minimum"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="salaryMax"
+                        value={textValue.salaryMax}
+                        label="Salary Maximum"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Currency</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.currency}
+                          onChange={handleChange}
+                          label="Currency"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                        <InputLabel id="demo-simple-select-standard-label">Salary Type</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          value={textValue.salaryType}
+                          onChange={handleChange}
+                          label="Salary Type"
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Ten</MenuItem>
+                          <MenuItem value={20}>Twenty</MenuItem>
+                          <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="country"
+                        value={textValue.country}
+                        label="Country"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="city"
+                        value={textValue.city}
+                        label="City"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        fullWidth
+                        name="jobDescription"
+                        value={textValue.jobDescription}
+                        label="Job Description"
+                        onChange={onInputChangeHandler}
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Container>
+            </Card>
           </Grid>
-        </Box>
-      </Container>
-    </Card>
-            </Grid>
-            
-            <Grid item xs={4} marginLeft={'35px'} container>
-                <h6>Assessments</h6>
-            </Grid>
 
+          <Grid item xs={4} marginLeft={'35px'} container>
+            <h6>Assessments</h6>
+          </Grid>
         </Grid>
-
       </Grid>
     </Card>
   );
