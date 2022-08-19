@@ -38,7 +38,6 @@ const CreateJob = () => {
       case 3:
         return <Publish />;
       default:
-
         return 'Unknown step';
     }
   };
@@ -119,7 +118,7 @@ const CreateJob = () => {
               </Button>
             </Grid>
             <Grid style={{ marginRight: 5 }}>
-              <Button variant="contained" component={RouterLink} to="#">
+              <Button variant="contained" component={RouterLink} to="/dashboard/jobs/job-preview">
                 Preview
               </Button>
             </Grid>
