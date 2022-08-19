@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
@@ -8,37 +8,97 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import { useDispatch } from 'react-redux';
+import { jobAction } from '../../../../redux/job/JobReducer';
+import { useGetAssesmentQuery } from '../../../../redux/services/main/AssesmentService';
+import { useDegreeGetQuery } from '../../../../redux/services/settings/DegreeService';
+import { useGetUsersApiQuery } from '../../../../redux/services/settings/UserService';
+import { useDepartmentGetQuery } from '../../../../redux/services/settings/DepartmentService';
+import { useGetStateQuery, useGetCityQuery } from '../../../../redux/services/settings/CountryStateCityService';
+import { useGetPipelineQuery } from '../../../../redux/services/settings/PipelineService';
+import { useDesignationGetQuery } from '../../../../redux/services/settings/DesignationService';
 
-const FillDetails = () => {
+const FillDetails = (props) => {
+  const { data: jobAssesmentData, jobAssesmentDataInfo } = useGetAssesmentQuery();
+  const { data: jobDegreeData, jobDegreeDataInfo } = useDegreeGetQuery();
+  const { data: jobGetuserData, jobGetuserDataInfo } = useGetUsersApiQuery();
+  const { data: jobGetDepartmentData, jobGetDepartmentDataInfo } = useDepartmentGetQuery();
+  const { data: jobStateData, jobStateDataInfo } = useGetStateQuery(1);
+  const { data: jobCityData, jobCityDataInfo } = useGetCityQuery(1);
+  const { data: jobGetPipelineData, jobGetPipelineDataInfo } = useGetPipelineQuery();
+  const { data: jobGetDesignationData, jobGetDesignationDataInfo } = useDesignationGetQuery();
+  const dispatch = useDispatch();
+
+  // const [jobPostData, setJobPostData] = useState({
+  //   title: 'Sample Job 1',
+  //   vacancies: 3,
+  //   department: 3,
+  //   owner: '811222fc-b760-474e-ab74-4a5e641b4c97',
+  //   assesment: 4,
+  //   member_ids: ['811222fc-b760-474e-ab74-4a5e641b4c97'],
+  //   type: 'F',
+  //   nature: 'R',
+  //   education: [1],
+  //   speciality: 'Linux',
+  //   description: 'Linux Admin',
+  //   exp_min: 0,
+  //   exp_max: 3,
+  //   salary_min: '2.4 LPA',
+  //   salary_max: '4.8 LPA',
+  //   salary_type: 'Y',
+  //   currency: 'INR',
+  //   city: 'Mumbai',
+  //   state: 1,
+  //   job_boards: ['Linedin-id'],
+  //   pipeline: 4,
+  //   active: 1,
+  // });
+  const experienceArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   const [textValue, setTextValue] = useState({
-    jobTitle: '',
-    numberofVacancies: '',
+    title: '',
+    vacancies: '',
     department: '',
-    jobOwner: '',
-    teamMember: '',
+    owner: '',
+    assesment: '',
+    member_ids: [''],
     type: '',
-    jobNature: '',
-    education: '',
-    majorSpeciality: '',
-    workMin: '',
-    workMax: '',
-    salaryMin: '',
-    salaryMax: '',
+    nature: '',
+    education: [],
+    speciality: '',
+    exp_min: '',
+    exp_max: '',
+    salary_min: '',
+    salary_max: '',
     currency: '',
-    salaryType: '',
-    country: '',
+    salary_type: '',
+    state: '',
     city: '',
-    jobDescription: '',
+    description: '',
   });
 
-  const handleChange = () => {};
-
   const onInputChangeHandler = (e) => {
-    setTextValue(e.target.value);
-    const myObj = {};
-    myObj[e.target.name] = e.target.value;
-  };
+    const myObj = { ...textValue };
+    if (e.target.name === 'education' || e.target.name === 'member_ids') {
+      myObj[e.target.name] = [e.target.value];
+    } else {
+      myObj[e.target.name] = e.target.value;
+    }
 
+    setTextValue({ ...myObj });
+  };
+  // const onAssesmentCategoryChangeHandler = (e) => {
+  //   e.preventDefault();
+  //   setTextValue({ ...textValue, department: e.target.value });
+  // };
+
+  useEffect(() => {
+    console.log('Chaged tesxt value', textValue);
+    return () => {
+      console.log('after next is clicked', textValue);
+      dispatch(jobAction(textValue));
+      console.log('component unmounted next clicked');
+    };
+  }, [textValue]);
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">
       <Container>
@@ -50,8 +110,8 @@ const FillDetails = () => {
                 margin="dense"
                 variant="standard"
                 fullWidth
-                name="jobTitle"
-                value={textValue.jobTitle}
+                name="title"
+                value={textValue.title}
                 label="Job Title"
                 onChange={onInputChangeHandler}
               />
@@ -62,8 +122,8 @@ const FillDetails = () => {
                 margin="dense"
                 variant="standard"
                 fullWidth
-                name="numberofVacancies"
-                value={textValue.numberofVacancies}
+                name="vacancies"
+                value={textValue.vacancies}
                 label="Number of Vacancies"
                 onChange={onInputChangeHandler}
               />
@@ -73,18 +133,23 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">Department</InputLabel>
                 <Select
+                  required
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.department}
-                  onChange={handleChange}
-                  label="Department"
+                  onChange={onInputChangeHandler}
+                  label="Select the Department"
+                  name="department"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {jobGetDepartmentData &&
+                    jobGetDepartmentData?.data?.map((item) => (
+                      <MenuItem key={item.id} name="department" value={item.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -94,8 +159,8 @@ const FillDetails = () => {
                 margin="dense"
                 variant="standard"
                 fullWidth
-                name="jobOwner"
-                value={textValue.jobOwner}
+                name="owner"
+                value={textValue.owner}
                 label="Job Owner"
                 onChange={onInputChangeHandler}
               />
@@ -106,8 +171,8 @@ const FillDetails = () => {
                 margin="dense"
                 variant="standard"
                 fullWidth
-                name="teamMember"
-                value={textValue.teamMember}
+                name="member_ids"
+                value={textValue.member_ids}
                 label="Team Member"
                 onChange={onInputChangeHandler}
               />
@@ -119,15 +184,16 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.type}
-                  onChange={handleChange}
+                  onChange={onInputChangeHandler}
                   label="Type"
+                  name="type"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={'F'}>Full Time</MenuItem>
+                  <MenuItem value={'P'}>Part Time</MenuItem>
+                  {/* <MenuItem value={'C'}>Contract</MenuItem> */}
                 </Select>
               </FormControl>
             </Grid>
@@ -137,16 +203,17 @@ const FillDetails = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={textValue.jobNature}
-                  onChange={handleChange}
-                  label="Job Nature"
+                  value={textValue.nature}
+                  onChange={onInputChangeHandler}
+                  label="on site"
+                  name="nature"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={'O'}>Work From Office </MenuItem>
+                  <MenuItem value={'R'}>Remote</MenuItem>
+                  {/* <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
               </FormControl>
             </Grid>
@@ -157,15 +224,19 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.education}
-                  onChange={handleChange}
-                  label="Education"
+                  onChange={onInputChangeHandler}
+                  label="Choose Degree"
+                  name="education"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {jobDegreeData &&
+                    jobDegreeData?.data?.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -175,16 +246,26 @@ const FillDetails = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={textValue.majorSpeciality}
-                  onChange={handleChange}
+                  value={textValue.speciality}
+                  onChange={onInputChangeHandler}
                   label="Major/Speciality"
+                  name="speciality"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
+                  {jobGetDesignationData &&
+                    jobGetDesignationData?.data?.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
+                  {/* <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
                   <MenuItem value={10}>Ten</MenuItem>
                   <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
               </FormControl>
             </Grid>
@@ -194,16 +275,22 @@ const FillDetails = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={textValue.workMin}
-                  onChange={handleChange}
+                  value={textValue.exp_min}
+                  onChange={onInputChangeHandler}
                   label="Work Ex. min. (years)"
+                  name="exp_min"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {experienceArray.map((item) => (
+                    <MenuItem key={`min-${item}`} name="min" value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+
+                  {/* <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
               </FormControl>
             </Grid>
@@ -213,16 +300,19 @@ const FillDetails = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={textValue.workMax}
-                  onChange={handleChange}
+                  value={textValue.exp_max}
+                  onChange={onInputChangeHandler}
                   label="Work Ex. max. (years)"
+                  name="exp_max"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {experienceArray.map((item) => (
+                    <MenuItem key={`max-${item}`} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -232,8 +322,8 @@ const FillDetails = () => {
                 margin="dense"
                 variant="standard"
                 fullWidth
-                name="salaryMin"
-                value={textValue.salaryMin}
+                name="salary_min"
+                value={textValue.salary_min}
                 label="Salary Minimum"
                 onChange={onInputChangeHandler}
               />
@@ -244,8 +334,8 @@ const FillDetails = () => {
                 margin="dense"
                 variant="standard"
                 fullWidth
-                name="salaryMax"
-                value={textValue.salaryMax}
+                name="salary_max"
+                value={textValue.salary_max}
                 label="Salary Maximum"
                 onChange={onInputChangeHandler}
               />
@@ -257,15 +347,15 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.currency}
-                  onChange={handleChange}
+                  onChange={onInputChangeHandler}
                   label="Currency"
+                  name="currency"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={'INR'}>INR</MenuItem>
+                  <MenuItem value={'US'}>US Dollar</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -275,42 +365,68 @@ const FillDetails = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={textValue.salaryType}
-                  onChange={handleChange}
+                  value={textValue.salary_type}
+                  onChange={onInputChangeHandler}
                   label="Salary Type"
+                  name="salary_type"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={'M'}>Monthly</MenuItem>
+                  <MenuItem value={'Y'}>Per Anum</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="country"
-                value={textValue.country}
-                label="Country"
-                onChange={onInputChangeHandler}
-              />
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
+                <Select
+                  autoFocus
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  name="state"
+                  value={textValue.state}
+                  label="State"
+                  onChange={onInputChangeHandler}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {jobStateData &&
+                    jobStateData?.states?.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="city"
-                value={textValue.city}
-                label="City"
-                onChange={onInputChangeHandler}
-              />
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
+                <Select
+                  autoFocus
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  name="city"
+                  value={textValue.city}
+                  label="City"
+                  onChange={onInputChangeHandler}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {jobCityData &&
+                    jobCityData?.cities?.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -318,8 +434,8 @@ const FillDetails = () => {
                 margin="dense"
                 variant="standard"
                 fullWidth
-                name="jobDescription"
-                value={textValue.jobDescription}
+                name="description"
+                value={textValue.description}
                 label="Job Description"
                 onChange={onInputChangeHandler}
               />

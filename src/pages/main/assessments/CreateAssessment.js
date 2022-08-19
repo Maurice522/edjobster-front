@@ -22,7 +22,6 @@ import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/Asses
 const CreateAssessment = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { assessmentEditId } = useParams();
-  console.log('assessmentEditId', assessmentEditId);
   const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
   const { data: assesmentQuestionsData, refetch } = useGetAssesmentQuestionsQuery(assessmentEditId);
   console.log('assestment question data', assesmentQuestionsData);
@@ -101,7 +100,7 @@ const CreateAssessment = () => {
       } else if (questionObj.marks === null) {
         showToast('error', 'Enter Marks');
         status = false;
-      } else if (questionObj.type === 'S' && questionObj.answer === null) {
+      } else if (questionObj.type === 'S' || questionObj.type === 'R' && questionObj.answer === null) {
         showToast('error', 'Enter Answer');
         status = false;
       }
@@ -109,15 +108,15 @@ const CreateAssessment = () => {
     return status;
   };
   const onQuestionDoneClicked = async (questionIndex) => {
-    if (isValidateAddQuestion(questions[questionIndex])) {
-      if (!assesmentId) {
-        await addAssesment({
-          category: selectedAssesmentCategory,
-          name: assesmentName,
-        });
-      }
+    // if (isValidateAddQuestion(questions[questionIndex])) {
+    //   // if (!assesmentId) {
+    //   //   // await addAssesment({
+    //   //   //   category: selectedAssesmentCategory,
+    //   //   //   name: assesmentName,
+    //   //   // });
+    //   // }
       await addAssesmentQuestions(questions[questionIndex]);
-    }
+    
   };
   const addOptionsSelection = (questionIndex, optIndex) => {
     questions[questionIndex].options = [...questions[questionIndex].options, `Option ${optIndex + 2}`];
@@ -180,6 +179,7 @@ const CreateAssessment = () => {
             question: '',
             options: ['Option 1', 'Option 2'],
             marks: null,
+            answer: null,
           },
         ]);
         break;
@@ -510,7 +510,7 @@ const CreateAssessment = () => {
                               />
                             </Grid>
 
-                            {currentSelectedType === 'S' ? (
+                            {currentSelectedType === 'S' || currentSelectedType === 'R' ? (
                               <>
                                 <Grid item xs={5} style={{ margin: '10px' }}>
                                   <TextField
@@ -521,7 +521,7 @@ const CreateAssessment = () => {
                                     placeholder="Enter Answer"
                                     fullWidth
                                     name="Answer"
-                                    type={'number'}
+                                    type='number'
                                     value={item.answer}
                                     onChange={(e) => onAssesmentAnswerInputChangeHandler(e, index)}
                                     label="Answer"

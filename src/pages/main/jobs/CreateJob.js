@@ -14,27 +14,8 @@ import SelectAssessment from './job-stepper-components/SelectAssessment';
 import SelectJobBoards from './job-stepper-components/SelectJobBoards';
 import Publish from './job-stepper-components/Publish';
 
-function getSteps() {
-  return ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <FillDetails />;
-    case 1:
-      return <SelectAssessment />;
-    case 2:
-      return <SelectJobBoards />;
-    case 3:
-      return <Publish />;
-    default:
-      return 'Unknown step';
-  }
-}
-
 const CreateJob = () => {
- 
+  // useGetDepartment
   const [textValue, setTextValue] = useState({
     name: '',
     address: '',
@@ -44,9 +25,23 @@ const CreateJob = () => {
     city: '',
   });
 
+  const getSteps = () => ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
 
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return <FillDetails />;
+      case 1:
+        return <SelectAssessment />;
+      case 2:
+        return <SelectJobBoards />;
+      case 3:
+        return <Publish />;
+      default:
 
- 
+        return 'Unknown step';
+    }
+  };
 
   const onInputChangeHandler = (e) => {
     setTextValue(e.target.value);
@@ -103,94 +98,90 @@ const CreateJob = () => {
 
   return (
     <>
-     
-      <div >
-          <Grid container spacing={2} padding="20px" >
-            <Grid item xs={6} display="flex">
-              <Grid>
-                <IconButton edge="start" color="inherit"  aria-label="close" component={RouterLink} to="/dashboard/jobs">
-                  <CloseIcon />
-                </IconButton>
-              </Grid>
-              <Grid>
-                <Typography variant="h4" gutterBottom>
-                  Create a Job
-                </Typography>
-              </Grid>
+      <div>
+        <Grid container spacing={2} padding="20px">
+          <Grid item xs={6} display="flex">
+            <Grid>
+              <IconButton edge="start" color="inherit" aria-label="close" component={RouterLink} to="/dashboard/jobs">
+                <CloseIcon />
+              </IconButton>
             </Grid>
-            <Grid item xs={6} display="flex" justifyContent="right">
-              <Grid style={{ marginRight: 5 }}>
-                <Button variant="contained" component={RouterLink} to="#">
-                  Save
-                </Button>
-              </Grid>
-              <Grid style={{ marginRight: 5 }}>
-                <Button variant="contained" component={RouterLink} to='/dashboard/jobs/job-preview'>
-                  Preview
-                </Button>
-              </Grid>
-              <Grid style={{ marginRight: 5 }}>
-                <Button variant="contained" component={RouterLink} to="#">
-                  Publish
-                </Button>
-              </Grid>
+            <Grid>
+              <Typography variant="h4" gutterBottom>
+                Create a Job
+              </Typography>
             </Grid>
           </Grid>
-          <Card style={{ padding: 20 }}>
+          <Grid item xs={6} display="flex" justifyContent="right">
+            <Grid style={{ marginRight: 5 }}>
+              <Button variant="contained" component={RouterLink} to="#">
+                Save
+              </Button>
+            </Grid>
+            <Grid style={{ marginRight: 5 }}>
+              <Button variant="contained" component={RouterLink} to="#">
+                Preview
+              </Button>
+            </Grid>
+            <Grid style={{ marginRight: 5 }}>
+              <Button variant="contained" component={RouterLink} to="#">
+                Publish
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Card style={{ padding: 20 }}>
+          <div>
+            <Stepper nonLinear activeStep={activeStep}>
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepButton onClick={handleStep(index)} completed={completed[index]}>
+                    {label}
+                  </StepButton>
+                </Step>
+              ))}
+            </Stepper>
+
             <div>
-              <Stepper nonLinear activeStep={activeStep}>
-                {steps.map((label, index) => (
-                  <Step key={label}>
-                    <StepButton onClick={handleStep(index)} completed={completed[index]}>
-                      {label}
-                    </StepButton>
-                  </Step>
-                ))}
-              </Stepper>
+              {allStepsCompleted() ? (
+                <div>
+                  <Typography>All steps completed - you&apos;re finished</Typography>
+                  <Button onClick={handleReset}>Reset</Button>
+                </div>
+              ) : (
+                <div>
+                  <Typography style={{ display: 'flex', justifyContent: 'center' }}>
+                    {getStepContent(activeStep)}
+                  </Typography>
 
-              <div>
-                {allStepsCompleted() ? (
-                  <div>
-                    <Typography>All steps completed - you&apos;re finished</Typography>
-                    <Button onClick={handleReset}>Reset</Button>
+                  <div style={{ display: 'flex', justifyContent: 'end' }}>
+                    <Button disabled={activeStep === 0} onClick={handleBack} style={{ marginRight: '5px' }}>
+                      Back
+                    </Button>
+                    <Button variant="contained" color="primary" onClick={handleNext} style={{ marginRight: '5px' }}>
+                      Next
+                    </Button>
+                    {activeStep !== steps.length &&
+                      (completed[activeStep] ? (
+                        <Typography variant="caption">Step {activeStep + 1} already completed</Typography>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleComplete}
+                          style={{ marginRight: '5px' }}
+                        >
+                          {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
+                        </Button>
+                      ))}
                   </div>
-                ) : (
-                  <div>
-                    <Typography style={{ display: 'flex', justifyContent: 'center' }}>
-                      {getStepContent(activeStep)}
-                    </Typography>
-
-                    <div style={{ display: 'flex', justifyContent: 'end' }}>
-                      <Button disabled={activeStep === 0} onClick={handleBack} style={{ marginRight: '5px' }}>
-                        Back
-                      </Button>
-                      <Button variant="contained" color="primary" onClick={handleNext} style={{ marginRight: '5px' }}>
-                        Next
-                      </Button>
-                      {activeStep !== steps.length &&
-                        (completed[activeStep] ? (
-                          <Typography variant="caption">Step {activeStep + 1} already completed</Typography>
-                        ) : (
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleComplete}
-                            style={{ marginRight: '5px' }}
-                          >
-                            {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
-                          </Button>
-                        ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
-          </Card>
-    
-     
-    
           </div>
-          </>
+        </Card>
+      </div>
+    </>
   );
 };
 
