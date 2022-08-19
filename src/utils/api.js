@@ -23,7 +23,10 @@ const apiUrl = {
   fields: `${baseUrl}settings/webform-fields/`,
   assementCategory: `${baseUrl}jobs/assesment-category/`,
   assesment:`${baseUrl}jobs/assesment/`,
-  assesmentQuestions: `${baseUrl}jobs/assesment-question/`
+  assesmentQuestions: `${baseUrl}jobs/assesment-question/`,
+  jobs: `${baseUrl}jobs/job/`,
+  candidate:`${baseUrl}candidate/`,
+  interview:`${baseUrl}interview/schedule/`
 };
 
 export { baseUrl, apiUrl };

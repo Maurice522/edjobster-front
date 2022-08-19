@@ -38,7 +38,9 @@ import CreateInterview from './pages/main/interviews/CreateInterview';
 import EditInterview from './pages/main/interviews/EditInterview';
 import Assessments from './pages/main/assessments/Assessments';
 import CreateAssessment from './pages/main/assessments/CreateAssessment';
+
 import EditAssessment from './pages/main/assessments/EditAssessment';
+import JobPreview from './pages/main/jobs/JobPreview';
 
 // ----------------------------------------------------------------------
 
@@ -80,6 +82,7 @@ export default function Router() {
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },
+        { path: '/dashboard/jobs/job-preview', element: <JobPreview/>}
       ],
     },
     {

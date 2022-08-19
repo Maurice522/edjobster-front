@@ -125,7 +125,7 @@ const CreateJob = () => {
                 </Button>
               </Grid>
               <Grid style={{ marginRight: 5 }}>
-                <Button variant="contained" component={RouterLink} to="#">
+                <Button variant="contained" component={RouterLink} to='/dashboard/jobs/job-preview'>
                   Preview
                 </Button>
               </Grid>
