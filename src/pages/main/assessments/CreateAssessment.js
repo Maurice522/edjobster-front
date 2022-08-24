@@ -77,36 +77,36 @@ const CreateAssessment = () => {
     questions[questionIndex].answer = parseInt(e.target.value, 10);
     setQuestions([...questions]);
   };
-  const isValidateAddQuestion = (questionObj) => {
-    let status = true;
-    if (questionObj.type === 'T') {
-      if (questionObj.question === '' && questionObj.marks === null) {
-        status = false;
-        showToast('error', 'Question Name and Marks are required fields.');
-      } else if (questionObj.question === '') {
-        showToast('error', 'Enter Question');
-        status = false;
-      } else if (questionObj.marks === null) {
-        showToast('error', 'Enter Marks');
-        status = false;
-      }
-    } else if (questionObj.type === 'S' || questionObj.type === 'C' || questionObj.type === 'R') {
-      if (questionObj.question === '' && questionObj.marks === null) {
-        status = false;
-        showToast('error', 'Question Name and Marks are required fields.');
-      } else if (questionObj.question === '') {
-        showToast('error', 'Enter Question');
-        status = false;
-      } else if (questionObj.marks === null) {
-        showToast('error', 'Enter Marks');
-        status = false;
-      } else if (questionObj.type === 'S' || questionObj.type === 'R' && questionObj.answer === null) {
-        showToast('error', 'Enter Answer');
-        status = false;
-      }
-    }
-    return status;
-  };
+  // const isValidateAddQuestion = (questionObj) => {
+  //   let status = true;
+  //   if (questionObj.type === 'T') {
+  //     if (questionObj.question === '' && questionObj.marks === null) {
+  //       status = false;
+  //       showToast('error', 'Question Name and Marks are required fields.');
+  //     } else if (questionObj.question === '') {
+  //       showToast('error', 'Enter Question');
+  //       status = false;
+  //     } else if (questionObj.marks === null) {
+  //       showToast('error', 'Enter Marks');
+  //       status = false;
+  //     }
+  //   } else if (questionObj.type === 'S' || questionObj.type === 'C' || questionObj.type === 'R') {
+  //     if (questionObj.question === '' && questionObj.marks === null) {
+  //       status = false;
+  //       showToast('error', 'Question Name and Marks are required fields.');
+  //     } else if (questionObj.question === '') {
+  //       showToast('error', 'Enter Question');
+  //       status = false;
+  //     } else if (questionObj.marks === null) {
+  //       showToast('error', 'Enter Marks');
+  //       status = false;
+  //     } else if (questionObj.type === 'S' || questionObj.type === 'R' && questionObj.answer === null) {
+  //       showToast('error', 'Enter Answer');
+  //       status = false;
+  //     }
+  //   }
+  //   return status;
+  // };
   const onQuestionDoneClicked = async (questionIndex) => {
     // if (isValidateAddQuestion(questions[questionIndex])) {
     //   // if (!assesmentId) {
@@ -227,7 +227,7 @@ const CreateAssessment = () => {
       const savedAssesmentRecord = addAssesmentInfo.data.data.find((item) => item.name === assesmentName);
       setAssesmentId(savedAssesmentRecord.id);
       addAssesmentInfo.reset();
-    }
+    } 
     if (addAssesmentInfo.isError) {
       showToast('error', addAssesmentInfo.error.data.msg);
       addAssesmentInfo.reset();

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, {  useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
@@ -9,21 +10,20 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Typography from '@mui/material/Typography';
+import { useAddJobMutation } from '../../../redux/services/jobs/JobServices';
 import FillDetails from './job-stepper-components/FillDetails';
 import SelectAssessment from './job-stepper-components/SelectAssessment';
 import SelectJobBoards from './job-stepper-components/SelectJobBoards';
 import Publish from './job-stepper-components/Publish';
+import { showToast } from '../../../utils/toast';
 
 const CreateJob = () => {
+  const job = useSelector((state) => state.job.job);
+  const [addJobData, addJobDataInfo] = useAddJobMutation();
+
   // useGetDepartment
-  const [textValue, setTextValue] = useState({
-    name: '',
-    address: '',
-    pincode: '',
-    country: '',
-    state: '',
-    city: '',
-  });
+
+ 
 
   const getSteps = () => ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
 
@@ -42,32 +42,20 @@ const CreateJob = () => {
     }
   };
 
-  const onInputChangeHandler = (e) => {
-    setTextValue(e.target.value);
-    const myObj = {};
-    myObj[e.target.name] = e.target.value;
-  };
+ 
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
 
   const steps = getSteps();
 
-  const totalSteps = () => {
-    return steps.length;
-  };
+  const totalSteps = () => steps.length;
 
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
+  const completedSteps = () => Object.keys(completed).length;
 
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
+  const isLastStep = () => activeStep === totalSteps() - 1;
 
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
+  const allStepsCompleted = () => completedSteps() === totalSteps();
 
   const handleNext = () => {
     const newActiveStep =
@@ -83,12 +71,33 @@ const CreateJob = () => {
     setActiveStep(step);
   };
 
-  const handleComplete = () => {
+  // const handleComplete = async (questionIndex) => {
+
+  //   await addJobData(textValue[questionIndex]);
+
+  const handleComplete = async () => {
+    console.log('checking function');
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
     handleNext();
+    console.log('job detailsssss:', job);
+    await addJobData(job);
   };
+
+  useEffect(() => {
+    console.log('job addJobDataInfoaddJobDataInfo:', addJobDataInfo);
+    if (addJobDataInfo.isSuccess) {
+      console.log('job data on success');
+      showToast('success', 'job form Sucessfully');
+      // const savedAssesmentRecord = addJobDataInfo.data.data.find((item) => item.name === assesmentName);
+      addJobDataInfo.reset();
+    }
+    if (addJobDataInfo.isError) {
+      showToast('error', addJobDataInfo.error.data.msg);
+      addJobDataInfo.reset();
+    }
+  }, [addJobDataInfo]);
 
   const handleReset = () => {
     setActiveStep(0);
@@ -113,7 +122,7 @@ const CreateJob = () => {
           </Grid>
           <Grid item xs={6} display="flex" justifyContent="right">
             <Grid style={{ marginRight: 5 }}>
-              <Button variant="contained" component={RouterLink} to="#">
+              <Button variant="contained" onClick={handleComplete} component={RouterLink} to="#">
                 Save
               </Button>
             </Grid>
@@ -144,7 +153,7 @@ const CreateJob = () => {
             <div>
               {allStepsCompleted() ? (
                 <div>
-                  <Typography>All steps completed - you&apos;re finished</Typography>
+                  {/* <Typography>All steps completed - you&apos;re finished</Typography> */}
                   <Button onClick={handleReset}>Reset</Button>
                 </div>
               ) : (

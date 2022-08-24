@@ -21,6 +21,7 @@ const initialState = {
     state: null,
     job_boards: ['Linedin-id'],
     pipeline: null,
+    active: 1,
   },
 };
 export default initialState;

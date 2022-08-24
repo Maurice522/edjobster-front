@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
@@ -8,9 +8,6 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import { useDispatch } from 'react-redux';
-import { jobAction } from '../../../../redux/job/JobReducer';
-import { useGetAssesmentQuery } from '../../../../redux/services/main/AssesmentService';
 import { useDegreeGetQuery } from '../../../../redux/services/settings/DegreeService';
 import { useGetUsersApiQuery } from '../../../../redux/services/settings/UserService';
 import { useDepartmentGetQuery } from '../../../../redux/services/settings/DepartmentService';
@@ -18,16 +15,14 @@ import { useGetStateQuery, useGetCityQuery } from '../../../../redux/services/se
 import { useGetPipelineQuery } from '../../../../redux/services/settings/PipelineService';
 import { useDesignationGetQuery } from '../../../../redux/services/settings/DesignationService';
 
-const FillDetails = (props) => {
-  const { data: jobAssesmentData, jobAssesmentDataInfo } = useGetAssesmentQuery();
-  const { data: jobDegreeData, jobDegreeDataInfo } = useDegreeGetQuery();
-  const { data: jobGetuserData, jobGetuserDataInfo } = useGetUsersApiQuery();
-  const { data: jobGetDepartmentData, jobGetDepartmentDataInfo } = useDepartmentGetQuery();
-  const { data: jobStateData, jobStateDataInfo } = useGetStateQuery(1);
-  const { data: jobCityData, jobCityDataInfo } = useGetCityQuery(1);
-  const { data: jobGetPipelineData, jobGetPipelineDataInfo } = useGetPipelineQuery();
-  const { data: jobGetDesignationData, jobGetDesignationDataInfo } = useDesignationGetQuery();
-  const dispatch = useDispatch();
+const FillDetails = () => {
+  const { data: jobDegreeData } = useDegreeGetQuery();
+  const { data: jobGetuserData } = useGetUsersApiQuery();
+  const { data: jobGetDepartmentData } = useDepartmentGetQuery();
+  const { data: jobStateData } = useGetStateQuery(1);
+  const { data: jobCityData } = useGetCityQuery(1);
+  const { data: jobGetPipelineData } = useGetPipelineQuery();
+  const { data: jobGetDesignationData } = useDesignationGetQuery();
 
   // const [jobPostData, setJobPostData] = useState({
   //   title: 'Sample Job 1',
@@ -56,30 +51,45 @@ const FillDetails = (props) => {
   const experienceArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   const [textValue, setTextValue] = useState({
     title: '',
-    vacancies: '',
-    department: '',
+    vacancies: null,
+    department: null,
     owner: '',
-    assesment: '',
-    member_ids: [''],
+    assesment: null,
+    member_ids: [],
     type: '',
     nature: '',
     education: [],
     speciality: '',
-    exp_min: '',
-    exp_max: '',
+    exp_min: null,
+    exp_max: null,
     salary_min: '',
     salary_max: '',
     currency: '',
     salary_type: '',
-    state: '',
+    state: null,
     city: '',
     description: '',
+    job_boards: ['Linedin-id'],
+    pipeline: null,
+    active: 1,
   });
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
     if (e.target.name === 'education' || e.target.name === 'member_ids') {
-      myObj[e.target.name] = [e.target.value];
+      if (e.target.name === 'education') {
+        myObj[e.target.name] = [parseInt(e.target.value, 10)];
+      } else {
+        myObj[e.target.name] = [e.target.value];
+      }
+    } else if (
+      e.target.name === 'vacancies' ||
+      e.target.name === 'department' ||
+      e.target.name === 'assesment' ||
+      e.target.name === 'exp_min' ||
+      e.target.name === 'exp_max'
+    ) {
+      myObj[e.target.name] = parseInt(e.target.value, 10);
     } else {
       myObj[e.target.name] = e.target.value;
     }
@@ -91,14 +101,6 @@ const FillDetails = (props) => {
   //   setTextValue({ ...textValue, department: e.target.value });
   // };
 
-  useEffect(() => {
-    console.log('Chaged tesxt value', textValue);
-    return () => {
-      console.log('after next is clicked', textValue);
-      dispatch(jobAction(textValue));
-      console.log('component unmounted next clicked');
-    };
-  }, [textValue]);
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">
       <Container>
@@ -141,9 +143,6 @@ const FillDetails = (props) => {
                   label="Select the Department"
                   name="department"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {jobGetDepartmentData &&
                     jobGetDepartmentData?.data?.map((item) => (
                       <MenuItem key={item.id} name="department" value={item.id}>
@@ -154,28 +153,48 @@ const FillDetails = (props) => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="owner"
-                value={textValue.owner}
-                label="Job Owner"
-                onChange={onInputChangeHandler}
-              />
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
+                <Select
+                  autoFocus
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  name="owner"
+                  value={textValue.account_id}
+                  label="owner"
+                  onChange={onInputChangeHandler}
+                >
+                  {jobGetuserData &&
+                    jobGetuserData?.list?.map((item) => (
+                      <MenuItem key={item.id} value={item.account_id}>
+                        {item?.first_name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="member_ids"
-                value={textValue.member_ids}
-                label="Team Member"
-                onChange={onInputChangeHandler}
-              />
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">Team Member</InputLabel>
+                <Select
+                  autoFocus
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  name="member_ids"
+                  value={textValue.member_ids}
+                  label="Team member"
+                  onChange={onInputChangeHandler}
+                >
+                  {jobGetuserData &&
+                    jobGetuserData?.list?.map((item) => (
+                      <MenuItem key={item.id} value={item.account_id}>
+                        {item?.first_name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
@@ -188,9 +207,6 @@ const FillDetails = (props) => {
                   label="Type"
                   name="type"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={'F'}>Full Time</MenuItem>
                   <MenuItem value={'P'}>Part Time</MenuItem>
                   {/* <MenuItem value={'C'}>Contract</MenuItem> */}
@@ -208,9 +224,6 @@ const FillDetails = (props) => {
                   label="on site"
                   name="nature"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={'O'}>Work From Office </MenuItem>
                   <MenuItem value={'R'}>Remote</MenuItem>
                   {/* <MenuItem value={30}>Thirty</MenuItem> */}
@@ -228,9 +241,6 @@ const FillDetails = (props) => {
                   label="Choose Degree"
                   name="education"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {jobDegreeData &&
                     jobDegreeData?.data?.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
@@ -251,9 +261,6 @@ const FillDetails = (props) => {
                   label="Major/Speciality"
                   name="speciality"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {jobGetDesignationData &&
                     jobGetDesignationData?.data?.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
@@ -280,9 +287,6 @@ const FillDetails = (props) => {
                   label="Work Ex. min. (years)"
                   name="exp_min"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {experienceArray.map((item) => (
                     <MenuItem key={`min-${item}`} name="min" value={item}>
                       {item}
@@ -305,9 +309,9 @@ const FillDetails = (props) => {
                   label="Work Ex. max. (years)"
                   name="exp_max"
                 >
-                  <MenuItem value="">
+                  {/* <MenuItem value="">
                     <em>None</em>
-                  </MenuItem>
+                  </MenuItem> */}
                   {experienceArray.map((item) => (
                     <MenuItem key={`max-${item}`} value={item}>
                       {item}
@@ -351,9 +355,6 @@ const FillDetails = (props) => {
                   label="Currency"
                   name="currency"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={'INR'}>INR</MenuItem>
                   <MenuItem value={'US'}>US Dollar</MenuItem>
                 </Select>
@@ -370,9 +371,6 @@ const FillDetails = (props) => {
                   label="Salary Type"
                   name="salary_type"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={'M'}>Monthly</MenuItem>
                   <MenuItem value={'Y'}>Per Anum</MenuItem>
                 </Select>
@@ -391,11 +389,30 @@ const FillDetails = (props) => {
                   label="State"
                   onChange={onInputChangeHandler}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {jobStateData &&
                     jobStateData?.states?.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">Pipeline</InputLabel>
+                <Select
+                  autoFocus
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  name="pipeline"
+                  value={textValue.pipeline}
+                  label="pipeline"
+                  onChange={onInputChangeHandler}
+                >
+                  {jobGetPipelineData &&
+                    jobGetPipelineData?.data?.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
                         {item?.name}
                       </MenuItem>
@@ -416,9 +433,6 @@ const FillDetails = (props) => {
                   label="City"
                   onChange={onInputChangeHandler}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   {jobCityData &&
                     jobCityData?.cities?.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
