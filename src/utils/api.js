@@ -24,9 +24,11 @@ const apiUrl = {
   assementCategory: `${baseUrl}jobs/assesment-category/`,
   assesment:`${baseUrl}jobs/assesment/`,
   assesmentQuestions: `${baseUrl}jobs/assesment-question/`,
-  jobs: `${baseUrl}jobs/job/`,
+  jobs: `${baseUrl}jobs/job/`,  
   candidate:`${baseUrl}candidate/`,
-  interview:`${baseUrl}interview/schedule/`
+  interview:`${baseUrl}interview/schedule/`,
+  location:`${baseUrl}settings/location/`,
+  
 };
 
 export { baseUrl, apiUrl };
