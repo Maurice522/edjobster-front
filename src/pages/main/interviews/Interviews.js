@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
+
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -28,19 +30,47 @@ import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
 
+import {useGetInterviewListAllQuery} from '../../../redux/services/interview/InterviewServices';
+
 const Interviews = () => {
+
+ const {data=[] } = useGetInterviewListAllQuery()
   const columns = [
     {
-      name: 'name',
-      label: 'Name',
+      name: 'id',
+      label: 'Candidate',
       options: {
         filter: true,
         sort: true,
       },
     },
     {
-      name: 'status',
-      label: 'Status',
+      name: 'title',
+      label: 'job',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'date',
+      label: 'Date',
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: 'time_start',
+      label: 'Time',
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      name: 'type',
+      label: 'type',
       options: {
         filter: false,
         sort: false,
@@ -52,6 +82,26 @@ const Interviews = () => {
       options: {
         filter: false,
         sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0 }} variant="contained" component={RouterLink} to={'#'}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              // onClick={() => onDeletAssesmenteHandler(dataIndex)}
+              // loading={dataIndex === currentIndex ? useDeleteCandidateMutation.isLoading : false}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
+          </>
+        ),
       },
     },
   ];
@@ -74,12 +124,12 @@ const Interviews = () => {
       </Button>
     </>
   );
-  const data = [
-    { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  ];
+  // const data = [
+  //   { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
+  // ];
   const options = {
     filterType: 'dropdown',
     responsive: 'stacked',
@@ -272,7 +322,7 @@ const Interviews = () => {
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-          <MUIDataTable title={'Interview List'} data={data} columns={columns} options={options} />
+          <MUIDataTable title={'Interview List'} data={data?.list} columns={columns} options={options} />
         </Card>
       </Container>
     </Page>

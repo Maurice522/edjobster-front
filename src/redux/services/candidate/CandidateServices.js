@@ -4,8 +4,8 @@ import { apiUrl } from '../../../utils/api';
 const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
     getCandidateList: build.query({
-      query: (jobId) => ({
-        url: `${apiUrl.candidate}applications/?job=${jobId}`,
+      query: () => ({
+        url: `${apiUrl.candidate}candidate/`,
       }),
     }),
     getCandidateDetails: build.query({

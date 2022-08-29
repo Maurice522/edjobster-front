@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import { Link as RouterLink } from 'react-router-dom';
+
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Box, FormControl, InputLabel, Select, DialogActions, TextField, MenuItem } from '@mui/material';
@@ -17,6 +18,7 @@ import { useGetLocationQuery } from '../../../redux/services/settings/LocationSe
 import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
 import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
 import { useAddInterviewMutation } from '../../../redux/services/interview/InterviewServices';
+import {useGetCandidateListQuery} from '../../../redux/services/candidate/CandidateServices';
 
 const CreateInterview = () => {
   const [textValue, setTextValue] = useState({
@@ -46,6 +48,10 @@ const CreateInterview = () => {
 
   console.log('Email template Data:', emailtemplateData);
 
+  const {data: candidateListData}=useGetCandidateListQuery();
+
+  console.log("Candidate List:",candidateListData);
+
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
     myObj[e.target.name] = e.target.value;
@@ -59,7 +65,7 @@ const CreateInterview = () => {
 
   useEffect(() => {
     if (addInterviewInfo.isSuccess) {
-      console.log('job data on success');
+     
       showToast('success', 'Interview Created Successfully');
     }
     if (addInterviewInfo.isError) {
@@ -204,7 +210,7 @@ const CreateInterview = () => {
         <Grid item xs={6}>
           <Card variant="outlined" style={{ padding: 20, margin: 20 }}>
             <Grid item xs={12}>
-              <TextField
+              {/* <TextField
                 autoFocus
                 margin="dense"
                 variant="standard"
@@ -214,7 +220,25 @@ const CreateInterview = () => {
                 value={textValue.candidate_id}
                 label="Select Candidate"
                 onChange={onInputChangeHandler}
-              />
+              /> */}
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">Select Candidate</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={textValue.candidate_id}
+                  onChange={onInputChangeHandler}
+                  label="Candidate"
+                  name="candidate_id"
+                >
+                  {candidateListData &&
+                    candidateListData?.list.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.job_title}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} marginBottom="10px">
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
