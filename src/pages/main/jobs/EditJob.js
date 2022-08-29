@@ -15,6 +15,7 @@ import SelectJobBoards from './job-stepper-components/SelectJobBoards';
 import Publish from './job-stepper-components/Publish';
 
 function getSteps() {
+  
   return ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
 }
 
