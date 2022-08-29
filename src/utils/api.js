@@ -27,8 +27,7 @@ const apiUrl = {
   jobs: `${baseUrl}jobs/job/`,  
   candidate:`${baseUrl}candidate/`,
   interview:`${baseUrl}interview/schedule/`,
-  location:`${baseUrl}settings/location/`,
-  
+  location:`${baseUrl}settings/location/`,  
 };
 
 export { baseUrl, apiUrl };
