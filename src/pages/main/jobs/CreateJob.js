@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +17,7 @@ import {
   useAddJobMutation,
   useGetJobeDetailsQuery,
   useUpdateJobMutation,
+  
 } from '../../../redux/services/jobs/JobServices';
 import FillDetails from './job-stepper-components/FillDetails';
 import SelectAssessment from './job-stepper-components/SelectAssessment';
@@ -32,7 +33,6 @@ const CreateJob = () => {
   const job = useSelector((state) => state.job.job);
   const { data: jobData } = useGetJobeDetailsQuery(editJobId);
   const [addJobData, addJobDataInfo] = useAddJobMutation();
-
   // useGetDepartment
 
   const getSteps = () => ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
@@ -84,7 +84,6 @@ const CreateJob = () => {
   //   await addJobData(textValue[questionIndex]);
 
   const handleComplete = async () => {
-    console.log('checking function');
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -97,15 +96,17 @@ const CreateJob = () => {
     }
   };
   useEffect(() => {
-    if (jobData) {
-      dispatch(jobAction(jobData));
+    console.log('Edit Job dATA', jobData);
+    if (jobData?.data) {
+      dispatch(jobAction(jobData.data));
     }
-  }, [jobData]);
+  }, [dispatch, jobData]);
+
   useEffect(() => {
     console.log('job addJobDataInfoaddJobDataInfo:', addJobDataInfo);
     if (addJobDataInfo.isSuccess) {
       console.log('job data on success');
-      showToast('success', 'job form Sucessfully');
+      showToast('success', 'Job Created Successfully');
       const textValue1 = {
         title: '',
         vacancies: null,
@@ -135,42 +136,54 @@ const CreateJob = () => {
       addJobDataInfo.reset();
     }
     if (addJobDataInfo.isError) {
-      showToast('error', 'not SuccessFul');
+      showToast('error', addJobDataInfo.error.data.msg);
       addJobDataInfo.reset();
     }
-    // return () => {
-    //   const textValue2 = {
-    //     title: '',
-    //     vacancies: null,
-    //     department: null,
-    //     owner: '',
-    //     assesment: null,
-    //     member_ids: [],
-    //     type: '',
-    //     nature: '',
-    //     education: [],
-    //     speciality: '',
-    //     exp_min: null,
-    //     exp_max: null,
-    //     salary_min: '',
-    //     salary_max: '',
-    //     currency: '',
-    //     salary_type: '',
-    //     state: null,
-    //     city: '',
-    //     description: '',
-    //     job_boards: ['Linedin-id'],
-    //     pipeline: null,
-    //     active: 1,
-    //   };
-    //   dispatch(jobAction(textValue2));
-    // };
+    return () => {
+      const textValue2 = {
+        title: '',
+        vacancies: null,
+        department: null,
+        owner: '',
+        assesment: null,
+        member_ids: [],
+        type: '',
+        nature: '',
+        education: [],
+        speciality: '',
+        exp_min: null,
+        exp_max: null,
+        salary_min: '',
+        salary_max: '',
+        currency: '',
+        salary_type: '',
+        state: null,
+        city: '',
+        description: '',
+        job_boards: ['Linedin-id'],
+        pipeline: null,
+        active: 1,
+      };
+      dispatch(jobAction(textValue2));
+    };
   }, [addJobDataInfo, dispatch]);
 
   const handleReset = () => {
     setActiveStep(0);
     setCompleted({});
   };
+  useEffect(() => {
+    if (updateJobDataInfo.isSuccess) {
+      showToast('success', updateJobDataInfo.data.msg);
+      updateJobDataInfo.reset();
+      
+    }
+    if (updateJobDataInfo.isError) {
+      showToast('error', updateJobDataInfo.error.data.msg);
+      updateJobDataInfo.reset();
+      
+    }
+  }, [updateJobDataInfo]);
 
   return (
     <>
@@ -193,16 +206,16 @@ const CreateJob = () => {
               <Button variant="contained">{editJobId ? 'Update' : 'Save'}</Button>
             </Grid>
             <Grid style={{ marginRight: 5 }}>
-            {/* <Button
+              {/* <Button
               variant="contained"
               component={RouterLink}
               to={`/dashboard/jobs/edit-job/${data.data[dataIndex].id}`} */}
-            
-              <Button variant="contained" component={RouterLink} to ={`/dashboard/jobs/job-preview/${editJobId}`}>
+
+              <Button variant="contained" component={RouterLink} to={`/dashboard/jobs/job-preview/${editJobId}`}>
                 Preview
               </Button>
             </Grid>
-            
+
             <Grid style={{ marginRight: 5 }}>
               <Button variant="contained" onClick={handleComplete}>
                 Publish

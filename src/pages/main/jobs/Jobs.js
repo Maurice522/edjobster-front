@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
@@ -31,84 +30,31 @@ import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
-import { useGetJobQuery, useDeleteJobMutation, useUpdateJobMutation } from '../../../redux/services/jobs/JobServices';
-import { jobAction } from '../../../redux/job/JobReducer';
+import { useGetJobQuery, useDeleteJobMutation } from '../../../redux/services/jobs/JobServices';
 
 // mock
 
 const Jobs = () => {
   const { data = [], refetch } = useGetJobQuery();
-  const dispatch = useDispatch();
+  const { editJobId } = useParams();
 
-  const job = useSelector((state) => state.job.job);
-  const [currentIndex, setCurrentIndex] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(editJobId);
   const [deleteJob, deleteJobInfo] = useDeleteJobMutation();
-  const [updateJobData, updateJobDataInfo] = useUpdateJobMutation();
 
   // const { data: jobData } = useGetJobQuery();
 
   console.log('data is fetching form job', data);
   const sortData = useMemo(() => {
-    const sortresult = sortedDataFn(data.data);
+    const sortresult = sortedDataFn(data.list);
     return sortresult;
   }, [data]);
 
   const onDeletAssesmenteHandler = async (dataIndex) => {
-    setCurrentIndex(dataIndex);
+    setCurrentIndex(currentIndex);
     const dataArr = sortData;
     const currentDataObj = dataArr[dataIndex];
     await deleteJob(currentDataObj.id);
   };
-  const onEditJobClicked = (rowData) => {
-    console.log('edit row data', rowData);
-    dispatch(jobAction(rowData));
-    // const newCompleted = completed;
-    // newCompleted[activeStep] = true;
-    // setCompleted(newCompleted);
-    // handleNext();
-  };
-  useEffect(() => {
-    console.log('job UpdatedJobDataInfoaddJobDataInfo:', updateJobDataInfo);
-    if (updateJobDataInfo.isSuccess) {
-      console.log('job data on updated');
-      showToast('success', 'job form Updated');
-      const textValue1 = {
-        title: '',
-        vacancies: null,
-        department: null,
-        owner: '',
-        assesment: null,
-        member_ids: [],
-        type: '',
-        nature: '',
-        education: [],
-        speciality: '',
-        exp_min: null,
-        exp_max: null,
-        salary_min: '',
-        salary_max: '',
-        currency: '',
-        salary_type: '',
-        state: null,
-        city: '',
-        description: '',
-        job_boards: ['Linedin-id'],
-        pipeline: null,
-        active: 1,
-      };
-      dispatch(jobAction(textValue1));
-      // const savedAssesmentRecord = addJobDataInfo.data.data.find((item) => item.name === assesmentName);
-      updateJobDataInfo.reset();
-    }
-    if (updateJobDataInfo.isError) {
-      showToast('error', 'not Updated');
-      updateJobDataInfo.reset();
-    }
-  }, []);
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
 
   useEffect(() => {
     if (deleteJobInfo.isSuccess) {
@@ -168,8 +114,7 @@ const Jobs = () => {
               style={{ minWidth: 0 }}
               variant="contained"
               component={RouterLink}
-              to={`/dashboard/jobs/edit-job/${data.data[dataIndex].id}`}
-              onClick={() => onEditJobClicked(data.data[dataIndex])}
+              to={`/dashboard/jobs/edit-job/${data.list[dataIndex].id}`}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
@@ -408,7 +353,7 @@ const Jobs = () => {
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-          <MUIDataTable title={'Job List'} data={data?.data} columns={columns} options={options} />
+          <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />
         </Card>
       </Container>
     </Page>
