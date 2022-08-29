@@ -12,9 +12,13 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 // import FileUpload from 'react-material-file-upload';
 import { useGetLocationQuery } from '../../../redux/services/settings/LocationService';
+import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
+import {useGetEmailTamplateQuery} from '../../../redux/services/settings/EmailTamplateService';
 
 const CreateInterview = () => {
   const [textValue, setTextValue] = useState({
+    candidate_id: '',
+    job_id: '',
     title: '',
     date: '',
     time_start: '',
@@ -31,13 +35,24 @@ const CreateInterview = () => {
 
   console.log('Location===:', locationData);
 
+  const { data: jobsData } = useGetJobQuery();
+
+  
+
+  const {data: emailtemplateData}=useGetEmailTamplateQuery();
+
+  console.log('Email template Data:',emailtemplateData);
+
+
   const handleChange = () => {};
 
   const onInputChangeHandler = (e) => {
-    setTextValue(e.target.value);
-    const myObj = {};
+    const myObj = {...textValue};
     myObj[e.target.name] = e.target.value;
+    setTextValue({...myObj});
+    console.log("myobj data",myObj)
   };
+
   console.log('message', textValue);
 
   //   const [files, setFiles] = React.useState([]);
@@ -87,18 +102,21 @@ const CreateInterview = () => {
                   value={textValue.type}
                   control={<Checkbox />}
                   label="In person"
+                  name='type'
                 />
                 <FormControlLabel
                   onSelect={onInputChangeHandler}
                   value={textValue.type}
                   control={<Checkbox />}
                   label="Telephonic"
+                  name='type'
                 />
                 <FormControlLabel
-                  onSelect={onInputChangeHandler}
-                  value={textValue.type}
-                  control={<Checkbox />}
+                  
+                  
+                  control={<Checkbox value={textValue.type}  name='type' onSelect={onInputChangeHandler}/>}
                   label="Video"
+                  
                 />
               </FormGroup>
             </Grid>
@@ -119,6 +137,7 @@ const CreateInterview = () => {
                 autoFocus
                 margin="dense"
                 variant="standard"
+                type={'time'}
                 placeholder="10:00 AM"
                 fullWidth
                 name="time_start"
@@ -129,8 +148,9 @@ const CreateInterview = () => {
             </Grid>
             <Grid item xs={12} marginBottom="10px">
               <TextField
-                autoFocus
+                
                 margin="dense"
+                type={'time'}
                 variant="standard"
                 placeholder="45 Minutes"
                 fullWidth
@@ -146,8 +166,8 @@ const CreateInterview = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={textValue.department}
-                  onChange={handleChange}
+                  value={textValue.location_id}
+                  onChange={onInputChangeHandler}
                   label="Department"
                 >
                   <MenuItem value="">
@@ -155,7 +175,7 @@ const CreateInterview = () => {
                   </MenuItem>
 
                   {locationData &&
-                    locationData?.data.map((item) => (
+                    locationData?.list?.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
                         {item?.name}
                       </MenuItem>
@@ -165,7 +185,6 @@ const CreateInterview = () => {
             </Grid>
             <Grid item xs={12} marginBottom="10px">
               <TextField
-                
                 margin="dense"
                 variant="standard"
                 placeholder="Search for team members..."
@@ -187,8 +206,8 @@ const CreateInterview = () => {
                 variant="standard"
                 placeholder="HOD-Civil"
                 fullWidth
-                name="selectCandidate"
-                value={textValue.selectCandidate}
+                name="candidate_id"
+                value={textValue.candidate_id}
                 label="Select Candidate"
                 onChange={onInputChangeHandler}
               />
@@ -199,16 +218,48 @@ const CreateInterview = () => {
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={textValue.department}
-                  onChange={handleChange}
+                  value={textValue.job_id}
+                  onChange={onInputChangeHandler}
+                  label="Department"
+                  name="job_id"
+                >
+                  {jobsData &&
+                    jobsData?.list.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.title}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} marginBottom="10px">
+              {/* <TextField
+                autoFocus
+                margin="dense"
+                variant="standard"
+                placeholder="Email template subject will come here..."
+                fullWidth
+                name="selectTemplate"
+                value={textValue.email_temp_id}
+                label="Select Template"
+                onChange={onInputChangeHandler}
+              /> */}
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">Select Template</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  onChange={onInputChangeHandler}
+                  name='email_temp_id'
+                  value={textValue.email_temp_id}
                   label="Department"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {jobsData &&
+                    emailtemplateData?.data.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.subject}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -217,24 +268,11 @@ const CreateInterview = () => {
                 autoFocus
                 margin="dense"
                 variant="standard"
-                placeholder="Email template subject will come here..."
-                fullWidth
-                name="selectTemplate"
-                value={textValue.selectTemplate}
-                label="Select Template"
-                onChange={onInputChangeHandler}
-              />
-            </Grid>
-            <Grid item xs={12} marginBottom="10px">
-              <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
                 placeholder="HOD-Civil"
                 fullWidth
-                name="subject"
-                value={textValue.subject}
-                label="Subject"
+                name="email_sub"
+                value={textValue.email_sub}
+                label="email_sub"
                 onChange={onInputChangeHandler}
               />
             </Grid>
@@ -245,32 +283,39 @@ const CreateInterview = () => {
                 variant="standard"
                 placeholder="Type interview name..."
                 fullWidth
-                name="emailBody"
-                value={textValue.emailBody}
+                name="email_msg"
+                value={textValue.email_msg}
                 label="Email Body"
                 onChange={onInputChangeHandler}
               />
             </Grid>
 
-            <Grid item xs={12} marginTop="20px">
-              <Button variant="contained" component="label">
-                Upload File
-                <input type="file" hidden />
-              </Button>
+            <Grid item xs={12} marginTop="20px" display="flex">
+              <Grid sx={6}>
+                <InputLabel>Attachment</InputLabel>
+              </Grid>
+              <Grid marginLeft={'10px'} sx={6}>
+                <Button variant="contained" component="label">
+                  Upload File
+                  <input type="file" hidden />
+                </Button>
+              </Grid>
               {/* <FileUpload value={files} onChange={setFiles} /> */}
             </Grid>
           </Card>
         </Grid>
       </Grid>
-
-      <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
+      <Grid sx={12} style={{ width: '50%', marginLeft: '30%' }}>
+        {/* <DialogActions style={{ display: 'flex',backgroundColor:'transparent' }}> */}
         <Box>
-          <Button autoFocus variant="outlined" style={{ marginRight: 5 }}>
+          <Button autoFocus variant="outlined" style={{ marginRight: 25 }}>
             Preview
           </Button>
+
           <Button variant="contained">Create</Button>
         </Box>
-      </DialogActions>
+        {/* </DialogActions> */}
+      </Grid>
     </>
   );
 };
