@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import IconButton from '@mui/material/IconButton';
@@ -17,7 +17,6 @@ import {
   useAddJobMutation,
   useGetJobeDetailsQuery,
   useUpdateJobMutation,
-  
 } from '../../../redux/services/jobs/JobServices';
 import FillDetails from './job-stepper-components/FillDetails';
 import SelectAssessment from './job-stepper-components/SelectAssessment';
@@ -79,9 +78,7 @@ const CreateJob = () => {
     setActiveStep(step);
   };
 
-  // const handleComplete = async (questionIndex) => {
-
-  //   await addJobData(textValue[questionIndex]);
+ 
 
   const handleComplete = async () => {
     const newCompleted = completed;
@@ -89,7 +86,7 @@ const CreateJob = () => {
     setCompleted(newCompleted);
     handleNext();
     console.log('job detailsssss:', job);
-    if (editJobId) {
+    if (editJobId && isValidateUpdateJob()) {
       updateJobData(job);
     } else {
       await addJobData(job);
@@ -98,7 +95,31 @@ const CreateJob = () => {
   useEffect(() => {
     console.log('Edit Job dATA', jobData);
     if (jobData?.data) {
-      dispatch(jobAction(jobData.data));
+      const textValue1 = {
+        title: jobData?.data?.title,
+        vacancies: jobData?.data?.vacancies,
+        department: jobData?.data?.department,
+        owner: jobData?.data?.owner_id,
+        assesment: jobData?.data?.assesment,
+        member_ids: jobData?.data?.members,
+        type: jobData?.data?.type,
+        nature: jobData?.data?.nature,
+        education: jobData?.data?.education,
+        speciality: jobData?.data?.speciality,
+        exp_min: jobData?.data?.exp_min,
+        exp_max: jobData?.data?.exp_max,
+        salary_min: jobData?.data?.salary_min,
+        salary_max: jobData?.data?.salary_max,
+        currency: jobData?.data?.currency,
+        salary_type: jobData?.data?.salary_type,
+        state: jobData?.data?.state_id,
+        city: jobData?.data?.city,
+        description: jobData?.data?.description,
+        job_boards: jobData?.data?.job_boards,
+        pipeline: jobData?.data?.pipeline_id,
+        active: jobData?.data?.active,
+      };
+      dispatch(jobAction(textValue1));
     }
   }, [dispatch, jobData]);
 
@@ -176,14 +197,25 @@ const CreateJob = () => {
     if (updateJobDataInfo.isSuccess) {
       showToast('success', updateJobDataInfo.data.msg);
       updateJobDataInfo.reset();
-      
     }
     if (updateJobDataInfo.isError) {
       showToast('error', updateJobDataInfo.error.data.msg);
       updateJobDataInfo.reset();
-      
     }
   }, [updateJobDataInfo]);
+
+  const isValidateUpdateJob = () => {
+    let status = true;
+    if (job === null || job === '' || job === undefined) {
+      status = false;
+      showToast('error', 'fill all fields');
+    }
+    // } else if (assesmentName === undefined || assesmentName === '') {
+    //   status = false;
+    //   showToast('error', 'Enter Assestment Name');
+    // }
+    return status;
+  };
 
   return (
     <>
@@ -203,7 +235,9 @@ const CreateJob = () => {
           </Grid>
           <Grid item xs={6} display="flex" justifyContent="right">
             <Grid style={{ marginRight: 5 }}>
-              <Button variant="contained">{editJobId ? 'Update' : 'Save'}</Button>
+              <Button variant="contained" onClick={handleComplete}>
+                {editJobId ? 'Update' : 'Save'}
+              </Button>
             </Grid>
             <Grid style={{ marginRight: 5 }}>
               {/* <Button
