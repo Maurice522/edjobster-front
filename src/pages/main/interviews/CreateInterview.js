@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
@@ -10,10 +10,13 @@ import { Box, FormControl, InputLabel, Select, DialogActions, TextField, MenuIte
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { showToast } from '../../../utils/toast';
+
 // import FileUpload from 'react-material-file-upload';
 import { useGetLocationQuery } from '../../../redux/services/settings/LocationService';
 import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
-import {useGetEmailTamplateQuery} from '../../../redux/services/settings/EmailTamplateService';
+import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import { useAddInterviewMutation } from '../../../redux/services/interview/InterviewServices';
 
 const CreateInterview = () => {
   const [textValue, setTextValue] = useState({
@@ -31,29 +34,41 @@ const CreateInterview = () => {
     email_msg: '',
   });
 
+  const [addInterview, addInterviewInfo] = useAddInterviewMutation();
+
   const { data: locationData } = useGetLocationQuery();
 
   console.log('Location===:', locationData);
 
   const { data: jobsData } = useGetJobQuery();
 
-  
+  const { data: emailtemplateData } = useGetEmailTamplateQuery();
 
-  const {data: emailtemplateData}=useGetEmailTamplateQuery();
-
-  console.log('Email template Data:',emailtemplateData);
-
-
-  const handleChange = () => {};
+  console.log('Email template Data:', emailtemplateData);
 
   const onInputChangeHandler = (e) => {
-    const myObj = {...textValue};
+    const myObj = { ...textValue };
     myObj[e.target.name] = e.target.value;
-    setTextValue({...myObj});
-    console.log("myobj data",myObj)
+    setTextValue({ ...myObj });
+    console.log('myobj data', myObj);
   };
 
-  console.log('message', textValue);
+  const createInterview = async () => {
+    await addInterview(textValue);
+  };
+
+  useEffect(() => {
+    if (addInterviewInfo.isSuccess) {
+      console.log('job data on success');
+      showToast('success', 'Interview Created Successfully');
+    }
+    if (addInterviewInfo.isError) {
+      showToast('error', addInterviewInfo.error.data.msg);
+      // addInterviewInfo.reset();
+    }
+  }, [addInterviewInfo]);
+
+  console.log('TextValue data', textValue);
 
   //   const [files, setFiles] = React.useState([]);
   return (
@@ -98,25 +113,16 @@ const CreateInterview = () => {
             <Grid item xs={12} margin="20px 0 10px 0">
               <FormGroup style={{ display: 'flex', flexDirection: 'row' }}>
                 <FormControlLabel
-                  onSelect={onInputChangeHandler}
-                  value={textValue.type}
-                  control={<Checkbox />}
+                  control={<Checkbox onChange={onInputChangeHandler} value="IP" name="type" />}
                   label="In person"
-                  name='type'
                 />
                 <FormControlLabel
-                  onSelect={onInputChangeHandler}
-                  value={textValue.type}
-                  control={<Checkbox />}
+                  control={<Checkbox onChange={onInputChangeHandler} value="T" name="type" />}
                   label="Telephonic"
-                  name='type'
                 />
                 <FormControlLabel
-                  
-                  
-                  control={<Checkbox value={textValue.type}  name='type' onSelect={onInputChangeHandler}/>}
+                  control={<Checkbox value="V" name="type" onChange={onInputChangeHandler} />}
                   label="Video"
-                  
                 />
               </FormGroup>
             </Grid>
@@ -134,21 +140,18 @@ const CreateInterview = () => {
             </Grid>
             <Grid item xs={12} marginBottom="10px">
               <TextField
-                autoFocus
                 margin="dense"
                 variant="standard"
                 type={'time'}
-                placeholder="10:00 AM"
                 fullWidth
                 name="time_start"
+                label="start time"
                 value={textValue.time_start}
-                label="Start Time"
                 onChange={onInputChangeHandler}
               />
             </Grid>
             <Grid item xs={12} marginBottom="10px">
               <TextField
-                
                 margin="dense"
                 type={'time'}
                 variant="standard"
@@ -169,13 +172,14 @@ const CreateInterview = () => {
                   value={textValue.location_id}
                   onChange={onInputChangeHandler}
                   label="Department"
+                  name="location_id"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
 
                   {locationData &&
-                    locationData?.list?.map((item) => (
+                    locationData?.data?.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
                         {item?.name}
                       </MenuItem>
@@ -250,7 +254,7 @@ const CreateInterview = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   onChange={onInputChangeHandler}
-                  name='email_temp_id'
+                  name="email_temp_id"
                   value={textValue.email_temp_id}
                   label="Department"
                 >
@@ -312,7 +316,9 @@ const CreateInterview = () => {
             Preview
           </Button>
 
-          <Button variant="contained">Create</Button>
+          <Button variant="contained" onClick={createInterview}>
+            Create
+          </Button>
         </Box>
         {/* </DialogActions> */}
       </Grid>
