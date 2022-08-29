@@ -56,7 +56,7 @@ export default function Router() {
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },
         { path: '/dashboard/jobs/create-job', element: <CreateJob /> },
-        { path: '/dashboard/jobs/edit-job', element: <EditJob /> },
+        { path: '/dashboard/jobs/edit-job/:editJobId', element: <CreateJob /> },
         { path: '/dashboard/candidates', element: <Candidates /> },
         { path: '/dashboard/candidates/create-candidate', element: <CreateCandidate /> },
         { path: '/dashboard/candidates/edit-candidate', element: <EditCandidate /> },

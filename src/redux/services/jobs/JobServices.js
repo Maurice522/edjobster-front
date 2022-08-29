@@ -5,27 +5,32 @@ const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
     getJob: build.query({
       query: () => ({
-        url: `${apiUrl.jobs}`,
+        url: `${apiUrl.jobs}job/`,
+      }),
+    }),
+    getJobeDetails: build.query({
+      query: (id) => ({
+        url: `${apiUrl.jobs}job-details/?id=${id}`,
       }),
     }),
    
     addJob: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.jobs}`,
+        url: `${apiUrl.jobs}job/`,
         method: 'POST',
         body: data,
       }),
     }),
     updateJob: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.jobs}`,
+        url: `${apiUrl.jobs}job/`,
         method: 'POST',
         body: data,
       }),
     }),
     deleteJob: build.mutation({
       query: (id) => ({
-        url: `${apiUrl.jobs}?id=${id}`,
+        url: `${apiUrl.jobs}job/?id=${id}`,
         method: 'DELETE',
       }),
     }),
@@ -35,6 +40,7 @@ const extendedApi = apiBasePath.injectEndpoints({
 
 export const {
   useGetJobQuery,
+  useGetJobeDetailsQuery,
   useAddJobMutation,
   useUpdateJobMutation,
   useDeleteJobMutation,

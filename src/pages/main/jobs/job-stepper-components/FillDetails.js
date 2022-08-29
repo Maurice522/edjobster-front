@@ -1,4 +1,5 @@
-import React, {  useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
@@ -8,6 +9,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import { jobAction } from '../../../../redux/job/JobReducer';
 import { useDegreeGetQuery } from '../../../../redux/services/settings/DegreeService';
 import { useGetUsersApiQuery } from '../../../../redux/services/settings/UserService';
 import { useDepartmentGetQuery } from '../../../../redux/services/settings/DepartmentService';
@@ -16,6 +18,9 @@ import { useGetPipelineQuery } from '../../../../redux/services/settings/Pipelin
 import { useDesignationGetQuery } from '../../../../redux/services/settings/DesignationService';
 
 const FillDetails = () => {
+  const dispatch = useDispatch();
+  const job = useSelector((state) => state.job.job);
+
   const { data: jobDegreeData } = useDegreeGetQuery();
   const { data: jobGetuserData } = useGetUsersApiQuery();
   const { data: jobGetDepartmentData } = useDepartmentGetQuery();
@@ -49,30 +54,7 @@ const FillDetails = () => {
   //   active: 1,
   // });
   const experienceArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  const [textValue, setTextValue] = useState({
-    title: '',
-    vacancies: null,
-    department: null,
-    owner: '',
-    assesment: null,
-    member_ids: [],
-    type: '',
-    nature: '',
-    education: [],
-    speciality: '',
-    exp_min: null,
-    exp_max: null,
-    salary_min: '',
-    salary_max: '',
-    currency: '',
-    salary_type: '',
-    state: null,
-    city: '',
-    description: '',
-    job_boards: ['Linedin-id'],
-    pipeline: null,
-    active: 1,
-  });
+  const [textValue, setTextValue] = useState(job);
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
@@ -100,6 +82,16 @@ const FillDetails = () => {
   //   e.preventDefault();
   //   setTextValue({ ...textValue, department: e.target.value });
   // };
+  useEffect(() => () => {
+      console.log('after next is clicked', textValue);
+      dispatch(jobAction(textValue));
+    }, []);
+
+  useEffect(() => {
+    if (job) {
+      setTextValue(job);
+    }
+  }, [job]);
 
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">
@@ -120,7 +112,6 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                autoFocus
                 margin="dense"
                 variant="standard"
                 fullWidth
@@ -156,12 +147,11 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
                 <Select
-                  autoFocus
                   margin="dense"
                   variant="standard"
                   fullWidth
                   name="owner"
-                  value={textValue.account_id}
+                  value={textValue.owner}
                   label="owner"
                   onChange={onInputChangeHandler}
                 >
@@ -178,7 +168,6 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">Team Member</InputLabel>
                 <Select
-                  autoFocus
                   margin="dense"
                   variant="standard"
                   fullWidth
@@ -322,7 +311,6 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={3}>
               <TextField
-                autoFocus
                 margin="dense"
                 variant="standard"
                 fullWidth
@@ -334,7 +322,6 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={3}>
               <TextField
-                autoFocus
                 margin="dense"
                 variant="standard"
                 fullWidth
@@ -380,7 +367,6 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
                 <Select
-                  autoFocus
                   margin="dense"
                   variant="standard"
                   fullWidth
@@ -402,7 +388,6 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">Pipeline</InputLabel>
                 <Select
-                  autoFocus
                   margin="dense"
                   variant="standard"
                   fullWidth
@@ -424,7 +409,6 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
                 <Select
-                  autoFocus
                   margin="dense"
                   variant="standard"
                   fullWidth
@@ -444,7 +428,6 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                autoFocus
                 margin="dense"
                 variant="standard"
                 fullWidth

@@ -1,16 +1,23 @@
-import React, {  useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
 import Typography from '@mui/material/Typography';
-import { useAddJobMutation } from '../../../redux/services/jobs/JobServices';
+import { jobAction } from '../../../redux/job/JobReducer';
+
+import {
+  useAddJobMutation,
+  useGetJobeDetailsQuery,
+  useUpdateJobMutation,
+} from '../../../redux/services/jobs/JobServices';
 import FillDetails from './job-stepper-components/FillDetails';
 import SelectAssessment from './job-stepper-components/SelectAssessment';
 import SelectJobBoards from './job-stepper-components/SelectJobBoards';
@@ -18,12 +25,15 @@ import Publish from './job-stepper-components/Publish';
 import { showToast } from '../../../utils/toast';
 
 const CreateJob = () => {
+  const { editJobId } = useParams();
+  const [updateJobData, updateJobDataInfo] = useUpdateJobMutation();
+
+  const dispatch = useDispatch();
   const job = useSelector((state) => state.job.job);
+  const { data: jobData } = useGetJobeDetailsQuery(editJobId);
   const [addJobData, addJobDataInfo] = useAddJobMutation();
 
   // useGetDepartment
-
- 
 
   const getSteps = () => ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
 
@@ -41,8 +51,6 @@ const CreateJob = () => {
         return 'Unknown step';
     }
   };
-
- 
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
@@ -82,22 +90,82 @@ const CreateJob = () => {
     setCompleted(newCompleted);
     handleNext();
     console.log('job detailsssss:', job);
-    await addJobData(job);
+    if (editJobId) {
+      updateJobData(job);
+    } else {
+      await addJobData(job);
+    }
   };
-
+  useEffect(() => {
+    if (jobData) {
+      dispatch(jobAction(jobData));
+    }
+  }, [jobData]);
   useEffect(() => {
     console.log('job addJobDataInfoaddJobDataInfo:', addJobDataInfo);
     if (addJobDataInfo.isSuccess) {
       console.log('job data on success');
       showToast('success', 'job form Sucessfully');
+      const textValue1 = {
+        title: '',
+        vacancies: null,
+        department: null,
+        owner: '',
+        assesment: null,
+        member_ids: [],
+        type: '',
+        nature: '',
+        education: [],
+        speciality: '',
+        exp_min: null,
+        exp_max: null,
+        salary_min: '',
+        salary_max: '',
+        currency: '',
+        salary_type: '',
+        state: null,
+        city: '',
+        description: '',
+        job_boards: ['Linedin-id'],
+        pipeline: null,
+        active: 1,
+      };
+      dispatch(jobAction(textValue1));
       // const savedAssesmentRecord = addJobDataInfo.data.data.find((item) => item.name === assesmentName);
       addJobDataInfo.reset();
     }
     if (addJobDataInfo.isError) {
-      showToast('error', addJobDataInfo.error.data.msg);
+      showToast('error', 'not SuccessFul');
       addJobDataInfo.reset();
     }
-  }, [addJobDataInfo]);
+    // return () => {
+    //   const textValue2 = {
+    //     title: '',
+    //     vacancies: null,
+    //     department: null,
+    //     owner: '',
+    //     assesment: null,
+    //     member_ids: [],
+    //     type: '',
+    //     nature: '',
+    //     education: [],
+    //     speciality: '',
+    //     exp_min: null,
+    //     exp_max: null,
+    //     salary_min: '',
+    //     salary_max: '',
+    //     currency: '',
+    //     salary_type: '',
+    //     state: null,
+    //     city: '',
+    //     description: '',
+    //     job_boards: ['Linedin-id'],
+    //     pipeline: null,
+    //     active: 1,
+    //   };
+    //   dispatch(jobAction(textValue2));
+    // };
+  }, [addJobDataInfo, dispatch]);
 
   const handleReset = () => {
     setActiveStep(0);
@@ -116,23 +184,27 @@ const CreateJob = () => {
             </Grid>
             <Grid>
               <Typography variant="h4" gutterBottom>
-                Create a Job
+                {editJobId ? 'Edit' : 'Create'} a Job
               </Typography>
             </Grid>
           </Grid>
           <Grid item xs={6} display="flex" justifyContent="right">
             <Grid style={{ marginRight: 5 }}>
-              <Button variant="contained" onClick={handleComplete} component={RouterLink} to="#">
-                Save
-              </Button>
+              <Button variant="contained">{editJobId ? 'Update' : 'Save'}</Button>
             </Grid>
             <Grid style={{ marginRight: 5 }}>
-              <Button variant="contained" component={RouterLink} to="/dashboard/jobs/job-preview">
+            {/* <Button
+              variant="contained"
+              component={RouterLink}
+              to={`/dashboard/jobs/edit-job/${data.data[dataIndex].id}`} */}
+            
+              <Button variant="contained" component={RouterLink} to ={`/dashboard/jobs/job-preview/${editJobId}`}>
                 Preview
               </Button>
             </Grid>
+            
             <Grid style={{ marginRight: 5 }}>
-              <Button variant="contained" component={RouterLink} to="#">
+              <Button variant="contained" onClick={handleComplete}>
                 Publish
               </Button>
             </Grid>
@@ -169,19 +241,6 @@ const CreateJob = () => {
                     <Button variant="contained" color="primary" onClick={handleNext} style={{ marginRight: '5px' }}>
                       Next
                     </Button>
-                    {activeStep !== steps.length &&
-                      (completed[activeStep] ? (
-                        <Typography variant="caption">Step {activeStep + 1} already completed</Typography>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleComplete}
-                          style={{ marginRight: '5px' }}
-                        >
-                          {completedSteps() === totalSteps() - 1 ? 'Finish' : 'Complete Step'}
-                        </Button>
-                      ))}
                   </div>
                 </div>
               )}

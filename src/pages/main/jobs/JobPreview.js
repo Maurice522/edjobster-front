@@ -12,18 +12,33 @@ import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import FormLabel from '@mui/material/FormLabel';
 import './JobPriview.css';
+import { useAddJobMutation, useUpdateJobMutation } from '../../../redux/services/jobs/JobServices';
 
 const JobPreview = () => {
+  const [updateJobData] = useUpdateJobMutation();
+  const [addJobData] = useAddJobMutation();
+  const { editJobId } = useParams();
+
   const job = useSelector((state) => state.job.job);
   useEffect(() => {
     console.log('job detailsssss:', job);
   }, [job]);
 
+  const handleComplete = async () => {
+    console.log('checking function');
+
+    console.log('job detailsssss:', job);
+    if (editJobId) {
+      updateJobData(job);
+    } else {
+      await addJobData(job);
+    }
+  };
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">
       <Stack direction="row" alignItems="center" mb={5}>
@@ -31,9 +46,9 @@ const JobPreview = () => {
           <CloseIcon />
         </IconButton>
         <Typography variant="h6" gutterBottom>
-          Preview | Assistant Professor - Mechanical Engineering
+          Preview | {job.title}
         </Typography>
-        <Button variant="contained" component={RouterLink} to="#" style={{ marginLeft: 120 }}>
+        <Button variant="contained" onClick={handleComplete} style={{ marginLeft: 120 }}>
           Publish
         </Button>
       </Stack>
