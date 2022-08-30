@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
@@ -19,7 +19,7 @@ import { useDesignationGetQuery } from '../../../../redux/services/settings/Desi
 
 const FillDetails = () => {
   const dispatch = useDispatch();
-  const job = useSelector((state) => state.job.job);
+  const textValue = useSelector((state) => state.job.job);
 
   const { data: jobDegreeData } = useDegreeGetQuery();
   const { data: jobGetuserData } = useGetUsersApiQuery();
@@ -29,32 +29,8 @@ const FillDetails = () => {
   const { data: jobGetPipelineData } = useGetPipelineQuery();
   const { data: jobGetDesignationData } = useDesignationGetQuery();
 
-  // const [jobPostData, setJobPostData] = useState({
-  //   title: 'Sample Job 1',
-  //   vacancies: 3,
-  //   department: 3,
-  //   owner: '811222fc-b760-474e-ab74-4a5e641b4c97',
-  //   assesment: 4,
-  //   member_ids: ['811222fc-b760-474e-ab74-4a5e641b4c97'],
-  //   type: 'F',
-  //   nature: 'R',
-  //   education: [1],
-  //   speciality: 'Linux',
-  //   description: 'Linux Admin',
-  //   exp_min: 0,
-  //   exp_max: 3,
-  //   salary_min: '2.4 LPA',
-  //   salary_max: '4.8 LPA',
-  //   salary_type: 'Y',
-  //   currency: 'INR',
-  //   city: 'Mumbai',
-  //   state: 1,
-  //   job_boards: ['Linedin-id'],
-  //   pipeline: 4,
-  //   active: 1,
-  // });
   const experienceArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-  const [textValue, setTextValue] = useState(job);
+  //  const [textValue, setTextValue] = useState(job);
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
@@ -76,22 +52,8 @@ const FillDetails = () => {
       myObj[e.target.name] = e.target.value;
     }
 
-    setTextValue({ ...myObj });
+    dispatch(jobAction({ ...myObj }));
   };
-  // const onAssesmentCategoryChangeHandler = (e) => {
-  //   e.preventDefault();
-  //   setTextValue({ ...textValue, department: e.target.value });
-  // };
-  useEffect(() => () => {
-      console.log('after next is clicked', textValue);
-      dispatch(jobAction(textValue));
-    }, []);
-
-  useEffect(() => {
-    if (job) {
-      setTextValue(job);
-    }
-  }, [job]);
 
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">

@@ -5,7 +5,7 @@ const initialState = {
     department: null,
     owner: '',
     assesment: null,
-    member_ids: [''],
+    member_ids: [],
     type: '',
     nature: '',
     education: [],

@@ -24,7 +24,6 @@ const CreateAssessment = () => {
   const { assessmentEditId } = useParams();
   const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
   const { data: assesmentQuestionsData, refetch } = useGetAssesmentQuestionsQuery(assessmentEditId);
-  console.log('assestment question data', assesmentQuestionsData);
   const [addAssesmentQuestions, addAssesmentQuestionsInfo] = useAddAssesmentQuestionsMutation();
   const [deleteAssesmentQuestions] = useDeleteAssesmentQuestionsMutation();
   // const [textAssesmentQuestions, textAssesmentQuestionsInfo] = useTextAssesmentQuestionsMutation();

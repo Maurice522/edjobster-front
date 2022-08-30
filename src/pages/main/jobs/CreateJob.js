@@ -32,7 +32,6 @@ const CreateJob = () => {
   const job = useSelector((state) => state.job.job);
   const { data: jobData } = useGetJobeDetailsQuery(editJobId);
   const [addJobData, addJobDataInfo] = useAddJobMutation();
-
   // useGetDepartment
 
   const getSteps = () => ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
@@ -79,33 +78,56 @@ const CreateJob = () => {
     setActiveStep(step);
   };
 
-  // const handleComplete = async (questionIndex) => {
-
-  //   await addJobData(textValue[questionIndex]);
+ 
 
   const handleComplete = async () => {
-    console.log('checking function');
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
     handleNext();
     console.log('job detailsssss:', job);
-    if (editJobId) {
+    if (editJobId && isValidateUpdateJob()) {
       updateJobData(job);
     } else {
       await addJobData(job);
     }
   };
   useEffect(() => {
-    if (jobData) {
-      dispatch(jobAction(jobData));
+    console.log('Edit Job dATA', jobData);
+    if (jobData?.data) {
+      const textValue1 = {
+        title: jobData?.data?.title,
+        vacancies: jobData?.data?.vacancies,
+        department: jobData?.data?.department?.id,
+        owner: jobData?.data?.owner?.account_id,
+        assesment: jobData?.data?.assesment?.id,
+        member_ids: jobData?.data?.members,
+        type: jobData?.data?.type,
+        nature: jobData?.data?.nature,
+        education: [...jobData?.data?.education],
+        speciality: jobData?.data?.speciality,
+        exp_min: jobData?.data?.exp_min,
+        exp_max: jobData?.data?.exp_max,
+        salary_min: jobData?.data?.salary_min,
+        salary_max: jobData?.data?.salary_max,
+        currency: jobData?.data?.currency,
+        salary_type: jobData?.data?.salary_type,
+        state: jobData?.data?.state?.id,
+        city: jobData?.data?.city,
+        description: jobData?.data?.description,
+        job_boards: jobData?.data?.job_boards,
+        pipeline: jobData?.data?.pipeline?.id,
+        active: jobData?.data?.active,
+      };
+      dispatch(jobAction(textValue1));
     }
-  }, [jobData]);
+  }, [dispatch, jobData]);
+
   useEffect(() => {
     console.log('job addJobDataInfoaddJobDataInfo:', addJobDataInfo);
     if (addJobDataInfo.isSuccess) {
       console.log('job data on success');
-      showToast('success', 'job form Sucessfully');
+      showToast('success', 'Job Created Successfully');
       const textValue1 = {
         title: '',
         vacancies: null,
@@ -135,41 +157,64 @@ const CreateJob = () => {
       addJobDataInfo.reset();
     }
     if (addJobDataInfo.isError) {
-      showToast('error', 'not SuccessFul');
+      showToast('error', addJobDataInfo.error.data.msg);
       addJobDataInfo.reset();
     }
-    // return () => {
-    //   const textValue2 = {
-    //     title: '',
-    //     vacancies: null,
-    //     department: null,
-    //     owner: '',
-    //     assesment: null,
-    //     member_ids: [],
-    //     type: '',
-    //     nature: '',
-    //     education: [],
-    //     speciality: '',
-    //     exp_min: null,
-    //     exp_max: null,
-    //     salary_min: '',
-    //     salary_max: '',
-    //     currency: '',
-    //     salary_type: '',
-    //     state: null,
-    //     city: '',
-    //     description: '',
-    //     job_boards: ['Linedin-id'],
-    //     pipeline: null,
-    //     active: 1,
-    //   };
-    //   dispatch(jobAction(textValue2));
-    // };
+    return () => {
+      const textValue2 = {
+        title: '',
+        vacancies: null,
+        department: null,
+        owner: '',
+        assesment: null,
+        member_ids: [],
+        type: '',
+        nature: '',
+        education: [],
+        speciality: '',
+        exp_min: null,
+        exp_max: null,
+        salary_min: '',
+        salary_max: '',
+        currency: '',
+        salary_type: '',
+        state: null,
+        city: '',
+        description: '',
+        job_boards: ['Linedin-id'],
+        pipeline: null,
+        active: 1,
+      };
+      dispatch(jobAction(textValue2));
+    };
   }, [addJobDataInfo, dispatch]);
 
   const handleReset = () => {
     setActiveStep(0);
     setCompleted({});
+  };
+  useEffect(() => {
+    if (updateJobDataInfo.isSuccess) {
+      showToast('success', updateJobDataInfo.data.msg);
+      updateJobDataInfo.reset();
+    }
+    if (updateJobDataInfo.isError) {
+      showToast('error', updateJobDataInfo.error.data.msg);
+      updateJobDataInfo.reset();
+    }
+  }, [updateJobDataInfo]);
+
+  const isValidateUpdateJob = () => {
+    let status = true;
+    if (job === null || job === '' || job === undefined) {
+      status = false;
+      showToast('error', 'fill all fields');
+    }
+    // } else if (assesmentName === undefined || assesmentName === '') {
+    //   status = false;
+    //   showToast('error', 'Enter Assestment Name');
+    // }
+    return status;
   };
 
   return (
@@ -190,19 +235,21 @@ const CreateJob = () => {
           </Grid>
           <Grid item xs={6} display="flex" justifyContent="right">
             <Grid style={{ marginRight: 5 }}>
-              <Button variant="contained">{editJobId ? 'Update' : 'Save'}</Button>
+              <Button variant="contained" onClick={handleComplete}>
+                {editJobId ? 'Update' : 'Save'}
+              </Button>
             </Grid>
             <Grid style={{ marginRight: 5 }}>
-            {/* <Button
+              {/* <Button
               variant="contained"
               component={RouterLink}
               to={`/dashboard/jobs/edit-job/${data.data[dataIndex].id}`} */}
-            
-              <Button variant="contained" component={RouterLink} to ={`/dashboard/jobs/job-preview/${editJobId}`}>
+
+              <Button variant="contained" component={RouterLink} to={`/dashboard/jobs/job-preview/${editJobId}`}>
                 Preview
               </Button>
             </Grid>
-            
+
             <Grid style={{ marginRight: 5 }}>
               <Button variant="contained" onClick={handleComplete}>
                 Publish
