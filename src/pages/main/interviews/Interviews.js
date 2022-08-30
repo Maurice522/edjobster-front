@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
@@ -28,13 +28,51 @@ import {
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
+import { sortedDataFn } from '../../../utils/getSortedData';
+import { showToast } from '../../../utils/toast';
+
 // mock
 
-import {useGetInterviewListAllQuery} from '../../../redux/services/interview/InterviewServices';
+import {
+  useGetInterviewListAllQuery,
+  useDeleteInterviewMutation,
+} from '../../../redux/services/interview/InterviewServices';
 
 const Interviews = () => {
+  const { data = [], refetch } = useGetInterviewListAllQuery();
+  const [currentIndex, setCurrentIndex] = useState(null);
 
- const {data=[] } = useGetInterviewListAllQuery()
+  const [deleteInterview, deleteInterviewInfo] = useDeleteInterviewMutation();
+
+  const sortData = useMemo(() => {
+    const sortresult = sortedDataFn(data?.list);
+    return sortresult;
+  }, [data]);
+
+  const onDeletAssesmenteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    await deleteInterview(currentDataObj.id);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (deleteInterviewInfo.isSuccess) {
+      showToast('success', deleteInterviewInfo.data.msg);
+      deleteInterviewInfo.reset();
+      refetch();
+    }
+    if (deleteInterviewInfo.isError) {
+      showToast('error', deleteInterviewInfo.error.data.msg);
+      deleteInterviewInfo.reset();
+      refetch();
+    }
+  }, [deleteInterviewInfo, refetch]);
+
   const columns = [
     {
       name: 'id',
@@ -93,8 +131,8 @@ const Interviews = () => {
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="error"
-              // onClick={() => onDeletAssesmenteHandler(dataIndex)}
-              // loading={dataIndex === currentIndex ? useDeleteCandidateMutation.isLoading : false}
+              onClick={() => onDeletAssesmenteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? useDeleteInterviewMutation.isLoading : false}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />

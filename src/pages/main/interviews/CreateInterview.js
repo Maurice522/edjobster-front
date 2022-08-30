@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink,useParams } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -17,10 +17,12 @@ import { showToast } from '../../../utils/toast';
 import { useGetLocationQuery } from '../../../redux/services/settings/LocationService';
 import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
 import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
-import { useAddInterviewMutation } from '../../../redux/services/interview/InterviewServices';
+import { useAddInterviewMutation,useDeleteInterviewMutation } from '../../../redux/services/interview/InterviewServices';
 import {useGetCandidateListQuery} from '../../../redux/services/candidate/CandidateServices';
 
 const CreateInterview = () => {
+  const { editInterview } = useParams();
+
   const [textValue, setTextValue] = useState({
     candidate_id: '',
     job_id: '',
@@ -37,6 +39,7 @@ const CreateInterview = () => {
   });
 
   const [addInterview, addInterviewInfo] = useAddInterviewMutation();
+
 
   const { data: locationData } = useGetLocationQuery();
 
@@ -73,6 +76,7 @@ const CreateInterview = () => {
       // addInterviewInfo.reset();
     }
   }, [addInterviewInfo]);
+  
 
   console.log('TextValue data', textValue);
 
@@ -336,11 +340,11 @@ const CreateInterview = () => {
       <Grid sx={12} style={{ width: '50%', marginLeft: '30%' }}>
         {/* <DialogActions style={{ display: 'flex',backgroundColor:'transparent' }}> */}
         <Box>
-          <Button autoFocus variant="outlined" style={{ marginRight: 25 }}>
+          <Button autoFocus variant="outlined" style={{ marginRight: 25 }} component={RouterLink} to={`/dashboard/interviews/priview-interview`}>
             Preview
           </Button>
 
-          <Button variant="contained" onClick={createInterview}>
+          <Button variant="contained" onClick={createInterview} >
             Create
           </Button>
         </Box>
