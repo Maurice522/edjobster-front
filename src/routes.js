@@ -38,7 +38,10 @@ import CreateInterview from './pages/main/interviews/CreateInterview';
 import EditInterview from './pages/main/interviews/EditInterview';
 import Assessments from './pages/main/assessments/Assessments';
 import CreateAssessment from './pages/main/assessments/CreateAssessment';
+
 import EditAssessment from './pages/main/assessments/EditAssessment';
+import JobPreview from './pages/main/jobs/JobPreview';
+import PriviewInterview from './pages/main/interviews/PriviewInterview';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +57,7 @@ export default function Router() {
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },
         { path: '/dashboard/jobs/create-job', element: <CreateJob /> },
-        { path: '/dashboard/jobs/edit-job', element: <EditJob /> },
+        { path: '/dashboard/jobs/edit-job/:editJobId', element: <CreateJob /> },
         { path: '/dashboard/candidates', element: <Candidates /> },
         { path: '/dashboard/candidates/create-candidate', element: <CreateCandidate /> },
         { path: '/dashboard/candidates/edit-candidate', element: <EditCandidate /> },
@@ -80,6 +83,8 @@ export default function Router() {
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },
+        { path: '/dashboard/jobs/job-preview', element: <JobPreview /> },
+        { path: '/dashboard/interviews/priview-interview', element: <PriviewInterview /> },
       ],
     },
     {

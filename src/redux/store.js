@@ -14,6 +14,7 @@ import sessionStorage from 'reduxjs-toolkit-persist/es/storage/session';
 import thunk from 'redux-thunk';
 import autoMergeLevel1 from 'reduxjs-toolkit-persist/lib/stateReconciler/autoMergeLevel1';
 import AuthReducer from './auth/AuthReducer';
+import JobReducer from './job/JobReducer';
 import { apiBasePath } from './services/BaseUrl';
 import { rtkQueryErrorLogger } from './services/UnautthorizationMiddleWare';
 
@@ -38,6 +39,7 @@ const persistConfig = {
 const reducers = combineReducers({
   login: AuthReducer,
   api: apiBasePath.reducer,
+  job: JobReducer,
 });
 const _persistedReducer = persistReducer(persistConfig, reducers);
 
