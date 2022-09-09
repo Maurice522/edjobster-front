@@ -6,6 +6,7 @@ const initialState = {
     owner: '',
     assesment: null,
     member_ids: [],
+    member_names: [],
     type: '',
     nature: '',
     education: [],

@@ -15,6 +15,7 @@ import {useGetAssesmentQuery} from '../../../../redux/services/main/AssesmentSer
 const SelectAssessment = () => {
   const dispatch = useDispatch();
   const {data:selectAssesmentData,selectAssesmentDataInfo}=useGetAssesmentQuery();
+  console.log("assesment data",selectAssesmentData)
   const [textValue, setTextValue] = useState({
     assesment: '',
   });
@@ -25,22 +26,20 @@ const SelectAssessment = () => {
     console.log("myObj",e.target.value);
     myObj[e.target.name] = e.target.value;
     setTextValue({ ...myObj });
+    console.log("textvalue assesment",myObj)
   };
-  useEffect(() => {
-    console.log('Chaged tesxt value', textValue);
-    return () => {
+
+  useEffect(() => () => {
       console.log('after next assesment is clicked', textValue);
       dispatch(jobAction(textValue));
-      console.log('component assesment unmounted next clicked');
-    };
-  }, [textValue]);
+    }, [dispatch, textValue]);
   return (
     <Container style={{ padding: 50, margin: 10 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container justifyContent="center">
           <Grid item xs={8}>
-            <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
               <InputLabel id="demo-simple-select-standard-label">Select Assessment</InputLabel>
+            <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
@@ -49,9 +48,9 @@ const SelectAssessment = () => {
                 label="Select Assessment"
                 name='assesment'
               >
-                <MenuItem value="">
+                {/* <MenuItem value="">
                   <em>None</em>
-                </MenuItem>
+                </MenuItem> */}
                 {selectAssesmentData &&
                     selectAssesmentData?.data?.map((item) => (
                       <MenuItem key={item.id} value={item.id}>

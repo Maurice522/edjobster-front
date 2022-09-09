@@ -1,12 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
-
+import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
-import { LoadingButton } from '@mui/lab';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card,
@@ -28,27 +27,36 @@ import {
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
+import JobModel from '../../../components/Mains/JobModel';
 import { sortedDataFn } from '../../../utils/getSortedData';
+
 import { showToast } from '../../../utils/toast';
 import { useGetJobQuery, useDeleteJobMutation } from '../../../redux/services/jobs/JobServices';
 
 // mock
 
 const Jobs = () => {
+  const [modelOpen, setModelOpen] = useState(false);
   const { data = [], refetch } = useGetJobQuery();
   const { editJobId } = useParams();
+  console.log("data ",data.list)
 
   const [currentIndex, setCurrentIndex] = useState(editJobId);
   const [deleteJob, deleteJobInfo] = useDeleteJobMutation();
 
-  // const { data: jobData } = useGetJobQuery();
+  const onJobViewModel = () => {
+    setModelOpen(true);
+  };
+  const handleClose = () => {
+    setModelOpen(false);
+  };
 
-  console.log('data is fetching form job', data);
   const sortData = useMemo(() => {
     const sortresult = sortedDataFn(data.list);
     return sortresult;
   }, [data]);
 
+  // Delete Handler
   const onDeletAssesmenteHandler = async (dataIndex) => {
     setCurrentIndex(currentIndex);
     const dataArr = sortData;
@@ -68,7 +76,6 @@ const Jobs = () => {
       refetch();
     }
   }, [deleteJobInfo, refetch]);
-
   const columns = [
     {
       name: 'title',
@@ -111,26 +118,38 @@ const Jobs = () => {
         customBodyRenderLite: (dataIndex) => (
           <>
             <Button
+              style={{ minWidth: 0, marginRight: '5px' }}
+              variant="contained"
+              onClick={() => onJobViewModel()}
+              color="info"
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="carbon:view-filled" width={15} height={15} />
+              </ListItemIcon>
+            </Button>
+            <Button
               style={{ minWidth: 0 }}
               variant="contained"
               component={RouterLink}
               to={`/dashboard/jobs/edit-job/${data.list[dataIndex].id}`}
+              // onClick={() => onEditModalHandler(dataIndex)}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
+                <Iconify icon="ep:edit" width={15} height={15} />
               </ListItemIcon>
             </Button>
-            <LoadingButton
+            <Button
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="error"
               onClick={() => onDeletAssesmenteHandler(dataIndex)}
-              // loading={dataIndex === currentIndex ? useDeleteAssesmentMutation.isLoading : false}
+              // onClick={() => onDeleteHandler(dataIndex)}
+              // loading={dataIndex === currentIndex ? useDeleteAssessmentListMutation.isLoading : false}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+                <Iconify icon="eva:trash-2-outline" width={15} height={15} />
               </ListItemIcon>
-            </LoadingButton>
+            </Button>
           </>
         ),
       },
@@ -141,25 +160,11 @@ const Jobs = () => {
       {sentenceCase('active')}
     </Label>
   );
-  const editAndDeleteButton = (
-    <>
-      <Button component={RouterLink} to="/dashboard/jobs/edit-job">
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:edit-fill" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-      <Button>
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-    </>
-  );
   // const data = [
-  //   { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
-  //   { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-  //   { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-  //   { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'Joe James', status: labelStatus },
+  //   { name: 'John Walsh', status: labelStatus },
+  //   { name: 'Bob Herm', status: labelStatus },
+  //   { name: 'James Houston', status: labelStatus },
   // ];
   const options = {
     filterType: 'dropdown',
@@ -169,7 +174,7 @@ const Jobs = () => {
     print: false,
   };
 
-  const getInputValue = (value) => {};
+  // const getInputValue = (value) => {};
 
   const [value, setValue] = React.useState(null);
 
@@ -353,9 +358,9 @@ const Jobs = () => {
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-          <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />
-        </Card>
+        <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />        </Card>
       </Container>
+      <JobModel open={modelOpen} handleClose={handleClose} />
     </Page>
   );
 };
