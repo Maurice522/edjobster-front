@@ -1,7 +1,12 @@
 import React from 'react';
+import JobBoards from '../../../settings/job-boards/JobBoards';
 
-const SelectJobBoards = () => {
-  return <div>SelectJobBoards</div>;
-};
 
+const SelectJobBoards = () => (
+    <>
+    <JobBoards/>
+  
+    
+    </>
+  );
 export default SelectJobBoards;

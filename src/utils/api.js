@@ -16,8 +16,20 @@ const apiUrl = {
   stage: `${baseUrl}settings/pipeline-stage/`,
   status: `${baseUrl}settings/pipeline-details/`,
   pipeline: `${baseUrl}settings/pipeline/`,
+  
   emailCategory: `${baseUrl}settings/email-category/`,
   emailtamplate: `${baseUrl}settings/email-template/`,
+  assesment:`${baseUrl}jobs/assesment/`,
+  jobs: `${baseUrl}jobs/`,  
+  emailVariables: `${baseUrl}settings/email-field/`,
+  webform: `${baseUrl}settings/webform/`,
+  fields: `${baseUrl}settings/webform-fields/`,
+  assementCategory: `${baseUrl}jobs/assesment-category/`,
+  assesmentQuestions: `${baseUrl}jobs/assesment-question/`,
+  candidate:`${baseUrl}candidate/`,
+  interview:`${baseUrl}interview/schedule/`,
+  location:`${baseUrl}settings/location/`,  
+
 };
 
 export { baseUrl, apiUrl };

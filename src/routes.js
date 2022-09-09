@@ -29,7 +29,7 @@ import JobBoards from './pages/settings/job-boards/JobBoards';
 import Billing from './pages/settings/billing/Billing';
 import Jobs from './pages/main/jobs/Jobs';
 import CreateJob from "./pages/main/jobs/CreateJob"
-import EditJob from './pages/main/jobs/EditJob'
+import EditJob from './pages/main/jobs/EditJob';
 import Candidates from './pages/main/candidates/Candidates';
 import CreateCandidate from "./pages/main/candidates/CreateCandidate"
 import EditCandidate from './pages/main/candidates/EditCandidate'
@@ -54,7 +54,8 @@ export default function Router() {
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },
         { path: '/dashboard/jobs/create-job', element: <CreateJob /> },
-        { path: '/dashboard/jobs/edit-job', element: <EditJob /> },
+        { path: '/dashboard/jobs/edit-job/:editJobId', element: <CreateJob /> },
+
         { path: '/dashboard/candidates', element: <Candidates /> },
         { path: '/dashboard/candidates/create-candidate', element: <CreateCandidate /> },
         { path: '/dashboard/candidates/edit-candidate', element: <EditCandidate /> },
