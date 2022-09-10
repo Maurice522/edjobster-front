@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card,
@@ -21,7 +22,13 @@ import {
   ListItemIcon,
 } from '@mui/material';
 
-import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import {
+  useGetEmailTamplateQuery,
+  useGetEmailVariableTamplateQuery,
+  useDeleteEmailTemplateMutation,
+  useUpdateEmailTemplateMutation,
+} from '../../../redux/services/settings/EmailTamplateService';
+import { useGetEmailCategoryQuery } from '../../../redux/services/settings/EmailCategoryService';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
 
@@ -35,12 +42,19 @@ import Iconify from '../../../components/Iconify';
 const Templates = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-  const { data = [], isLoading } = useGetEmailTamplateQuery();
+  const { data = [], isLoading, refetch } = useGetEmailTamplateQuery();
+  const { data: categoryData, isLoading: isCategoryLoading } = useGetEmailCategoryQuery();
+  const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery();
+  const [DeleteEmailTemplate, DeleteEmailTemplateInfo] = useDeleteEmailTemplateMutation();
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const [modalName, setModalName] = useState('add');
+
+  const [editValue, setEditValue] = useState();
 
   const modalHandleClose = (value) => {
-    console.log('value', value);
     setModalOpen(value);
     setEditModalOpen(value);
+    refetch();
   };
 
   // Show Data In Table
@@ -54,9 +68,34 @@ const Templates = () => {
     setModalOpen(true);
   };
 
-  const onEditModalHandler = () => {
+  const onEditModalHandler = (dataIndex) => {
     setEditModalOpen(true);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    setEditValue(currentDataObj);
+    setModalName('Edit');
   };
+
+  /// delete email template
+  const onEmailTemplateDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    await DeleteEmailTemplate(currentDataObj.id);
+  };
+  useEffect(() => {
+    if (DeleteEmailTemplateInfo.isSuccess) {
+      showToast('success', DeleteEmailTemplateInfo.data.msg);
+      DeleteEmailTemplateInfo.reset();
+      refetch();
+    }
+    if (DeleteEmailTemplateInfo.isError) {
+      showToast('error', DeleteEmailTemplateInfo.error.data.msg);
+      DeleteEmailTemplateInfo.reset();
+      refetch();
+    }
+  }, [DeleteEmailTemplateInfo, refetch]);
+
   const columns = [
     {
       name: 'id',
@@ -105,6 +144,26 @@ const Templates = () => {
       options: {
         filter: false,
         sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onEmailTemplateDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? useDeleteEmailTemplateMutation.isLoading : false}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
+          </>
+        ),
       },
     },
   ];
@@ -165,8 +224,11 @@ const Templates = () => {
         textBoxLabel="List Name"
         id="listName"
         name="list"
+        autocomplete="off"
         getInputValue={getInputValue}
         buttonLabel="Add List"
+        categoryData={categoryData?.data}
+        variableData={variableData?.data}
       />
       <EmailModalTemplates
         open={editmodalOpen}
@@ -178,6 +240,9 @@ const Templates = () => {
         name="list"
         getInputValue={getInputValue}
         buttonLabel="Update List"
+        categoryData={categoryData?.data}
+        variableData={variableData?.data}
+        emailTemplateData={editValue}
       />
     </Page>
   );

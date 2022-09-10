@@ -41,6 +41,6 @@ export const {
   useGetEmailTamplateQuery,
   useGetEmailVariableTamplateQuery,
   useAddEmailTemplateMutation,
-  useDeleteEmailTemplateMutation,
   useUpdateEmailTemplateMutation,
+  useDeleteEmailTemplateMutation,
 } = extendedApi;
