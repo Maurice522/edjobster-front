@@ -29,6 +29,7 @@ const Candidates = () => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const [deleteJob, deleteJobInfo] = useDeleteCandidateMutation();
   const { data: jobIdData} = useGetJobQuery();
+  console.log("Dataaaaa",data?.list);
   const [addApplyCandidate, addApplyCandidateInfo] = useAddApplyJobMutation();
 
   const sortData = useMemo(() => {
@@ -69,7 +70,6 @@ const Candidates = () => {
   const handleClose = () => {
     setModelOpen(false);
   };
-
   const columns = [
     {
       name: 'first_name',
@@ -88,7 +88,7 @@ const Candidates = () => {
       },
     },
     {
-      name: 'Status',
+      name: 'action',
       label: 'Status',
       options: {
         filter: false,
@@ -117,6 +117,7 @@ const Candidates = () => {
       options: {
         filter: false,
         sort: false,
+  
         customBodyRenderLite: (dataIndex) => (
           <>
             <Button
