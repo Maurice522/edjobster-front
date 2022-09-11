@@ -14,6 +14,7 @@ import {useGetAssesmentQuery} from '../../../../redux/services/main/AssesmentSer
 
 const SelectAssessment = () => {
   const dispatch = useDispatch();
+
   const {data:selectAssesmentData,selectAssesmentDataInfo}=useGetAssesmentQuery();
   console.log("assesment data",selectAssesmentData)
   const [textValue, setTextValue] = useState({
@@ -23,14 +24,11 @@ const SelectAssessment = () => {
   const onInputChangeHandler = (e) => {
     
     const myObj = { ...textValue };
-    console.log("myObj",e.target.value);
     myObj[e.target.name] = e.target.value;
     setTextValue({ ...myObj });
-    console.log("textvalue assesment",myObj)
   };
 
   useEffect(() => () => {
-      console.log('after next assesment is clicked', textValue);
       dispatch(jobAction(textValue));
     }, [dispatch, textValue]);
   return (

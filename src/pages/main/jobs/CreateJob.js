@@ -23,7 +23,6 @@ import { jobAction } from '../../../redux/job/JobReducer';
 import {
   useAddJobMutation,
   useGetJobeDetailsQuery,
-  useUpdateJobMutation,
 } from '../../../redux/services/jobs/JobServices';
 
 function getSteps() {
@@ -52,7 +51,6 @@ const CreateJob = () => {
   const job = useSelector((state) => state.job.job);
   const { data: jobData } = useGetJobeDetailsQuery(editJobId);
   const [addJobData, addJobDataInfo] = useAddJobMutation();
-  const [updeteJobData, updeteJobDataInfo] = useUpdateJobMutation();
   const [modelOpen, setModelOpen] = useState(false);
   const [jobModelPublish, setJobModelPublish] = useState(false);
 
@@ -114,9 +112,8 @@ const CreateJob = () => {
     handleNext();
     if (isValidateUpdateJob()) {
       await addJobData(job);
-    }else {
-      await updeteJobData(job);
     }
+    
   };
   useEffect(() => {
     if (jobData?.data) {
@@ -241,10 +238,10 @@ const CreateJob = () => {
       status = false;
       showToast('error', 'fill the education');
     }
-    if (job.member_ids === null || job.member_ids === '' || job.member_ids === undefined) {
-      status = false;
-      showToast('error', 'fill the team members');
-    }
+    // if (job.member_ids === null || job.member_ids === '' || job.member_ids === undefined) {
+    //   status = false;
+    //   showToast('error', 'fill the team members');
+    // }
     if (job.type === null || job.type === '' || job.type === undefined) {
       status = false;
       showToast('error', 'fill the type');

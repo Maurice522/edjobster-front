@@ -31,7 +31,7 @@ import {
   useUpdateAssessmentCategoriesMutation,
 } from '../../../redux/services/settings/AssessmentCategoriesService';
 // components
-import SettingsModal from '../../../components/settings/SettingsModal';
+import SettingsModal from "./CandidateSettingsModal";
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -54,7 +54,7 @@ const AssessmentCategories = () => {
     id: undefined,
     name: '',
   });
-
+console.log("assesment category",data)
   const modalHandleClose = (value) => {
     console.log('value', value);
     setModalOpen(value);
@@ -71,7 +71,8 @@ const AssessmentCategories = () => {
     const dataArr = sortData;
     const currentDataObj = dataArr[dataindex];
     setEditValue(currentDataObj);
-    setModalName('Eidt');
+    setModalName('Edit');
+    setModalOpen(false)
   };
 
   // add Handler
@@ -83,8 +84,13 @@ const AssessmentCategories = () => {
     setBtnLoader(true);
     if (modalName === 'Add') {
       await addAssessmentCategories(addValue);
-    } else {
+      modalHandleClose(false);
+    }if (modalName === "Edit"){
       await updateAssessmentCategories(editValue);
+      modalHandleClose(false);
+    } else {
+      console.log(modalName);
+    
     }
   };
   // Edit Handler
@@ -242,7 +248,7 @@ const AssessmentCategories = () => {
       <SettingsModal
         open={editmodalOpen}
         label="Edit Category Name"
-        type="edit"
+        type="Edit"
         textboxlabel="Edit Category"
         id="editCategoryName"
         value={editValue.name}

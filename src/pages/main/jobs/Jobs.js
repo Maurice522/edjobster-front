@@ -57,16 +57,17 @@ const Jobs = () => {
   }, [data]);
 
   // Delete Handler
-  const onDeletAssesmenteHandler = async (dataIndex) => {
-    setCurrentIndex(currentIndex);
-    const dataArr = sortData;
-    const currentDataObj = dataArr[dataIndex];
-    await deleteJob(currentDataObj.id);
+  const onDeletJobeHandler = async (deleteId) => {
+    // console.log("data index value",dataIndex);
+    // setCurrentIndex(deleteId);
+    // console.log("current index value",currentIndex)
+    
+    await deleteJob(deleteId);
   };
 
   useEffect(() => {
     if (deleteJobInfo.isSuccess) {
-      showToast('success', deleteJobInfo.data.msg);
+      showToast('success', "deleted successfully");
       deleteJobInfo.reset();
       refetch();
     }
@@ -142,7 +143,7 @@ const Jobs = () => {
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="error"
-              onClick={() => onDeletAssesmenteHandler(dataIndex)}
+              onClick={() => onDeletJobeHandler(data.list[dataIndex].id)}
               // onClick={() => onDeleteHandler(dataIndex)}
               // loading={dataIndex === currentIndex ? useDeleteAssessmentListMutation.isLoading : false}
             >

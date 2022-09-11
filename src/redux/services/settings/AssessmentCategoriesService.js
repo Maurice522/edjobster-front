@@ -5,26 +5,27 @@ const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
     getAssessmentCategories: build.query({
       query: () => ({
-        url: `${apiUrl.assessmentCategories}`,
+        // eslint-disable-next-line no-undef
+        url: `${apiUrl.assementCategory}`,
       }),
     }),
     addAssessmentCategories: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.assessmentCategories}`,
+        url: `${apiUrl.assementCategory}`,
         method: 'POST',
         body: data,
       }),
     }),
     updateAssessmentCategories: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.assessmentCategories}`,
+        url: `${apiUrl.assementCategory}`,
         method: 'POST',
         body: data,
       }),
     }),
     deleteAssessmentCategories: build.mutation({
       query: (id) => ({
-        url: `${apiUrl.assessmentCategories}?id=${id}`,
+        url: `${apiUrl.assementCategory}?id=${id}`,
         method: 'DELETE',
       }),
     }),
@@ -34,7 +35,7 @@ const extendedApi = apiBasePath.injectEndpoints({
 
 export const {
   useGetAssessmentCategoriesQuery,
-  useDeleteAssessmentCategoriesMutation,
   useAddAssessmentCategoriesMutation,
+  useDeleteAssessmentCategoriesMutation,
   useUpdateAssessmentCategoriesMutation,
 } = extendedApi;
