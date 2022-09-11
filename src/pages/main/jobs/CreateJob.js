@@ -20,10 +20,7 @@ import JobPreViewModel from '../../../components/Mains/JobPreViewModel';
 import { showToast } from '../../../utils/toast';
 import { jobAction } from '../../../redux/job/JobReducer';
 
-import {
-  useAddJobMutation,
-  useGetJobeDetailsQuery,
-} from '../../../redux/services/jobs/JobServices';
+import { useAddJobMutation, useGetJobeDetailsQuery } from '../../../redux/services/jobs/JobServices';
 
 function getSteps() {
   return ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
@@ -113,22 +110,22 @@ const CreateJob = () => {
     if (isValidateUpdateJob()) {
       await addJobData(job);
     }
-    
   };
   useEffect(() => {
     if (jobData?.data) {
+      console.log('Edit Job data recieved from server', jobData?.data);
       const textValue1 = {
-        id : editJobId,
+        id: editJobId,
         title: jobData?.data?.title,
         vacancies: jobData?.data?.vacancies,
         department: jobData?.data?.department?.id,
         owner: jobData?.data?.owner?.account_id,
         assesment: jobData?.data?.assesment?.id,
-        member_ids: jobData?.data?.member_ids,
-        member_name: [],
+        member_ids: jobData?.data?.members?.map((x) => x.account_id),
+        member_names: jobData?.data?.members?.map((x) => x.first_name),
         type: jobData?.data?.type,
         nature: jobData?.data?.nature,
-        education: [...jobData?.data?.education],
+        education: jobData?.data?.educations?.map((x) => x.id),
         speciality: jobData?.data?.speciality,
         exp_min: jobData?.data?.exp_min,
         exp_max: jobData?.data?.exp_max,
@@ -137,12 +134,18 @@ const CreateJob = () => {
         currency: jobData?.data?.currency,
         salary_type: jobData?.data?.salary_type,
         state: jobData?.data?.state?.id,
+        state_name: jobData?.data?.state?.name,
         city: jobData?.data?.city,
         description: jobData?.data?.description,
         job_boards: jobData?.data?.job_boards,
         pipeline: jobData?.data?.pipeline?.id,
         active: jobData?.data?.active,
+        assesment_name: jobData?.data?.assesment?.name,
+        education_names: jobData?.data?.educations?.map((x) => x.name),
+        pipeline_name: jobData?.data?.pipeline?.name,
+        owner_name: `${jobData?.data?.owner?.first_name} ${jobData?.data?.owner?.last_name}`,
       };
+      console.log('Edit Job data recieved', textValue1);
       dispatch(jobAction(textValue1));
     }
   }, [dispatch, jobData]);
@@ -174,6 +177,11 @@ const CreateJob = () => {
         job_boards: ['Linedin-id'],
         pipeline: null,
         active: 1,
+        assesment_name: '',
+        education_names: [],
+        pipeline_name: '',
+        state_name: '',
+        owner_name: '',
       };
       dispatch(jobAction(textValue1));
       // const savedAssesmentRecord = addJobDataInfo.data.data.find((item) => item.name === assesmentName);
@@ -208,6 +216,11 @@ const CreateJob = () => {
         job_boards: ['Linedin-id'],
         pipeline: null,
         active: 1,
+        assesment_name: '',
+        education_names: [],
+        pipeline_name: '',
+        state_name: '',
+        owner_name: '',
       };
       dispatch(jobAction(textValue2));
     };
@@ -324,7 +337,7 @@ const CreateJob = () => {
           </Grid>
           <Grid>
             <Typography variant="h4" gutterBottom>
-              {(editJobId)? "Update" : "Create"} job
+              {editJobId ? 'Update' : 'Create'} job
             </Typography>
           </Grid>
         </Grid>

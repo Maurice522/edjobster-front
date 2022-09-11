@@ -117,7 +117,7 @@ const JobPreViewModel = (props) => {
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Team Members Involved
             </Typography>
-            <Typography variant="body2">{job.member_ids}</Typography>
+            <Typography variant="body2">{job.member_names}</Typography>
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Job Nature
             </Typography>
@@ -143,7 +143,7 @@ const JobPreViewModel = (props) => {
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               State
             </Typography>
-            <Typography variant="body2">{job.state}</Typography>
+            <Typography variant="body2">{job.state_name}</Typography>
             <Grid item md={6}>
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Description
@@ -161,7 +161,7 @@ const JobPreViewModel = (props) => {
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Job Owner
             </Typography>
-            <Typography variant="body2">{job.owner}</Typography>
+            <Typography variant="body2">{job.owner_name}</Typography>
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Type
             </Typography>
@@ -169,7 +169,7 @@ const JobPreViewModel = (props) => {
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Education
             </Typography>
-            <Typography variant="body2">{job.education}</Typography>
+            <Typography variant="body2">{job.education_names}</Typography>
             <Grid container>
               <Grid item md={4}>
                 <Typography variant="subtitle1" sx={{ mt: 2 }}>

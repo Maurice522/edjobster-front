@@ -85,7 +85,7 @@ const JobPreview = () => {
                 <Grid item xs={6}>
                   <FormControl>
                     <FormLabel>Team Members Involved</FormLabel>
-                    <InputBase margin="dense" variant="standard" value={job.member_ids} />
+                    <InputBase margin="dense" variant="standard" value={job.member_names} />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
@@ -103,7 +103,7 @@ const JobPreview = () => {
                 <Grid item xs={6}>
                   <FormControl>
                     <FormLabel>Education</FormLabel>
-                    <InputBase margin="dense" variant="standard" value={job.education} />
+                    <InputBase margin="dense" variant="standard" value={job.education_names} />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>

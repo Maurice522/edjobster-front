@@ -24,7 +24,7 @@ import { useDesignationGetQuery } from '../../../../redux/services/settings/Desi
 const FillDetails = () => {
   const dispatch = useDispatch();
   const textValue = useSelector((state) => state.job.job);
-  console.log("Jobdata",textValue)
+  console.log('Jobdata', textValue);
 
   const { data: jobDegreeData } = useDegreeGetQuery();
   const { data: jobGetuserData } = useGetUsersApiQuery();
@@ -52,8 +52,10 @@ const FillDetails = () => {
     if (e.target.name === 'education') {
       myObj[e.target.name] = [e.target.value];
     } else if (e.target.name === 'member_ids') {
-      console.log('Member name', e);
-      myObj.member_names = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
+      // console.log('Member name', e);
+      // myObj.member_names = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
+      const newValue = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
+      myObj[e.target.name] = newValue;
       // myObj.member_names = [];
       // eslint-disable-next-line no-plusplus
       // for (let index = 0; index < e.target.value.length; index++) {
@@ -64,7 +66,7 @@ const FillDetails = () => {
       //   }
       // }
       console.log('name memberId', myObj[e.target.name]);
-      console.log('name membrer name', myObj.member_names);
+      // console.log('name membrer name', myObj.member_names);
       // myObj.member_name = typeof value === 'string' ? e.target.value.split(',') : e.target.value;
     } else if (
       e.target.name === 'vacancies' ||
@@ -82,7 +84,8 @@ const FillDetails = () => {
   };
   const renderMultiSelectValues = (selected) => {
     console.log('selected', selected);
-    return textValue.member_names;
+    // return textValue.member_names;
+    return selected.join(', ');
   };
 
   return (
@@ -183,7 +186,7 @@ const FillDetails = () => {
                   labelId="demo-multiple-checkbox-label"
                   id="demo-multiple-checkbox"
                   multiple
-                  value={textValue.member_names}
+                  value={textValue.member_ids}
                   name="member_ids"
                   fullWidth
                   onChange={onInputChangeHandler}
@@ -193,10 +196,9 @@ const FillDetails = () => {
                 >
                   {jobGetuserData &&
                     jobGetuserData?.list?.map((item) => (
-                      <MenuItem key={item.account_id} value={`${item.first_name} ${item.last_name}`}>
-                        <Checkbox
-                          checked={textValue.member_names.indexOf(`${item.first_name} ${item.last_name}`) > -1}
-                        />
+                      <MenuItem key={item.account_id} value={item.account_id}>
+                        <Checkbox checked={textValue.member_ids.indexOf(item.account_id) > -1} />
+
                         <ListItemText primary={`${item.first_name} ${item.last_name}`} />
                       </MenuItem>
                     ))}
