@@ -25,7 +25,7 @@ const Candidates = () => {
   const [modelOpen, setModelOpen] = useState(false);
 
   const [salectedJobId, setSalectedJobId] = useState('');
-  const { data = [], refetch } = useGetCandidateListQuery(salectedJobId);
+  const { data = [], refetch } = useGetCandidateListQuery();
   const [currentIndex, setCurrentIndex] = useState(null);
   const [deleteJob, deleteJobInfo] = useDeleteCandidateMutation();
   const { data: jobIdData} = useGetJobQuery();

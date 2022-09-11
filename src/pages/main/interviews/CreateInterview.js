@@ -12,20 +12,31 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { showToast } from '../../../utils/toast';
-
 // import FileUpload from 'react-material-file-upload';
 import { useGetLocationQuery } from '../../../redux/services/settings/LocationService';
 import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
-import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import {
+  useGetEmailTamplateQuery,
+  useGetEmailVariableTamplateQuery,
+} from '../../../redux/services/settings/EmailTamplateService';
 import {
   useAddInterviewMutation,
   useDeleteInterviewMutation,
 } from '../../../redux/services/interview/InterviewServices';
+
+import RichTextEditer from '../../../components/Rich-text-editer/RichTextEditer';
+
 import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
 
-const CreateInterview = () => {
+const CreateInterview = (props) => {
+  
   const { editInterview } = useParams();
-
+  const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery();
+// const [fieldData,setFieldData]=useState({
+// email_msg:''
+// })
+  // const { open, handleClose, categoryData, variableData, emailTemplateData } = props;
+  console.log('variable data', variableData);
   const [textValue, setTextValue] = useState({
     candidate_id: '',
     job_id: '',
@@ -40,6 +51,7 @@ const CreateInterview = () => {
     email_sub: '',
     email_msg: '',
   });
+
 
   const [addInterview, addInterviewInfo] = useAddInterviewMutation();
 
@@ -57,6 +69,9 @@ const CreateInterview = () => {
 
   console.log('Candidate List:', candidateListData);
 
+  const onInputChangeHandlerNew = (changedText) => {
+    setTextValue({ ...textValue, email_msg: `${changedText.replace('<p>', '').replace('</p>', '')}` });
+  };
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
     myObj[e.target.name] = e.target.value;
@@ -127,11 +142,11 @@ const CreateInterview = () => {
                   label="In person"
                 />
                 <FormControlLabel
-                  control={<Checkbox onChange={onInputChangeHandler} value="T" name="type" />}
+                  control={<Checkbox onChange={onInputChangeHandler} value="PC" name="type" />}
                   label="Telephonic"
                 />
                 <FormControlLabel
-                  control={<Checkbox value="V" name="type" onChange={onInputChangeHandler} />}
+                  control={<Checkbox value="VC" name="type" onChange={onInputChangeHandler} />}
                   label="Video"
                 />
               </FormGroup>
@@ -240,7 +255,7 @@ const CreateInterview = () => {
                   {candidateListData &&
                     candidateListData?.list.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
-                        {item?.job_title}
+                        {item?.first_name} {item?.last_name}
                       </MenuItem>
                     ))}
                 </Select>
@@ -288,7 +303,7 @@ const CreateInterview = () => {
                   value={textValue.email_temp_id}
                   label="Department"
                 >
-                  {jobsData &&
+                  {emailtemplateData &&
                     emailtemplateData?.data.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
                         {item?.subject}
@@ -311,7 +326,7 @@ const CreateInterview = () => {
               />
             </Grid>
             <Grid item xs={12} marginBottom="10px">
-              <TextField
+              {/* <TextField
                 autoFocus
                 margin="dense"
                 variant="standard"
@@ -320,7 +335,16 @@ const CreateInterview = () => {
                 value={textValue.email_msg}
                 label="Email Body"
                 onChange={onInputChangeHandler}
-              />
+              /> */}{' '}
+              <Grid item xl={12} style={{ heigth: '45vh' }}>
+                {variableData?.data && (
+                  <RichTextEditer
+                    onChange={onInputChangeHandlerNew}
+                    variableData={variableData?.data || []}
+                    body={textValue.email_msg}
+                  />
+                )}
+              </Grid>
             </Grid>
 
             <Grid item xs={12} marginTop="20px" display="flex">
