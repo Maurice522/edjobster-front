@@ -12,6 +12,7 @@ import { CardContent, Card, Grid, Divider, TextField, Box, Menu, MenuItem } from
 import Notes from '../Notes/Notes';
 import AssignJobModel from './AssignJobModel';
 import ViewAllCandidatesModel from './ViewAllCandidatesModel';
+import { useAddJobMutation, useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
 
 const useStyles = makeStyles({
   card_heading: {
@@ -29,11 +30,47 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const JobModel = (props) => {
+  const { data: jobData } = useGetJobeDetailsQuery(props.detailsId);
+  console.log('Edit Job data recieved from server', jobData?.data);
+  const [textValue, setTextValue] = useState({
+    id: props.detailsId,
+    title: jobData?.data?.title,
+    vacancies: jobData?.data?.vacancies,
+    department: jobData?.data?.department?.id,
+    owner: jobData?.data?.owner?.account_id,
+    assesment: jobData?.data?.assesment?.id,
+    member_ids: jobData?.data?.members?.map((x) => x.account_id),
+    member_names: jobData?.data?.members?.map((x) => x.first_name),
+    type: jobData?.data?.type,
+    nature: jobData?.data?.nature,
+    education: jobData?.data?.educations?.map((x) => x.id),
+    speciality: jobData?.data?.speciality,
+    exp_min: jobData?.data?.exp_min,
+    exp_max: jobData?.data?.exp_max,
+    salary_min: jobData?.data?.salary_min,
+    salary_max: jobData?.data?.salary_max,
+    currency: jobData?.data?.currency,
+    salary_type: jobData?.data?.salary_type,
+    state: jobData?.data?.state?.id,
+    state_name: jobData?.data?.state?.name,
+    city: jobData?.data?.city,
+    description: jobData?.data?.description,
+    job_boards: jobData?.data?.job_boards,
+    pipeline: jobData?.data?.pipeline?.id,
+    active: jobData?.data?.active,
+    assesment_name: jobData?.data?.assesment?.name,
+    education_names: jobData?.data?.educations?.map((x) => x.name),
+    pipeline_name: jobData?.data?.pipeline?.name,
+    owner_name: `${jobData?.data?.owner?.first_name} ${jobData?.data?.owner?.last_name}`,
+    department_name:jobData?.data?.department?.name,
+    city_name: jobData?.data?.city?.name,
+    });
+  console.log('Edit Job data recieved', textValue);
   const classes = useStyles();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [modelOpen, setModelOpen] = useState(false);
-  const [candidatesModel, setCandidatesModel] = useState(false)
+  const [candidatesModel, setCandidatesModel] = useState(false);
 
   const { open, handleClose } = props;
 
@@ -47,15 +84,15 @@ const JobModel = (props) => {
   };
   const assignJobModel = () => {
     setModelOpen(true);
-  }
+  };
   const assignJobModelClosed = () => {
     setModelOpen(false);
-    setCandidatesModel(false)
+    setCandidatesModel(false);
   };
 
   const viewAllCandisateshandler = () => {
-    setCandidatesModel(true)
-  }
+    setCandidatesModel(true);
+  };
 
   return (
     <>
@@ -107,7 +144,12 @@ const JobModel = (props) => {
                 <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={viewAllCandisateshandler}>
                   View all candidates
                 </Button>
-                <Button variant="contained" color="success" style={{ textTransform: 'capitalize' }} onClick={assignJobModel}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  style={{ textTransform: 'capitalize' }}
+                  onClick={assignJobModel}
+                >
                   Assign a candidates
                 </Button>
               </Grid>
@@ -193,7 +235,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Job title"
-                  defaultValue="Assisstent-Professer- Mechanical Enginnering"
+                  value={textValue.title}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -205,7 +247,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Number of vacancies"
-                  defaultValue="2"
+                  value={textValue.vacancies}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -217,7 +259,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Department"
-                  defaultValue="Mechanical Engineering"
+                  value={textValue.department_name}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -229,7 +271,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Job Owner"
-                  defaultValue="sameer Jalali"
+                  value={textValue.owner_name}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -241,7 +283,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Team member involed"
-                  defaultValue="2"
+                  value={textValue.member_names}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -253,7 +295,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Type"
-                  defaultValue="Full Time"
+                  value={textValue.type}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -265,7 +307,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Job Nature"
-                  defaultValue="in Campus"
+                  value={textValue.nature}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -274,24 +316,13 @@ const JobModel = (props) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item md={5} sx={{ mb: 2 }}>
-                <TextField
-                  label="Type"
-                  defaultValue="Full-Time"
-                  inputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                  size="small"
-                  fullWidth
-                />
-              </Grid>
+              
               <Grid item md={5} sx={{ mb: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item md={6}>
                     <TextField
                       label="Work Experiance From"
-                      defaultValue="2"
+                      value={textValue.exp_min}
                       inputProps={{
                         readOnly: true,
                       }}
@@ -303,7 +334,7 @@ const JobModel = (props) => {
                   <Grid item md={6}>
                     <TextField
                       label="Work Experiance To"
-                      defaultValue="2"
+                      value={textValue.exp_max}
                       inputProps={{
                         readOnly: true,
                       }}
@@ -317,7 +348,7 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Minimum Education"
-                  defaultValue="M.E/M.Tech "
+                  value={textValue.education_names}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -331,7 +362,7 @@ const JobModel = (props) => {
                   <Grid item md={6}>
                     <TextField
                       label="Salary From"
-                      defaultValue="2"
+                      value={textValue.salary_min}
                       inputProps={{
                         readOnly: true,
                       }}
@@ -343,7 +374,7 @@ const JobModel = (props) => {
                   <Grid item md={6}>
                     <TextField
                       label="Salary To"
-                      defaultValue="2"
+                      value={textValue.salary_max}
                       inputProps={{
                         readOnly: true,
                       }}
@@ -357,7 +388,8 @@ const JobModel = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Salary unit"
-                  defaultValue="Monthly "
+                  value={textValue.salary_type}
+                  name="salary_type"
                   inputProps={{
                     readOnly: true,
                   }}
@@ -368,8 +400,8 @@ const JobModel = (props) => {
               </Grid>
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
-                  label="Minimum Education"
-                  defaultValue="M.E/M.Tech "
+                  label="currency "
+                  value={textValue.currency}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -380,12 +412,38 @@ const JobModel = (props) => {
               </Grid>
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
-                  label="Minimum Education"
-                  defaultValue="M.E/M.Tech "
+                  label="State"
+                  value={textValue.state_name}
                   inputProps={{
                     readOnly: true,
                   }}
                   variant="outlined"
+                  size="small"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item md={5} sx={{ mb: 2 }}>
+                <TextField
+                  label="City"
+                  value={textValue.city}
+                  name="city_name"
+                  inputProps={{
+                    readOnly: true,
+                  }}
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item md={5} sx={{ mb: 2 }}>
+                <TextField
+                  margin="dense"
+                  variant="standard"
+                  label="Job description"
+                  value={textValue.description}
+                  inputProps={{
+                    readOnly: true,
+                  }}
                   size="small"
                   fullWidth
                 />

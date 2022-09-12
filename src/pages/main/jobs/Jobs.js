@@ -37,15 +37,18 @@ import { useGetJobQuery, useDeleteJobMutation } from '../../../redux/services/jo
 
 const Jobs = () => {
   const [modelOpen, setModelOpen] = useState(false);
+
+  const [detailsId, setDetailsId] = useState();
   const { data = [], refetch } = useGetJobQuery();
   const { editJobId } = useParams();
-  console.log("data ",data.list)
+  console.log('data ', data.list);
 
   const [currentIndex, setCurrentIndex] = useState(editJobId);
   const [deleteJob, deleteJobInfo] = useDeleteJobMutation();
 
-  const onJobViewModel = () => {
+  const onJobViewModel = (jobId) => {
     setModelOpen(true);
+    setDetailsId(jobId);
   };
   const handleClose = () => {
     setModelOpen(false);
@@ -59,15 +62,15 @@ const Jobs = () => {
   // Delete Handler
   const onDeletJobeHandler = async (deleteId) => {
     // console.log("data index value",dataIndex);
-    // setCurrentIndex(deleteId);
+    setCurrentIndex(deleteId);
     // console.log("current index value",currentIndex)
-    
+
     await deleteJob(deleteId);
   };
 
   useEffect(() => {
     if (deleteJobInfo.isSuccess) {
-      showToast('success', "deleted successfully");
+      showToast('success', deleteJobInfo?.data?.msg);
       deleteJobInfo.reset();
       refetch();
     }
@@ -121,7 +124,7 @@ const Jobs = () => {
             <Button
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
-              onClick={() => onJobViewModel()}
+              onClick={() => onJobViewModel(data.list[dataIndex].id)}
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
@@ -359,9 +362,10 @@ const Jobs = () => {
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-        <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />        </Card>
+          <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />{' '}
+        </Card>
       </Container>
-      <JobModel open={modelOpen} handleClose={handleClose} />
+      {modelOpen && detailsId && <JobModel open={modelOpen} handleClose={handleClose} detailsId={detailsId} />}
     </Page>
   );
 };

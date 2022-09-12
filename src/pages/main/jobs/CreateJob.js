@@ -144,6 +144,8 @@ const CreateJob = () => {
         education_names: jobData?.data?.educations?.map((x) => x.name),
         pipeline_name: jobData?.data?.pipeline?.name,
         owner_name: `${jobData?.data?.owner?.first_name} ${jobData?.data?.owner?.last_name}`,
+        city_name: jobData?.data?.city?.city_name,
+        department_name: jobData?.data?.department?.department_name,
       };
       console.log('Edit Job data recieved', textValue1);
       dispatch(jobAction(textValue1));
@@ -182,6 +184,8 @@ const CreateJob = () => {
         pipeline_name: '',
         state_name: '',
         owner_name: '',
+        department_name:'',
+        city_name:'',
       };
       dispatch(jobAction(textValue1));
       // const savedAssesmentRecord = addJobDataInfo.data.data.find((item) => item.name === assesmentName);
@@ -221,6 +225,8 @@ const CreateJob = () => {
         pipeline_name: '',
         state_name: '',
         owner_name: '',
+        department_name:'',
+        city_name:'',
       };
       dispatch(jobAction(textValue2));
     };

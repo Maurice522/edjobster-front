@@ -28,6 +28,8 @@ const initialState = {
     state_name: '',
     active: 1,
     owner_name:'',
+    department_name:'',
+    city_name:'',
   },
 };
 export default initialState;
