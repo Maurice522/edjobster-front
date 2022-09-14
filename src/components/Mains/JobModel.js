@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import { makeStyles } from '@mui/styles';
 import { CardContent, Card, Grid, Divider, TextField, Box, Menu, MenuItem } from '@mui/material';
@@ -62,9 +63,9 @@ const JobModel = (props) => {
     education_names: jobData?.data?.educations?.map((x) => x.name),
     pipeline_name: jobData?.data?.pipeline?.name,
     owner_name: `${jobData?.data?.owner?.first_name} ${jobData?.data?.owner?.last_name}`,
-    department_name:jobData?.data?.department?.name,
+    department_name: jobData?.data?.department?.name,
     city_name: jobData?.data?.city?.name,
-    });
+  });
   console.log('Edit Job data recieved', textValue);
   const classes = useStyles();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -226,7 +227,12 @@ const JobModel = (props) => {
                 <Typography variant="h6">Publish on : 14/09/2021</Typography>
               </Grid>
               <Grid item md={2} style={{ textAlign: 'center' }}>
-                <Button variant="contained" style={{ textTransform: 'capitalize' }}>
+                <Button
+                  component={RouterLink}
+                  to={`/dashboard/jobs/edit-job/${props.detailsId}`}
+                  variant="contained"
+                  style={{ textTransform: 'capitalize' }}
+                >
                   Edit Job
                 </Button>
               </Grid>
@@ -316,7 +322,7 @@ const JobModel = (props) => {
                   fullWidth
                 />
               </Grid>
-              
+
               <Grid item md={5} sx={{ mb: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item md={6}>
@@ -452,7 +458,7 @@ const JobModel = (props) => {
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid item md={3}>
-            <Notes />
+            <Notes candidateId={props.detailsId} />
           </Grid>
         </Grid>
         <AssignJobModel open={modelOpen} handleClose={assignJobModelClosed} />

@@ -46,7 +46,7 @@ const Notes = (props) => {
   };
   useEffect(() => {
     if (addCandidateNotesInfo.isSuccess) {
-      showToast('success', 'Assesment Saved Sucessfully');
+      showToast('success', 'Notes Saved Sucessfully');
       refetch();
       // setAssesmentId(savedAssesmentRecord.id);
       // addCandidateNotesInfo.reset();
@@ -54,12 +54,12 @@ const Notes = (props) => {
     if (addCandidateNotesInfo.isError) {
       showToast('error', addCandidateNotesInfo.error.data.msg);
     }
-  }, [addCandidateNotesInfo, refetch]);
+  }, [addCandidateNotesInfo]);
   return (
     <>
       <Grid container>
         <Grid item md={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant="h6">Notes</Typography>
+          <Typography variant="h6">Note</Typography>
         </Grid>
         <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid item md={10}>
@@ -85,11 +85,8 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
-            Notes
-          </Typography>
-          {candidateNotesData.notes &&
-            candidateNotesData.notes.map((item, i) => {
+          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}> Notes</Typography>
+          {candidateNotesData && candidateNotesData?.notes && candidateNotesData.notes.map((item) => {
               return (
                 <Card style={{ backgroundColor: '#5656561f' }}>
                   <CardContent>

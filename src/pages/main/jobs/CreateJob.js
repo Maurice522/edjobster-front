@@ -327,7 +327,9 @@ const CreateJob = () => {
   const handleClose = () => {
     setModelOpen(false);
   };
-
+  const handleJobClose=()=>{
+    setJobModelPublish(false)
+  }
   const onJobPreviewModel = () => {
     setModelOpen(true);
   };
@@ -415,7 +417,7 @@ const CreateJob = () => {
           </div>
         </div>
       </Card>
-      <AvilableJobsModel open={jobModelPublish} handleClose={handleClose} />
+      <AvilableJobsModel open={jobModelPublish} handleClose={handleJobClose} />
 
       <JobPreViewModel open={modelOpen} handleClose={handleClose} />
     </>

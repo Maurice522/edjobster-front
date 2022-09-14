@@ -362,7 +362,7 @@ const Jobs = () => {
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-          <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />{' '}
+          <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />
         </Card>
       </Container>
       {modelOpen && detailsId && <JobModel open={modelOpen} handleClose={handleClose} detailsId={detailsId} />}
