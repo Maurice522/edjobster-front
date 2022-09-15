@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 
 import {
   CardContent,
@@ -27,21 +30,33 @@ import { showToast } from '../../utils/toast';
 
 const Notes = (props) => {
   const { data: candidateNotesData, refetch } = useGetCandidateNotesListQuery(props.candidateId);
+  const { data: candidateNoteType } = useGetNotesTypesQuery();
   // const [addNotesData] = useAddCandidateNotesMutation();
   const [addCandidateNotes, addCandidateNotesInfo] = useAddCandidateNotesMutation();
 
-  const [note, setNotes] = useState();
+  const [emailNotes, setEmailNotes] = useState([]);
+  const [interviewNotes, setInterviewNotes] = useState([]);
+  const [callNotes, setCallNotes] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const [noteText,setNoteText]=useState()
+
+  const [selectedNoteType, setSelectedNoteType] = useState("");
   // const [value, setValue] = useState([]);
 
+  const handleChange = (e) => {
+    setSelectedNoteType(e.target.value);
+    console.log('select', e.target.value);
+  };
+
   const notesChange = (e) => {
-    setNotes(e.target.value);
+    setNoteText(e.target.value);
     //  console.log(notes)
   };
   const addNotesHandler = () => {
     addCandidateNotes({
       candidate: props.candidateId,
-      note,
-      type: 1,
+      type: selectedNoteType,
+      note:noteText,
     });
   };
   useEffect(() => {
@@ -55,12 +70,32 @@ const Notes = (props) => {
       showToast('error', addCandidateNotesInfo.error.data.msg);
     }
   }, [addCandidateNotesInfo]);
+  useEffect(() => {
+    if (candidateNotesData) {
+      setNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Note'));
+      setEmailNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Email'));
+      setInterviewNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Interview'));
+      setCallNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Call'));
+    }
+  }, [candidateNotesData]);
   return (
     <>
       <Grid container>
-        <Grid item md={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Typography variant="h6">Note</Typography>
-        </Grid>
+        <Box width="250px">
+          <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+            <TextField select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
+              {candidateNoteType &&
+                candidateNoteType?.types &&
+                candidateNoteType.types.map((item) => {
+                  return (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  );
+                })}
+            </TextField>
+          </FormControl>
+        </Box>
         <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid item md={10}>
             <TextField
@@ -70,7 +105,7 @@ const Notes = (props) => {
               fullWidth
               variant="outlined"
               size="small"
-              value={note}
+              value={noteText}
               onChange={notesChange}
             />
           </Grid>
@@ -85,16 +120,19 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}> Notes</Typography>
-          {candidateNotesData && candidateNotesData?.notes && candidateNotesData.notes.map((item) => {
-              return (
-                <Card style={{ backgroundColor: '#5656561f' }}>
-                  <CardContent>
-                    <Typography variant="body2">{item.note}</Typography>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
+            {' '}
+            Notes
+          </Typography>
+          {notes.map((item) => {
+            return (
+              <Card style={{ backgroundColor: '#5656561f' }}>
+                <CardContent>
+                  <Typography variant="body2">{item.note}</Typography>
+                </CardContent>
+              </Card>
+            );
+          })}
           <Grid container sx={{ mt: 1, ml: 1 }}>
             <Grid item md={8}>
               <Typography color="silver" style={{ fontSize: '12px' }}>
@@ -117,14 +155,16 @@ const Notes = (props) => {
           <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
             Interview
           </Typography>
-          <Card style={{ backgroundColor: '#5656561f' }}>
+          {interviewNotes.map((item) => {
+           return(
+         <Card style={{ backgroundColor: '#5656561f' }}>
             <CardContent>
-              <Typography variant="body2">
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                took a galley of type and scrambled it to make a
-              </Typography>
+              
+               <Typography variant="body2">{item.note}</Typography>;
+             
             </CardContent>
-          </Card>
+          </Card>)
+           })}
           <Grid container sx={{ mt: 1, ml: 1 }}>
             <Grid item md={8}>
               <Typography color="silver" style={{ fontSize: '12px' }}>
@@ -147,14 +187,15 @@ const Notes = (props) => {
           <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
             Email
           </Typography>
-          <Card style={{ backgroundColor: '#5656561f' }}>
-            <CardContent>
-              <Typography variant="body2">
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                took a galley of type and scrambled it to make a
-              </Typography>
-            </CardContent>
-          </Card>
+          {emailNotes.map((item) => {
+            return (
+              <Card style={{ backgroundColor: '#5656561f' }}>
+                <CardContent>
+                  <Typography variant="body2">{item.note}</Typography>
+                </CardContent>
+              </Card>
+            );
+          })}
           <Grid container sx={{ mt: 1, ml: 1 }}>
             <Grid item md={8}>
               <Typography color="silver" style={{ fontSize: '12px' }}>
