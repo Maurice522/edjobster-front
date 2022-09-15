@@ -7,6 +7,10 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { jobAction } from '../../../../redux/job/JobReducer';
@@ -20,6 +24,7 @@ import { useDesignationGetQuery } from '../../../../redux/services/settings/Desi
 const FillDetails = () => {
   const dispatch = useDispatch();
   const textValue = useSelector((state) => state.job.job);
+  console.log('Jobdata', textValue);
 
   const { data: jobDegreeData } = useDegreeGetQuery();
   const { data: jobGetuserData } = useGetUsersApiQuery();
@@ -31,15 +36,38 @@ const FillDetails = () => {
 
   const experienceArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   //  const [textValue, setTextValue] = useState(job);
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
-    if (e.target.name === 'education' || e.target.name === 'member_ids') {
-      if (e.target.name === 'education') {
-        myObj[e.target.name] = [parseInt(e.target.value, 10)];
-      } else {
-        myObj[e.target.name] = [e.target.value];
-      }
+    if (e.target.name === 'education') {
+      myObj[e.target.name] = [e.target.value];
+    } else if (e.target.name === 'member_ids') {
+      // console.log('Member name', e);
+      // myObj.member_names = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
+      const newValue = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
+      myObj[e.target.name] = newValue;
+      // myObj.member_names = [];
+      // eslint-disable-next-line no-plusplus
+      // for (let index = 0; index < e.target.value.length; index++) {
+      //   const mId = myObj[e.target.name][index];
+      //   const foundId = jobGetuserData?.list?.find((user) => `${user.first_name} ${user.last_name}` === mId);
+      //   if (foundId) {
+      //     myObj.member_names.push(`${foundId.first_name} ${foundId.last_name}`);
+      //   }
+      // }
+      console.log('name memberId', myObj[e.target.name]);
+      // console.log('name membrer name', myObj.member_names);
+      // myObj.member_name = typeof value === 'string' ? e.target.value.split(',') : e.target.value;
     } else if (
       e.target.name === 'vacancies' ||
       e.target.name === 'department' ||
@@ -53,6 +81,11 @@ const FillDetails = () => {
     }
 
     dispatch(jobAction({ ...myObj }));
+  };
+  const renderMultiSelectValues = (selected) => {
+    console.log('selected', selected);
+    // return textValue.member_names;
+    return selected.join(', ');
   };
 
   return (
@@ -127,21 +160,46 @@ const FillDetails = () => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Team Member</InputLabel>
-                <Select
+              <FormControl variant="standard" sx={{ m: 1, width: 300 }}>
+                {/* <InputLabel id="demo-simple-select-standard-label">Team Member</InputLabel> */}
+                {/* <TextField
+                  select
                   margin="dense"
                   variant="standard"
                   fullWidth
                   name="member_ids"
                   value={textValue.member_ids}
-                  label="Team member"
                   onChange={onInputChangeHandler}
+                  SelectProps={{
+                    multiple:true,
+                  }}
                 >
                   {jobGetuserData &&
                     jobGetuserData?.list?.map((item) => (
                       <MenuItem key={item.id} value={item.account_id}>
                         {item?.first_name}
+                      </MenuItem>
+                    ))}
+                </TextField> */}
+                <InputLabel id="demo-multiple-checkbox-label">Team Member</InputLabel>
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                  value={textValue.member_ids}
+                  name="member_ids"
+                  fullWidth
+                  onChange={onInputChangeHandler}
+                  input={<OutlinedInput label="Team Member" />}
+                  renderValue={renderMultiSelectValues}
+                  MenuProps={MenuProps}
+                >
+                  {jobGetuserData &&
+                    jobGetuserData?.list?.map((item) => (
+                      <MenuItem key={item.account_id} value={item.account_id}>
+                        <Checkbox checked={textValue.member_ids.indexOf(item.account_id) > -1} />
+
+                        <ListItemText primary={`${item.first_name} ${item.last_name}`} />
                       </MenuItem>
                     ))}
                 </Select>

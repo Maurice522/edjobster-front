@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -9,54 +9,27 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 import ListItemIcon from '@mui/material';
-import { useAddStatusApiMutation, useGetStatusApiQuery } from '../../redux/services/settings/StatusServices';
-import { showToast } from '../../utils/toast';
 
 const ViewStatus = (props) => {
-  const { open, handleclose, currentRowValue } = props;
-  const [AddSatus, AddStatusInfo] = useAddStatusApiMutation();
-  const { data: statusDataByid, isError, isLoading, refetch } = useGetStatusApiQuery(currentRowValue.id);
-  const [statusData, setStatusData] = useState(statusDataByid?.data?.status || ['']);
+  const { open, handleclose } = props;
+  // const [counter, setCounter] = useState(0);
+  // const [couterDelete, setCouterDelete] = useState(0);
+  const [formValues, setFormValues] = useState([{ name: '', email: '' }]);
+
   const modalCloseHandler = () => {
     handleclose(true);
   };
 
   const addFormFields = () => {
-    setStatusData([...statusData, '']);
+    setFormValues([...formValues, { name: '', email: '' }]);
   };
 
   const removeFormFields = (i) => {
-    const newFormValues = [...statusData];
+    const newFormValues = [...formValues];
     newFormValues.splice(i, 1);
-    setStatusData([...newFormValues]);
+    setFormValues(newFormValues);
   };
-  const onAddStatusTextBoxChange = (e, index) => {
-    e.preventDefault();
-    statusData[index] = e.target.value;
-    setStatusData([...statusData]);
-  };
-  const addStatusData = () => {
-    AddSatus({ stage: currentRowValue.id, status: statusData });
-  };
-  useEffect(() => {
-    if (AddStatusInfo.isSuccess) {
-      refetch();
-      showToast('success', 'Stage Status successfully added.');
-      AddStatusInfo.reset();
-      setStatusData(['']);
-      handleclose(true);
-    }
-    if (AddStatusInfo.isError) {
-      showToast('error', AddStatusInfo.error.data.msg);
-      AddStatusInfo.reset();
-    }
-  }, [AddStatusInfo, handleclose, refetch]);
 
-  useEffect(() => {
-    if (statusDataByid?.data?.status) {
-      setStatusData(statusDataByid?.data?.status);
-    }
-  }, [statusDataByid]);
   return (
     <>
       <Dialog
@@ -79,25 +52,12 @@ const ViewStatus = (props) => {
               </Grid>
             </Grid>
             <Grid container>
-              {statusData?.map((element, index) => (
+              {formValues.map((element, index) => (
                 <>
-                  <Grid item md={9} key={`text-grid-${index}`}>
-                    <TextField
-                      key={`text-box-${index}`}
-                      id="standard-basic"
-                      fullWidth
-                      label="Add Status"
-                      variant="standard"
-                      value={element}
-                      onChange={(e) => onAddStatusTextBoxChange(e, index, element)}
-                    />
+                  <Grid item md={9} key={index}>
+                    <TextField id="standard-basic" fullWidth label="Add Status" variant="standard" {...props} />
                   </Grid>
-                  <Grid
-                    item
-                    md={3}
-                    style={{ display: 'flex', alignItems: 'end', justifyContent: 'end' }}
-                    key={`delete-${index}`}
-                  >
+                  <Grid item md={3} style={{ display: 'flex', alignItems: 'end', justifyContent: 'end' }}>
                     {index !== 0 ? (
                       <LoadingButton onClick={() => removeFormFields(index)} variant="contained">
                         Remove
@@ -113,9 +73,7 @@ const ViewStatus = (props) => {
           <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
             Cancel
           </Button>
-          <LoadingButton onClick={addStatusData} variant="contained">
-            Add
-          </LoadingButton>
+          <LoadingButton variant="contained">Add</LoadingButton>
         </DialogActions>
       </Dialog>
     </>

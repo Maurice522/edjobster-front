@@ -31,15 +31,19 @@ import Iconify from '../../../components/Iconify';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
 
+
 // mock
 
 import {
   useGetInterviewListAllQuery,
   useDeleteInterviewMutation,
-} from '../../../redux/services/interview/InterviewServices';
+} from '../../../redux/services/interview/InterviewServices'
 
 const Interviews = () => {
   const { data = [], refetch } = useGetInterviewListAllQuery();
+  // const [modelOpen, setModelOpen] = useState(false);
+
+
   const [currentIndex, setCurrentIndex] = useState(null);
 
   const [deleteInterview, deleteInterviewInfo] = useDeleteInterviewMutation();
@@ -73,6 +77,9 @@ const Interviews = () => {
     }
   }, [deleteInterviewInfo, refetch]);
 
+  // const onJobViewModel = () => {
+  //   setModelOpen(true);
+  // };
   const columns = [
     {
       name: 'id',
@@ -122,6 +129,16 @@ const Interviews = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
+          {/* <Button
+              style={{ minWidth: 0, marginRight: '5px' }}
+              variant="contained"
+              onClick={() => onJobViewModel()}
+              color="info"
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="carbon:view-filled" width={15} height={15} />
+              </ListItemIcon>
+            </Button> */}
             <Button style={{ minWidth: 0 }} variant="contained" component={RouterLink} to={'#'}>
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />

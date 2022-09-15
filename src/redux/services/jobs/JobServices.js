@@ -21,13 +21,7 @@ const extendedApi = apiBasePath.injectEndpoints({
         body: data,
       }),
     }),
-    updateJob: build.mutation({
-      query: (data) => ({
-        url: `${apiUrl.jobs}job/`,
-        method: 'POST',
-        body: data,
-      }),
-    }),
+
     deleteJob: build.mutation({
       query: (id) => ({
         url: `${apiUrl.jobs}job/?id=${id}`,
@@ -42,6 +36,6 @@ export const {
   useGetJobQuery,
   useGetJobeDetailsQuery,
   useAddJobMutation,
-  useUpdateJobMutation,
+ 
   useDeleteJobMutation,
 } = extendedApi;

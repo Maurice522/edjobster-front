@@ -40,7 +40,7 @@ const extendedApi = apiBasePath.injectEndpoints({
 export const {
   useGetEmailTamplateQuery,
   useGetEmailVariableTamplateQuery,
+  useUpdateEmailTemplateMutation,
   useAddEmailTemplateMutation,
   useDeleteEmailTemplateMutation,
-  useUpdateEmailTemplateMutation,
 } = extendedApi;

@@ -1,42 +1,35 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
-
+import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 // material
-import {
-  Card,
-  Stack,
-  Button,
-  Container,
-  Typography,
-  ListItemIcon,
-  FormControl,
-  MenuItem,
-  Select,
-  InputLabel,
-} from '@mui/material';
+import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
 // components
 import MainModuleFilter from '../../../components/main/MainModuleFilter';
 import Page from '../../../components/Page';
-
+import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
+import CandidatesModel from '../../../components/Mains/CandidatesModel';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
-// mock
 import {
   useGetCandidateListQuery,
   useDeleteCandidateMutation,
   useAddApplyJobMutation,
 } from '../../../redux/services/candidate/CandidateServices';
 import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
+// mock
 
 const Candidates = () => {
+  const [modelOpen, setModelOpen] = useState(false);
+const [candidateId,setCandidateId]=useState();
   const [salectedJobId, setSalectedJobId] = useState('');
-  const { data = [], refetch } = useGetCandidateListQuery(salectedJobId);
+  const { data = [], refetch } = useGetCandidateListQuery();
   const [currentIndex, setCurrentIndex] = useState(null);
   const [deleteJob, deleteJobInfo] = useDeleteCandidateMutation();
   const { data: jobIdData} = useGetJobQuery();
+  console.log("Dataaaaa",data?.list);
   const [addApplyCandidate, addApplyCandidateInfo] = useAddApplyJobMutation();
 
   const sortData = useMemo(() => {
@@ -48,7 +41,7 @@ const Candidates = () => {
     event.preventDefault();
     setSalectedJobId(event.target.value);
   };
-  const onDeletAssesmenteHandler = async (dataIndex) => {
+  const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
     const dataArr = sortData;
     const currentDataObj = dataArr[dataIndex];
@@ -71,7 +64,13 @@ const Candidates = () => {
       refetch();
     }
   }, [deleteJobInfo, refetch]);
-
+  const onCandidateModelView = (candidateId) => {
+    setCandidateId(candidateId)
+    setModelOpen(true);
+  };
+  const handleClose = () => {
+    setModelOpen(false);
+  };
   const columns = [
     {
       name: 'first_name',
@@ -119,30 +118,49 @@ const Candidates = () => {
       options: {
         filter: false,
         sort: false,
+  
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0 }} variant="contained" component={RouterLink} to={'#'}>
+            <Button
+              style={{ minWidth: 0, marginRight: '5px' }}
+              variant="contained"
+              onClick={() => onCandidateModelView(data.list[dataIndex].id)}
+              color="info"
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="carbon:view-filled" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+            <Button
+              style={{ minWidth: 0 }}
+              variant="contained"
+            // onClick={() => onEditModalHandler(dataIndex)}
+            >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <LoadingButton
+            <Button
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="error"
-              onClick={() => onDeletAssesmenteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? useDeleteCandidateMutation.isLoading : false}
+            onClick={() => onDeleteHandler(dataIndex)}
+            loading={dataIndex === currentIndex ? useDeleteCandidateMutation.isLoading : false}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
-            </LoadingButton>
+            </Button>
           </>
         ),
       },
     },
   ];
- 
+  const labelStatus = (
+    <Label variant="ghost" color={'success'}>
+      {sentenceCase('active')}
+    </Label>
+  );
   const editAndDeleteButton = (
     <>
       <Button component={RouterLink} to="/dashboard/candidates/edit-candidate">
@@ -157,7 +175,12 @@ const Candidates = () => {
       </Button>
     </>
   );
-
+  // const data = [
+  //   { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
+  //   { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
+  // ];
   const options = {
     filterType: 'dropdown',
     responsive: 'stacked',
@@ -172,26 +195,6 @@ const Candidates = () => {
           <Typography variant="h4" gutterBottom>
             Candidates
           </Typography>
-          <FormControl sx={{ minWidth: '30%' }}>
-            <InputLabel id="demo-simple-select-autowidth-label">All Candidates</InputLabel>
-            <Select
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth-label"
-              value={salectedJobId}
-              onChange={onJobIDhandleChange}
-              label="All Candidates"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              {jobIdData &&
-                jobIdData?.data?.map((item, index) => (
-                  <MenuItem key={index} value={item.id}>
-                    {item.title}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
           <Button
             variant="contained"
             component={RouterLink}
@@ -206,9 +209,9 @@ const Candidates = () => {
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-          <MUIDataTable title={'candidate List'} data={data?.list} columns={columns} options={options} />
-        </Card>
+        <MUIDataTable title={'candidate List'} data={data?.list} columns={columns} options={options} />        </Card>
       </Container>
+      <CandidatesModel open={modelOpen} handleClose={handleClose} candidateId={candidateId}/>
     </Page>
   );
 };

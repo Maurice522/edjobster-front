@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import { makeStyles } from '@mui/styles';
-import { EditorState ,convertFromRaw} from 'draft-js';
+import { EditorState, convertFromRaw } from 'draft-js';
 // import {  } from 'draft-js';
-
 
 import { convertToHTML } from 'draft-convert';
 
@@ -15,6 +14,7 @@ const useStyles = makeStyles({
 });
 
 const RichTextEditer = (props) => {
+  console.log("props values transferred",props)
   const content = {
     entityMap: {},
     blocks: [
@@ -59,35 +59,10 @@ const RichTextEditer = (props) => {
         mention={{
           separator: ' ',
           trigger: '$',
-          suggestions: props.variableData.map((item) => {
-            return { text: item.name, value: item.value.slice(1), url: item.value.slice(1) };
-          }),
+          suggestions: props?.variableData?.map((item) => ({ text: item.name, value: item.value.slice(1), url: item.value.slice(1) })),
         }}
         hashtag={{}}
       />
-      {/* <textarea
-          disabled
-          value={JSON.stringify(contentState, null, 4)}
-        /> */}
-      {/* <Editor
-        wrapperClassName="demo-wrapper"
-        editorClassName="demo-editor"
-        mention={{
-          separator: ' ',
-          trigger: '@',
-          suggestions: [
-            { text: 'APPLE', value: 'apple', url: 'apple' },
-            { text: 'BANANA', value: 'banana', url: 'banana' },
-            { text: 'CHERRY', value: 'cherry', url: 'cherry' },
-            { text: 'DURIAN', value: 'durian', url: 'durian' },
-            { text: 'EGGFRUIT', value: 'eggfruit', url: 'eggfruit' },
-            { text: 'FIG', value: 'fig', url: 'fig' },
-            { text: 'GRAPEFRUIT', value: 'grapefruit', url: 'grapefruit' },
-            { text: 'HONEYDEW', value: 'honeydew', url: 'honeydew' },
-          ],
-        }}
-        hashtag={{}}
-      /> */}
     </>
   );
 };

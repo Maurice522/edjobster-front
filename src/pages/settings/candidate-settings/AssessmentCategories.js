@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
+import { LoadingButton } from '@mui/lab';
+
 // material
 import {
   Card,
@@ -20,8 +22,16 @@ import {
   TablePagination,
   ListItemIcon,
 } from '@mui/material';
+import { sortedDataFn } from '../../../utils/getSortedData';
+import { showToast } from '../../../utils/toast';
+import {
+  useGetAssessmentCategoriesQuery,
+  useDeleteAssessmentCategoriesMutation,
+  useAddAssessmentCategoriesMutation,
+  useUpdateAssessmentCategoriesMutation,
+} from '../../../redux/services/settings/AssessmentCategoriesService';
 // components
-import SettingsModal from '../../../components/settings/SettingsModal';
+import SettingsModal from "./CandidateSettingsModal";
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -30,7 +40,21 @@ import Iconify from '../../../components/Iconify';
 const AssessmentCategories = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
-
+  const [modalName, setModalName] = useState('add');
+  const [btnLoader, setBtnLoader] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(null);
+  const { data = [], isLoading, refetch } = useGetAssessmentCategoriesQuery();
+  const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssessmentCategoriesMutation();
+  const [updateAssessmentCategories, updateAssessmentCategoriesInfo] = useUpdateAssessmentCategoriesMutation();
+  const [DeleteAssessmentCategories, DeleteAssessmentCategoriesInfo] = useDeleteAssessmentCategoriesMutation();
+  const [addValue, setAddvalue] = useState({
+    name: '',
+  });
+  const [editValue, setEditValue] = useState({
+    id: undefined,
+    name: '',
+  });
+console.log("assesment category",data)
   const modalHandleClose = (value) => {
     console.log('value', value);
     setModalOpen(value);
@@ -39,12 +63,108 @@ const AssessmentCategories = () => {
 
   const addNewCategoryHandler = () => {
     setModalOpen(true);
+    setModalName('Add');
   };
 
-  const onEditModalHandler = () => {
+  const onEditModalHandler = (dataindex) => {
     setEditModalOpen(true);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataindex];
+    setEditValue(currentDataObj);
+    setModalName('Edit');
+    setModalOpen(false)
   };
+
+  // add Handler
+
+  const addChangeHandler = (e) => {
+    setAddvalue({ [e.target.name]: e.target.value });
+  };
+  const addClickHandler = async () => {
+    setBtnLoader(true);
+    if (modalName === 'Add') {
+      await addAssessmentCategories(addValue);
+      modalHandleClose(false);
+    }if (modalName === "Edit"){
+      await updateAssessmentCategories(editValue);
+      modalHandleClose(false);
+    } else {
+      console.log(modalName);
+    
+    }
+  };
+  // Edit Handler
+  const editChangeHandler = (e) => {
+    setEditValue({ ...editValue, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    if (AddAssessmentCategoriesInfo.isSuccess) {
+      setModalOpen(false);
+      refetch();
+      showToast('success', 'Assessments Category successfully added.');
+      setBtnLoader(false);
+      AddAssessmentCategoriesInfo.reset();
+      setAddvalue({ name: '' });
+    }
+    if (AddAssessmentCategoriesInfo.isError) {
+      showToast('error', AddAssessmentCategoriesInfo.error.data.msg);
+      setBtnLoader(false);
+      AddAssessmentCategoriesInfo.reset();
+    }
+    if (updateAssessmentCategoriesInfo.isSuccess) {
+      setModalOpen(false);
+      showToast('success', 'Assessments Category successfully edit.');
+      refetch();
+      setBtnLoader(false);
+      AddAssessmentCategoriesInfo.reset();
+    }
+    if (updateAssessmentCategoriesInfo.isError) {
+      showToast('error', updateAssessmentCategoriesInfo.error.data.msg);
+      setBtnLoader(false);
+      updateAssessmentCategoriesInfo.reset();
+    }
+  }, [
+    modalOpen,
+    AddAssessmentCategoriesInfo,
+    setModalOpen,
+    refetch,
+    setBtnLoader,
+    addValue,
+    setAddvalue,
+    updateAssessmentCategoriesInfo,
+  ]);
+
+  const onDeleteHandler = async (dataindex) => {
+    setCurrentIndex(dataindex);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataindex];
+    await DeleteAssessmentCategories(currentDataObj.id);
+  };
+  if (DeleteAssessmentCategoriesInfo.isSuccess) {
+    showToast('success', DeleteAssessmentCategoriesInfo.data.msg);
+    DeleteAssessmentCategoriesInfo.reset();
+    refetch();
+  }
+  if (DeleteAssessmentCategoriesInfo.isError) {
+    showToast('error', DeleteAssessmentCategoriesInfo.error.data.msg);
+    DeleteAssessmentCategoriesInfo.reset();
+    refetch();
+  }
+  const sortData = useMemo(() => {
+    const sortresult = sortedDataFn(data.data);
+    return sortresult;
+  }, [data]);
+
   const columns = [
+    {
+      name: 'id',
+      label: 'Id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
     {
       name: 'name',
       label: 'Name',
@@ -54,46 +174,33 @@ const AssessmentCategories = () => {
       },
     },
     {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: false,
-        sort: false,
-      },
-    },
-    {
       name: 'action',
       label: 'Action',
       options: {
         filter: false,
         sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? useDeleteAssessmentCategoriesMutation.isLoading : false}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
+          </>
+        ),
       },
     },
-  ];
-  const labelStatus = (
-    <Label variant="ghost" color={'success'}>
-      {sentenceCase('active')}
-    </Label>
-  );
-  const editAndDeleteButton = (
-    <>
-      <Button onClick={onEditModalHandler}>
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:edit-fill" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-      <Button>
-        <ListItemIcon style={{ justifyContent: 'center' }}>
-          <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-        </ListItemIcon>
-      </Button>
-    </>
-  );
-  const data = [
-    { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
   ];
   const options = {
     filterType: 'dropdown',
@@ -122,30 +229,33 @@ const AssessmentCategories = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={'Category Category'} data={data} columns={columns} options={options} />
+          <MUIDataTable title={'Assessment Categories List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
       <SettingsModal
         open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Add Category"
-        type="text"
-        textBoxLabel="Category Name"
+        handleclose={modalHandleClose}
+        label="Email Category Name"
+        type="Add"
+        textboxlabel="Add Assessment Categories"
         id="categoryName"
-        name="Category"
-        getInputValue={getInputValue}
-        buttonLabel="Add Category"
+        name="name"
+        onChange={addChangeHandler}
+        buttonlabel="Add Email category"
+        addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
       <SettingsModal
         open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit Category"
-        type="text"
-        textBoxLabel="Category Name"
+        label="Edit Category Name"
+        type="Edit"
+        textboxlabel="Edit Category"
         id="editCategoryName"
-        name="Category"
-        getInputValue={getInputValue}
-        buttonLabel="Update Category"
+        value={editValue.name}
+        name="name"
+        onChange={editChangeHandler}
+        addclickhandler={addClickHandler}
+        loadingbtn={btnLoader}
       />
     </Page>
   );

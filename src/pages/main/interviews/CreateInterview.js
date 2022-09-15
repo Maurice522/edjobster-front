@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import { Link as RouterLink,useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -12,17 +12,31 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { showToast } from '../../../utils/toast';
-
 // import FileUpload from 'react-material-file-upload';
 import { useGetLocationQuery } from '../../../redux/services/settings/LocationService';
 import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
-import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
-import { useAddInterviewMutation,useDeleteInterviewMutation } from '../../../redux/services/interview/InterviewServices';
-import {useGetCandidateListQuery} from '../../../redux/services/candidate/CandidateServices';
+import {
+  useGetEmailTamplateQuery,
+  useGetEmailVariableTamplateQuery,
+} from '../../../redux/services/settings/EmailTamplateService';
+import {
+  useAddInterviewMutation,
+  useDeleteInterviewMutation,
+} from '../../../redux/services/interview/InterviewServices';
 
-const CreateInterview = () => {
+import RichTextEditer from '../../../components/Rich-text-editer/RichTextEditer';
+
+import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
+
+const CreateInterview = (props) => {
+  
   const { editInterview } = useParams();
-
+  const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery();
+// const [fieldData,setFieldData]=useState({
+// email_msg:''
+// })
+  // const { open, handleClose, categoryData, variableData, emailTemplateData } = props;
+  console.log('variable data', variableData);
   const [textValue, setTextValue] = useState({
     candidate_id: '',
     job_id: '',
@@ -38,8 +52,8 @@ const CreateInterview = () => {
     email_msg: '',
   });
 
-  const [addInterview, addInterviewInfo] = useAddInterviewMutation();
 
+  const [addInterview, addInterviewInfo] = useAddInterviewMutation();
 
   const { data: locationData } = useGetLocationQuery();
 
@@ -51,10 +65,13 @@ const CreateInterview = () => {
 
   console.log('Email template Data:', emailtemplateData);
 
-  const {data: candidateListData}=useGetCandidateListQuery();
+  const { data: candidateListData } = useGetCandidateListQuery();
 
-  console.log("Candidate List:",candidateListData);
+  console.log('Candidate List:', candidateListData);
 
+  const onInputChangeHandlerNew = (changedText) => {
+    setTextValue({ ...textValue, email_msg: `${changedText.replace('<p>', '').replace('</p>', '')}` });
+  };
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
     myObj[e.target.name] = e.target.value;
@@ -68,7 +85,6 @@ const CreateInterview = () => {
 
   useEffect(() => {
     if (addInterviewInfo.isSuccess) {
-     
       showToast('success', 'Interview Created Successfully');
     }
     if (addInterviewInfo.isError) {
@@ -76,7 +92,6 @@ const CreateInterview = () => {
       // addInterviewInfo.reset();
     }
   }, [addInterviewInfo]);
-  
 
   console.log('TextValue data', textValue);
 
@@ -127,11 +142,11 @@ const CreateInterview = () => {
                   label="In person"
                 />
                 <FormControlLabel
-                  control={<Checkbox onChange={onInputChangeHandler} value="T" name="type" />}
+                  control={<Checkbox onChange={onInputChangeHandler} value="PC" name="type" />}
                   label="Telephonic"
                 />
                 <FormControlLabel
-                  control={<Checkbox value="V" name="type" onChange={onInputChangeHandler} />}
+                  control={<Checkbox value="VC" name="type" onChange={onInputChangeHandler} />}
                   label="Video"
                 />
               </FormGroup>
@@ -149,18 +164,21 @@ const CreateInterview = () => {
               />
             </Grid>
             <Grid item xs={12} marginBottom="10px">
+              <InputLabel>Start Time</InputLabel>
+
               <TextField
                 margin="dense"
                 variant="standard"
                 type={'time'}
                 fullWidth
                 name="time_start"
-                label="start time"
                 value={textValue.time_start}
                 onChange={onInputChangeHandler}
               />
             </Grid>
             <Grid item xs={12} marginBottom="10px">
+              <InputLabel>End Time</InputLabel>
+
               <TextField
                 margin="dense"
                 type={'time'}
@@ -169,7 +187,6 @@ const CreateInterview = () => {
                 fullWidth
                 name="time_end"
                 value={textValue.time_end}
-                label="End Time"
                 onChange={onInputChangeHandler}
               />
             </Grid>
@@ -238,7 +255,7 @@ const CreateInterview = () => {
                   {candidateListData &&
                     candidateListData?.list.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
-                        {item?.job_title}
+                        {item?.first_name} {item?.last_name}
                       </MenuItem>
                     ))}
                 </Select>
@@ -286,7 +303,7 @@ const CreateInterview = () => {
                   value={textValue.email_temp_id}
                   label="Department"
                 >
-                  {jobsData &&
+                  {emailtemplateData &&
                     emailtemplateData?.data.map((item) => (
                       <MenuItem key={item.id} value={item.id}>
                         {item?.subject}
@@ -309,17 +326,25 @@ const CreateInterview = () => {
               />
             </Grid>
             <Grid item xs={12} marginBottom="10px">
-              <TextField
+              {/* <TextField
                 autoFocus
                 margin="dense"
                 variant="standard"
-                placeholder="Type interview name..."
                 fullWidth
                 name="email_msg"
                 value={textValue.email_msg}
                 label="Email Body"
                 onChange={onInputChangeHandler}
-              />
+              /> */}{' '}
+              <Grid item xl={12} style={{ heigth: '45vh' }}>
+                {variableData?.data && (
+                  <RichTextEditer
+                    onChange={onInputChangeHandlerNew}
+                    variableData={variableData?.data || []}
+                    body={textValue.email_msg}
+                  />
+                )}
+              </Grid>
             </Grid>
 
             <Grid item xs={12} marginTop="20px" display="flex">
@@ -340,11 +365,17 @@ const CreateInterview = () => {
       <Grid sx={12} style={{ width: '50%', marginLeft: '30%' }}>
         {/* <DialogActions style={{ display: 'flex',backgroundColor:'transparent' }}> */}
         <Box>
-          <Button autoFocus variant="outlined" style={{ marginRight: 25 }} component={RouterLink} to={`/dashboard/interviews/priview-interview`}>
+          <Button
+            autoFocus
+            variant="outlined"
+            style={{ marginRight: 25 }}
+            component={RouterLink}
+            to={`/dashboard/interviews/priview-interview`}
+          >
             Preview
           </Button>
 
-          <Button variant="contained" onClick={createInterview} >
+          <Button variant="contained" onClick={createInterview}>
             Create
           </Button>
         </Box>
