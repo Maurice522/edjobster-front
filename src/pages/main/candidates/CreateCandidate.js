@@ -14,9 +14,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import CandidatesApplyModel from '../../../components/Mains/CandidatesApplyModel';
+import {useGetCandidateListQuery} from '../../../redux/services/candidate/CandidateServices';
 
 const CreateCandidate = () => {
   const [modelOpen, setModelOpen] = useState(false);
+  const {data: candidateData, candidateDataInfo}=useGetCandidateListQuery;
 
   const onCandidateModelView = () => {
     setModelOpen(true);
@@ -226,13 +228,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">From Month</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     // value={textValue.}
                     onChange={handleChange}
-                    label="From Month"
+                    label="City"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -245,13 +247,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">From Year</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">Zip Code</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     // value={textValue.}
                     onChange={handleChange}
-                    label="From Year"
+                    label="Zip Code"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -264,13 +266,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">To Month</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">Highest Degree</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     // value={textValue.toMonth}
                     onChange={handleChange}
-                    label="To Month"
+                    label="Highest Degree"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -283,13 +285,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">To Year</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">Total Experience</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     // value={textValue.toYear}
                     onChange={handleChange}
-                    label="To Year"
+                    label="Total Experience"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -336,13 +338,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">From Month</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={textValue.city}
                     onChange={handleChange}
-                    label="City"
+                    label="From Month"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -355,13 +357,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">Zip Code</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">From Year</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={textValue.zipcode}
                     onChange={handleChange}
-                    label="Zip Code"
+                    label="From Year"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -374,13 +376,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">Highest Degree</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">To Month</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={textValue.highestDegree}
                     onChange={handleChange}
-                    label="Highest Degree"
+                    label="To Month"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -393,13 +395,13 @@ const CreateCandidate = () => {
               </Grid>
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">Total Experience</InputLabel>
+                  <InputLabel id="demo-simple-select-standard-label">To Year</InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={textValue.totalExp}
                     onChange={handleChange}
-                    label="Total Experience"
+                    label="To Year"
                   >
                     <MenuItem value="">
                       <em>None</em>
