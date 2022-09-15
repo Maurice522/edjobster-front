@@ -28,6 +28,8 @@ const apiUrl = {
   candidate:`${baseUrl}candidate/`,
   interview:`${baseUrl}interview/schedule/`,
   location:`${baseUrl}settings/location/`,  
+  notes: `${baseUrl}candidate/notes/`,
+  notesType:`${baseUrl}common/note-types/`,
 };
 
 export { baseUrl, apiUrl };

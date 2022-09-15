@@ -23,7 +23,7 @@ import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
 
 const Candidates = () => {
   const [modelOpen, setModelOpen] = useState(false);
-
+const [candidateId,setCandidateId]=useState();
   const [salectedJobId, setSalectedJobId] = useState('');
   const { data = [], refetch } = useGetCandidateListQuery();
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -64,7 +64,8 @@ const Candidates = () => {
       refetch();
     }
   }, [deleteJobInfo, refetch]);
-  const onCandidateModelView = () => {
+  const onCandidateModelView = (candidateId) => {
+    setCandidateId(candidateId)
     setModelOpen(true);
   };
   const handleClose = () => {
@@ -123,7 +124,7 @@ const Candidates = () => {
             <Button
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
-              onClick={() => onCandidateModelView()}
+              onClick={() => onCandidateModelView(data.list[dataIndex].id)}
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
@@ -210,7 +211,7 @@ const Candidates = () => {
         <Card>
         <MUIDataTable title={'candidate List'} data={data?.list} columns={columns} options={options} />        </Card>
       </Container>
-      <CandidatesModel open={modelOpen} handleClose={handleClose} />
+      <CandidatesModel open={modelOpen} handleClose={handleClose} candidateId={candidateId}/>
     </Page>
   );
 };

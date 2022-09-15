@@ -32,6 +32,8 @@ import SendEmailModel from './SendEmailModel';
 import Notes from '../Notes/Notes';
 import Iconify from '../Iconify';
 import AssignJobModel from './AssignJobModel';
+import { useGetCandidateNotesListQuery ,useGetNotesTypesQuery} from '../../redux/services/notes/NotesServices';
+
 
 
 const Transition = React.forwardRef((props, ref) => {
@@ -39,12 +41,12 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const CandidatesModel = (props) => {
+  console.log("recived candidateid as props",props.candidateId);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [emailModelOpen, setEmailModelOpen] = useState(false);
-
   const { open, handleClose } = props;
 
   const openMenu = Boolean(anchorEl);
@@ -439,7 +441,7 @@ const CandidatesModel = (props) => {
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid item md={3}>
-            <Notes />
+            <Notes candidateId={props.candidateId} />
           </Grid>
         </Grid>
         <AssignJobModel open={modelOpen} handleClose={assignJobModelClosed} />
