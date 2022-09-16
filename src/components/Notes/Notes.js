@@ -25,6 +25,7 @@ import {
   useGetCandidateNotesListQuery,
   useGetNotesTypesQuery,
   useAddCandidateNotesMutation,
+  useDeleteCandidateNotesMutation,
 } from '../../redux/services/notes/NotesServices';
 import { showToast } from '../../utils/toast';
 
@@ -33,19 +34,22 @@ const Notes = (props) => {
   const { data: candidateNoteType } = useGetNotesTypesQuery();
   // const [addNotesData] = useAddCandidateNotesMutation();
   const [addCandidateNotes, addCandidateNotesInfo] = useAddCandidateNotesMutation();
-
+  const [deleteCandidateNote, deleteCandidateNoteinfo] = useDeleteCandidateNotesMutation();
   const [emailNotes, setEmailNotes] = useState([]);
   const [interviewNotes, setInterviewNotes] = useState([]);
   const [callNotes, setCallNotes] = useState([]);
   const [notes, setNotes] = useState([]);
-  const [noteText,setNoteText]=useState()
+  const [noteText, setNoteText] = useState('');
 
-  const [selectedNoteType, setSelectedNoteType] = useState("");
+  const [selectedNoteType, setSelectedNoteType] = useState('');
   // const [value, setValue] = useState([]);
 
   const handleChange = (e) => {
     setSelectedNoteType(e.target.value);
     console.log('select', e.target.value);
+  };
+  const onDeleteHandler = async (id) => {
+    await deleteCandidateNote(id);
   };
 
   const notesChange = (e) => {
@@ -56,7 +60,7 @@ const Notes = (props) => {
     addCandidateNotes({
       candidate: props.candidateId,
       type: selectedNoteType,
-      note:noteText,
+      note: noteText,
     });
   };
   useEffect(() => {
@@ -67,9 +71,17 @@ const Notes = (props) => {
       // addCandidateNotesInfo.reset();
     }
     if (addCandidateNotesInfo.isError) {
-      showToast('error', addCandidateNotesInfo.error.data.msg);
+      showToast('error', deleteCandidateNoteinfo.error.data.msg);
     }
-  }, [addCandidateNotesInfo]);
+    if (deleteCandidateNoteinfo.isSuccess) {
+      showToast('success', deleteCandidateNoteinfo.data.msg);
+      refetch();
+    }
+    if (deleteCandidateNoteinfo.isError) {
+      showToast('error', deleteCandidateNoteinfo.error.data.msg);
+      refetch();
+    }
+  }, [addCandidateNotesInfo, deleteCandidateNoteinfo]);
   useEffect(() => {
     if (candidateNotesData) {
       setNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Note'));
@@ -83,7 +95,7 @@ const Notes = (props) => {
       <Grid container>
         <Box width="250px">
           <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-            <TextField select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
+            <TextField classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
               {candidateNoteType &&
                 candidateNoteType?.types &&
                 candidateNoteType.types.map((item) => {
@@ -121,33 +133,35 @@ const Notes = (props) => {
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
           <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
-            {' '}
             Notes
           </Typography>
           {notes.map((item) => {
             return (
-              <Card style={{ backgroundColor: '#5656561f' }}>
-                <CardContent>
-                  <Typography variant="body2">{item.note}</Typography>
-                </CardContent>
-              </Card>
+              <>
+                <Card style={{ backgroundColor: '#5656561f' }}>
+                  <CardContent>
+                    <Typography variant="body2">{item.note}</Typography>
+                  </CardContent>
+                </Card>
+
+                <Grid container sx={{ mt: 1, ml: 1 }}>
+                  <Grid item md={8}>
+                    <Typography color="silver" style={{ fontSize: '12px' }}>
+                      By: Sameer 20 Aug 2021
+                    </Typography>
+                  </Grid>
+                  <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography color="silver" style={{ fontSize: '12px' }}>
+                      Edit
+                    </Typography>
+                    <Typography onClick={() => onDeleteHandler(item.id)} color="silver" style={{ fontSize: '12px' }}>
+                      Delete
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </>
             );
           })}
-          <Grid container sx={{ mt: 1, ml: 1 }}>
-            <Grid item md={8}>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                By: Sameer 20 Aug 2021
-              </Typography>
-            </Grid>
-            <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                Edit
-              </Typography>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                Delete
-              </Typography>
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
       <Grid container sx={{ mt: 4 }}>
@@ -156,30 +170,31 @@ const Notes = (props) => {
             Interview
           </Typography>
           {interviewNotes.map((item) => {
-           return(
-         <Card style={{ backgroundColor: '#5656561f' }}>
-            <CardContent>
-              
-               <Typography variant="body2">{item.note}</Typography>;
-             
-            </CardContent>
-          </Card>)
-           })}
-          <Grid container sx={{ mt: 1, ml: 1 }}>
-            <Grid item md={8}>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                By: Sameer 20 Aug 2021
-              </Typography>
-            </Grid>
-            <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                Edit
-              </Typography>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                Delete
-              </Typography>
-            </Grid>
-          </Grid>
+            return (
+              <>
+                <Card style={{ backgroundColor: '#5656561f' }}>
+                  <CardContent>
+                    <Typography variant="body2">{item.note}</Typography>
+                  </CardContent>
+                </Card>
+                <Grid container sx={{ mt: 1, ml: 1 }}>
+                  <Grid item md={8}>
+                    <Typography color="silver" style={{ fontSize: '12px' }}>
+                      By: Sameer 20 Aug 2021
+                    </Typography>
+                  </Grid>
+                  <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography color="silver" style={{ fontSize: '12px' }}>
+                      Edit
+                    </Typography>
+                    <Typography onClick={() => onDeleteHandler(item.id)} color="silver" style={{ fontSize: '12px' }}>
+                      Delete
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </>
+            );
+          })}
         </Grid>
       </Grid>
       <Grid container sx={{ mt: 4 }}>
@@ -189,28 +204,31 @@ const Notes = (props) => {
           </Typography>
           {emailNotes.map((item) => {
             return (
-              <Card style={{ backgroundColor: '#5656561f' }}>
-                <CardContent>
-                  <Typography variant="body2">{item.note}</Typography>
-                </CardContent>
-              </Card>
+              <>
+                <Card style={{ backgroundColor: '#5656561f' }}>
+                  <CardContent>
+                    <Typography variant="body2">{item.note}</Typography>
+                  </CardContent>
+                </Card>
+
+                <Grid container sx={{ mt: 1, ml: 1 }}>
+                  <Grid item md={8}>
+                    <Typography color="silver" style={{ fontSize: '12px' }}>
+                      By: Sameer 20 Aug 2021
+                    </Typography>
+                  </Grid>
+                  <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography color="silver" style={{ fontSize: '12px' }}>
+                      Edit
+                    </Typography>
+                    <Typography onClick={() => onDeleteHandler(item.id)} color="silver" style={{ fontSize: '12px' }}>
+                      Delete
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </>
             );
           })}
-          <Grid container sx={{ mt: 1, ml: 1 }}>
-            <Grid item md={8}>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                By: Sameer 20 Aug 2021
-              </Typography>
-            </Grid>
-            <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                Edit
-              </Typography>
-              <Typography color="silver" style={{ fontSize: '12px' }}>
-                Delete
-              </Typography>
-            </Grid>
-          </Grid>
         </Grid>
       </Grid>
     </>

@@ -105,16 +105,6 @@ const Pipelines = () => {
     const currentDataObj = dataArr[dataIndex];
     await DeletePipelineApi(currentDataObj.id);
   };
-  if (DeletePipelineInfo.isSuccess) {
-    showToast('success', DeletePipelineInfo.data.msg);
-    DeletePipelineInfo.reset();
-    refetch();
-  }
-  if (DeletePipelineInfo.isError) {
-    showToast('error', DeletePipelineInfo.error.data.msg);
-    DeletePipelineInfo.reset();
-    refetch();
-  }
 
   useEffect(() => {
     if (AddPipelineApiInfo.isSuccess) {
@@ -127,7 +117,18 @@ const Pipelines = () => {
       showToast('error', AddPipelineApiInfo.error.data.msg);
       AddPipelineApi.reset();
     }
-  }, [AddPipelineApiInfo]);
+    if (DeletePipelineInfo.isSuccess) {
+      showToast('success', DeletePipelineInfo.data.msg);
+      DeletePipelineInfo.reset();
+      refetch();
+    }
+    if (DeletePipelineInfo.isError) {
+      showToast('error', DeletePipelineInfo.error.data.msg);
+      DeletePipelineInfo.reset();
+      refetch();
+    }
+  
+  }, [AddPipelineApiInfo,DeletePipelineInfo]);
 
   const columns = [
     {

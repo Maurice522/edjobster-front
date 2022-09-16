@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink } from 'react-router-dom';
@@ -14,11 +14,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import CandidatesApplyModel from '../../../components/Mains/CandidatesApplyModel';
-import {useGetCandidateListQuery} from '../../../redux/services/candidate/CandidateServices';
+import {
+  useGetCandidateListQuery,
+  useGetCandidateDetailsQuery,
+} from '../../../redux/services/candidate/CandidateServices';
 
 const CreateCandidate = () => {
   const [modelOpen, setModelOpen] = useState(false);
-  const {data: candidateData, candidateDataInfo}=useGetCandidateListQuery;
+  const { data: candidateData, candidateDataInfo } = useGetCandidateListQuery;
 
   const onCandidateModelView = () => {
     setModelOpen(true);
@@ -43,26 +46,35 @@ const CreateCandidate = () => {
     totalExp: '',
     institute: '',
     Degree: '',
+    fromMonth: '',
+    fromYear: '',
+    toMonth: '',
+    toYear: '',
+    assignJob: '',
   });
 
-
-  const handleChange = () => { }
+  const handleChange = (e) => {
+    setTextValue(e.target.value);
+    console.log(e.target.value);
+  };
   const onInputChangeHandler = (e) => {
     setTextValue(e.target.value);
     const myObj = {};
     myObj[e.target.name] = e.target.value;
   };
 
-
-
   return (
     <>
-
       <Grid container spacing={2} padding="20px">
         <Grid item xs={6} display="flex">
           <Grid>
-            <IconButton edge="start" color="inherit" component={RouterLink}
-              to="/dashboard/candidates" aria-label="close">
+            <IconButton
+              edge="start"
+              color="inherit"
+              component={RouterLink}
+              to="/dashboard/candidates"
+              aria-label="close"
+            >
               <CloseIcon />
             </IconButton>
           </Grid>
@@ -74,11 +86,7 @@ const CreateCandidate = () => {
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="right">
           <Grid style={{ marginRight: 40 }}>
-            <Button
-              variant="contained"
-              to="#"
-              onClick={onCandidateModelView}
-            >
+            <Button variant="contained" to="#" onClick={onCandidateModelView}>
               Apply
             </Button>
           </Grid>
@@ -120,23 +128,16 @@ const CreateCandidate = () => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-standard-label">E-mail</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    value={textValue.email}
-                    onChange={handleChange}
-                    label="E-mail"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  id="demo-simple-select-standard"
+                  value={textValue.email}
+                  onChange={onInputChangeHandler}
+                  label="E-mail"
+                />
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -192,7 +193,6 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">Country</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={textValue.country}
                     onChange={handleChange}
@@ -211,7 +211,6 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={textValue.state}
                     onChange={handleChange}
@@ -229,13 +228,7 @@ const CreateCandidate = () => {
               <Grid item xs={3}>
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    // value={textValue.}
-                    onChange={handleChange}
-                    label="City"
-                  >
+                  <Select id="demo-simple-select-standard" value={textValue.city} onChange={handleChange} label="City">
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
@@ -249,9 +242,8 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">Zip Code</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={textValue.}
+                    value={textValue.zipcode}
                     onChange={handleChange}
                     label="Zip Code"
                   >
@@ -268,9 +260,8 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">Highest Degree</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={textValue.toMonth}
+                    value={textValue.highestDegree}
                     onChange={handleChange}
                     label="Highest Degree"
                   >
@@ -287,7 +278,6 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">Total Experience</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     // value={textValue.toYear}
                     onChange={handleChange}
@@ -340,9 +330,8 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">From Month</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    value={textValue.city}
+                    value={textValue.fromMonth}
                     onChange={handleChange}
                     label="From Month"
                   >
@@ -359,9 +348,8 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">From Year</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    value={textValue.zipcode}
+                    value={textValue.fromYear}
                     onChange={handleChange}
                     label="From Year"
                   >
@@ -378,9 +366,8 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">To Month</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    value={textValue.highestDegree}
+                    value={textValue.toMonth}
                     onChange={handleChange}
                     label="To Month"
                   >
@@ -397,9 +384,8 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">To Year</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    value={textValue.totalExp}
+                    value={textValue.toYear}
                     onChange={handleChange}
                     label="To Year"
                   >
@@ -416,9 +402,8 @@ const CreateCandidate = () => {
                 <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-standard-label">Assign to a job</InputLabel>
                   <Select
-                    labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={textValue.assignJob}
+                    value={textValue.assignJob}
                     onChange={handleChange}
                     label="Assign to a job"
                   >
@@ -437,7 +422,6 @@ const CreateCandidate = () => {
       </DialogContent>
 
       <CandidatesApplyModel open={modelOpen} handleClose={handleClose} />
-
     </>
   );
 };
