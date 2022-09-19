@@ -92,15 +92,17 @@ const Notes = (props) => {
   }, [candidateNotesData]);
   return (
     <>
-      <Grid container>
-        <Box width="250px">
+      <Grid container style={{ }}>
+        <Box width="100px"  >
           <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-            <TextField classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
+            <TextField    autoFocus={false}           variant="outlined"
+ size="small"   classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
               {candidateNoteType &&
                 candidateNoteType?.types &&
                 candidateNoteType.types.map((item) => {
+                  
                   return (
-                    <MenuItem key={item.id} value={item.id}>
+                    <MenuItem  key={item.id} value={item.id}>
                       {item.name}
                     </MenuItem>
                   );
@@ -108,7 +110,7 @@ const Notes = (props) => {
             </TextField>
           </FormControl>
         </Box>
-        <Grid container spacing={2} sx={{ mt: 2 }}>
+        <Grid container spacing={1} sx={{ mt: 2 }}>
           <Grid item md={10}>
             <TextField
               id="outlined-basic"
@@ -136,6 +138,12 @@ const Notes = (props) => {
             Notes
           </Typography>
           {notes.map((item) => {
+            const date = new Date(item.created);
+            const formattedDate = date.toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })
             return (
               <>
                 <Card style={{ backgroundColor: '#5656561f' }}>
@@ -147,7 +155,7 @@ const Notes = (props) => {
                 <Grid container sx={{ mt: 1, ml: 1 }}>
                   <Grid item md={8}>
                     <Typography color="silver" style={{ fontSize: '12px' }}>
-                      By: Sameer 20 Aug 2021
+                      By: {item.added_by.first_name} {formattedDate}
                     </Typography>
                   </Grid>
                   <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -170,6 +178,12 @@ const Notes = (props) => {
             Interview
           </Typography>
           {interviewNotes.map((item) => {
+             const date = new Date(item.created);
+             const formattedDate = date.toLocaleDateString('en-GB', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric',
+             })
             return (
               <>
                 <Card style={{ backgroundColor: '#5656561f' }}>
@@ -180,7 +194,7 @@ const Notes = (props) => {
                 <Grid container sx={{ mt: 1, ml: 1 }}>
                   <Grid item md={8}>
                     <Typography color="silver" style={{ fontSize: '12px' }}>
-                      By: Sameer 20 Aug 2021
+                      By: {item.added_by.first_name} {formattedDate}
                     </Typography>
                   </Grid>
                   <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -203,6 +217,12 @@ const Notes = (props) => {
             Email
           </Typography>
           {emailNotes.map((item) => {
+             const date = new Date(item.created);
+             const formattedDate = date.toLocaleDateString('en-GB', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric',
+             })
             return (
               <>
                 <Card style={{ backgroundColor: '#5656561f' }}>
@@ -214,7 +234,7 @@ const Notes = (props) => {
                 <Grid container sx={{ mt: 1, ml: 1 }}>
                   <Grid item md={8}>
                     <Typography color="silver" style={{ fontSize: '12px' }}>
-                      By: Sameer 20 Aug 2021
+                      By: {item.added_by.first_name} {formattedDate}
                     </Typography>
                   </Grid>
                   <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>

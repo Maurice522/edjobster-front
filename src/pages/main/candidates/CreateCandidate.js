@@ -59,6 +59,7 @@ const CreateCandidate = () => {
   };
   const onInputChangeHandler = (e) => {
     setTextValue(e.target.value);
+
     const myObj = {};
     myObj[e.target.name] = e.target.value;
   };
@@ -279,7 +280,7 @@ const CreateCandidate = () => {
                   <InputLabel id="demo-simple-select-standard-label">Total Experience</InputLabel>
                   <Select
                     id="demo-simple-select-standard"
-                    // value={textValue.toYear}
+                    value={textValue.totalExp}
                     onChange={handleChange}
                     label="Total Experience"
                   >
