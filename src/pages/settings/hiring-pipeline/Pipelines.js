@@ -56,10 +56,10 @@ const Pipelines = () => {
     fileds: [],
   });
 
-  const modalHandleClose = (value) => {
-    console.log('value', value);
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    console.log('value');
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const sortData = useMemo(() => {
