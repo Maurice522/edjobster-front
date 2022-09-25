@@ -66,10 +66,13 @@ const Stages = () => {
     status: [''],
   });
 
-  const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
-    setViewModelOpen(value);
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    };
+  const modalViewHandleClose = () => {
+    setViewModelOpen(false);
+    // setEditModalOpen(value);
+    // setViewModelOpen(value);
   };
 
   const addNewStageHandler = () => {
@@ -261,7 +264,7 @@ const Stages = () => {
       </Container>
       <SettingsModal
         open={modalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Satge Name"
         type="Add"
         textboxlabel="Add Stage"
@@ -269,7 +272,7 @@ const Stages = () => {
         name="name"
         onChange={addChangeHandler}
         buttonlabel="Add Stage"
-        addclickhandler={addClickHandler}
+        addClickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
       <SettingsModal
@@ -286,12 +289,14 @@ const Stages = () => {
         loadingbtn={btnLoader}
       />
 
-      <ViewStatus
-        open={viewModelOpen}
-        handleclose={modalHandleClose}
-        onChange={onViewChangeHandler}
-        value={viewStatusvalue.status}
-      />
+{viewModelOpen && (
+        <ViewStatus
+          open={viewModelOpen}
+          handleclose={modalViewHandleClose}
+          onChange={onViewChangeHandler}
+          currentRowValue={viewStatusvalue}
+        />
+      )}
     </Page>
   );
 };

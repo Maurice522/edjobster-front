@@ -98,7 +98,7 @@ const CareerSite = () => {
     formData.append('city', companyData.city);
     formData.append('pincode', companyData.pincode);
     formData.append('website', companyData.website);
-    formData.append('description', 'test');
+    formData.append('description', companyData.description);
     await UpdateCompany(formData);
 
   }
@@ -239,6 +239,19 @@ const CareerSite = () => {
                   name="pincode"
                   fullWidth
                   value={companyData.pincode}
+                  onChange={onInputChangeHandler}
+                />
+              </Grid>
+              <Grid item xs={12}  md={7}>
+                <TextField
+
+                  autoFocus
+                  margin="dense"
+                  variant="outlined"
+                  fullWidth
+                  value={companyData.description}
+                  label="description"
+                  name="description"
                   onChange={onInputChangeHandler}
                 />
               </Grid>

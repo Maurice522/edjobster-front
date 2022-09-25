@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const userViewModel = (props) => {
+const UserViewModel = (props) => {
     const {open, handleClose} = props;
 
     const modalCloseHandler = () => {
@@ -17,7 +17,7 @@ const userViewModel = (props) => {
     <>
       <Dialog
         open={open}
-        onClose={()=>{handleClose(false)}}
+        onClose={handleClose}
         aria-labelledby="alertmodalCloseHandler-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -27,13 +27,11 @@ const userViewModel = (props) => {
             Let Google help apps determine location. This means sending anonymous location data to Google, even when no
             apps are running.
           </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={modalCloseHandler}>Cencel</Button>
-        </DialogActions>
+          <Button open={open} onClick={handleClose}>Cencel</Button>
+        </DialogContent> 
       </Dialog>
     </>
   );
 };
 
-export default userViewModel;
+export default UserViewModel;

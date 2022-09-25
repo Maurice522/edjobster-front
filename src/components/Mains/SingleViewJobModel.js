@@ -29,6 +29,8 @@ import {
 } from '@mui/material';
 
 import Iconify from '../Iconify';
+import { useGetJobQuery } from '../../redux/services/jobs/JobServices';
+
 
 const useStyles = makeStyles({
     card_heading: {
@@ -46,6 +48,7 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const SingleViewJobModel = (props) => {
+    const { data : jobData } = useGetJobQuery();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [expanded, setExpanded] = React.useState(false);
