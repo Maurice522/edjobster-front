@@ -106,7 +106,7 @@ const JobModel = (props) => {
             <Grid container spacing={3}>
               <Grid item md={8} style={{ display: 'flex', alignItems: 'center' }}>
                 <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div" style={{ color: '#000' }}>
-                  Assistant Professor - Mechanical Engineering
+                  {textValue.title}
                 </Typography>
               </Grid>
               <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between' }}>

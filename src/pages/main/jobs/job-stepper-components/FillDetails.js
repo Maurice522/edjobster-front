@@ -85,7 +85,7 @@ const FillDetails = () => {
   const renderMultiSelectValues = (selected) => {
     console.log('selected', selected);
     // return textValue.member_names;
-    return selected.join(', ');
+    return selected.join(' ');
   };
 
   return (
