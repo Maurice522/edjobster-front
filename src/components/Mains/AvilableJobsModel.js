@@ -43,6 +43,7 @@ const Transition = React.forwardRef((props, ref) => {
 
 const AvilableJobsModel = (props) => {
     const { data : jobData } = useGetJobQuery();
+    const [jobId ,setJobId]=useState();
 
 
     const [modelOpen, setModelOpen] = useState(false);
@@ -61,7 +62,9 @@ const AvilableJobsModel = (props) => {
         );
     }
 
-    const onViewDetailsModel = () => {
+    const onViewDetailsModel = (id) => {
+        setJobId(id)
+
         setModelOpen(true);
     }
 
@@ -146,7 +149,7 @@ const AvilableJobsModel = (props) => {
                                             style={{ minWidth: 0, margin: '0px 5px', }}
                                             variant="contained"
                                             color="primary"
-                                            onClick={onViewDetailsModel}
+                                            onClick={(e)=>onViewDetailsModel(item.id)}
                                         >
                                             View Details
                                         </Button>
@@ -163,7 +166,7 @@ const AvilableJobsModel = (props) => {
 
                 </Grid>
             </Dialog>
-            <SingleViewJobModel open={modelOpen} handleClose={ModelhandleClose} />
+            <SingleViewJobModel jobId={jobId} open={modelOpen} handleClose={ModelhandleClose} />
         </>
     );
 };

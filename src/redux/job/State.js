@@ -5,6 +5,8 @@ const initialState = {
     department: null,
     owner: '',
     assesment: null,
+    webform:null,
+    webform_name:"",
     assesment_name: '',
     member_ids: [],
     member_names: [],
