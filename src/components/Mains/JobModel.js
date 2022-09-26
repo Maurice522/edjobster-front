@@ -40,6 +40,8 @@ const JobModel = (props) => {
     department: jobData?.data?.department?.id,
     owner: jobData?.data?.owner?.account_id,
     assesment: jobData?.data?.assesment?.id,
+    webform:jobData?.data?.webform?.id,
+    webform_name:jobData?.data?.webform?.name,
     member_ids: jobData?.data?.members?.map((x) => x.account_id),
     member_names: jobData?.data?.members?.map((x) => x.first_name),
     type: jobData?.data?.type,

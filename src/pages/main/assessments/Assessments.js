@@ -26,9 +26,10 @@ const Assessments = () => {
   const [DeleteAssessmentCategories, DeleteAssessmentCategoriesInfo] = useDeleteAssessmentListMutation();
 
   const sortData = useMemo(() => {
-    const sortresult = sortedDataFn(data.data);
+    const sortresult = sortedDataFn(data?.data);
     return sortresult;
   }, [data]);
+
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);

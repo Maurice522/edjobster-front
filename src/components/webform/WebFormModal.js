@@ -46,6 +46,7 @@ const WebFormsModal = (props) => {
   const modalCloseHandler = () => {
     handleClose(false);
   };
+  
   const onFieldsButtonClicked = (dataIndex) => {
     const itemFound = selectedFields.find((item) => item.name === webFormFieldsData[dataIndex].name);
     if (!itemFound) {
@@ -123,7 +124,7 @@ const WebFormsModal = (props) => {
         })
       );
     }
-  }, webFormDataById);
+  }, [webFormDataById]);
   return (
     <>
       <Dialog
