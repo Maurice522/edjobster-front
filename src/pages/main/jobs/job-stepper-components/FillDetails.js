@@ -167,7 +167,7 @@ const FillDetails = () => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ m: 1, width: 300 }}>
+              <FormControl variant="standard" sx={{mt: 1, minWidth: '100%' }}>
                 {/* <InputLabel id="demo-simple-select-standard-label">Team Member</InputLabel> */}
                 {/* <TextField
                   select
@@ -197,7 +197,6 @@ const FillDetails = () => {
                   name="member_ids"
                   fullWidth
                   onChange={onInputChangeHandler}
-                  input={<OutlinedInput label="Team Member" />}
                   renderValue={renderMultiSelectValues}
                   MenuProps={MenuProps}
                 >
