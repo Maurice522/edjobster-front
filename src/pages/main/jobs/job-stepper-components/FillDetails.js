@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
@@ -36,6 +36,7 @@ const FillDetails = () => {
 
   const experienceArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   //  const [textValue, setTextValue] = useState(job);
+  const [teamMemberOptions,setTeamMemberOptions] = useState([])
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -55,6 +56,7 @@ const FillDetails = () => {
       // console.log('Member name', e);
       // myObj.member_names = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
       const newValue = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
+      console.log(newValue);
       myObj[e.target.name] = newValue;
       // myObj.member_names = [];
       // eslint-disable-next-line no-plusplus
@@ -65,7 +67,6 @@ const FillDetails = () => {
       //     myObj.member_names.push(`${foundId.first_name} ${foundId.last_name}`);
       //   }
       // }
-      console.log('name memberId', myObj[e.target.name]);
       // console.log('name membrer name', myObj.member_names);
       // myObj.member_name = typeof value === 'string' ? e.target.value.split(',') : e.target.value;
     } else if (
@@ -85,8 +86,14 @@ const FillDetails = () => {
   const renderMultiSelectValues = (selected) => {
     console.log('selected', selected);
     // return textValue.member_names;
-    return selected.join(' ');
+    return selected.join(', ');
   };
+
+  useEffect(() => {
+    console.log(jobGetuserData?.list)
+  },[])
+
+  console.log(textValue);
 
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">
@@ -183,8 +190,8 @@ const FillDetails = () => {
                 </TextField> */}
                 <InputLabel id="demo-multiple-checkbox-label">Team Member</InputLabel>
                 <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
+                  labelId="team-members"
+                  id="team-members"
                   multiple
                   value={textValue.member_ids}
                   name="member_ids"
@@ -196,8 +203,8 @@ const FillDetails = () => {
                 >
                   {jobGetuserData &&
                     jobGetuserData?.list?.map((item) => (
-                      <MenuItem key={item.account_id} value={item.account_id}>
-                        <Checkbox checked={textValue.member_ids.indexOf(item.account_id) > -1} />
+                      <MenuItem key={item} value={item}>
+                        <Checkbox checked={textValue?.member_ids?.indexOf(item) > -1} />
 
                         <ListItemText primary={`${item.first_name} ${item.last_name}`} />
                       </MenuItem>
