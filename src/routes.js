@@ -65,7 +65,7 @@ export default function Router() {
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
         { path: '/dashboard/assessments', element: <Assessments /> },
         { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
-        { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
+        { path: '/dashboard/assessments/edit-assessment/:assessmentEditId', element: <CreateAssessment /> },
         { path: '/dashboard/career-site', element: <CareerSite /> },
         { path: 'institute-setting/departments', element: <Departments /> },
         { path: 'institute-setting/designations', element: <Designations /> },
