@@ -17,7 +17,7 @@ import { LoadingButton } from '@mui/lab';
 
 const SettingsModal = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { open, handleClose, textboxlabel, addClickhandler, loadingbtn } = props;
+  const { open, handleClose, textboxlabel, addClickHandler, loadingbtn,onChangeHandle } = props;
 
   
 
@@ -70,7 +70,7 @@ const SettingsModal = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>{textboxlabel}</DialogTitle>
+          <DialogTitle>Stage</DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2} mt={1}>
@@ -79,6 +79,8 @@ const SettingsModal = (props) => {
                     id="stages"
                     label="stage Name"
                     variant="outlined"
+                    onChange={onChangeHandle}
+                    name='name'
                     fullWidth                  />
                 </Grid>
               </Grid>
@@ -86,7 +88,7 @@ const SettingsModal = (props) => {
             <Box>
               {/* {console.log('stageData', stageData)} */}
               <FormControl sx={{ mt: 5, width: 390 }}>
-                <InputLabel id="Stage label">Add  Satges</InputLabel>
+                {/* <InputLabel id="Stage label">Add  Satges</InputLabel> */}
                 <Select
                   labelId="Stage label"
                   id="stage"
@@ -104,7 +106,7 @@ const SettingsModal = (props) => {
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cance
               </Button>
-              <LoadingButton onClick={addClickhandler} variant="contained" loading={loadingbtn}>
+              <LoadingButton onClick={addClickHandler} variant="contained" loading={loadingbtn}>
                 Add
               </LoadingButton>
             </Box>

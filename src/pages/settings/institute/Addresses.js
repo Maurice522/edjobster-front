@@ -83,21 +83,21 @@ const Addresses = () => {
   }, [PostAddressInfo, UpdateAddressInfo])
 
 
-  const sortedData = useMemo(() => {
-    const result = sortedDataFn(data.data);
-    console.log("result", result);
-    const dataNewArr = [];
-    result.forEach((value) => {
-      dataNewArr.push({
-        ...value,
-        completeAddress: `${value.address},${value.city_name} - ${value.pincode},${value.state_name},${value.country_name}`,
+  // const sortedData = useMemo(() => {
+  //   const result = sortedDataFn(data.data);
+  //   console.log("result", result);
+  //   const dataNewArr = [];
+  //   result.forEach((value) => {
+  //     dataNewArr.push({
+  //       ...value,
+  //       completeAddress: `${value.address},${value.city_name} - ${value.pincode},${value.state_name},${value.country_name}`,
 
-      })
-    })
-    return dataNewArr;
-  }, [data])
+  //     })
+  //   })
+  //   return dataNewArr;
+  // }, [data])
 
-  console.log("arry data", sortedData)
+  console.log("arry data", data?.data)
 
 
   // delete Address
@@ -135,7 +135,7 @@ const Addresses = () => {
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
-    const dataArr = sortedData;
+    const dataArr = data?.data;
     const currentDataObj = dataArr[dataIndex];
     await DeleteAddress(currentDataObj.id);
     refetch();
@@ -162,7 +162,7 @@ const Addresses = () => {
   };
 
   const onEditModalHandler = (dataIndex) => {
-    const dataArr = sortedData;
+    const dataArr = data?.data;
     const currentDataObj = dataArr[dataIndex];
     setAddData({
       id: currentDataObj.id,
@@ -254,11 +254,11 @@ const Addresses = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={' Address List'} data={sortedData} columns={columns} options={options} />
+          <MUIDataTable title={' Address List'} data={data?.data} columns={columns} options={options} />
         </Card>
       </Container>
 
-      <SettingModalAddress open={modalOpen} handleClose={modalHandleClose} formData={addData} type={modalType} onSubmit={onSubmitHandler} />
+      <SettingModalAddress open={modalOpen} handleClose={modalHandleClose} formData={addData} type={modalType} onSubmitData={onSubmitHandler} />
     </Page>
   );
 };
