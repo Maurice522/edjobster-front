@@ -24,7 +24,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
-import SettingsModal from '../../../components/settings/SettingsModal';
+import DegreeSettingModal from './DegreeSettingModal';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -103,9 +103,9 @@ const Degrees = () => {
 
 
 
-  const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const addNewDegreeHandler = () => {
@@ -214,9 +214,9 @@ const Degrees = () => {
           <MUIDataTable title={' Degree List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
+      <DegreeSettingModal
         open={modalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Degree Name"
         type="text"
         textboxlabel="Add Degree"
@@ -225,10 +225,10 @@ const Degrees = () => {
         value={addValue.name}
         onChange={addChangeHandler}
         buttonlabel="Add Degree"
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-      <SettingsModal
+      <DegreeSettingModal
         open={editmodalOpen}
         handleclose={modalHandleClose}
         label="Edit Degree"
@@ -239,7 +239,7 @@ const Degrees = () => {
         value={editValue.name}
         onChange={editChangeHandler}
         buttonlabel="Update Degree"
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
     </Page>

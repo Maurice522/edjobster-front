@@ -270,9 +270,9 @@ const Stages = () => {
         textboxlabel="Add Stage"
         id="StageName"
         name="name"
-        onChange={addChangeHandler}
+        onChangeHandle={addChangeHandler}
         buttonlabel="Add Stage"
-        addClickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
       <SettingsModal

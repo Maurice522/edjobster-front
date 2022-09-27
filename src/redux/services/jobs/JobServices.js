@@ -36,6 +36,5 @@ export const {
   useGetJobQuery,
   useGetJobeDetailsQuery,
   useAddJobMutation,
- 
   useDeleteJobMutation,
 } = extendedApi;

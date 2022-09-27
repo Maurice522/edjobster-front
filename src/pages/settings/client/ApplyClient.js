@@ -182,7 +182,6 @@ const ApplyClient = (props) => {
                                   placeholder={item.name}
                                   margin="dense"
                                   variant="outlined"
-                                  disabled
                                   fullWidth
                                 />
                               </Item>

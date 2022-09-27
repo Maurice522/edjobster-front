@@ -7,7 +7,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
-import SettingsModal from '../../../components/settings/SettingsModal';
+import DesignationSettingModal from './DesignationSettingModal';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -86,9 +86,9 @@ const Designations = () => {
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
-  const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const addNewDesignationHandler = () => {
@@ -201,23 +201,23 @@ const Designations = () => {
           <MUIDataTable title={'Designation List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
+      <DesignationSettingModal
         open={modalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Designation Name"
         type="text"
         textboxlabel="Add Designation"
         id="designationName"
         name="name"
         value={addValue.name}
-        onChange={addChangeHandler}
+        onChangeHandle={addChangeHandler}
         buttonlabel="Add Designation"
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-      <SettingsModal
+      <DesignationSettingModal
         open={editmodalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Edit Designation"
         type="text"
         textboxlabel="Designation Name"
