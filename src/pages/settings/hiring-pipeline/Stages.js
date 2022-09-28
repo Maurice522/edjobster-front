@@ -1,31 +1,20 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 
 // material
 import {
   Card,
-  Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
   Typography,
-  TableContainer,
-  TablePagination,
   ListItemIcon,
 } from '@mui/material';
 // components
 import SettingsModal from '../../../components/settings/SettingsModal';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
 import { sortedDataFn } from '../../../utils/getSortedData';
@@ -38,7 +27,7 @@ import {
   useUpdateStageApiMutation,
 } from '../../../redux/services/settings/StageService';
 
-import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
+// import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
 
 const Stages = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -46,7 +35,7 @@ const Stages = () => {
   const [viewModelOpen, setViewModelOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const { data = [], refetch } = useGetStagesQuery();
-  const { statusData = [], isError, isLoading } = useGetStatusApiQuery();
+  // const { statusData = [], isError, isLoading } = useGetStatusApiQuery();
   const [DeleteStageApi, DeleteStageApiInfo] = useDeleteStageApiMutation();
   const [AddStage, AddStageInfo] = useAddStageApiMutation();
   const [UpdateStage, UpdateStageInfo] = useUpdateStageApiMutation();
@@ -230,11 +219,11 @@ const Stages = () => {
       },
     },
   ];
-  const labelStatus = (
-    <Label variant="ghost" color={'success'}>
-      {sentenceCase('active')}
-    </Label>
-  );
+  // const labelStatus = (
+  //   <Label variant="ghost" color={'success'}>
+  //     {sentenceCase('active')}
+  //   </Label>
+  // );
 
   const options = {
     filterType: 'dropdown',
