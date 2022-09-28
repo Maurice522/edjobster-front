@@ -1,23 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
   Card,
-  Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
   Typography,
-  TableContainer,
-  TablePagination,
   ListItemIcon,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -26,7 +16,6 @@ import { LoadingButton } from '@mui/lab';
 import { sortedDataFn } from 'src/utils/getSortedData';
 import DegreeSettingModal from './DegreeSettingModal';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import { useDegreeGetQuery, useAddDegreeMutation, useUpdateDegreeMutation, useDeleteDegreeMutation } from "../../../redux/services/settings/DegreeService";
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';

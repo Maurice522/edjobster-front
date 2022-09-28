@@ -9,7 +9,6 @@ import { LoadingButton } from '@mui/lab';
 import { sortedDataFn } from 'src/utils/getSortedData';
 import DesignationSettingModal from './DesignationSettingModal';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
 import {
@@ -72,7 +71,7 @@ const Designations = () => {
       setBtnLoader(false);
       UpdateDesignationInfo.reset();
     }
-  }, [setBtnLoader, AddDesignationInfo, UpdateDesignationInfo]);
+  }, [setBtnLoader, AddDesignationInfo, UpdateDesignationInfo,refetch]);
 
   if (isLoading) {
     return <DataTableLazyLoading />;

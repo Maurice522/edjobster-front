@@ -1,25 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { toast } from 'react-toastify';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
-import Skeleton from '@mui/material/Skeleton';
 // material
 import {
   Card,
-  Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
   Typography,
-  TableContainer,
-  TablePagination,
   ListItemIcon,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -28,7 +16,6 @@ import { LoadingButton } from '@mui/lab';
 import { sortedDataFn } from 'src/utils/getSortedData';
 import DepartmentSettingModal from './DepartmentSettingModal';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
 import {

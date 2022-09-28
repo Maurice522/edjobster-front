@@ -39,6 +39,8 @@ const CreateAssessment = () => {
   );
   const [assesmentId, setAssesmentId] = useState(assessmentEditId);
 
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState();
+
   const [questions, setQuestions] = useState(
     assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.questions : []
   );
@@ -114,9 +116,28 @@ const CreateAssessment = () => {
     //   //   //   name: assesmentName,
     //   //   // });
     //   // }
-      await addAssesmentQuestions(questions[questionIndex]);
+    if(assesmentId){
+      if(questions[questionIndex].assesment){
+        await addAssesmentQuestions(questions[questionIndex]);
+      }
+      else{
+        questions[questionIndex].assesment=assesmentId;
+        await addAssesmentQuestions(questions[questionIndex]);
+      }
+
+    }else{
+      setCurrentQuestionIndex(questionIndex)
+      onAssesmentSaveClick()
+    }
     
   };
+  useEffect(()=>{
+    if(assesmentId && currentQuestionIndex){
+      questions[currentQuestionIndex].assesment= assesmentId;
+      onQuestionDoneClicked(currentQuestionIndex)
+
+    }
+  },[assesmentId])
   const addOptionsSelection = (questionIndex, optIndex) => {
     questions[questionIndex].options = [...questions[questionIndex].options, `Option ${optIndex + 2}`];
     setQuestions([...questions]);
@@ -202,6 +223,7 @@ const CreateAssessment = () => {
 
   const onAssesmentSaveClick = async () => {
     if (isValidateSaveAssesment()) {
+      
       await addAssesment({
         category: selectedAssesmentCategory,
         name: assesmentName,
