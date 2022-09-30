@@ -31,7 +31,7 @@ import {
   useDeleteAssesmentCategoryMutation,
 } from '../../../redux/services/main/AssesmentCatagoriesservice';
 // components
-import SettingsModal from "./CandidateSettingsModal";
+import CandidateSettingModal from "./CandidateSettingsModal";
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -55,10 +55,9 @@ const AssessmentCategories = () => {
     name: '',
   });
 console.log("assesment category",data)
-  const modalHandleClose = (value) => {
-    console.log('value', value);
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const addNewCategoryHandler = () => {
@@ -232,9 +231,9 @@ console.log("assesment category",data)
           <MUIDataTable title={'Assessment Categories List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
+      <CandidateSettingModal
         open={modalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Email Category Name"
         type="Add"
         textboxlabel="Add Assessment Categories"
@@ -245,7 +244,7 @@ console.log("assesment category",data)
         addclickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-      <SettingsModal
+      <CandidateSettingModal
         open={editmodalOpen}
         label="Edit Category Name"
         type="Edit"

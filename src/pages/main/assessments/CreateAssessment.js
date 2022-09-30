@@ -23,7 +23,7 @@ const CreateAssessment = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { assessmentEditId } = useParams();
   const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
-  const { data: assesmentQuestionsData, refetch } = useGetAssesmentQuestionsQuery(assessmentEditId);
+   const {  data: assesmentQuestionsData, refetch, } = useGetAssesmentQuestionsQuery(assessmentEditId,{skip:(assessmentEditId===undefined)});
   const [addAssesmentQuestions, addAssesmentQuestionsInfo] = useAddAssesmentQuestionsMutation();
   const [deleteAssesmentQuestions] = useDeleteAssesmentQuestionsMutation();
   // const [textAssesmentQuestions, textAssesmentQuestionsInfo] = useTextAssesmentQuestionsMutation();
@@ -69,7 +69,7 @@ const CreateAssessment = () => {
     setQuestions([...questions]);
   };
   const onAssesmentMarksInputChangeHandler = (e, questionIndex) => {
-    e.preventDefault();
+    // e.preventDefault();
     questions[questionIndex].marks = parseInt(e.target.value, 10);
     setQuestions([...questions]);
   };
@@ -338,7 +338,6 @@ const CreateAssessment = () => {
                 </Grid>
                 <Grid item xs={4} style={{ margin: '10px' }}>
                   <Button variant="contained" value="R" onClick={() => onSelectedQuestionTypeClicked('R')}>
-                    {' '}
                     Add
                   </Button>
                 </Grid>
