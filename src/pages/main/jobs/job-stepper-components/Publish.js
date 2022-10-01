@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { makeStyles } from '@mui/styles';
 import { useSelector } from 'react-redux';
-import './publish.css'
+import './publish.css';
 
 import {
   CardContent,
@@ -37,7 +37,7 @@ const Publish = () => {
 
   return (
     <>
-      <Container >
+      <Container>
         <Grid container sx={{ mt: 5, pl: 2, pr: 2 }}>
           <Grid item md={3}>
             <Typography variant="subtitle1">
@@ -51,7 +51,9 @@ const Publish = () => {
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Team Members Involved
             </Typography>
-            <Typography variant="body2">{job.member_names}</Typography>
+            {job.member_names?.map((item) => {
+              return <Typography variant="body2">{`${item.first_name} ${item.last_name}`}</Typography>;
+            })}
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Job Nature
             </Typography>

@@ -124,7 +124,7 @@ const CreateJob = () => {
         webform:jobData?.data?.webform?.id,
         webform_name:jobData?.data?.webform?.name,
         member_ids: jobData?.data?.members?.map((x) => x.account_id),
-        member_names: jobData?.data?.members?.map((x) => x.first_name),
+        member_names: jobData?.data?.members,
         type: jobData?.data?.type,
         nature: jobData?.data?.nature,
         education: jobData?.data?.educations?.map((x) => x.id),
@@ -359,11 +359,11 @@ const CreateJob = () => {
               Save
             </Button>
           </Grid>
-          <Grid style={{ marginRight: 5 }}>
+          {/* <Grid style={{ marginRight: 5 }}>
             <Button variant="contained" component={RouterLink} to="#" onClick={onJobPreviewModel}>
               Preview
             </Button>
-          </Grid>
+          </Grid> */}
           <Grid style={{ marginRight: 5 }}>
             <Button variant="contained" component={RouterLink} onClick={avilableJobs} to="#">
               Publish

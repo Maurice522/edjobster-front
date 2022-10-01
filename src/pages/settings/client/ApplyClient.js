@@ -1,4 +1,4 @@
-import React ,{useEffect}  from 'react';
+import React, { useEffect } from 'react';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -31,9 +31,8 @@ import {
   Checkbox,
 } from '@mui/material';
 
-import {useGetWebformDetailsQuery} from '../../../redux/services/settings/WebformService'
-import {useGetAssesmentQuestionsQuery} from '../../../redux/services/main/AssesmentQuestionsService'
-
+import { useGetWebformDetailsQuery } from '../../../redux/services/settings/WebformService';
+import { useGetAssesmentQuestionsQuery } from '../../../redux/services/main/AssesmentQuestionsService';
 
 const steps = ['Fill Details', 'Complete assessment ', 'Submit'];
 const Item = styled(Paper)(({ theme }) => ({
@@ -52,30 +51,29 @@ const ApplyClient = (props) => {
   // const { assessmentEditId } = useParams();
 
   const { data: webFormDataById, isError, isLoading, refetch } = useGetWebformDetailsQuery(8);
-  const {  data: assesmentQuestionsData } = useGetAssesmentQuestionsQuery(94);
+  const { data: assesmentQuestionsData } = useGetAssesmentQuestionsQuery(94);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [selectedFields, setSelectedFields] = React.useState([]);
-  const [selectedAssesmentQuestion,setSelectedAssesmenntQuestion]=React.useState([])
+  const [selectedAssesmentQuestion, setSelectedAssesmenntQuestion] = React.useState([]);
 
   const [age, setAge] = React.useState('');
-  console.log('assesment question',assesmentQuestionsData);
+  console.log('assesment question', assesmentQuestionsData);
   useEffect(() => {
     if (webFormDataById?.data) {
       setSelectedFields(webFormDataById.data.form);
-     
     }
-    if(assesmentQuestionsData?.data){
-      selectedAssesmentQuestion(assesmentQuestionsData.questions[0])
+    if (assesmentQuestionsData?.data) {
+      selectedAssesmentQuestion(assesmentQuestionsData.questions[0]);
     }
-  }, [webFormDataById,assesmentQuestionsData])
+  }, [webFormDataById, assesmentQuestionsData]);
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
-  const { open, handleClose,jobTitleData } = props;
+  const { open, handleClose, jobTitleData } = props;
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -177,30 +175,30 @@ const ApplyClient = (props) => {
                       {activeStep === 0 ? (
                         <>
                           <Grid container sx={{ mt: 1, mb: 1 }} spacing={5}>
-                          <Grid item xs={12}>
-                      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        {selectedFields &&
-                          selectedFields.map((item, index) => (
-                            <Grid
-                              item
-                              xs={6}
-                              style={{ display: 'flex', alignItems: 'center' }}
-                              key={`selectedfield-${item}-${index}`}
-                            >
-                              <Item>
-                                <TextField
-                                  type={item.type}
-                                  placeholder={item.name}
-                                  margin="dense"
-                                  variant="outlined"
-                                  fullWidth
-                                />
-                              </Item>
-                             
-                            </Grid>
-                          ))}
+                            <Grid item xs={12}>
+                              <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                                {selectedFields &&
+                                  selectedFields.map((item, index) => (
+                                    <Grid
+                                      item
+                                      xs={6}
+                                      style={{ display: 'flex', alignItems: 'center' }}
+                                      key={`selectedfield-${item}-${index}`}
+                                    >
+                                      <Item>
+                                        <TextField
+                                          type={item.type}
+                                          placeholder={item.name}
+                                          margin="dense"
+                                          variant="outlined"
+                                          
+                                          fullWidth
+                                        />
+                                      </Item>
+                                    </Grid>
+                                  ))}
 
-                        {/* <Grid item xs={6}>
+                                {/* <Grid item xs={6}>
                             <Item>
                               <TextField autoFocus placeholder="LastName" margin="dense" variant="standard" fullWidth />
                             </Item>
@@ -215,9 +213,8 @@ const ApplyClient = (props) => {
                               <TextField placeholder="Mobile" autoFocus margin="dense" variant="standard" fullWidth />
                             </Item>
                           </Grid> */}
-                      </Grid>
-                    </Grid>
-                  
+                              </Grid>
+                            </Grid>
                           </Grid>
                         </>
                       ) : null}
@@ -225,53 +222,57 @@ const ApplyClient = (props) => {
                         <>
                           <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
                             <Grid item md={8}>
-                            
-                            <Grid
-                              item
-                              xs={6}
-                              style={{ display: 'flex', alignItems: 'center' }}
-
-                            >
-                              <Item>
-                              <TextField
-                        required="true"
-                        autoFocus
-                        margin="dense"
-                        variant="standard"
-                        placeholder="Enter Marks"
-                        fullWidth
-                        name="Marks"
-                        value={assesmentQuestionsData.questions}
-
-                        label="Marks"
-                        type="number"
-                      />
-                              </Item>
-                             
+                              {assesmentQuestionsData?.questions.map((item,index) => {
+                                return (
+<>
+                    {/* <Grid display="flex" item xs={12}>
+                      <Grid item xs={11}>
+                        <Typography variant="h5" gutterBottom>
+                          Question {index + 1} : Text Question
+                        </Typography>
+                      </Grid>
+                    </Grid> */}
+                    <Grid item xs={11}>
+                    <TextField
+                      required
+                      margin="dense"
+                      variant="standard"
+                      fullWidth
+                       inputProps={{
+                    readOnly: true,
+                  }}
+                      name="question"
+                      value={item.question}
+                    />
+                  </Grid>
+                  {item.options.map((opt, optIndex) => (
+                            <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
+                              <Grid item xs={11}>
+                                <TextField
+                                  required
+                                  autoFocus
+                                  margin="dense"
+                                  variant="standard"
+                                  placeholder={`Enter Option ${optIndex + 1}`}
+                                  fullWidth
+                                  name={opt}
+                                  value={opt}
+                                  label={`Option ${optIndex + 1}`}
+                                />
+                              </Grid>
                             </Grid>
+                          ))}
+                  </>
 
+                                );
+                              })}
                             </Grid>
-                            </Grid>
-              <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
+                          </Grid>
+                          <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
                             <Grid item md={8}>
                               <Card>
                                 <CardContent>
-                                  <Box sx={{ mb: 2 }} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-                                  </Box>
-                                  <Box sx={{ mb: 2 }} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-
-                                    <FormControlLabel control={<Checkbox defaultChecked />} label="Expertise  1" />
-                                  </Box>
+                                  
 
                                   <Button
                                     variant="contained"
