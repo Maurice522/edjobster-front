@@ -29,6 +29,7 @@ const Assessments = () => {
     const sortresult = sortedDataFn(data.data);
     return sortresult;
   }, [data]);
+  console.log('data of assesment',data.data);
 
   // Delete Assesment handler
   const onDeletAssesmenteHandler = async (dataIndex) => {

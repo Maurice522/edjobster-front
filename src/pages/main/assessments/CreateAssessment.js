@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link as RouterLink, useParams } from 'react-router-dom';
+import './create-assesment.css';
 
 import Grid from '@mui/material/Grid';
 
@@ -23,7 +24,9 @@ const CreateAssessment = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { assessmentEditId } = useParams();
   const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
-  const { data: assesmentQuestionsData, refetch } = useGetAssesmentQuestionsQuery(assessmentEditId);
+  const { data: assesmentQuestionsData, refetch } = useGetAssesmentQuestionsQuery(assessmentEditId, {
+    skip: assessmentEditId === undefined,
+  });
   const [addAssesmentQuestions, addAssesmentQuestionsInfo] = useAddAssesmentQuestionsMutation();
   const [deleteAssesmentQuestions] = useDeleteAssesmentQuestionsMutation();
   // const [textAssesmentQuestions, textAssesmentQuestionsInfo] = useTextAssesmentQuestionsMutation();
@@ -69,7 +72,7 @@ const CreateAssessment = () => {
     setQuestions([...questions]);
   };
   const onAssesmentMarksInputChangeHandler = (e, questionIndex) => {
-    e.preventDefault();
+    // e.preventDefault();
     questions[questionIndex].marks = parseInt(e.target.value, 10);
     setQuestions([...questions]);
   };
@@ -116,28 +119,25 @@ const CreateAssessment = () => {
     //   //   //   name: assesmentName,
     //   //   // });
     //   // }
-    if(assesmentId){
-      if(questions[questionIndex].assesment){
+    if (assesmentId) {
+      if (questions[questionIndex].assesment) {
+        await addAssesmentQuestions(questions[questionIndex]);
+      } else {
+        questions[questionIndex].assesment = assesmentId;
         await addAssesmentQuestions(questions[questionIndex]);
       }
-      else{
-        questions[questionIndex].assesment=assesmentId;
-        await addAssesmentQuestions(questions[questionIndex]);
-      }
-
-    }else{
-      setCurrentQuestionIndex(questionIndex)
-      onAssesmentSaveClick()
+    } else {
+      setCurrentQuestionIndex(questionIndex);
+      onAssesmentSaveClick();
     }
-    
   };
-  useEffect(()=>{
-    if(assesmentId && currentQuestionIndex){
-      questions[currentQuestionIndex].assesment= assesmentId;
-      onQuestionDoneClicked(currentQuestionIndex)
-
+  useEffect(() => {
+    if (assesmentId && currentQuestionIndex) {
+      questions[currentQuestionIndex].assesment = assesmentId;
+      onQuestionDoneClicked(currentQuestionIndex);
+      console.log('question', assesmentQuestionsData);
     }
-  },[assesmentId])
+  }, [assesmentId]);
   const addOptionsSelection = (questionIndex, optIndex) => {
     questions[questionIndex].options = [...questions[questionIndex].options, `Option ${optIndex + 2}`];
     setQuestions([...questions]);
@@ -223,7 +223,6 @@ const CreateAssessment = () => {
 
   const onAssesmentSaveClick = async () => {
     if (isValidateSaveAssesment()) {
-      
       await addAssesment({
         category: selectedAssesmentCategory,
         name: assesmentName,
@@ -248,7 +247,7 @@ const CreateAssessment = () => {
       const savedAssesmentRecord = addAssesmentInfo.data.data.find((item) => item.name === assesmentName);
       setAssesmentId(savedAssesmentRecord.id);
       addAssesmentInfo.reset();
-    } 
+    }
     if (addAssesmentInfo.isError) {
       showToast('error', addAssesmentInfo.error.data.msg);
       addAssesmentInfo.reset();
@@ -333,19 +332,18 @@ const CreateAssessment = () => {
                 </Grid>
               </Grid>
               <Grid item display={'flex'} xs={12} alignItems="center">
-                <Grid item xs={8} style={{ margin: '10px' }}>
-                  <Typography>Multiple Choices Questions</Typography>
+                <Grid item xs={8} style={{ margin: '10px' }} >
+                  <Typography className={currentSelectedType === 'R' ? 'highligth' : ''}>Multiple Choices Questions</Typography>
                 </Grid>
                 <Grid item xs={4} style={{ margin: '10px' }}>
                   <Button variant="contained" value="R" onClick={() => onSelectedQuestionTypeClicked('R')}>
-                    {' '}
                     Add
                   </Button>
                 </Grid>
               </Grid>
               <Grid item display={'flex'} xs={12} alignItems="center">
-                <Grid item xs={8} style={{ margin: '10px' }}>
-                  <Typography>Multiple CheckBoxes</Typography>
+                <Grid item xs={8} style={{ margin: '10px' }} >
+                  <Typography className={currentSelectedType === 'C' ? 'highligth' : ''}>Multiple CheckBoxes</Typography>
                 </Grid>
 
                 <Grid item xs={4} style={{ margin: '10px' }}>
@@ -357,8 +355,8 @@ const CreateAssessment = () => {
               </Grid>
 
               <Grid item display={'flex'} xs={12} alignItems="center">
-                <Grid item xs={8} style={{ margin: '10px' }}>
-                  <Typography>Dropdown</Typography>
+                <Grid item xs={8} style={{ margin: '10px' }} >
+                  <Typography className={currentSelectedType === 'S' ? 'highligth' : ''}>Dropdown</Typography>
                 </Grid>
 
                 <Grid item xs={4} style={{ margin: '10px' }}>
@@ -370,8 +368,8 @@ const CreateAssessment = () => {
               </Grid>
 
               <Grid item display={'flex'} xs={12} alignItems="center">
-                <Grid item xs={8} style={{ margin: '10px' }}>
-                  <Typography>Text Paragraph</Typography>
+                <Grid item xs={8}  style={{ margin: '10px' }}>
+                  <Typography className={currentSelectedType === 'T' ? 'highligth' : ''}>Text Paragraph</Typography>
                 </Grid>
                 <Grid item xs={4} style={{ margin: '10px' }}>
                   <Button variant="contained" value="T" onClick={() => onSelectedQuestionTypeClicked('T')}>
@@ -542,7 +540,7 @@ const CreateAssessment = () => {
                                     placeholder="Enter Answer"
                                     fullWidth
                                     name="Answer"
-                                    type='number'
+                                    type="number"
                                     value={item.answer}
                                     onChange={(e) => onAssesmentAnswerInputChangeHandler(e, index)}
                                     label="Answer"

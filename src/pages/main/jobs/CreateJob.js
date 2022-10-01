@@ -46,7 +46,7 @@ const CreateJob = () => {
 
   const dispatch = useDispatch();
   const job = useSelector((state) => state.job.job);
-  const { data: jobData } = useGetJobeDetailsQuery(editJobId);
+  const { data: jobData } = useGetJobeDetailsQuery(editJobId,{skip: editJobId === undefined});
   const [addJobData, addJobDataInfo] = useAddJobMutation();
   const [modelOpen, setModelOpen] = useState(false);
   const [jobModelPublish, setJobModelPublish] = useState(false);

@@ -38,7 +38,7 @@ const WebFormsModal = (props) => {
   const { open, handleClose, textboxlabel, loadingbtn, webFormFieldsData, webFormRowEdit } = props;
   const [AddWebform, AddWebformInfo] = useAddWebformApiMutation();
   const [UpdateWebform, UpdateWebformInfo] = useUpdateWebformMutation();
-  const { data: webFormDataById, isError, isLoading, refetch } = useGetWebformDetailsQuery(webFormRowEdit?.id);
+  const { data: webFormDataById, isError, isLoading, refetch } = useGetWebformDetailsQuery(webFormRowEdit?.id ,{skip:(webFormRowEdit?.id===undefined)});
   const [selectedFields, setSelectedFields] = useState([]);
   const [webFormName, setWebFormName] = useState(webFormRowEdit?.name || '');
   const [allWebFormFields, setAllWebFormFields] = useState([]);
