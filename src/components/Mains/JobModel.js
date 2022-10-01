@@ -40,6 +40,8 @@ const JobModel = (props) => {
     department: jobData?.data?.department?.id,
     owner: jobData?.data?.owner?.account_id,
     assesment: jobData?.data?.assesment?.id,
+    webform:jobData?.data?.webform?.id,
+    webform_name:jobData?.data?.webform?.name,
     member_ids: jobData?.data?.members?.map((x) => x.account_id),
     member_names: jobData?.data?.members?.map((x) => x.first_name),
     type: jobData?.data?.type,
@@ -106,7 +108,7 @@ const JobModel = (props) => {
             <Grid container spacing={3}>
               <Grid item md={8} style={{ display: 'flex', alignItems: 'center' }}>
                 <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div" style={{ color: '#000' }}>
-                  Assistant Professor - Mechanical Engineering
+                  {textValue.title}
                 </Typography>
               </Grid>
               <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between' }}>

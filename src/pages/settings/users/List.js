@@ -26,7 +26,7 @@ import {
 import { sortedDataFn } from 'src/utils/getSortedData';
 // components
 import UserModalList from '../../../components/users/UsersModalList';
-import userViewModel from '../../../components/users/userViewModel';
+import UserViewModel from '../../../components/users/userViewModel';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -97,6 +97,9 @@ const List = () => {
 
   const modalHandleClose = (value) => {
     setModalOpen(value);
+  };
+  const viewHandleClose = () => {
+    setViewModelOpen(false);
   };
 
   const addNewListHandler = () => {
@@ -326,7 +329,7 @@ const List = () => {
         type={modalType}
         formData={apiData}
       />
-      <userViewModel open={viewModelOpen} />
+      <UserViewModel handleClose={viewHandleClose} open={viewModelOpen} />
     </Page>
   );
 };

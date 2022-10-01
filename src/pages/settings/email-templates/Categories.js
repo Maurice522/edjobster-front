@@ -31,7 +31,7 @@ import {
   useUpdateEmailCategoryMutation,
 } from '../../../redux/services/settings/EmailCategoryService';
 // components
-import SettingsModal from '../../../components/settings/SettingsModal';
+import CategorySettingModal from './CategorySettingModel';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -55,10 +55,9 @@ const Categories = () => {
     name: '',
   });
 
-  const modalHandleClose = (value) => {
-    console.log('value', value);
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const addNewCategoryHandler = () => {
@@ -231,9 +230,9 @@ const Categories = () => {
           <MUIDataTable title={'Category List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
+      <CategorySettingModal
         open={modalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Email Category Name"
         type="Add"
         textboxlabel="Add category"
@@ -244,10 +243,11 @@ const Categories = () => {
         addclickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-      <SettingsModal
+      <CategorySettingModal
         open={editmodalOpen}
         label="Edit Category Name"
         type="edit"
+        handleClose={modalHandleClose}
         textboxlabel="Edit Category"
         id="editCategoryName"
         value={editValue.name}

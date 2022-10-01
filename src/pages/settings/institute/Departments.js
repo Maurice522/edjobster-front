@@ -1,34 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { toast } from 'react-toastify';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
-import Skeleton from '@mui/material/Skeleton';
 // material
 import {
   Card,
-  Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
   Typography,
-  TableContainer,
-  TablePagination,
   ListItemIcon,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
-import SettingsModal from '../../../components/settings/SettingsModal';
+import DepartmentSettingModal from './DepartmentSettingModal';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
 import {
@@ -103,6 +90,7 @@ const Departments = () => {
     addValue,
     setAddValue,
   ]);
+  // console.log('addvalue',addValue);
 
   if (isLoading) {
     return <DataTableLazyLoading />;
@@ -116,9 +104,9 @@ const Departments = () => {
     DeleteDepartmentInfo.reset();
   }
 
-  const modalHandleClose = (value) => {
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const addNewDepartmentHandler = () => {
@@ -227,21 +215,21 @@ const Departments = () => {
           <MUIDataTable title={'Department List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
+      <DepartmentSettingModal
         open={modalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Department Name"
         type="text"
         textboxlabel="Add Department"
         id="depratmentName"
         name="name"
         value={addValue.name}
-        onChange={addChangeHandler}
+        onChangeHandle={addChangeHandler}
         buttonlabel="Add Department"
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-      <SettingsModal
+      <DepartmentSettingModal
         open={editmodalOpen}
         handleclose={modalHandleClose}
         label="Edit Department"

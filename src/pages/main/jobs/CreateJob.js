@@ -46,7 +46,7 @@ const CreateJob = () => {
 
   const dispatch = useDispatch();
   const job = useSelector((state) => state.job.job);
-  const { data: jobData } = useGetJobeDetailsQuery(editJobId);
+  const { data: jobData } = useGetJobeDetailsQuery(editJobId,{skip: editJobId === undefined});
   const [addJobData, addJobDataInfo] = useAddJobMutation();
   const [modelOpen, setModelOpen] = useState(false);
   const [jobModelPublish, setJobModelPublish] = useState(false);
@@ -121,8 +121,10 @@ const CreateJob = () => {
         department: jobData?.data?.department?.id,
         owner: jobData?.data?.owner?.account_id,
         assesment: jobData?.data?.assesment?.id,
+        webform:jobData?.data?.webform?.id,
+        webform_name:jobData?.data?.webform?.name,
         member_ids: jobData?.data?.members?.map((x) => x.account_id),
-        member_names: jobData?.data?.members?.map((x) => x.first_name),
+        member_names: jobData?.data?.members,
         type: jobData?.data?.type,
         nature: jobData?.data?.nature,
         education: jobData?.data?.educations?.map((x) => x.id),
@@ -180,6 +182,8 @@ const CreateJob = () => {
         pipeline: null,
         active: 1,
         assesment_name: '',
+        webform:null,
+        webform_name:'',
         education_names: [],
         pipeline_name: '',
         state_name: '',
@@ -355,11 +359,11 @@ const CreateJob = () => {
               Save
             </Button>
           </Grid>
-          <Grid style={{ marginRight: 5 }}>
+          {/* <Grid style={{ marginRight: 5 }}>
             <Button variant="contained" component={RouterLink} to="#" onClick={onJobPreviewModel}>
               Preview
             </Button>
-          </Grid>
+          </Grid> */}
           <Grid style={{ marginRight: 5 }}>
             <Button variant="contained" component={RouterLink} onClick={avilableJobs} to="#">
               Publish

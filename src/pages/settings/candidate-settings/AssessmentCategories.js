@@ -25,13 +25,13 @@ import {
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
 import {
-  useGetAssessmentCategoriesQuery,
-  useDeleteAssessmentCategoriesMutation,
-  useAddAssessmentCategoriesMutation,
-  useUpdateAssessmentCategoriesMutation,
-} from '../../../redux/services/settings/AssessmentCategoriesService';
+  useGetAssesmentCategoryQuery,
+  useAddAssesmentCategoryMutation,
+  useUpdateAssesmentCategoryMutation,
+  useDeleteAssesmentCategoryMutation,
+} from '../../../redux/services/main/AssesmentCatagoriesservice';
 // components
-import SettingsModal from "./CandidateSettingsModal";
+import CandidateSettingModal from "./CandidateSettingsModal";
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -43,10 +43,10 @@ const AssessmentCategories = () => {
   const [modalName, setModalName] = useState('add');
   const [btnLoader, setBtnLoader] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const { data = [], isLoading, refetch } = useGetAssessmentCategoriesQuery();
-  const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssessmentCategoriesMutation();
-  const [updateAssessmentCategories, updateAssessmentCategoriesInfo] = useUpdateAssessmentCategoriesMutation();
-  const [DeleteAssessmentCategories, DeleteAssessmentCategoriesInfo] = useDeleteAssessmentCategoriesMutation();
+  const { data = [], isLoading, refetch } = useGetAssesmentCategoryQuery();
+  const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssesmentCategoryMutation();
+  const [updateAssessmentCategories, updateAssessmentCategoriesInfo] = useUpdateAssesmentCategoryMutation();
+  const [DeleteAssessmentCategories, DeleteAssessmentCategoriesInfo] = useDeleteAssesmentCategoryMutation();
   const [addValue, setAddvalue] = useState({
     name: '',
   });
@@ -55,10 +55,9 @@ const AssessmentCategories = () => {
     name: '',
   });
 console.log("assesment category",data)
-  const modalHandleClose = (value) => {
-    console.log('value', value);
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const addNewCategoryHandler = () => {
@@ -191,7 +190,7 @@ console.log("assesment category",data)
               variant="contained"
               color="error"
               onClick={() => onDeleteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? useDeleteAssessmentCategoriesMutation.isLoading : false}
+              loading={dataIndex === currentIndex ? useDeleteAssesmentCategoryMutation.isLoading : false}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
@@ -232,9 +231,9 @@ console.log("assesment category",data)
           <MUIDataTable title={'Assessment Categories List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
+      <CandidateSettingModal
         open={modalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Email Category Name"
         type="Add"
         textboxlabel="Add Assessment Categories"
@@ -245,7 +244,7 @@ console.log("assesment category",data)
         addclickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
-      <SettingsModal
+      <CandidateSettingModal
         open={editmodalOpen}
         label="Edit Category Name"
         type="Edit"

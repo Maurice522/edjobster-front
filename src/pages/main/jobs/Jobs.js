@@ -41,7 +41,7 @@ const Jobs = () => {
   const [detailsId, setDetailsId] = useState();
   const { data = [], refetch } = useGetJobQuery();
   const { editJobId } = useParams();
-  console.log('data ', data.list);
+  console.log('list', data.list);
 
   const [currentIndex, setCurrentIndex] = useState(editJobId);
   const [deleteJob, deleteJobInfo] = useDeleteJobMutation();
@@ -52,6 +52,8 @@ const Jobs = () => {
   };
   const handleClose = () => {
     setModelOpen(false);
+    refetch();
+
   };
 
   const sortData = useMemo(() => {
@@ -106,7 +108,7 @@ const Jobs = () => {
       },
     },
     {
-      name: 'owner_id',
+      name: 'owner',
       label: 'Owner',
       options: {
         filter: false,

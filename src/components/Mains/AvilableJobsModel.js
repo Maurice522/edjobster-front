@@ -28,6 +28,12 @@ import {
 } from '@mui/material';
 import Iconify from '../Iconify';
 import SingleViewJobModel from './SingleViewJobModel';
+import {useGetCompanyInfoQuery} from '../../redux/services/settings/CareerSiteService'
+import { useGetJobQuery } from '../../redux/services/jobs/JobServices';
+
+
+
+
 
 
 
@@ -38,6 +44,11 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const AvilableJobsModel = (props) => {
+    const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+
+    const { data : jobData } = useGetJobQuery();
+    const [jobId ,setJobId]=useState();
+
 
     const [modelOpen, setModelOpen] = useState(false);
 
@@ -55,7 +66,9 @@ const AvilableJobsModel = (props) => {
         );
     }
 
-    const onViewDetailsModel = () => {
+    const onViewDetailsModel = (id) => {
+        setJobId(id)
+
         setModelOpen(true);
     }
 
@@ -64,8 +77,6 @@ const AvilableJobsModel = (props) => {
     };
 
     const { open, handleClose } = props;
-
-
     return (
         <>
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -84,9 +95,9 @@ const AvilableJobsModel = (props) => {
                             </Grid>
                             <Grid item md={11} style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography variant="subtitle1" style={{ color: '#000' }} sx={{ mt: 2, mb: 2 }}>
-                                    Imperial College of Engineering <br />
+                                    {data.company.name} <br />
                                     <Typography variant="body2" sx={{ mt: 1 }}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies accumsan cursus aliquet blandit interdum. Cursus lobortis lorem eu, semper. Interdum lorem et integer ac aliquam porttitor quam consequat. Venenatis nunc malesuada euismod iaculis.
+                                         {data.company.description}
                                     </Typography>
                                 </Typography>
                             </Grid>
@@ -122,15 +133,17 @@ const AvilableJobsModel = (props) => {
                 <Divider variant="middle" />
                 <Grid container sx={{ mt: 3, pl: 3, pr: 3 }} style={{ overflow: "auto" }}>
                     <Grid item md={12}>
-                        <Card style={{ backgroundColor: "#f9f9f9" }}>
+                        {jobData?.list.map((item)=>{
+                            return(
+<Card style={{ backgroundColor: "#f9f9f9" }}>
                             <CardContent>
                                 <Grid container style={{ display: "flex", alignItems: "center" }}>
                                     <Grid item md={10}>
-                                        <Typography sx={{ mb: 2 }} variant='h6'>Assistant Professor - Mechanical Engineering
+                                        <Typography sx={{ mb: 2 }} variant='h6'>{item.title}
                                         </Typography>
                                         <Box style={{ display: "flex", flexDirection: 'row' }}>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center", marginRight: "30px" }}> <Iconify icon="carbon:location-filled" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Nagpur</Typography>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center" }} > <Iconify icon="bx:briefcase-alt-2" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Experience 5 to 8 Years</Typography>
+                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center", marginRight: "30px" }}> <Iconify icon="carbon:location-filled" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  {item.country_name}</Typography>
+                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center" }} > <Iconify icon="bx:briefcase-alt-2" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Experience {item.exp_min} to {item.exp_max} Years</Typography>
                                         </Box>
                                     </Grid>
                                     <Grid item md={2} style={{ display: "flex", justifyContent: "end" }}>
@@ -138,7 +151,7 @@ const AvilableJobsModel = (props) => {
                                             style={{ minWidth: 0, margin: '0px 5px', }}
                                             variant="contained"
                                             color="primary"
-                                            onClick={onViewDetailsModel}
+                                            onClick={(e)=>onViewDetailsModel(item.id)}
                                         >
                                             View Details
                                         </Button>
@@ -146,83 +159,16 @@ const AvilableJobsModel = (props) => {
                                 </Grid>
                             </CardContent>
                         </Card>
-                        <Card style={{ backgroundColor: "#f9f9f9" }} sx={{ mt: 5 }}>
-                            <CardContent>
-                                <Grid container style={{ display: "flex", alignItems: "center" }}>
-                                    <Grid item md={10}>
-                                        <Typography sx={{ mb: 2 }} variant='h6'>Assistant Professor - Mechanical Engineering
-                                        </Typography>
-                                        <Box style={{ display: "flex", flexDirection: 'row' }}>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center", marginRight: "30px" }}> <Iconify icon="carbon:location-filled" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Nagpur</Typography>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center" }} > <Iconify icon="bx:briefcase-alt-2" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Experience 5 to 8 Years</Typography>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item md={2} style={{ display: "flex", justifyContent: "end" }}>
-                                        <Button
-                                            style={{ minWidth: 0, margin: '0px 5px', }}
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={onViewDetailsModel}
-                                        >
-                                            View Details
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </CardContent>
-                        </Card>
-                        <Card style={{ backgroundColor: "#f9f9f9" }} sx={{ mt: 5 }}>
-                            <CardContent>
-                                <Grid container style={{ display: "flex", alignItems: "center" }}>
-                                    <Grid item md={10}>
-                                        <Typography sx={{ mb: 2 }} variant='h6'>Assistant Professor - Mechanical Engineering
-                                        </Typography>
-                                        <Box style={{ display: "flex", flexDirection: 'row' }}>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center", marginRight: "30px" }}> <Iconify icon="carbon:location-filled" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Nagpur</Typography>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center" }} > <Iconify icon="bx:briefcase-alt-2" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Experience 5 to 8 Years</Typography>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item md={2} style={{ display: "flex", justifyContent: "end" }}>
-                                        <Button
-                                            style={{ minWidth: 0, margin: '0px 5px', }}
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={onViewDetailsModel}
-                                        >
-                                            View Details
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </CardContent>
-                        </Card>
-                        <Card style={{ backgroundColor: "#f9f9f9" }} sx={{ mt: 5 }}>
-                            <CardContent>
-                                <Grid container style={{ display: "flex", alignItems: "center" }}>
-                                    <Grid item md={10}>
-                                        <Typography sx={{ mb: 2 }} variant='h6'>Assistant Professor - Mechanical Engineering
-                                        </Typography>
-                                        <Box style={{ display: "flex", flexDirection: 'row' }}>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center", marginRight: "30px" }}> <Iconify icon="carbon:location-filled" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Nagpur</Typography>
-                                            <Typography variant='body2' component="span" style={{ display: "flex", alignItems: "center" }} > <Iconify icon="bx:briefcase-alt-2" width={20} height={20} style={{ color: "#109CF1", marginRight: "5px" }} />  Experience 5 to 8 Years</Typography>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item md={2} style={{ display: "flex", justifyContent: "end" }}>
-                                        <Button
-                                            style={{ minWidth: 0, margin: '0px 5px', }}
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={onViewDetailsModel}
-                                        >
-                                            View Details
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </CardContent>
-                        </Card>
+                            )
+                        })}
+                        
+                        
+                        
                     </Grid>
 
                 </Grid>
             </Dialog>
-            <SingleViewJobModel open={modelOpen} handleClose={ModelhandleClose} />
+            <SingleViewJobModel jobId={jobId} open={modelOpen} handleClose={ModelhandleClose} />
         </>
     );
 };

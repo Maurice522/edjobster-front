@@ -18,7 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-import { useGetStagesQuery } from '../../redux/services/settings/StageService';
+import { useGetStagesQuery,useAddStageApiMutation } from '../../redux/services/settings/StageService';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,17 +31,25 @@ const MenuProps = {
   },
 };
 const PipelineModel = (props) => {
-  const { open, handleclose, textboxlabel, loadingbtn, formstagedata, onsubmit, type } = props;
+  const { open, handleClose, textboxlabel, loadingbtn, formstagedata, onsubmit, type } = props;
 
   const theme = useTheme();
   const [stageData, setStageData] = useState([]);
   const [stageTextValue, setStageTextValue] = useState(formstagedata);
   // console.log('stagetext', formStageData);
+
   const { data: stageApiData } = useGetStagesQuery();
+  const [addStageApi,addStageApiInfo]=useAddStageApiMutation()
   const [stageId, setStagetId] = useState(null);
 
   const stageResponse = stageApiData?.data;
 
+  const addStagesHander = () => {
+    addStageApi({
+    id:70,
+    name:stageData,
+    });
+  };
   useEffect(() => {
     if (formstagedata?.id) {
       const stageArr = stageResponse;
@@ -72,9 +80,7 @@ const PipelineModel = (props) => {
 
   // eslint-disable-next-line react/prop-types
 
-  const modalCloseHandler = () => {
-    handleclose(true);
-  };
+ 
 
   const addclickhandler = () => {
     onsubmit(stageTextValue);
@@ -90,9 +96,7 @@ const PipelineModel = (props) => {
         open={open}
         fullWidth
         maxWidth="xs"
-        onClose={() => {
-          handleclose(false);
-        }}
+        onClose={handleClose}
         aria-labelledby="alertmodalCloseHandler-dialog-title"
         aria-describedby="alert-dialog-description"
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
@@ -145,10 +149,10 @@ const PipelineModel = (props) => {
           </DialogContent>
           <DialogActions>
             <Box>
-              <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
+              <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <LoadingButton onClick={() => addclickhandler()} variant="contained" loading={loadingbtn}>
+              <LoadingButton onClick={addStagesHander} variant="contained" loading={loadingbtn}>
                 Add
               </LoadingButton>
             </Box>

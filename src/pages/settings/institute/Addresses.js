@@ -1,33 +1,21 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card,
-  Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
   Typography,
-  TableContainer,
-  TablePagination,
   ListItemIcon,
 } from '@mui/material';
 // components
 // eslint-disable-next-line import/no-unresolved
-import { sortedDataFn } from 'src/utils/getSortedData';
 import { useGetAddressesQuery, useDeleteAddressesMutation, useAddAddressesMutation, useUpdateAddressesMutation } from '../../../redux/services/settings/AddressesService';
 import SettingModalAddress from '../../../components/settings/SettingModalAddress';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import { showToast } from "../../../utils/toast";
@@ -80,24 +68,24 @@ const Addresses = () => {
       // setBtnLoader(false);
       UpdateAddressInfo.reset();
     }
-  }, [PostAddressInfo, UpdateAddressInfo])
+  }, [PostAddressInfo, UpdateAddressInfo,refetch])
 
 
-  const sortedData = useMemo(() => {
-    const result = sortedDataFn(data.data);
-    console.log("result", result);
-    const dataNewArr = [];
-    result.forEach((value) => {
-      dataNewArr.push({
-        ...value,
-        completeAddress: `${value.address},${value.city_name} - ${value.pincode},${value.state_name},${value.country_name}`,
+  // const sortedData = useMemo(() => {
+  //   const result = sortedDataFn(data.data);
+  //   console.log("result", result);
+  //   const dataNewArr = [];
+  //   result.forEach((value) => {
+  //     dataNewArr.push({
+  //       ...value,
+  //       completeAddress: `${value.address},${value.city_name} - ${value.pincode},${value.state_name},${value.country_name}`,
 
-      })
-    })
-    return dataNewArr;
-  }, [data])
+  //     })
+  //   })
+  //   return dataNewArr;
+  // }, [data])
 
-  console.log("arry data", sortedData)
+  console.log("arry data", data?.data)
 
 
   // delete Address
@@ -135,7 +123,7 @@ const Addresses = () => {
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
-    const dataArr = sortedData;
+    const dataArr = data?.data;
     const currentDataObj = dataArr[dataIndex];
     await DeleteAddress(currentDataObj.id);
     refetch();
@@ -162,7 +150,7 @@ const Addresses = () => {
   };
 
   const onEditModalHandler = (dataIndex) => {
-    const dataArr = sortedData;
+    const dataArr = data?.data;
     const currentDataObj = dataArr[dataIndex];
     setAddData({
       id: currentDataObj.id,
@@ -254,11 +242,11 @@ const Addresses = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={' Address List'} data={sortedData} columns={columns} options={options} />
+          <MUIDataTable title={' Address List'} data={data?.data} columns={columns} options={options} />
         </Card>
       </Container>
 
-      <SettingModalAddress open={modalOpen} handleClose={modalHandleClose} formData={addData} type={modalType} onSubmit={onSubmitHandler} />
+      <SettingModalAddress open={modalOpen} handleClose={modalHandleClose} formData={addData} type={modalType} onSubmitData={onSubmitHandler} />
     </Page>
   );
 };

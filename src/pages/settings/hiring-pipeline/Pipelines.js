@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
@@ -8,18 +7,10 @@ import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card,
-  Table,
   Stack,
-  Avatar,
   Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
   Container,
   Typography,
-  TableContainer,
-  TablePagination,
   ListItemIcon,
 } from '@mui/material';
 
@@ -56,10 +47,10 @@ const Pipelines = () => {
     fileds: [],
   });
 
-  const modalHandleClose = (value) => {
-    console.log('value', value);
-    setModalOpen(value);
-    setEditModalOpen(value);
+  const modalHandleClose = () => {
+    console.log('value');
+    setModalOpen(false);
+    setEditModalOpen(false);
   };
 
   const sortData = useMemo(() => {
@@ -105,16 +96,6 @@ const Pipelines = () => {
     const currentDataObj = dataArr[dataIndex];
     await DeletePipelineApi(currentDataObj.id);
   };
-  if (DeletePipelineInfo.isSuccess) {
-    showToast('success', DeletePipelineInfo.data.msg);
-    DeletePipelineInfo.reset();
-    refetch();
-  }
-  if (DeletePipelineInfo.isError) {
-    showToast('error', DeletePipelineInfo.error.data.msg);
-    DeletePipelineInfo.reset();
-    refetch();
-  }
 
   useEffect(() => {
     if (AddPipelineApiInfo.isSuccess) {
@@ -127,7 +108,18 @@ const Pipelines = () => {
       showToast('error', AddPipelineApiInfo.error.data.msg);
       AddPipelineApi.reset();
     }
-  }, [AddPipelineApiInfo]);
+    if (DeletePipelineInfo.isSuccess) {
+      showToast('success', DeletePipelineInfo.data.msg);
+      DeletePipelineInfo.reset();
+      refetch();
+    }
+    if (DeletePipelineInfo.isError) {
+      showToast('error', DeletePipelineInfo.error.data.msg);
+      DeletePipelineInfo.reset();
+      refetch();
+    }
+  
+  }, [AddPipelineApiInfo,DeletePipelineInfo]);
 
   const columns = [
     {

@@ -21,7 +21,7 @@ import { useGetCountryQuery, useGetStateQuery, useGetCityQuery } from 'src/redux
 
 
 const SettingModalAddress = (props) => {
-  const { open, handleClose, formData, type, onSubmit } = props;
+  const { open, handleClose, formData, type, onSubmitData } = props;
   const [fieldValue, setFieldValue] = useState(formData);
   const [countryId, setCountryId] = useState(skipToken);
   const [stateId, setStateId] = useState(skipToken);
@@ -66,8 +66,8 @@ const SettingModalAddress = (props) => {
 
   const SubmitHanlder = () => {
     console.log("submit", fieldValue);
-    onSubmit(fieldValue);
-
+    onSubmitData(fieldValue);
+      console.log('fieldValue',fieldValue);
   }
 
   return (
@@ -128,14 +128,14 @@ const SettingModalAddress = (props) => {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="select-country">Select Country</InputLabel>
+                    <InputLabel id="select-city">Select city</InputLabel>
                     <Select
-                      labelId="select-country"
+                      labelId="select-city"
                       id="country"
-                      name="country"
-                      value={fieldValue.country}
+                      name="city"
+                      value={fieldValue.city}
                       onChange={onInputChangeHandler}
-                      label="Select Country"
+                      label="Select city"
                     >
                       {countryData && countryData?.countries?.map((country) => <MenuItem key={country.id} value={country.id}>{country.name}</MenuItem>)}
                     </Select>
