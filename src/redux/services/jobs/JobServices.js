@@ -5,7 +5,7 @@ const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
     getJob: build.query({
       query: () => ({
-        url: `${apiUrl.jobs}job/`,
+        url: `${apiUrl.jobs}job/?page=1`,
       }),
     }),
     getJobeDetails: build.query({

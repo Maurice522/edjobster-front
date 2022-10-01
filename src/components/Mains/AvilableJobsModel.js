@@ -28,7 +28,9 @@ import {
 } from '@mui/material';
 import Iconify from '../Iconify';
 import SingleViewJobModel from './SingleViewJobModel';
+import {useGetCompanyInfoQuery} from '../../redux/services/settings/CareerSiteService'
 import { useGetJobQuery } from '../../redux/services/jobs/JobServices';
+
 
 
 
@@ -42,6 +44,8 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const AvilableJobsModel = (props) => {
+    const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+
     const { data : jobData } = useGetJobQuery();
     const [jobId ,setJobId]=useState();
 
@@ -73,8 +77,6 @@ const AvilableJobsModel = (props) => {
     };
 
     const { open, handleClose } = props;
-
-
     return (
         <>
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -93,9 +95,9 @@ const AvilableJobsModel = (props) => {
                             </Grid>
                             <Grid item md={11} style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography variant="subtitle1" style={{ color: '#000' }} sx={{ mt: 2, mb: 2 }}>
-                                    Imperial College of Engineering <br />
+                                    {data.company.name} <br />
                                     <Typography variant="body2" sx={{ mt: 1 }}>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ultricies accumsan cursus aliquet blandit interdum. Cursus lobortis lorem eu, semper. Interdum lorem et integer ac aliquam porttitor quam consequat. Venenatis nunc malesuada euismod iaculis.
+                                         {data.company.description}
                                     </Typography>
                                 </Typography>
                             </Grid>

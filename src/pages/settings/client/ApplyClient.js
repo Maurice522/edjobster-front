@@ -1,4 +1,5 @@
 import React ,{useEffect}  from 'react';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -31,40 +32,50 @@ import {
 } from '@mui/material';
 
 import {useGetWebformDetailsQuery} from '../../../redux/services/settings/WebformService'
+import {useGetAssesmentQuestionsQuery} from '../../../redux/services/main/AssesmentQuestionsService'
+
 
 const steps = ['Fill Details', 'Complete assessment ', 'Submit'];
 const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const ApplyClient = (props) => {
-    const { data: webFormDataById, isError, isLoading, refetch } = useGetWebformDetailsQuery(8);
+  // const { assessmentEditId } = useParams();
+
+  const { data: webFormDataById, isError, isLoading, refetch } = useGetWebformDetailsQuery(8);
+  const {  data: assesmentQuestionsData } = useGetAssesmentQuestionsQuery(94);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [selectedFields, setSelectedFields] = React.useState([]);
+  const [selectedAssesmentQuestion,setSelectedAssesmenntQuestion]=React.useState([])
 
   const [age, setAge] = React.useState('');
+  console.log('assesment question',assesmentQuestionsData);
   useEffect(() => {
     if (webFormDataById?.data) {
       setSelectedFields(webFormDataById.data.form);
      
     }
-  }, [webFormDataById])
+    if(assesmentQuestionsData?.data){
+      selectedAssesmentQuestion(assesmentQuestionsData.questions[0])
+    }
+  }, [webFormDataById,assesmentQuestionsData])
 
   const handleChange = (event) => {
     setAge(event.target.value);
   };
 
-  const { open, handleClose } = props;
+  const { open, handleClose,jobTitleData } = props;
 
   const isStepOptional = (step) => {
     return step === 1;
@@ -125,7 +136,7 @@ const ApplyClient = (props) => {
             <Grid container spacing={3}>
               <Grid item md={8} style={{ display: 'flex', alignItems: 'center' }}>
                 <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div" style={{ color: '#000' }}>
-                  Assistant Professor - Assistant Professor -Mechanical Engineering
+                  {jobTitleData}
                 </Typography>
               </Grid>
             </Grid>
@@ -214,30 +225,34 @@ const ApplyClient = (props) => {
                         <>
                           <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
                             <Grid item md={8}>
-                              <Card>
-                                <CardContent>
-                                  <Typography variant="h6">Do you have At least 5 years of experience?</Typography>
-                                  <Box>
-                                    <FormControlLabel value="female" control={<Radio />} label="Yes" />
-                                  </Box>
-                                  <Box>
-                                    <FormControlLabel value="male" control={<Radio />} label="No" />
-                                  </Box>
+                            
+                            <Grid
+                              item
+                              xs={6}
+                              style={{ display: 'flex', alignItems: 'center' }}
 
-                                  <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleNext}
-                                    style={{ marginRight: '5px' }}
-                                    sx={{ mt: 2 }}
-                                  >
-                                    Submit
-                                  </Button>
-                                </CardContent>
-                              </Card>
+                            >
+                              <Item>
+                              <TextField
+                        required="true"
+                        autoFocus
+                        margin="dense"
+                        variant="standard"
+                        placeholder="Enter Marks"
+                        fullWidth
+                        name="Marks"
+                        value={assesmentQuestionsData.questions}
+
+                        label="Marks"
+                        type="number"
+                      />
+                              </Item>
+                             
                             </Grid>
-                          </Grid>
-                          <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
+
+                            </Grid>
+                            </Grid>
+              <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
                             <Grid item md={8}>
                               <Card>
                                 <CardContent>

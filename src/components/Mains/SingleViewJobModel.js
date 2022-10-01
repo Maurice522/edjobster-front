@@ -50,7 +50,7 @@ const Transition = React.forwardRef((props, ref) => {
 const SingleViewJobModel = (props) => {
   const { open, handleClose, jobId } = props;
   const { data: jobData } = useGetJobeDetailsQuery(jobId);
-  console.log('jobData', jobData?.data);
+  
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -81,9 +81,9 @@ const SingleViewJobModel = (props) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const handleClickOpen = () => {
-    // setOpen(true);
-  };
+  const ModelhandleClose = () => {
+    setModelOpen(false);
+};
 
   //   const handleClose = () => {
   //     // setOpen(false);
@@ -107,7 +107,7 @@ const SingleViewJobModel = (props) => {
               </Grid>
               <Grid item md={10} style={{ display: 'flex', alignItems: 'center' }}>
                 <Typography variant="subtitle1" style={{ color: '#000' }} sx={{ mt: 2, mb: 2 }}>
-                  Assistant Professor - Assistant Professor -Mechanical Engineering
+                  {jobData?.data?.title}
                 </Typography>
               </Grid>
               <Grid item md={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
@@ -223,7 +223,7 @@ const SingleViewJobModel = (props) => {
           </Grid>
         </Grid>
       </Dialog>
-      <ApplyClient open={modelOpen} handleClose={handleClose} />
+      <ApplyClient open={modelOpen} jobTitleData={jobData?.data?.title} handleClose={ModelhandleClose} />
 
     </>
   );
