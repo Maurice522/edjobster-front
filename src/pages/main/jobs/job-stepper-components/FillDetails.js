@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
@@ -36,7 +36,7 @@ const FillDetails = () => {
 
   const experienceArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   //  const [textValue, setTextValue] = useState(job);
-  const [teamMemberOptions,setTeamMemberOptions] = useState([])
+  const [teamMemberOptions, setTeamMemberOptions] = useState([]);
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -52,21 +52,24 @@ const FillDetails = () => {
     const myObj = { ...textValue };
     if (e.target.name === 'education') {
       myObj[e.target.name] = [e.target.value];
-    } else if (e.target.name === 'member_ids') {
-      // console.log('Member name', e);
+    } else if (e.target.name === 'member_names') {
+      console.log('Member name', e.target.value);
       // myObj.member_names = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
       const newValue = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
-      console.log(newValue);
+      console.log('new value is', newValue);
       myObj[e.target.name] = newValue;
       // myObj.member_names = [];
+      const newMemberId = [];
       // eslint-disable-next-line no-plusplus
-      // for (let index = 0; index < e.target.value.length; index++) {
-      //   const mId = myObj[e.target.name][index];
-      //   const foundId = jobGetuserData?.list?.find((user) => `${user.first_name} ${user.last_name}` === mId);
-      //   if (foundId) {
-      //     myObj.member_names.push(`${foundId.first_name} ${foundId.last_name}`);
-      //   }
-      // }
+      for (let index = 0; index < newValue.length; index++) {
+        const mId = newValue[index];
+        // const foundId = jobGetuserData?.list?.find((user) => `${user.first_name} ${user.last_name}` === mId);
+        // if (foundId) {
+        //   myObj.member_names.push(`${foundId.first_name} ${foundId.last_name}`);
+        // }
+        newMemberId.push(mId.account_id);
+      }
+      myObj.member_ids = newMemberId;
       // console.log('name membrer name', myObj.member_names);
       // myObj.member_name = typeof value === 'string' ? e.target.value.split(',') : e.target.value;
     } else if (
@@ -85,13 +88,18 @@ const FillDetails = () => {
   };
   const renderMultiSelectValues = (selected) => {
     console.log('selected', selected);
+    let allNames = '';
+    for (let index = 0; index < selected.length; index += 1) {
+      const element = selected[index];
+      allNames = `${allNames}  ${element.first_name},`;
+    }
     // return textValue.member_names;
-    return selected.join(', ');
+    return allNames;
   };
 
   useEffect(() => {
-    console.log(jobGetuserData?.list)
-  },[])
+    console.log(jobGetuserData?.list);
+  }, []);
 
   console.log(textValue);
 
@@ -167,7 +175,7 @@ const FillDetails = () => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <FormControl variant="standard" sx={{mt: 1, minWidth: '100%' }}>
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 {/* <InputLabel id="demo-simple-select-standard-label">Team Member</InputLabel> */}
                 {/* <TextField
                   select
@@ -193,8 +201,8 @@ const FillDetails = () => {
                   labelId="team-members"
                   id="team-members"
                   multiple
-                  value={textValue.member_ids}
-                  name="member_ids"
+                  value={textValue.member_names}
+                  name="member_names"
                   fullWidth
                   onChange={onInputChangeHandler}
                   renderValue={renderMultiSelectValues}
@@ -203,7 +211,7 @@ const FillDetails = () => {
                   {jobGetuserData &&
                     jobGetuserData?.list?.map((item) => (
                       <MenuItem key={item} value={item}>
-                        <Checkbox checked={textValue?.member_ids?.indexOf(item) > -1} />
+                        <Checkbox checked={textValue?.member_ids?.find((x) => x === item.account_id) !== undefined} />
 
                         <ListItemText primary={`${item.first_name} ${item.last_name}`} />
                       </MenuItem>
@@ -239,7 +247,7 @@ const FillDetails = () => {
                   label="on site"
                   name="nature"
                 >
-                  <MenuItem value={'O'}>Work From Office </MenuItem>
+                  <MenuItem value={'P'}>Physical </MenuItem>
                   <MenuItem value={'R'}>Remote</MenuItem>
                   {/* <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
@@ -385,7 +393,10 @@ const FillDetails = () => {
                   name="salary_type"
                 >
                   <MenuItem value={'M'}>Monthly</MenuItem>
-                  <MenuItem value={'Y'}>Per Anum</MenuItem>
+                  <MenuItem value={'Y'}>Yearly</MenuItem>
+                  <MenuItem value={'D'}>Daily</MenuItem>
+                  <MenuItem value={'W'}>Weekly</MenuItem>
+
                 </Select>
               </FormControl>
             </Grid>
