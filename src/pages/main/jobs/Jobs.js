@@ -41,7 +41,7 @@ const Jobs = () => {
   const [detailsId, setDetailsId] = useState();
   const { data = [], refetch } = useGetJobQuery();
   const { editJobId } = useParams();
-  console.log('list', data.list);
+  console.log('list', data);
 
   const [currentIndex, setCurrentIndex] = useState(editJobId);
   const [deleteJob, deleteJobInfo] = useDeleteJobMutation();

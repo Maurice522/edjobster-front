@@ -65,21 +65,13 @@ const CreateJob = () => {
 
   const steps = getSteps();
 
-  const totalSteps = () => {
-    return steps.length;
-  };
+  const totalSteps = () => steps.length;
 
-  const completedSteps = () => {
-    return Object.keys(completed).length;
-  };
+  const completedSteps = () => Object.keys(completed).length;
 
-  const isLastStep = () => {
-    return activeStep === totalSteps() - 1;
-  };
+  const isLastStep = () => activeStep === totalSteps() - 1;
 
-  const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
-  };
+  const allStepsCompleted = () => completedSteps() === totalSteps();
 
   const handleNext = () => {
     const newActiveStep =
@@ -235,6 +227,7 @@ const CreateJob = () => {
       dispatch(jobAction(textValue2));
     };
   }, [addJobDataInfo, dispatch]);
+
   const handleReset = () => {
     setActiveStep(0);
     setCompleted({});
@@ -337,6 +330,8 @@ const CreateJob = () => {
   const onJobPreviewModel = () => {
     setModelOpen(true);
   };
+
+  console.log("hellloooooooooo");
 
   return (
     <>

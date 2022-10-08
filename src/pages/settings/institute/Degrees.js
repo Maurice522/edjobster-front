@@ -174,6 +174,7 @@ const Degrees = () => {
   }
 
   const addChangeHandler = (e) => {
+    console.log(e.target.value);
     setAddValue({ [e.target.name]: e.target.value });
   }
 
@@ -212,7 +213,7 @@ const Degrees = () => {
         id="degreeName"
         name="name"
         value={addValue.name}
-        onChange={addChangeHandler}
+        onChangeHandle={addChangeHandler}
         buttonlabel="Add Degree"
         addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
@@ -226,7 +227,7 @@ const Degrees = () => {
         id="editDegreeName"
         name="name"
         value={editValue.name}
-        onChange={editChangeHandler}
+        onChangeHandle={editChangeHandler}
         buttonlabel="Update Degree"
         addClickHandler={addClickHandler}
         loadingbtn={btnLoader}

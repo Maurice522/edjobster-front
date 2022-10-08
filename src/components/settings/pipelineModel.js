@@ -74,7 +74,7 @@ const PipelineModel = (props) => {
       typeof value === 'string' ? value.split(',') : value
     );
     setStageTextValue({ ...stageTextValue, fileds: typeof value === 'string' ? value.split(',') : value });
-    // console.log('value', value);
+    console.log('event: ', event);
     // console.log('split value', typeof value === 'string' ? value.split(',') : value);
   };
 
@@ -109,7 +109,7 @@ const PipelineModel = (props) => {
                 <Grid item xs={12}>
                   <TextField
                     id="pipeline"
-                    label="Pipleline Name"
+                    label="Pipeline Name"
                     variant="outlined"
                     fullWidth
                     onChange={onInputChangeHandler}
@@ -118,9 +118,8 @@ const PipelineModel = (props) => {
               </Grid>
             </Box>
             <Box>
-              {/* {console.log('stageData', stageData)} */}
               <FormControl sx={{ mt: 5, width: 390 }}>
-                <InputLabel id="Stage label">Add Pipeline Satges</InputLabel>
+                <InputLabel id="Stage label">Add Pipeline Stages</InputLabel>
                 <Select
                   labelId="Stage label"
                   id="stage"

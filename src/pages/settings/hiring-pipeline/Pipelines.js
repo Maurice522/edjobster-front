@@ -22,6 +22,8 @@ import {
   useAddPipelineApiMutation,
   useUpdatePipelineApiMutation,
 } from '../../../redux/services/settings/PipelineService';
+
+import { useGetStagesQuery } from '../../../redux/services/settings/StageService';
 // components
 import PipelineModel from '../../../components/settings/pipelineModel';
 import Page from '../../../components/Page';
@@ -37,6 +39,7 @@ const Pipelines = () => {
   const [UpdatePipelineApi, UpdatePipelineApiInfo] = useUpdatePipelineApiMutation();
   const [DeletePipelineApi, DeletePipelineInfo] = useDeletePipelineApiMutation();
   const [modalType, setModalType] = useState('Add');
+  const { data: allStages } = useGetStagesQuery();
   const [stageApidata, setStageApidata] = useState({
     name: '',
     fileds: [],
@@ -80,8 +83,8 @@ const Pipelines = () => {
     setModalOpen(true);
   };
   const onSubmitHandler = async (value) => {
+    console.log('value', value);
     if (modalType === 'Add') {
-      console.log('value', value);
       const data = {
         name: value.name,
         fields: value.fileds,
@@ -188,6 +191,8 @@ const Pipelines = () => {
   const options = {
     filterType: 'dropdown',
   };
+
+  console.log("stageApidata: ", stageApidata)
 
   return (
     <Page title="User">

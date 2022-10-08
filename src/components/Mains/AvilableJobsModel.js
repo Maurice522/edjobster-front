@@ -39,12 +39,10 @@ import { useGetJobQuery } from '../../redux/services/jobs/JobServices';
 
 
 
-const Transition = React.forwardRef((props, ref) => {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 const AvilableJobsModel = (props) => {
-    const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+    const { data: companyData, isLoading, refetch } = useGetCompanyInfoQuery();
 
     const { data : jobData } = useGetJobQuery();
     const [jobId ,setJobId]=useState();
@@ -95,9 +93,9 @@ const AvilableJobsModel = (props) => {
                             </Grid>
                             <Grid item md={11} style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography variant="subtitle1" style={{ color: '#000' }} sx={{ mt: 2, mb: 2 }}>
-                                    {data.company.name} <br />
+                                    {companyData?.company?.name ?? ''} <br />
                                     <Typography variant="body2" sx={{ mt: 1 }}>
-                                         {data.company.description}
+                                         {companyData?.company?.description ?? ''}
                                     </Typography>
                                 </Typography>
                             </Grid>
@@ -133,8 +131,7 @@ const AvilableJobsModel = (props) => {
                 <Divider variant="middle" />
                 <Grid container sx={{ mt: 3, pl: 3, pr: 3 }} style={{ overflow: "auto" }}>
                     <Grid item md={12}>
-                        {jobData?.list.map((item)=>{
-                            return(
+                        {jobData?.list.map((item)=>(
 <Card style={{ backgroundColor: "#f9f9f9" }}>
                             <CardContent>
                                 <Grid container style={{ display: "flex", alignItems: "center" }}>
@@ -159,8 +156,7 @@ const AvilableJobsModel = (props) => {
                                 </Grid>
                             </CardContent>
                         </Card>
-                            )
-                        })}
+                            ))}
                         
                         
                         
