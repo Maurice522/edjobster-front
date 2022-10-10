@@ -1,34 +1,10 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import { makeStyles } from '@mui/styles';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import './publish.css';
 
 import {
-  CardContent,
   Typography,
-  Card,
   Grid,
-  Divider,
-  ListItemIcon,
-  TextField,
-  InputLabel,
-  Box,
-  Menu,
-  FormControl,
-  Select,
-  MenuItem,
-  Tooltip,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Avatar,
   Container,
 } from '@mui/material';
 
@@ -51,9 +27,7 @@ const Publish = () => {
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Team Members Involved
             </Typography>
-            {job.member_names?.map((item) => {
-              return <Typography variant="body2">{`${item.first_name} ${item.last_name}`}</Typography>;
-            })}
+            {job.member_names?.map((item) => <Typography variant="body2">{`${item.first_name} ${item.last_name}`}</Typography>)}
             <Typography variant="subtitle1" sx={{ mt: 2 }}>
               Job Nature
             </Typography>

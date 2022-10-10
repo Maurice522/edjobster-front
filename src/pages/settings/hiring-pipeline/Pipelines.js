@@ -87,7 +87,7 @@ const Pipelines = () => {
     if (modalType === 'Add') {
       const data = {
         name: value.name,
-        fields: value.fileds,
+        fields: value.fields,
       };
       await AddPipelineApi(data);
     }
@@ -122,7 +122,7 @@ const Pipelines = () => {
       refetch();
     }
   
-  }, [AddPipelineApiInfo,DeletePipelineInfo]);
+  }, [AddPipelineApiInfo, DeletePipelineInfo]);
 
   const columns = [
     {
@@ -192,8 +192,6 @@ const Pipelines = () => {
     filterType: 'dropdown',
   };
 
-  console.log("stageApidata: ", stageApidata)
-
   return (
     <Page title="User">
       <Container>
@@ -234,7 +232,7 @@ const Pipelines = () => {
         value={editValue.name}
         id="pipelineName"
         name="pipeline"
-        buttonLabel="Add Pipeline"
+        buttonLabel="Update Pipeline"
         onsubmit={onSubmitHandler}
         type={modalType}
         formstagedata={stageApidata}

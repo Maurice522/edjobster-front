@@ -14,7 +14,7 @@ import { LoadingButton } from '@mui/lab';
 
 const CandidateSettingModal = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { open, handleClose, addClickHandler, loadingbtn,onChangeHandle } = props;
+  const { open, handleClose, addClickHandler, loadingbtn, onChange } = props;
 
   
 
@@ -76,7 +76,7 @@ const CandidateSettingModal = (props) => {
                     id="Assessment Categories"
                     label="Assessment Categories Name"
                     variant="outlined"
-                    onChange={onChangeHandle}
+                    onChange={onChange}
                     name="name"
                     fullWidth                  />
                 </Grid>
@@ -101,7 +101,7 @@ const CandidateSettingModal = (props) => {
           <DialogActions>
             <Box>
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
-                Cance
+                Cancel
               </Button>
               <LoadingButton onClick={addClickHandler} variant="contained" loading={loadingbtn}>
                 Add

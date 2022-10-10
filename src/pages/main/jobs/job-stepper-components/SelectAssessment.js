@@ -17,7 +17,6 @@ const SelectAssessment = () => {
   const { data: selectAssesmentData } = useGetAssesmentQuery();
   const { data: selectWebFormData } = useGetWebformQuery();
 
-  console.log('assesment data', selectAssesmentData);
   const [textValue, setTextValue] = useState({
     assesment: job.assesment,
     webform: job.webform
@@ -30,7 +29,6 @@ const SelectAssessment = () => {
     myObj[e.target.name] = e.target.value;
 
     setTextValue({ ...myObj });
-    console.log('objone',myObj);
   };
   
 

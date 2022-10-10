@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -15,12 +15,13 @@ import FillDetails from './job-stepper-components/FillDetails';
 import SelectAssessment from './job-stepper-components/SelectAssessment';
 import SelectJobBoards from './job-stepper-components/SelectJobBoards';
 import Publish from './job-stepper-components/Publish';
-import AvilableJobsModel from '../../../components/Mains/AvilableJobsModel';
+import AvailableJobsModel from '../../../components/Mains/AvilableJobsModel';
 import JobPreViewModel from '../../../components/Mains/JobPreViewModel';
 import { showToast } from '../../../utils/toast';
 import { jobAction } from '../../../redux/job/JobReducer';
+import { setJobList } from '../../../redux/job/JobListReducer';
 
-import { useAddJobMutation, useGetJobeDetailsQuery } from '../../../redux/services/jobs/JobServices';
+import { useAddJobMutation, useGetJobQuery, useGetJobeDetailsQuery } from '../../../redux/services/jobs/JobServices';
 
 function getSteps() {
   return ['Fill Details', 'Select Assessment', 'Select Job Boards', 'Publish'];
@@ -43,9 +44,10 @@ function getStepContent(step) {
 
 const CreateJob = () => {
   const { editJobId } = useParams();
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const job = useSelector((state) => state.job.job);
+  const { data: allJobs, refetch } = useGetJobQuery();
   const { data: jobData } = useGetJobeDetailsQuery(editJobId,{skip: editJobId === undefined});
   const [addJobData, addJobDataInfo] = useAddJobMutation();
   const [modelOpen, setModelOpen] = useState(false);
@@ -145,6 +147,7 @@ const CreateJob = () => {
       dispatch(jobAction(textValue1));
     }
   }, [dispatch, jobData]);
+
   useEffect(() => {
     if (addJobDataInfo.isSuccess) {
       showToast('success', 'job is created succesfully');
@@ -186,10 +189,14 @@ const CreateJob = () => {
       dispatch(jobAction(textValue1));
       // const savedAssesmentRecord = addJobDataInfo.data.data.find((item) => item.name === assesmentName);
       addJobDataInfo.reset();
+      refetch();
+      dispatch(setJobList(allJobs));
+      navigate('/dashboard/jobs');
     }
     if (addJobDataInfo.isError) {
       showToast('error', addJobDataInfo.error.data.msg);
       addJobDataInfo.reset();
+      refetch();
     }
     return () => {
       const textValue2 = {
@@ -226,7 +233,7 @@ const CreateJob = () => {
       };
       dispatch(jobAction(textValue2));
     };
-  }, [addJobDataInfo, dispatch]);
+  }, [addJobDataInfo.isSuccess, addJobDataInfo.isError, dispatch]);
 
   const handleReset = () => {
     setActiveStep(0);
@@ -313,6 +320,8 @@ const CreateJob = () => {
       showToast('error', 'fill the pipeline');
     }
 
+    console.log("status: ", status);
+
     return status;
   };
   // for New Page Ui
@@ -330,8 +339,6 @@ const CreateJob = () => {
   const onJobPreviewModel = () => {
     setModelOpen(true);
   };
-
-  console.log("hellloooooooooo");
 
   return (
     <>
@@ -360,7 +367,7 @@ const CreateJob = () => {
             </Button>
           </Grid> */}
           <Grid style={{ marginRight: 5 }}>
-            <Button variant="contained" component={RouterLink} onClick={avilableJobs} to="#">
+            <Button variant="contained" onClick={handleComplete}>
               Publish
             </Button>
           </Grid>
@@ -416,7 +423,7 @@ const CreateJob = () => {
           </div>
         </div>
       </Card>
-      <AvilableJobsModel open={jobModelPublish} handleClose={handleJobClose} />
+      <AvailableJobsModel open={jobModelPublish} handleClose={handleJobClose} />
 
       <JobPreViewModel open={modelOpen} handleClose={handleClose} />
     </>

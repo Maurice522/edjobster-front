@@ -41,7 +41,7 @@ import { useGetJobQuery } from '../../redux/services/jobs/JobServices';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-const AvilableJobsModel = (props) => {
+const AvailableJobsModel = (props) => {
     const { data: companyData, isLoading, refetch } = useGetCompanyInfoQuery();
 
     const { data : jobData } = useGetJobQuery();
@@ -105,7 +105,7 @@ const AvilableJobsModel = (props) => {
 
                 <Grid container sx={{ mt: 1, pl: 2, pr: 2, mb: 1 }} spacing={2} style={{ display: "flex", alignItems: "center" }}>
                     <Grid item md={9}>
-                        <Typography variant='h4'> Available Jobs (09)</Typography>
+                        <Typography variant='h4'> Available Jobs ({jobData?.list.length})</Typography>
                     </Grid>
                     <Grid item md={3} style={{ display: "flex", justifyContent: "end" }}>
                         <FormControl sx={{ m: 1, minWidth: 300 }}>
@@ -132,7 +132,7 @@ const AvilableJobsModel = (props) => {
                 <Grid container sx={{ mt: 3, pl: 3, pr: 3 }} style={{ overflow: "auto" }}>
                     <Grid item md={12}>
                         {jobData?.list.map((item)=>(
-<Card style={{ backgroundColor: "#f9f9f9" }}>
+                        <Card style={{ backgroundColor: "#f9f9f9" }} key={item}>
                             <CardContent>
                                 <Grid container style={{ display: "flex", alignItems: "center" }}>
                                     <Grid item md={10}>
@@ -156,12 +156,8 @@ const AvilableJobsModel = (props) => {
                                 </Grid>
                             </CardContent>
                         </Card>
-                            ))}
-                        
-                        
-                        
+                    ))}  
                     </Grid>
-
                 </Grid>
             </Dialog>
             <SingleViewJobModel jobId={jobId} open={modelOpen} handleClose={ModelhandleClose} />
@@ -169,4 +165,4 @@ const AvilableJobsModel = (props) => {
     );
 };
 
-export default AvilableJobsModel;
+export default AvailableJobsModel;
