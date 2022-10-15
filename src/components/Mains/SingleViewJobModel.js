@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { makeStyles } from '@mui/styles';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import {
     CardContent,
     Typography,
@@ -27,10 +28,12 @@ import {
     AccordionSummary,
     Avatar,
 } from '@mui/material';
-
+import { useDispatch } from 'react-redux';
 import ApplyClient from '../../pages/settings/client/ApplyClient';
 import Iconify from '../Iconify';
-import { useGetJobQuery, useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
+import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
+import { selectJobForApply } from '../../redux/job/JobSelectReducer'
+
 
 const useStyles = makeStyles({
   card_heading: {
@@ -43,14 +46,12 @@ const useStyles = makeStyles({
   },
 });
 
-const Transition = React.forwardRef((props, ref) => {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 const SingleViewJobModel = (props) => {
   const { open, handleClose, jobId } = props;
-  const { data: jobData } = useGetJobeDetailsQuery(jobId);
-  
+  const { data: jobData, isSuccess, isLoading } = useGetJobeDetailsQuery(jobId);
+  const dispatch = useDispatch();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -85,9 +86,11 @@ const SingleViewJobModel = (props) => {
     setModelOpen(false);
 };
 
-  //   const handleClose = () => {
-  //     // setOpen(false);
-  //   };
+  useEffect(() => {
+    if(isSuccess && !isLoading){
+      dispatch(selectJobForApply(jobData.data));
+    }
+  }, [isSuccess, isLoading])
 
   return (
     <>
@@ -217,14 +220,14 @@ const SingleViewJobModel = (props) => {
             <Typography variant="body2">{jobData?.data?.description}</Typography>
           </Grid>
           <Grid item md={12} style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button onClick={onCandidateModelView} variant="contained" size='large' disableElevation>
+            <Button variant="contained" size='large' disableElevation component={RouterLink}
+            to="/job-apply">
               Apply
             </Button>
           </Grid>
         </Grid>
       </Dialog>
-      <ApplyClient open={modelOpen} jobTitleData={jobData?.data?.title} handleClose={ModelhandleClose} />
-
+      {/* <ApplyClient open={modelOpen} jobTitleData={jobData?.data?.title} handleClose={ModelhandleClose} /> */}
     </>
   );
 };

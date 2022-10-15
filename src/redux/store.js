@@ -16,6 +16,8 @@ import autoMergeLevel1 from 'reduxjs-toolkit-persist/lib/stateReconciler/autoMer
 import AuthReducer from './auth/AuthReducer';
 import JobReducer from './job/JobReducer';
 import JobListReducer from './job/JobListReducer';
+import JobSelectReducer from './job/JobSelectReducer';
+import JobApplyWebForm from './Client/JobApplyWebformReducer';
 import { apiBasePath } from './services/BaseUrl';
 import { rtkQueryErrorLogger } from './services/UnautthorizationMiddleWare';
 
@@ -42,6 +44,8 @@ const reducers = combineReducers({
   api: apiBasePath.reducer,
   job: JobReducer,
   allJobs: JobListReducer,
+  selectedJob: JobSelectReducer,
+  jobApplyWebFormData: JobApplyWebForm,
 });
 const _persistedReducer = persistReducer(persistConfig, reducers);
 

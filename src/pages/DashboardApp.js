@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
@@ -26,8 +26,10 @@ import {
 export default function DashboardApp() {
   const theme = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const auth = useSelector((state) => state.login.auth);
   useEffect(() => {
+    console.log(location);
     if (!auth) {
       navigate('/login');
     }
