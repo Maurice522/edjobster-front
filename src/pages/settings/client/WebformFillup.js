@@ -1,11 +1,13 @@
-import React from 'react'
-import {TextField, MenuItem, Box} from '@mui/material'
+import React, { useState } from 'react'
+import { TextField, MenuItem, Box, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux';
-import { setWebFormProperty } from '../../../redux/Client/JobApplyWebformReducer';
+import { setWebFormProperty, setResume } from '../../../redux/Client/JobApplyWebformReducer';
+import { useAddCandidateResumeMutation } from '../../../redux/services/candidate/CandidateServices';
 
 const WebformFillup = () => {
   const selectedWebform = useSelector((state) => state.selectedJob.job);
   const webFormData = useSelector((state) => state.jobApplyWebFormData);
+  const [ uploadResume, { isLoading, isSuccess }] = useAddCandidateResumeMutation();
   const dispatch = useDispatch();
 
   const onInputChange = (e) => {
@@ -42,10 +44,29 @@ const WebformFillup = () => {
           </TextField>
         }
         if(item.type === 'file'){
-          return <TextField type={'file'} key={index} name={item.value} value={webFormData[item.value] ?? ''} label={item.name} required 
-          InputLabelProps={{
-            shrink: true,
-          }} />
+          return (<Button
+            variant="contained"
+            component="label"
+            key={index} name={item.value} 
+          >
+            {item.name}
+            <input
+              type="file"
+              hidden
+              onChange={(e) => {
+                // uploadResume(formData);
+                dispatch(setResume({value: e.target.files[0]}));
+              }}
+            />
+          </Button>)
+          // <TextField type={'file'} 
+          // key={index} name={item.value} 
+          // onChange={(file) => uploadResume(file)}
+          // value={webFormData[item.value] ?? ''} 
+          // label={item.name} required 
+          // InputLabelProps={{
+          //   shrink: true,
+          // }} />
         } 
         return null;
         

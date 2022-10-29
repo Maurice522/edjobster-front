@@ -24,7 +24,7 @@ const extendedApi = apiBasePath.injectEndpoints({
         query: (data) => ({
           url: `${apiUrl.candidate}resume-parse/`,
           method: 'POST',
-          body: data,
+          body: data
         }),
       }),
     updateCandidate: build.mutation({

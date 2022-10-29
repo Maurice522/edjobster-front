@@ -1,12 +1,28 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import {Box, Grid, Stepper, Step, StepLabel, Button, Typography, Container, Card, Stack} from '@mui/material';
 import Page from '../../../components/Page';
 import WebformFillup from './WebformFillup';
 import AssementFillup from './AssementFillup';
+import { useAddApplyJobMutation } from '../../../redux/services/candidate/CandidateServices';
 
 const steps = [{title: 'Fill Details', component: <WebformFillup /> }, {title: 'Complete Assessments', component: <AssementFillup />}, {title: 'Preview & Apply', component: <div>Preview</div>}];
 
 export default function JobApplyStepper() {
+  const selectedJob = useSelector((state) => state.selectedJob.job);
+  const webFormData = useSelector((state) => state.jobApplyWebFormData);
+  const [applyToJob, { isLoading, isSuccess }] = useAddApplyJobMutation();
+  
+  
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append("job_id", (selectedJob.id).toString());
+
+    Object.keys(webFormData).map((key) =>
+      formData.append(key, webFormData[key])
+    )
+    applyToJob(formData);
+  }
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -43,6 +59,7 @@ export default function JobApplyStepper() {
       return newSkipped;
     });
   };
+
 
   const handleReset = () => {
     setActiveStep(0);
@@ -99,7 +116,7 @@ export default function JobApplyStepper() {
                 </Button>
               )}
 
-              <Button onClick={handleNext}>
+              <Button onClick={activeStep !== steps.length - 1 ? handleNext : handleSubmit}>
                 {activeStep === steps.length - 1 ? 'Apply' : 'Next'}
               </Button>
             </Box>
