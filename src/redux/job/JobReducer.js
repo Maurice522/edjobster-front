@@ -6,7 +6,6 @@ export const jobReducer = createSlice({
   initialState,
   reducers: {
     jobAction: (state, action) => {
-      console.log('in reducer', state, action);
       state.job = { ...state.job, ...action.payload };
     },
   },

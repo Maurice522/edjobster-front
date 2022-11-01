@@ -20,69 +20,39 @@ import {
     FormControl,
     Select,
     MenuItem,
-    Tooltip,
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
     Avatar,
 } from '@mui/material';
-import Iconify from '../Iconify';
-import SingleViewJobModel from './SingleViewJobModel';
-import {useGetCompanyInfoQuery} from '../../redux/services/settings/CareerSiteService'
-import { useGetJobQuery } from '../../redux/services/jobs/JobServices';
-
-
-
-
-
-
-
+import Iconify from '../../../../components/Iconify';
+import SingleViewJobModel from '../../../../components/Mains/SingleViewJobModel';
+import { useGetJobListQuery } from '../../../../redux/services/jobs/JobListService';
+import { useGetCompanyInfoQuery } from '../../../../redux/services/settings/CareerSiteService';
 
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-const AvailableJobsModel = (props) => {
+const JobsList = () => {
     const { data: companyData, isLoading, refetch } = useGetCompanyInfoQuery();
 
-    const { data : jobData } = useGetJobQuery();
-    const [jobId ,setJobId]=useState();
-
-
+    const { data : jobData } = useGetJobListQuery();
     const [modelOpen, setModelOpen] = useState(false);
-
-    const [age, setAge] = useState('');
-
-    const selecttextfiled = (event) => {
-        setAge(event.target.value);
-    };
-
-    function generate(element) {
-        return [0, 1, 2].map((value) =>
-            React.cloneElement(element, {
-                key: value,
-            }),
-        );
-    }
-
-    const onViewDetailsModel = (id) => {
-        setJobId(id)
-
-        setModelOpen(true);
-    }
+    const [jobId , setJobId]=useState();
 
     const ModelhandleClose = () => {
         setModelOpen(false);
     };
 
-    const { open, handleClose } = props;
+    const onViewDetailsModel = (id) => {
+        console.log("Selected Jobs Id: ", id);
+        setJobId(id)
+
+        setModelOpen(true);
+    }
+
     return (
         <>
-            <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+            <Grid>
                 <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#fff' }}>
                     <Toolbar>
-                        <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
-                            <CloseIcon />
-                        </IconButton>
                         <Grid container spacing={3}>
                             <Grid item md={1} style={{ display: "flex", justifyContent: "end", alignItems: "center" }}>
                                 <Avatar
@@ -105,7 +75,7 @@ const AvailableJobsModel = (props) => {
 
                 <Grid container sx={{ mt: 1, pl: 2, pr: 2, mb: 1 }} spacing={2} style={{ display: "flex", alignItems: "center" }}>
                     <Grid item md={9}>
-                        <Typography variant='h4'> Available Jobs ({jobData?.list.length})</Typography>
+                        <Typography variant='h4'> Available Jobs ({jobData?.length})</Typography>
                     </Grid>
                     <Grid item md={3} style={{ display: "flex", justifyContent: "end" }}>
                         <FormControl sx={{ m: 1, minWidth: 300 }}>
@@ -113,9 +83,7 @@ const AvailableJobsModel = (props) => {
                             <Select
                                 labelId="demo-simple-select-helper-label"
                                 id="demo-simple-select-helper"
-                                value={age}
                                 label="Sort by New to Old"
-                                onChange={selecttextfiled}
                                 fullWidth
                             >
                                 <MenuItem value="">
@@ -131,7 +99,7 @@ const AvailableJobsModel = (props) => {
                 <Divider variant="middle" />
                 <Grid container sx={{ mt: 3, pl: 3, pr: 3 }} style={{ overflow: "auto" }}>
                     <Grid item md={12}>
-                        {jobData?.list.map((item)=>(
+                        {jobData?.map((item)=>(
                         <Card style={{ backgroundColor: "#f9f9f9" }} key={item}>
                             <CardContent>
                                 <Grid container style={{ display: "flex", alignItems: "center" }}>
@@ -148,7 +116,7 @@ const AvailableJobsModel = (props) => {
                                             style={{ minWidth: 0, margin: '0px 5px', }}
                                             variant="contained"
                                             color="primary"
-                                            onClick={(e)=>onViewDetailsModel(item.id)}
+                                            onClick={() => onViewDetailsModel(item.id)}
                                         >
                                             View Details
                                         </Button>
@@ -159,10 +127,10 @@ const AvailableJobsModel = (props) => {
                     ))}  
                     </Grid>
                 </Grid>
-            </Dialog>
+            </Grid>
             <SingleViewJobModel jobId={jobId} open={modelOpen} handleClose={ModelhandleClose} />
         </>
     );
 };
 
-export default AvailableJobsModel;
+export default JobsList;

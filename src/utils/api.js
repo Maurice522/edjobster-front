@@ -1,4 +1,5 @@
-const baseUrl = 'http://34.125.49.10:8080/';
+// const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/';
+const baseUrl = 'http://localhost:8000/';
 
 const apiUrl = {
   signIn: `${baseUrl}account/sign-in/`,

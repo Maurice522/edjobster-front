@@ -10,7 +10,6 @@ const extendedApi = apiBasePath.injectEndpoints({
                 url: `${apiUrl.degree}`,
             }),
         }),
-        
         addDegree: build.mutation({
             query: (data) => ({
                 url: `${apiUrl.degree}`,
