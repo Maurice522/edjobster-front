@@ -82,6 +82,7 @@ console.log("assesment category",data)
   const addClickHandler = async () => {
     setBtnLoader(true);
     if (modalName === 'Add') {
+      console.log(" addValue : ",addValue);
       await addAssessmentCategories(addValue);
       modalHandleClose(false);
     }if (modalName === "Edit"){
@@ -238,10 +239,10 @@ console.log("assesment category",data)
         type="Add"
         textboxlabel="Add Assessment Categories"
         id="categoryName"
-        name="name"
+        name="Add"
         onChange={addChangeHandler}
         buttonlabel="Add Email category"
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
       <CandidateSettingModal
@@ -251,9 +252,9 @@ console.log("assesment category",data)
         textboxlabel="Edit Category"
         id="editCategoryName"
         value={editValue.name}
-        name="name"
+        name="Edit"
         onChange={editChangeHandler}
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
     </Page>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import InputBase from '@mui/material/InputBase';
@@ -14,27 +14,25 @@ import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import FormLabel from '@mui/material/FormLabel';
 import './JobPriview.css';
-import { useAddJobMutation, useUpdateJobMutation } from '../../../redux/services/jobs/JobServices';
+import { useAddJobMutation } from '../../../redux/services/jobs/JobServices';
 
 const JobPreview = () => {
-  const [updateJobData] = useUpdateJobMutation();
+  // const [updateJobData] = useUpdateJobMutation();
   const [addJobData] = useAddJobMutation();
   const { editJobId } = useParams();
 
   const job = useSelector((state) => state.job.job);
-  useEffect(() => {
-    console.log('job detailsssss:', job);
-  }, [job]);
 
   const handleComplete = async () => {
     console.log('checking function');
 
-    console.log('job detailsssss:', job);
-    if (editJobId) {
-      updateJobData(job);
-    } else {
-      await addJobData(job);
-    }
+    console.log('job details from submitting:', job);
+    // await addJobData(job);
+    // if (editJobId) {
+    //   updateJobData(job);
+    // } else {
+    //   await addJobData(job);
+    // }
   };
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">

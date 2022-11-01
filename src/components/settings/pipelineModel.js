@@ -19,6 +19,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { useGetStagesQuery,useAddStageApiMutation } from '../../redux/services/settings/StageService';
+import { useAddPipelineApiMutation } from '../../redux/services/settings/PipelineService';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -39,8 +40,17 @@ const PipelineModel = (props) => {
   // console.log('stagetext', formStageData);
 
   const { data: stageApiData } = useGetStagesQuery();
-  const [addStageApi,addStageApiInfo]=useAddStageApiMutation()
+  const [addStageApi,addStageApiInfo]=useAddStageApiMutation();
   const [stageId, setStagetId] = useState(null);
+
+  // ------------------------------ADD PIPELINE LOGIC -----------------------------
+  const [ addPipelineApi ] = useAddPipelineApiMutation();
+  const [nameInput, setNameInput] = useState('');
+
+  const addPipeLine = async () => {
+    console.log(stageData);
+    await addPipelineApi({name: nameInput, fields: stageData });
+  }
 
   const stageResponse = stageApiData?.data;
 
@@ -74,13 +84,11 @@ const PipelineModel = (props) => {
       typeof value === 'string' ? value.split(',') : value
     );
     setStageTextValue({ ...stageTextValue, fileds: typeof value === 'string' ? value.split(',') : value });
-    // console.log('value', value);
+    console.log('event: ', event);
     // console.log('split value', typeof value === 'string' ? value.split(',') : value);
   };
 
   // eslint-disable-next-line react/prop-types
-
- 
 
   const addclickhandler = () => {
     onsubmit(stageTextValue);
@@ -103,26 +111,26 @@ const PipelineModel = (props) => {
       >
         <div>
           <DialogTitle>{textboxlabel}</DialogTitle>
-          <DialogContent>
+          <DialogContent style={{ marginBottom: '15%' }}>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2} mt={1}>
                 <Grid item xs={12}>
                   <TextField
                     id="pipeline"
-                    label="Pipleline Name"
+                    label="Pipeline Name"
                     variant="outlined"
                     fullWidth
-                    onChange={onInputChangeHandler}
+                    onChange={(e) => setNameInput(e.target.value)}
                   />
                 </Grid>
               </Grid>
             </Box>
-            <Box>
-              {/* {console.log('stageData', stageData)} */}
-              <FormControl sx={{ mt: 5, width: 390 }}>
-                <InputLabel id="Stage label">Add Pipeline Satges</InputLabel>
+            <Box sx={{ flexGrow: 1 }}>
+              <br />
+              <InputLabel id="Stage_label">Add Pipeline Stages</InputLabel>
+              <br />
                 <Select
-                  labelId="Stage label"
+                  labelId="Stage_label"
                   id="stage"
                   name="stage"
                   multiple
@@ -137,14 +145,14 @@ const PipelineModel = (props) => {
                   )}
                   MenuProps={MenuProps}
                 >
-                  {stageResponse?.length > 0 &&
-                    stageResponse?.map((value) => (
+                  {stageResponse && stageResponse.length > 0 &&
+                    stageResponse.map((value) => (
                       <MenuItem key={value.name} value={value.name}>
                         {value.name}
                       </MenuItem>
                     ))}
                 </Select>
-              </FormControl>
+              <FormControl sx={{ mt: 5, width: 390 }} />
             </Box>
           </DialogContent>
           <DialogActions>
@@ -152,7 +160,7 @@ const PipelineModel = (props) => {
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <LoadingButton onClick={addStagesHander} variant="contained" loading={loadingbtn}>
+              <LoadingButton onClick={() => onsubmit({ name: nameInput, fields: stageData })} variant="contained" loading={loadingbtn}>
                 Add
               </LoadingButton>
             </Box>

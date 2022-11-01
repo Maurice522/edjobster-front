@@ -40,6 +40,8 @@ import EditInterview from './pages/main/interviews/EditInterview';
 import Assessments from './pages/main/assessments/Assessments';
 import CreateAssessment from './pages/main/assessments/CreateAssessment';
 import EditAssessment from './pages/main/assessments/EditAssessment';
+import JobsList from './pages/main/jobs/jobs-list/JobsList';
+import JobApplyStepper from './pages/settings/client/JobApplyStepper';
 
 // ----------------------------------------------------------------------
 
@@ -86,7 +88,7 @@ export default function Router() {
     },
     {
       path: '/client',
-      element: <LogoOnlyLayout />,
+      element: <Navigate to="jobs-list" />,
       children: [
         { path: 'clientName', element: <ClientPage /> },
         { path: '404', element: <NotFound /> },
@@ -102,6 +104,8 @@ export default function Router() {
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
+        { path: 'jobs-list', element: <JobsList /> },
+        { path: 'job-apply', element: <JobApplyStepper /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> },

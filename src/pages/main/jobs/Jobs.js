@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LoadingButton } from '@mui/lab';
 // material
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Card,
   Stack,
@@ -29,9 +30,8 @@ import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import JobModel from '../../../components/Mains/JobModel';
 import { sortedDataFn } from '../../../utils/getSortedData';
-
 import { showToast } from '../../../utils/toast';
-import { useGetJobQuery, useDeleteJobMutation } from '../../../redux/services/jobs/JobServices';
+import { useGetJobQuery, useAddJobMutation, useDeleteJobMutation } from '../../../redux/services/jobs/JobServices';
 
 // mock
 
@@ -41,9 +41,9 @@ const Jobs = () => {
   const [detailsId, setDetailsId] = useState();
   const { data = [], refetch } = useGetJobQuery();
   const { editJobId } = useParams();
-  console.log('list', data.list);
 
   const [currentIndex, setCurrentIndex] = useState(editJobId);
+  const [addJobData, addJobDataInfo] = useAddJobMutation();
   const [deleteJob, deleteJobInfo] = useDeleteJobMutation();
 
   const onJobViewModel = (jobId) => {
@@ -81,7 +81,7 @@ const Jobs = () => {
       deleteJobInfo.reset();
       refetch();
     }
-  }, [deleteJobInfo, refetch]);
+  }, [addJobDataInfo, deleteJobInfo, refetch]);
   const columns = [
     {
       name: 'title',
