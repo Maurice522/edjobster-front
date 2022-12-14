@@ -22,19 +22,19 @@ import {
 } from '@mui/material';
 import Iconify from '../Iconify';
 import {
-  useGetCandidateNotesListQuery,
+  useGetJobNotesListQuery,
   useGetNotesTypesQuery,
-  useAddCandidateNotesMutation,
-  useDeleteCandidateNotesMutation,
+  useAddJobNotesMutation,
+  useDeleteJobNotesMutation,
 } from '../../redux/services/notes/NotesServices';
 import { showToast } from '../../utils/toast';
 
-const Notes = (props) => {
-  const { data: candidateNotesData, refetch } = useGetCandidateNotesListQuery(props.candidateId);
-  const { data: candidateNoteType } = useGetNotesTypesQuery();
-  // const [addNotesData] = useAddCandidateNotesMutation();
-  const [addCandidateNotes, addCandidateNotesInfo] = useAddCandidateNotesMutation();
-  const [deleteCandidateNote, deleteCandidateNoteinfo] = useDeleteCandidateNotesMutation();
+const JobNotes = (props) => {
+  const { data: jobNotesData, refetch } = useGetJobNotesListQuery(props.jobId);
+  const { data: jobNoteType } = useGetNotesTypesQuery();
+  // const [addNotesData] = useAddjobNotesMutation();
+  const [addJobNotes, addJobNotesInfo] = useAddJobNotesMutation();
+  const [deleteJobNote, deleteJobNoteinfo] = useDeleteJobNotesMutation();
   const [emailNotes, setEmailNotes] = useState([]);
   const [interviewNotes, setInterviewNotes] = useState([]);
   const [callNotes, setCallNotes] = useState([]);
@@ -49,7 +49,7 @@ const Notes = (props) => {
     console.log('select', e.target.value);
   };
   const onDeleteHandler = async (id) => {
-    await deleteCandidateNote(id);
+    await deleteJobNote(id);
   };
 
   const notesChange = (e) => {
@@ -57,39 +57,39 @@ const Notes = (props) => {
     //  console.log(notes)
   };
   const addNotesHandler = () => {
-    addCandidateNotes({
-      candidate: props.candidateId,
+    addJobNotes({
+      job: props.jobId,
       type: selectedNoteType,
       note: noteText,
     });
   };
   useEffect(() => {
-    if (addCandidateNotesInfo.isSuccess) {
+    if (addJobNotesInfo.isSuccess) {
       showToast('success', 'Notes Saved Sucessfully');
       refetch();
       // setAssesmentId(savedAssesmentRecord.id);
-      // addCandidateNotesInfo.reset();
+      // addjobNotesInfo.reset();
     }
-    if (addCandidateNotesInfo.isError) {
-      showToast('error', deleteCandidateNoteinfo.error.data.msg);
+    if (addJobNotesInfo.isError) {
+      showToast('error', deleteJobNoteinfo.error.data.msg);
     }
-    if (deleteCandidateNoteinfo.isSuccess) {
-      showToast('success', deleteCandidateNoteinfo.data.msg);
+    if (deleteJobNoteinfo.isSuccess) {
+      showToast('success', deleteJobNoteinfo.data.msg);
       refetch();
     }
-    if (deleteCandidateNoteinfo.isError) {
-      showToast('error', deleteCandidateNoteinfo.error.data.msg);
+    if (deleteJobNoteinfo.isError) {
+      showToast('error', deleteJobNoteinfo.error.data.msg);
       refetch();
     }
-  }, [addCandidateNotesInfo, deleteCandidateNoteinfo]);
+  }, [addJobNotesInfo, deleteJobNoteinfo]);
   useEffect(() => {
-    if (candidateNotesData) {
-      setNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Note'));
-      setEmailNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Email'));
-      setInterviewNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Interview'));
-      setCallNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Call'));
+    if (jobNotesData) {
+      setNotes(jobNotesData.notes.filter((x) => x.type.name === 'Note'));
+      setEmailNotes(jobNotesData.notes.filter((x) => x.type.name === 'Email'));
+      setInterviewNotes(jobNotesData.notes.filter((x) => x.type.name === 'Interview'));
+      setCallNotes(jobNotesData.notes.filter((x) => x.type.name === 'Call'));
     }
-  }, [candidateNotesData]);
+  }, [jobNotesData]);
   return (
     <>
       <Grid container style={{ }}>
@@ -97,9 +97,9 @@ const Notes = (props) => {
           <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
             <TextField    autoFocus={false}           variant="outlined"
  size="small"   classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
-              {candidateNoteType &&
-                candidateNoteType?.types &&
-                candidateNoteType.types.map((item) => {
+              {jobNoteType &&
+                jobNoteType?.types &&
+                jobNoteType.types.map((item) => {
                   
                   return (
                     <MenuItem  key={item.id} value={item.id}>
@@ -255,4 +255,4 @@ const Notes = (props) => {
   );
 };
 
-export default Notes;
+export default JobNotes;

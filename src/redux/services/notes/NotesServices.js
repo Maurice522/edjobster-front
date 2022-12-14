@@ -8,12 +8,24 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.notes}?candidate=${candidateId}`,
       }),
     }),
+    getJobNotesList: build.query({
+      query: (jobId) => ({
+        url: `${apiUrl.notes}?job=${jobId}`,
+      }),
+    }),
     getNotesTypes: build.query({
       query: () => ({
         url: `${apiUrl.notesType}`,
       }),
     }),
     addCandidateNotes: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.notes}`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    addJobNotes: build.mutation({
       query: (data) => ({
         url: `${apiUrl.notes}`,
         method: 'POST',
@@ -28,7 +40,20 @@ const extendedApi = apiBasePath.injectEndpoints({
         body: data,
       }),
     }),
+    updateJobNotes: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.notes}`,
+        method: 'POST',
+        body: data,
+      }),
+    }),
     deleteCandidateNotes: build.mutation({
+      query: (id) => ({
+        url: `${apiUrl.notes}?id=${id}`,
+        method: 'DELETE',
+      }),
+    }),
+    deleteJobNotes: build.mutation({
       query: (id) => ({
         url: `${apiUrl.notes}?id=${id}`,
         method: 'DELETE',
@@ -41,7 +66,11 @@ const extendedApi = apiBasePath.injectEndpoints({
 export const {
   useGetCandidateNotesListQuery,
   useGetNotesTypesQuery,
+  useGetJobNotesListQuery,
   useAddCandidateNotesMutation,
+  useAddJobNotesMutation,
   useUpdateCandidateNotesMutation,
+  useUpdateJobNotesMutation,
   useDeleteCandidateNotesMutation,
+  useDeleteJobNotesMutation,
 } = extendedApi;

@@ -12,7 +12,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 // import FileUpload from 'react-material-file-upload';
 
-const EditInterview = () => {
+const InterviewDetails = () => {
   const [textValue, setTextValue] = useState({
     interviewName: '',
     date: '',
@@ -45,7 +45,7 @@ const EditInterview = () => {
               </Grid>
               <Grid>
                 <Typography variant="h4" gutterBottom>
-                  Edit an Interview
+                  Interview Details
                 </Typography>
               </Grid>
             </Grid>
@@ -56,15 +56,19 @@ const EditInterview = () => {
               <Card variant="outlined" style={{ padding: 20, margin: 20 }}>
                 <Grid item xs={12}>
                   <TextField
+                  id="standard"
                     autoFocus
                     margin="dense"
                     variant="standard"
                     placeholder="Type interview name..."
-                    fullWidth
+                    // fullWidth
                     name="interviewName"
                     value={textValue.interviewName}
                     label="Name"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} margin="20px 0 10px 0">
@@ -85,6 +89,9 @@ const EditInterview = () => {
                     value={textValue.date}
                     label="Date"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} marginBottom="10px">
@@ -98,6 +105,9 @@ const EditInterview = () => {
                     value={textValue.startTime}
                     label="Start Time"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} marginBottom="10px">
@@ -111,6 +121,9 @@ const EditInterview = () => {
                     value={textValue.endTime}
                     label="End Time"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} marginBottom="10px">
@@ -122,6 +135,9 @@ const EditInterview = () => {
                       value={textValue.department}
                       onChange={handleChange}
                       label="Department"
+                      inputProps={
+                        { readOnly: true, }
+                    }
                     >
                       <MenuItem value="">
                         <em>None</em>
@@ -143,6 +159,9 @@ const EditInterview = () => {
                     value={textValue.interviewer}
                     label="Interviewer"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
               </Card>
@@ -160,6 +179,9 @@ const EditInterview = () => {
                     value={textValue.selectCandidate}
                     label="Select Candidate"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} marginBottom="10px">
@@ -171,6 +193,9 @@ const EditInterview = () => {
                       value={textValue.department}
                       onChange={handleChange}
                       label="Department"
+                      inputProps={
+                        { readOnly: true, }
+                    }
                     >
                       <MenuItem value="">
                         <em>None</em>
@@ -192,6 +217,9 @@ const EditInterview = () => {
                     value={textValue.selectTemplate}
                     label="Select Template"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} marginBottom="10px">
@@ -205,6 +233,9 @@ const EditInterview = () => {
                     value={textValue.subject}
                     label="Subject"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} marginBottom="10px">
@@ -218,34 +249,17 @@ const EditInterview = () => {
                     value={textValue.emailBody}
                     label="Email Body"
                     onChange={onInputChangeHandler}
+                    inputProps={
+                        { readOnly: true, }
+                    }
                   />
-                </Grid>
-
-                <Grid item xs={12} marginTop="20px">
-                  <Button variant="contained" component="label">
-                    Upload File
-                    <input type="file" hidden />
-                  </Button>
-                  {/* <FileUpload value={files} onChange={setFiles} /> */}
                 </Grid>
               </Card>
             </Grid>
           </Grid>
 
-          {/* <DialogActions style={{ display: 'flex', justifyContent: 'center' }}> */}
-            
-              <Button variant="contained" size='large'
-              sx={{
-                display: 'flex',
-                marginLeft:'auto',
-                marginRight:'auto'
-              }}>
-                Save
-              </Button>
-            
-          {/* </DialogActions> */}
     </>
   );
 };
 
-export default EditInterview;
+export default InterviewDetails;

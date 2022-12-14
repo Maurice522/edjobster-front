@@ -114,7 +114,7 @@ console.log("assesment category",data)
     }
     if (updateAssessmentCategoriesInfo.isSuccess) {
       setModalOpen(false);
-      showToast('success', 'Assessments Category successfully edit.');
+      showToast('success', 'Assessments Category successfully edited.');
       refetch();
       setBtnLoader(false);
       AddAssessmentCategoriesInfo.reset();
@@ -215,7 +215,7 @@ console.log("assesment category",data)
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            AssessmentCategories
+            Assessment Categories
           </Typography>
           <Button
             variant="contained"

@@ -42,6 +42,11 @@ import CreateAssessment from './pages/main/assessments/CreateAssessment';
 import EditAssessment from './pages/main/assessments/EditAssessment';
 import JobsList from './pages/main/jobs/jobs-list/JobsList';
 import JobApplyStepper from './pages/settings/client/JobApplyStepper';
+import CandidateList from './pages/main/candidates/CandidateList';
+import Notes from './components/Notes/Notes';
+import JobNotes from './components/Notes/JobNotes';
+import InterviewDetails from './pages/main/interviews/InterviewDetails';
+
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +62,8 @@ export default function Router() {
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },
         { path: '/dashboard/jobs/create-job', element: <CreateJob /> },
+        { path: '/dashboard/jobs/job-list/add-notes', element: <JobNotes /> },
+        { path: '/dashboard/jobs/candidate-list', element: <CandidateList /> },
         { path: '/dashboard/jobs/edit-job/:editJobId', element: <CreateJob /> },
 
         { path: '/dashboard/candidates', element: <Candidates /> },
@@ -65,9 +72,10 @@ export default function Router() {
         { path: '/dashboard/interviews', element: <Interviews /> },
         { path: '/dashboard/interviews/create-interview', element: <CreateInterview /> },
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
+        { path: '/dashboard/interviews/interview-details', element: <InterviewDetails /> },
         { path: '/dashboard/assessments', element: <Assessments /> },
         { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
-        { path: '/dashboard/assessments/edit-assessment/:assessmentEditId', element: <CreateAssessment /> },
+        { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
         { path: '/dashboard/career-site', element: <CareerSite /> },
         { path: 'institute-setting/departments', element: <Departments /> },
         { path: 'institute-setting/designations', element: <Designations /> },

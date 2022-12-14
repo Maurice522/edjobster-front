@@ -6,6 +6,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LoadingButton } from '@mui/lab';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+
 // material
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -166,6 +168,52 @@ const Jobs = () => {
       {sentenceCase('active')}
     </Label>
   );
+  const rows = [
+    // { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
+    // { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
+    // { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 6, lastName: 'Melisandre', firstName: null, age: 150 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
+    // { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    { id: 1, jobtitle: "developer", department: 'IT'},
+  ];
+  const column = [
+    { field: 'jobtitle', headerName: 'Job Title', width: 230, editable: true, headerAlign:'center',align:'center'},
+    { field: 'publishdate', headerName: 'Publishing Date', width:  230, editable: true , headerAlign:'center',align:'center'},
+    { field: 'department', headerName: 'Department', width: 230, editable: true, headerAlign:'center',align:'center'  },
+    { field: 'owner', headerName: 'Owner', width: 230, editable: true, headerAlign:'center',align:'center'  },
+    { field: 'notes', headerName: 'Notes', width: 230, editable: true, headerAlign:'center',align:'center'  , renderCell: (params) => {
+      return (
+        <div>
+          <a href='/dashboard/jobs/job-list/add-notes'>Add Notes</a>          
+        </div>
+      );
+   }},
+    { field: 'action', headerName: 'Action', width:  230, editable: true , headerAlign:'center' },
+  
+  //   {
+  //     field: 'fullName',
+  //     headerName: 'Full name',
+  //     description: 'This column has a value getter and is not sortable.',
+  //     sortable: false,
+  //     width: 160,
+  //     valueGetter: (params) =>
+  //       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+  //   },
+  //   { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => {
+  //     // return (
+  //     //   <div>
+  //     //     <EditIcon />
+  //     //     <DeleteIcon />
+  //     //   </div>
+  //     // );
+  //  }
+      
+  //   }
+  ];
   // const data = [
   //   { name: 'Joe James', status: labelStatus },
   //   { name: 'John Walsh', status: labelStatus },
@@ -363,9 +411,63 @@ const Jobs = () => {
           </DialogContent>
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
-        <Card>
-          <MUIDataTable title={'Job List'} data={data?.list} columns={columns} options={options} />
-        </Card>
+        {/* <Card>
+          <MUIDataTable 
+            title={'Job List'}
+            data={data?.list} 
+            columns={columns} 
+            options={options}
+            components={{ Toolbar: GridToolbar }} />
+        </Card> */}
+        
+        <Typography variant="h4" gutterBottom sx={{
+          backgroundColor:'f9fafb !important'
+        }}>
+            Jobs List
+        </Typography>
+      <div style={{ height: 400, width: '100%',boxSizing: 'border-box',
+          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
+          borderRadius:'16px',
+          backgroundColor:'#fff',
+          // marginTop: '40px'
+           }}>
+        <DataGrid
+        rows={rows}
+        columns={column}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        checkboxSelection
+         alignItems="center"
+        justifyContent="center"
+        rowHeight={70}
+        showCellRightBorder
+        showColumnRightBorder
+        components={{ Toolbar: GridToolbar }}
+         initialState={{
+          filter: {
+            filterModel: {
+              items: [{ columnField: 'rating', operatorValue: '>', value: '2.5' }],
+            },
+          },
+        }}
+
+        sx={{
+          boxSizing: 'border-box',
+          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
+          
+          
+          '& .MuiDataGrid-column': {
+            width: 100,
+          },
+        
+        }}
+      />
+    </div>
+          <Button 
+          component={RouterLink}
+          to="/dashboard/jobs/candidate-list">
+            View Candidates
+          </Button>
       </Container>
       {modelOpen && detailsId && <JobModel open={modelOpen} handleClose={handleClose} detailsId={detailsId} />}
     </Page>
