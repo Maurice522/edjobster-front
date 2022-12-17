@@ -46,6 +46,16 @@ import CandidateList from './pages/main/candidates/CandidateList';
 import Notes from './components/Notes/Notes';
 import JobNotes from './components/Notes/JobNotes';
 import InterviewDetails from './pages/main/interviews/InterviewDetails';
+import IndCanJob from './pages/individualCandidate/Jobs';
+import IndCanCandidates from './pages/individualCandidate/Candidates';
+import IndCanScheduleInterview from './pages/individualCandidate/ScheduleInterview';
+import IndCanSendMail from './pages/individualCandidate/SendMail';
+
+import SuperDashboard from './pages/superadmin/SuperDashboard';
+import Header from './components/header/Header';
+import SuperDashboardCard from './layouts/superdashboard/SuperDashboardCard';
+
+
 
 
 // ----------------------------------------------------------------------
@@ -69,6 +79,15 @@ export default function Router() {
         { path: '/dashboard/candidates', element: <Candidates /> },
         { path: '/dashboard/candidates/create-candidate', element: <CreateCandidate /> },
         { path: '/dashboard/candidates/edit-candidate', element: <EditCandidate /> },
+
+        //  Individuals can
+        { path: '/dashboard/candidates/newcreate', element: <IndCanJob /> },
+        { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
+        { path: '/dashboard/candidates/scheduleinterview', element: <IndCanScheduleInterview /> },
+        { path: '/dashboard/candidates/sendmail', element: <IndCanSendMail /> },
+
+        
+        // { path: '/dashboard/candidates/candidate-details', element: <CandidateDetails /> },
         { path: '/dashboard/interviews', element: <Interviews /> },
         { path: '/dashboard/interviews/create-interview', element: <CreateInterview /> },
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
@@ -92,6 +111,15 @@ export default function Router() {
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },
+      ],
+    },
+    {
+      path: '/superdashboard',
+      element: <SuperDashboard />,
+      children: [
+
+        { path: '/superdashboard', element: <SuperDashboardCard /> },
+        { path: '/superdashboard/candidates', element: <CandidateList /> },
       ],
     },
     {

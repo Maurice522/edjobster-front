@@ -94,6 +94,13 @@ const [candidateId,setCandidateId]=useState();
       valueGetter: (params) =>
         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
+    { field: 'details', headerName: 'Details', width: 300, editable: true, headerAlign:'center',align:'center', renderCell: (params) => {
+      return (
+        <div>
+          <a href='/dashboard/candidates/candidate'>View</a>          
+        </div>
+      );
+   }},
     { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => {
       return (
         <div>
@@ -103,7 +110,7 @@ const [candidateId,setCandidateId]=useState();
       );
    }
 
-    }
+    },
   ];
 
   const rows = [
@@ -120,13 +127,13 @@ const [candidateId,setCandidateId]=useState();
 
   const columns = [
     {
-      name: 'first_name',label: 'Name',options: {filter: true,sort: true}, renderCell: (params) => {
-        return (
-          <div>
-            <a href='#'>yo</a>          
-          </div>
-        );
-     }},
+      name: 'first_name',
+      label: 'Name',
+      options: {
+        filter: true,
+        sort: true
+      },
+     },
     {
       name: 'job_title',
       label: 'Associated Job',
@@ -245,7 +252,7 @@ const [candidateId,setCandidateId]=useState();
           <Button
             variant="contained"
             component={RouterLink}
-            to="/dashboard/candidates/create-candidate"
+            to="/dashboard/candidates/newcreate"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New candidate
