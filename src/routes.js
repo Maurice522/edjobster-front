@@ -42,6 +42,21 @@ import CreateAssessment from './pages/main/assessments/CreateAssessment';
 import EditAssessment from './pages/main/assessments/EditAssessment';
 import JobsList from './pages/main/jobs/jobs-list/JobsList';
 import JobApplyStepper from './pages/settings/client/JobApplyStepper';
+import CandidateList from './pages/main/candidates/CandidateList';
+import Notes from './components/Notes/Notes';
+import JobNotes from './components/Notes/JobNotes';
+import InterviewDetails from './pages/main/interviews/InterviewDetails';
+import IndCanJob from './pages/individualCandidate/Jobs';
+import IndCanCandidates from './pages/individualCandidate/Candidates';
+import IndCanScheduleInterview from './pages/individualCandidate/ScheduleInterview';
+import IndCanSendMail from './pages/individualCandidate/SendMail';
+
+import SuperDashboard from './pages/superadmin/SuperDashboard';
+import Header from './components/header/Header';
+import SuperDashboardCard from './layouts/superdashboard/SuperDashboardCard';
+
+
+
 
 // ----------------------------------------------------------------------
 
@@ -57,17 +72,29 @@ export default function Router() {
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },
         { path: '/dashboard/jobs/create-job', element: <CreateJob /> },
+        { path: '/dashboard/jobs/job-list/add-notes', element: <JobNotes /> },
+        { path: '/dashboard/jobs/candidate-list', element: <CandidateList /> },
         { path: '/dashboard/jobs/edit-job/:editJobId', element: <CreateJob /> },
 
         { path: '/dashboard/candidates', element: <Candidates /> },
         { path: '/dashboard/candidates/create-candidate', element: <CreateCandidate /> },
         { path: '/dashboard/candidates/edit-candidate', element: <EditCandidate /> },
+
+        //  Individuals can
+        { path: '/dashboard/candidates/newcreate', element: <IndCanJob /> },
+        { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
+        { path: '/dashboard/candidates/scheduleinterview', element: <IndCanScheduleInterview /> },
+        { path: '/dashboard/candidates/sendmail', element: <IndCanSendMail /> },
+
+        
+        // { path: '/dashboard/candidates/candidate-details', element: <CandidateDetails /> },
         { path: '/dashboard/interviews', element: <Interviews /> },
         { path: '/dashboard/interviews/create-interview', element: <CreateInterview /> },
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
+        { path: '/dashboard/interviews/interview-details', element: <InterviewDetails /> },
         { path: '/dashboard/assessments', element: <Assessments /> },
         { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
-        { path: '/dashboard/assessments/edit-assessment/:assessmentEditId', element: <CreateAssessment /> },
+        { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
         { path: '/dashboard/career-site', element: <CareerSite /> },
         { path: 'institute-setting/departments', element: <Departments /> },
         { path: 'institute-setting/designations', element: <Designations /> },
@@ -84,6 +111,15 @@ export default function Router() {
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },
+      ],
+    },
+    {
+      path: '/superdashboard',
+      element: <SuperDashboard />,
+      children: [
+
+        { path: '/superdashboard', element: <SuperDashboardCard /> },
+        { path: '/superdashboard/candidates', element: <CandidateList /> },
       ],
     },
     {

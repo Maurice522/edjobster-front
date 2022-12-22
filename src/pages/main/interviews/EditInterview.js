@@ -232,13 +232,18 @@ const EditInterview = () => {
             </Grid>
           </Grid>
 
-          <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
-            <Box>
-              <Button variant="contained">
+          {/* <DialogActions style={{ display: 'flex', justifyContent: 'center' }}> */}
+            
+              <Button variant="contained" size='large'
+              sx={{
+                display: 'flex',
+                marginLeft:'auto',
+                marginRight:'auto'
+              }}>
                 Save
               </Button>
-            </Box>
-          </DialogActions>
+            
+          {/* </DialogActions> */}
     </>
   );
 };
