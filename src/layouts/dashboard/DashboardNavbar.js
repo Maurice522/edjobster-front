@@ -9,7 +9,7 @@ import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
 import NotificationsPopover from './NotificationsPopover';
-
+import Header from '../../components/header/Header';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -43,7 +43,7 @@ DashboardNavbar.propTypes = {
 export default function DashboardNavbar({ onOpenSidebar }) {
   return (
     <RootStyle>
-      <ToolbarStyle>
+      {/* <ToolbarStyle>
         <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary', display: { lg: 'none' } }}>
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
@@ -55,7 +55,8 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           <NotificationsPopover />
           <AccountPopover />
         </Stack>
-      </ToolbarStyle>
+      </ToolbarStyle> */}
+      <Header />
     </RootStyle>
   );
 }

@@ -13,7 +13,7 @@ import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
-import { mainSideBarData, settingsSideBarData } from './NavConfig';
+import { newNavBar, mainSideBarData, settingsSideBarData } from './NavConfig';
 
 // ----------------------------------------------------------------------
 
@@ -64,13 +64,20 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         <Logo />
       </Box>
 
+{/* Edited by kundan agrawal for update nav bar section */}
+      <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
+        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+          New NavBar
+        </Typography>
+      </Box>
+      <NavSection navConfig={newNavBar} />
+{/* Edited above by kundan agrawal for update nav bar section */}
 
       <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
         <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
           Main
         </Typography>
       </Box>
-
       <NavSection navConfig={mainSideBarData} />
 
       <Box sx={{ mb: 1.5, mt: 3, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>

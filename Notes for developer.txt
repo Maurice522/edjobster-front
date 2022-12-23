@@ -1,0 +1,2 @@
+In the nav bar site settings components have been copied to new nav bar section, 
+should update the folder name in components once nav bar has been approved

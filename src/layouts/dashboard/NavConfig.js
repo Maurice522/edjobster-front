@@ -5,6 +5,26 @@ import Iconify from '../../components/Iconify';
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
+// Edited by kundan agrawal for update nav bar section
+const newNavBar = [
+  {
+    title: 'Career Site',
+    path: '#',
+  },
+  {
+    title: 'Institute Setting',
+    path: '/dashboard/institute-setting',
+    icon: getIcon('eva:pie-chart-2-fill'),
+    children: [
+      { title: 'Departments', path: '/dashboard/institute-setting/departments' },
+      { title: 'Designations', path: '/dashboard/institute-setting/designations' },
+      { title: 'Degrees', path: '/dashboard/institute-setting/degrees' },
+      { title: 'Addresses', path: '/dashboard/institute-setting/addresses' },
+    ],
+  },
+];
+// Edited above by kundan agrawal for update nav bar section
+
 const mainSideBarData = [
   {
     title: 'Jobs',
@@ -94,4 +114,4 @@ const settingsSideBarData = [
   },
 ];
 
-export { mainSideBarData, settingsSideBarData };
+export { newNavBar, mainSideBarData, settingsSideBarData };
