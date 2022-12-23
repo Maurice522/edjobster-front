@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -30,7 +29,6 @@ import JobBoards from './pages/settings/job-boards/JobBoards';
 import Billing from './pages/settings/billing/Billing';
 import Jobs from './pages/main/jobs/Jobs';
 import CreateJob from './pages/main/jobs/CreateJob';
-import EditJob from './pages/main/jobs/EditJob';
 import Candidates from './pages/main/candidates/Candidates';
 import CreateCandidate from './pages/main/candidates/CreateCandidate';
 import EditCandidate from './pages/main/candidates/EditCandidate';
@@ -43,7 +41,6 @@ import EditAssessment from './pages/main/assessments/EditAssessment';
 import JobsList from './pages/main/jobs/jobs-list/JobsList';
 import JobApplyStepper from './pages/settings/client/JobApplyStepper';
 import CandidateList from './pages/main/candidates/CandidateList';
-import Notes from './components/Notes/Notes';
 import JobNotes from './components/Notes/JobNotes';
 import InterviewDetails from './pages/main/interviews/InterviewDetails';
 import IndCanJob from './pages/individualCandidate/Jobs';
@@ -52,9 +49,9 @@ import IndCanScheduleInterview from './pages/individualCandidate/ScheduleIntervi
 import IndCanSendMail from './pages/individualCandidate/SendMail';
 
 import SuperDashboard from './pages/superadmin/SuperDashboard';
-import Header from './components/header/Header';
 import SuperDashboardCard from './layouts/superdashboard/SuperDashboardCard';
 import AddUser from './components/users/AddUser';
+import AddUserCreatePassword from './components/users/AddUserCreatePassword';
 
 
 
@@ -70,6 +67,7 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: '/dashboard/user/adduser', element: <AddUser /> },
+        { path: '/dashboard/user/adduser/createpassword', element: <AddUserCreatePassword /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },
