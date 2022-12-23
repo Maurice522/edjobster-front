@@ -310,8 +310,8 @@ const List = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
-            onClick={addNewListHandler}
+            to="/dashboard/user/adduser"
+            // onClick={addNewListHandler}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Add User

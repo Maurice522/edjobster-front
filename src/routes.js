@@ -54,6 +54,7 @@ import IndCanSendMail from './pages/individualCandidate/SendMail';
 import SuperDashboard from './pages/superadmin/SuperDashboard';
 import Header from './components/header/Header';
 import SuperDashboardCard from './layouts/superdashboard/SuperDashboardCard';
+import AddUser from './components/users/AddUser';
 
 
 
@@ -68,6 +69,7 @@ export default function Router() {
       children: [
         { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
+        { path: '/dashboard/user/adduser', element: <AddUser /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },

@@ -1,0 +1,25 @@
+.dialogueTitle{
+    font-size: 35px;
+    fill: solid rgba(42, 114, 222, 0.75);
+    color: #2A72DE;
+    font-size: SemiBold;
+    line-height: 53px;
+}
+
+.formlabel {
+    display: flex;
+    flex-direction: column;
+
+}
+.stackrow{
+    display:"flex";
+    flex-direction:"row";
+    justify-content:"center";
+    gap:"10%";
+}
+.proceedbutton{
+    color: #2A72DE;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 80px;
+    
+}

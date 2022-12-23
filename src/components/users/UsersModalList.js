@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
+import { Link as RouterLink } from 'react-router-dom';
+
 // eslint-disable-next-line import/no-unresolved
 import { useDepartmentGetQuery } from 'src/redux/services/settings/DepartmentService';
 // eslint-disable-next-line import/no-unresolved
@@ -9,10 +10,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
 import Slide from '@mui/material/Slide';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Select from '@mui/material/Select';
@@ -28,6 +27,20 @@ import Checkbox from '@mui/material/Checkbox';
 // eslint-disable-next-line import/no-unresolved
 import ImagePreview from 'src/components/imagePreview/ImagePreview';
 
+
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {
+  Button,
+  Card,
+  Grid,
+  TextField,
+  Stack
+} from '@mui/material';
+import GroupsIcon from '@mui/icons-material/Groups';
+
 const UserModalList = (props) => {
   const { open, handleClose, onsubmit, type, formData } = props;
   const { data: departmentData } = useDepartmentGetQuery();
@@ -37,6 +50,11 @@ const UserModalList = (props) => {
   const [textValue, setTextValue] = useState(formData);
   const [departmentId, setDepartmentId] = useState(null);
   const [designationId, setDesignationId] = useState(null);
+
+
+
+
+
 
   useEffect(() => {
     if (formData?.account_id) {
@@ -76,12 +94,14 @@ const UserModalList = (props) => {
     setTextValue({ ...textValue, photo: file });
   };
 
+  const [value, setValue] = React.useState(null);
+
   return (
     <>
       <Dialog
         open={open}
         fullWidth
-        maxWidth="sm"
+        // maxWidth="sm"
         onClose={() => {
           handleClose(false);
         }}
@@ -90,19 +110,24 @@ const UserModalList = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>{type === 'Add' ? 'Create User' : 'Update User'}</DialogTitle>
+          <DialogTitle sx={{
+            display:"flex",
+            justifyContent: "center",
+          }} className="dialogueTitle">
+            {type === 'Add' ? 'Create User Profile' : 'Update User'}
+          </DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
-              <Grid container>
-                <Grid item md={4}>
+              {/* <Grid container> */}
+                {/* <Grid item md={4}>
                   <ImagePreview
                     logo={textValue.photo}
                     // eslint-disable-next-line no-undef
                     onFileSelectSuccess={(file) => userLogoChangeHandler(file)}
                     onFileSelectError={({ error }) => console.log('error', error)}
                   />
-                </Grid>
-                <Grid item md={8}>
+                </Grid> */}
+                {/* <Grid item md={8}>
                   <TextField
                     autoFocus
                     margin="dense"
@@ -126,32 +151,9 @@ const UserModalList = (props) => {
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2}>
-                {/* <Grid item xs={12}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    variant="standard"
-                    fullWidth
-                    name="first_name"
-                    value={textValue.first_name}
-                    label="First Name"
-                    onChange={onInputChangeHandler}
-                  />
-                </Grid> */}
-                {/* <Grid item xs={12}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    variant="standard"
-                    fullWidth
-                    name="last_name"
-                    value={textValue.last_name}
-                    label="Last Name"
-                    onChange={onInputChangeHandler}
-                  />
-                </Grid> */}
-                <Grid item xs={6}>
+              <Grid container spacing={2}> */}
+                
+                {/* <Grid item xs={6}>
                   <TextField
                     autoFocus
                     margin="dense"
@@ -231,26 +233,188 @@ const UserModalList = (props) => {
                       <FormControlLabel value="U" control={<Radio />} label="HR" />
                     </RadioGroup>
                   </FormControl>
-                </Grid>
-                {/* <Grid item xs={6} sx={{ mt: 2 }}>
-                  <TextField
-                    autoFocus
-                    autoComplete="new-password"
-                    type="password"
-                    margin="dense"
-                    variant="standard"
-                    label="Create a Password"
-                    fullWidth
-                    value={textValue.password}
-                    onChange={onInputChangeHandler}
-                  />
                 </Grid> */}
-                {/* <Grid item xs={6}>
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="I AGREE THE" />
-                  </FormGroup>
-                </Grid> */}
+                
+              {/* </Grid> */}
+
+                {/* Below code written by Kundan for add user form */}
+
+
+            
+
+                <Card sx={{
+        position:"relative",
+        marginLeft:"auto",
+        marginRight:"auto",
+        width: "90%",
+        backgroundColor:"#fff",
+        height :"80vh",
+        boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
+          borderRadius:'16px',
+      }}>
+        <Stack sx={{
+              marginTop:"5%",
+              display:"flex",
+              flexDirection:"row",
+              justifyContent:"center",
+              gap:"2%"
+            }}>
+        
+          {/* <Grid container spacing={2}> */}
+              <Grid item xs={4}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                    
+                      label="From Date"
+                      value={value}
+                      onChange={(newValue) => {
+                        setValue(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} sx={{ minWidth: '100%' }} />}
+                    />
+                  </LocalizationProvider>
               </Grid>
+              <h3>To</h3>
+              <Grid item xs={4}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                      label="To Date"
+                      value={value}
+                      onChange={(newValue) => {
+                        setValue(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} sx={{ minWidth: '100%' }} />}
+                    />
+                  </LocalizationProvider>
+              </Grid>
+            {/* </Grid> */}
+          </Stack>
+            <Stack sx={{
+             
+              display:"flex",
+              flexDirection:"row",
+              justifyContent:"center",
+              gap:"10%"
+             }}>
+                  <FormControl sx={{ minWidth: '100%' }}>
+                    {/* <InputLabel id="demo-simple-select-autowidth-label">Experience</InputLabel> */}
+                    <TextField
+                        required
+                        id="standard-required"
+                        label="Required"
+                        defaultValue="Hello Worcld"
+                        variant="standard"
+                     />
+                  </FormControl>    
+            </Stack>
+            <Stack sx={{
+              
+              display:"flex",
+              flexDirection:"row",
+              justifyContent:"center",
+              gap:"10%"
+             }}>
+              <Card sx={{
+                width:"20%",
+                borderRadius:"0px",
+                backgroundColor:"#f9fafb"
+              }}>
+                <Stack sx={{
+                  padding:"3%",
+                  display:"flex",
+                  flexDirection:"row",
+                  justifyContent:"space-between"
+                }}>
+                  <GroupsIcon fontSize='large'/>
+                  <Stack>
+                    <h6>Applications</h6>
+                    <h2>440</h2>
+                  </Stack>
+                </Stack>  
+              </Card>
+              <Card sx={{
+                width:"20%",
+                borderRadius:"0px",
+                backgroundColor:"#f9fafb"
+              }}>
+                <Stack sx={{
+                  padding:"3%",
+                  display:"flex",
+                  flexDirection:"row",
+                  justifyContent:"space-between"
+                }}>
+                  <GroupsIcon fontSize='large'/>
+                  <Stack>
+                    <h6>Active Jobs</h6>
+                    <h2>85</h2>
+                  </Stack>
+                </Stack>  
+              </Card>                           
+            </Stack>
+            <Stack sx={{
+             
+              display:"flex",
+              flexDirection:"row",
+              justifyContent:"center",
+              gap:"10%"
+             }}>
+              <Card sx={{
+                width:"20%",
+                borderRadius:"0px",
+                backgroundColor:"#f9fafb"
+              }}>
+                <Stack sx={{
+                  padding:"3%",
+                  display:"flex",
+                  flexDirection:"row",
+                  justifyContent:"space-between"
+                }}>
+                  <GroupsIcon fontSize='large'/>
+                  <Stack>
+                    <h6>Deactivated Clients</h6>
+                    <h2>1</h2>
+                  </Stack>
+                </Stack>  
+              </Card>
+              <Card sx={{
+                width:"20%",
+                borderRadius:"0px",
+                backgroundColor:"#f9fafb"
+              }}>
+                <Stack sx={{
+                  padding:"3%",
+                  display:"flex",
+                  flexDirection:"row",
+                  justifyContent:"space-between"
+                }}>
+                  <GroupsIcon fontSize='large'/>
+                  <Stack>
+                    <h6>Active Clients</h6>
+                    <h2>15</h2>
+                  </Stack>
+                </Stack>  
+              </Card>                           
+            </Stack>
+      </Card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </Box>
           </DialogContent>
           <DialogActions>

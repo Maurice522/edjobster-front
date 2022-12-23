@@ -79,7 +79,7 @@ function SuperDashboardCard() {
               flexDirection:"row",
               justifyContent:"center",
               gap:"10%"
-            }}>
+             }}>
               <Card sx={{
                 width:"20%",
                 borderRadius:"0px",
@@ -123,7 +123,7 @@ function SuperDashboardCard() {
               flexDirection:"row",
               justifyContent:"center",
               gap:"10%"
-            }}>
+             }}>
               <Card sx={{
                 width:"20%",
                 borderRadius:"0px",
@@ -167,7 +167,7 @@ function SuperDashboardCard() {
               flexDirection:"row",
               justifyContent:"center",
               gap:"10%"
-            }}>
+             }}>
               <Card sx={{
                 width:"20%",
                 borderRadius:"0px",
