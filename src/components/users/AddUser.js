@@ -6,12 +6,14 @@ import { object, string, ref } from "yup";
 // eslint-disable-next-line import/no-unresolved
 // eslint-disable-next-line import/no-unresolved
 import { useNavigate } from 'react-router-dom';
-
 import {
     Button,
     Card, Stack
 } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Iconify from '../Iconify';
+import Back from '../../assets/images/back.svg';
+
 
 
 
@@ -54,11 +56,12 @@ const Input = ({ name, label, ...props }) => {
 function AddUser() {
 
     const navigate = useNavigate();
+
     const navigateToPassword = () => {
         navigate('/dashboard/user/adduser/createpassword');
       };
     const cancelProcess = () => {
-        navigate('/dashboard/user/');
+        navigate('/dashboard/users/list/');
       };
     const validate = (values) => {
         const errors = {}
@@ -121,6 +124,10 @@ function AddUser() {
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}>
+              <div className="backbutton tt-back">
+                <ArrowBackIosIcon onClick={cancelProcess} sx={{cursor:"pointer"}}/>                
+              </div>
+
             <Stack sx={{
               marginTop:"1%",
               display:"flex",

@@ -52,6 +52,8 @@ import SuperDashboard from './pages/superadmin/SuperDashboard';
 import SuperDashboardCard from './layouts/superdashboard/SuperDashboardCard';
 import AddUser from './components/users/AddUser';
 import AddUserCreatePassword from './components/users/AddUserCreatePassword';
+import EditUser from './components/users/EditUser';
+import Bill from './pages/settings/billing/Bill';
 
 
 
@@ -68,6 +70,7 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: '/dashboard/user/adduser', element: <AddUser /> },
         { path: '/dashboard/user/adduser/createpassword', element: <AddUserCreatePassword /> },
+        { path: '/dashboard/user/edit-user', element: <EditUser /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: '/dashboard/jobs', element: <Jobs /> },
@@ -111,6 +114,7 @@ export default function Router() {
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },
+        { path: '/dashboard/bills', element: <Bill /> },
       ],
     },
     {

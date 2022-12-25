@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line import/no-unresolved
 import { useDepartmentGetQuery } from 'src/redux/services/settings/DepartmentService';
@@ -39,6 +39,8 @@ import {
   TextField,
   Stack
 } from '@mui/material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
 import GroupsIcon from '@mui/icons-material/Groups';
 
 import { Formik, Form, useField, ErrorMessage } from "formik";
@@ -79,7 +81,14 @@ const RegisterValidation = object().shape({
 function AddUserCreatePassword() {
 
    
-
+  const navigate = useNavigate();
+  const cancelProcess = () => {
+    navigate('/dashboard/users/list/');
+  };
+ 
+  const goBack = () => {
+      navigate('/dashboard/user/adduser');
+    };
 
 
     const handleSubmit = (values) => {
@@ -102,6 +111,10 @@ function AddUserCreatePassword() {
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}>
+            <div className="backbutton tt-back">
+              <ArrowBackIosIcon onClick={goBack} sx={{cursor:"pointer"}}/>   
+                        
+            </div>
             <Stack sx={{
               marginTop:"5%",
               display:"flex",
@@ -178,8 +191,9 @@ function AddUserCreatePassword() {
                 <Stack direction="colum" alignItems="center" justifyContent="center" mb={5}>           
                     <Button
                         variant="contained"
-                        component={RouterLink}
-                        to="/dashboard/users/list"
+                        onClick={cancelProcess}
+                        // component={RouterLink}
+                        // to="/dashboard/users/list"
                         startIcon={<Iconify icon="eva:plus-fill" />}
                     >
                         Cancel

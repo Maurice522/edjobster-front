@@ -93,7 +93,7 @@ label {
     margin-right: auto;
 }
 .divrow {
-    margin-top: 3%;
+    margin-top: 2%;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -112,4 +112,15 @@ label {
 }
 .emailphone{
     margin-left: 2%;
+}
+.carddiv{
+    padding: 5%;
+    align-items: center;
+    text-align: center; 
+}
+.backbutton{
+    margin: 2%;
+}
+.billbriefs{
+    margin-top: 10%;
 }

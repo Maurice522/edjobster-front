@@ -22,6 +22,8 @@ import {
   ListItemIcon,
   Tooltip,
 } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import EditIcon from '@mui/icons-material/Edit';
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
 // components
@@ -143,6 +145,35 @@ const List = () => {
     setViewModelOpen(true);
   };
 
+  // Edited below by kundan for user list
+  const rows = [
+    // { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
+    // { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
+    // { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 6, lastName: 'Melisandre', firstName: null, age: 150 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    // { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
+    // { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
+    { id: 1, name: "ram", email: 'demo', action: 'Edit'},
+  ];
+  const column = [
+    { field: 'name', headerName: 'Name', width: 200, editable: true, headerAlign:'center',align:'center'},
+    { field: 'email', headerName: 'email', width: 200, editable: true, headerAlign:'center',align:'center'},
+    { field: 'number', headerName: 'Contact Number',type:"number", width: 200, editable: true, headerAlign:'center',align:'center'},
+    { field: 'department', headerName: 'Department', width: 200, editable: true, headerAlign:'center',align:'center'},
+    { field: 'status', headerName: 'Status', width: 200, editable: true, headerAlign:'center',align:'center'},
+    { field: 'action', headerName: 'Action', width: 200, editable: true, headerAlign:'center',align:'center', renderCell: (params) => {
+      return (
+        <div>
+          <a href='/dashboard/user/edit-user'><EditIcon /></a>          
+        </div>
+      );
+   }},
+    
+  ]
+// Edited above by kundan for user list
   const columns = [
     {
       name: 'first_name',
@@ -330,6 +361,48 @@ const List = () => {
         formData={apiData}
       />
       <UserViewModel handleClose={viewHandleClose} open={viewModelOpen} />
+
+      <Typography sx={{marginTop:"3%",marginBottom:"2%"}}variant="h4" gutterBottom     background-color="#F9FAFB">
+            User List
+        </Typography>
+      <div style={{ height: 400, width: '100%',boxSizing: 'border-box',
+          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
+          borderRadius:'16px',
+          backgroundColor:'#fff',
+          // marginTop: '40px'
+           }}>
+        <DataGrid
+        rows={rows}
+        columns={column}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        checkboxSelection
+         alignItems="center"
+        justifyContent="center"
+        rowHeight={70}
+        // showCellRightBorder
+        showColumnRightBorder
+        components={{ Toolbar: GridToolbar }}
+         initialState={{
+          filter: {
+            filterModel: {
+              items: [{ columnField: 'rating', operatorValue: '>', value: '2.5' }],
+            },
+          },
+        }}
+
+        sx={{
+          boxSizing: 'border-box',
+          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
+          
+          
+          '& .MuiDataGrid-column': {
+            width: 100,
+          },
+        
+        }}
+      />
+    </div>
     </Page>
   );
 };

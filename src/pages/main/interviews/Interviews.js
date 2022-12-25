@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
@@ -39,7 +38,7 @@ import { showToast } from '../../../utils/toast';
 import {
   useGetInterviewListAllQuery,
   useDeleteInterviewMutation,
-} from '../../../redux/services/interview/InterviewServices'
+} from '../../../redux/services/interview/InterviewServices';
 
 const Interviews = () => {
   const { data = [], refetch } = useGetInterviewListAllQuery();
