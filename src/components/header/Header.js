@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import AccountPopover from "../../layouts/dashboard/AccountPopover";
 import Notification from "../../assets/images/notification.svg";
 import User from "../../assets/images/user.svg";
 import Search from "../../assets/images/search.svg";
@@ -51,22 +52,25 @@ const Header = () => {
               Settings
             </NavLink>
           </div>
-          <div className="header-search">
-            <img src={Search} alt="" className="header-search-icon" />
-            <input
-              type="text"
-              className="header-search-input"
-              placeholder="Search…"
-            />
-          </div>
-          <div>
-            <img src={Notification} alt="" />
-          </div>
-          <div className="header-user">
-            <img src={User} alt="" />
+          <div className="Header-lower-bar">
+            <div className="header-search">
+              <img src={Search} alt="" className="header-search-icon" />
+              <input
+                type="text"
+                className="header-search-input"
+                placeholder="Search…"
+              />
+            </div>
+          
             <div>
-              <p className="header-name">Austin Robertson</p>
-              <p className="header-role">Marketing Administrator</p>
+              <img src={Notification} alt="" />
+            </div>
+            <AccountPopover />
+            <div className="header-user">
+              <div>
+                <p className="header-name">Austin Robertson</p>
+                <p className="header-role">Marketing Administrator</p>
+              </div>
             </div>
           </div>
         </div>

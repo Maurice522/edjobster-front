@@ -249,7 +249,7 @@ const [candidateId,setCandidateId]=useState();
           <Typography variant="h4" gutterBottom>
             Candidates
           </Typography>
-          <Button
+          <Button 
             variant="contained"
             component={RouterLink}
             to="/dashboard/candidates/newcreate"
@@ -293,7 +293,7 @@ const [candidateId,setCandidateId]=useState();
             },
           },
         }}
-
+        
         sx={{
           boxSizing: 'border-box',
           boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
@@ -306,6 +306,7 @@ const [candidateId,setCandidateId]=useState();
         }}
       />
     </div>
+    
       </Container>
       <CandidatesModel open={modelOpen} handleClose={handleClose} candidateId={candidateId}/>
     </Page>

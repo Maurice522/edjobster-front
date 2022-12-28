@@ -33,6 +33,9 @@ body {
   gap: 106px;
   padding: 29px 0px;
 }
+.upper-header-bar{
+  opacity: 0;
+}
 .header-logo {
   font-weight: 700;
   font-size: 14px;
@@ -85,6 +88,21 @@ body {
   font-weight: 400;
   font-size: 16px;
   line-height: 175%;
+}
+.Header-lower-bar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+}
+@media screen and (max-width:1280px) {
+  .Header-lower-bar{
+    display: none;
+  }
+  
 }
 .header-user {
   display: flex;
@@ -556,8 +574,8 @@ select {
   box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.15);
   border-radius: 20px;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 10vh;
+  left: 20vw;
   right: 0;
   bottom: 0;
   padding: 41px 105px;
@@ -589,6 +607,9 @@ select {
 /* modal end */
 
 /* Assign job start */
+/* .assjob-container{
+  top: auto;
+} */
 .assjob-title {
   font-weight: 700;
   font-size: 24px;

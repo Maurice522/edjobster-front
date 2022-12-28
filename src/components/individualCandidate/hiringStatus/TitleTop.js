@@ -23,7 +23,7 @@ const TitleTop = () => {
         <p className="tt-back-info">+91-9930705653</p>
       </div>
       <Container className="tt-dot-bar" onClick={menuToggle}>
-        <img src={Bar} alt="" className="tt-bar"  />
+        {/* <img src={Bar} alt="" className="tt-bar"  />
         {menu && (
           <ul className="ct-content-hs-items">
             <li className="ct-content-hs-list">Edit Candidate</li>
@@ -33,7 +33,8 @@ const TitleTop = () => {
             <li className="ct-content-hs-list">View Past Appliations</li>
             <li className="ct-content-hs-list">Delete Candidate</li>
           </ul>
-        )}
+        )} */}
+        Dessignation
       </Container>
     </div>
   );

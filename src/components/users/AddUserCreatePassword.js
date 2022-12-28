@@ -1,48 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// eslint-disable-next-line import/no-unresolved
-import { useDepartmentGetQuery } from 'src/redux/services/settings/DepartmentService';
-// eslint-disable-next-line import/no-unresolved
-import { useDesignationGetQuery } from 'src/redux/services/settings/DesignationService';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import FormGroup from '@mui/material/FormGroup';
-import Checkbox from '@mui/material/Checkbox';
-// eslint-disable-next-line import/no-unresolved
-import ImagePreview from 'src/components/imagePreview/ImagePreview';
-
-
-
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
   Button,
-  Card,
-  Grid,
-  TextField,
-  Stack
+  Card, Stack
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-
-import GroupsIcon from '@mui/icons-material/Groups';
-
 import { Formik, Form, useField, ErrorMessage } from "formik";
 import { object, string, ref } from "yup";
 import Iconify from '../Iconify';
@@ -152,8 +113,9 @@ function AddUserCreatePassword() {
                             return (
                                 <Form className="bg-white w-6/12 shadow-md rounded px-8 pt-6 pb-8">
                                 <Input className="passwordbar2" name="password" label="Enter    Password" type="password" />
-                                <Input
-                                    marginTop="2%"
+                                <Input sx={{
+                                    marginTop:"2%"
+                                  }}
                                     className="passwordbar"
                                     name="confirmPassword"
                                     label="Confirm Password"
@@ -188,7 +150,7 @@ function AddUserCreatePassword() {
                         <li className='listitems'>Atlease 8 characters long</li>
                     </ul>
                 </Stack>
-                <Stack direction="colum" alignItems="center" justifyContent="center" mb={5}>           
+                <Stack alignItems="center" justifyContent="center" mb={5}>           
                     <Button
                         variant="contained"
                         onClick={cancelProcess}

@@ -220,6 +220,7 @@ const CreateJob = () => {
         state: null,
         city: '',
         description: '',
+        
         job_boards: ['Linedin-id'],
         pipeline: null,
         active: 1,
