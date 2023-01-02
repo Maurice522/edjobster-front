@@ -70,13 +70,13 @@ label {
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: 80px;
     cursor: pointer;
-    color:#2A72DE;
     width:400px;
     height:50px;
     border-radius:80px;
     font-size:24px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 5%;
 }
 .registerbutton{
     color: #2A72DE;
@@ -102,16 +102,30 @@ label {
 }
 
 .inutbar{
-    width: 300px;
+    width: 250px;
     color: #2A72DE;
     background-color: #94D2FF;
     border-radius: 20px;
     height: 35px;
     margin-right: 5%;
     align-items: center;
+    text-align: center;
+    font-size: larger;
 }
 .emailphone{
     margin-left: 2%;
+}
+.phonenumber{
+    margin-left: 2%;
+    width: 250px;
+    color: #2A72DE;
+    background-color: #94D2FF;
+    border-radius: 20px;
+    height: 35px;
+
+    align-items: center;
+    text-align: center;
+    font-size: larger;
 }
 .carddiv{
     padding: 5%;
@@ -123,4 +137,9 @@ label {
 }
 .billbriefs{
     margin-top: 10%;
+}
+
+.rowstack{
+    display: flex;
+    flex-direction: row;
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 
 // eslint-disable-next-line import/no-unresolved
 import { useDepartmentGetQuery } from 'src/redux/services/settings/DepartmentService';
@@ -8,24 +7,10 @@ import { useDesignationGetQuery } from 'src/redux/services/settings/DesignationS
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import FormGroup from '@mui/material/FormGroup';
-import Checkbox from '@mui/material/Checkbox';
 // eslint-disable-next-line import/no-unresolved
-import ImagePreview from 'src/components/imagePreview/ImagePreview';
 
 
 

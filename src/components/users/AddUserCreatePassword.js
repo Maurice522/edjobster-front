@@ -68,7 +68,6 @@ function AddUserCreatePassword() {
             marginRight:"auto",
             width: "90%",
             backgroundColor:"#fff",
-            height :"80vh",
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}>

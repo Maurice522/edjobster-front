@@ -1,26 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  ListItemIcon,
-  Tooltip,
+  Card, Stack, Button, Container,
+  Typography, ListItemIcon
 } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
@@ -30,7 +15,6 @@ import { sortedDataFn } from 'src/utils/getSortedData';
 import UserModalList from '../../../components/users/UsersModalList';
 import UserViewModel from '../../../components/users/userViewModel';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 import {
   useGetUsersApiQuery,
@@ -145,35 +129,7 @@ const List = () => {
     setViewModelOpen(true);
   };
 
-  // Edited below by kundan for user list
-  const rows = [
-    // { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 6, lastName: 'Melisandre', firstName: null, age: 150 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    { id: 1, name: "ram", email: 'demo', action: 'Edit'},
-  ];
-  const column = [
-    { field: 'name', headerName: 'Name', width: 200, editable: true, headerAlign:'center',align:'center'},
-    { field: 'email', headerName: 'email', width: 200, editable: true, headerAlign:'center',align:'center'},
-    { field: 'number', headerName: 'Contact Number',type:"number", width: 200, editable: true, headerAlign:'center',align:'center'},
-    { field: 'department', headerName: 'Department', width: 200, editable: true, headerAlign:'center',align:'center'},
-    { field: 'status', headerName: 'Status', width: 200, editable: true, headerAlign:'center',align:'center'},
-    { field: 'action', headerName: 'Action', width: 200, editable: true, headerAlign:'center',align:'center', renderCell: (params) => {
-      return (
-        <div>
-          <a href='/dashboard/user/edit-user'><EditIcon /></a>          
-        </div>
-      );
-   }},
-    
-  ]
-// Edited above by kundan for user list
+
   const columns = [
     {
       name: 'first_name',
@@ -235,7 +191,7 @@ const List = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button
+            {/* <Button
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="success"
@@ -249,7 +205,7 @@ const List = () => {
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
-            </Button>
+            </Button> */}
             <LoadingButton
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
@@ -360,49 +316,7 @@ const List = () => {
         type={modalType}
         formData={apiData}
       />
-      <UserViewModel handleClose={viewHandleClose} open={viewModelOpen} />
-
-      <Typography sx={{marginTop:"3%",marginBottom:"2%"}}variant="h4" gutterBottom     background-color="#F9FAFB">
-            User List
-        </Typography>
-      <div style={{ height: 400, width: '100%',boxSizing: 'border-box',
-          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
-          borderRadius:'16px',
-          backgroundColor:'#fff',
-          // marginTop: '40px'
-           }}>
-        <DataGrid
-        rows={rows}
-        columns={column}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-         alignItems="center"
-        justifyContent="center"
-        rowHeight={70}
-        // showCellRightBorder
-        showColumnRightBorder
-        components={{ Toolbar: GridToolbar }}
-         initialState={{
-          filter: {
-            filterModel: {
-              items: [{ columnField: 'rating', operatorValue: '>', value: '2.5' }],
-            },
-          },
-        }}
-
-        sx={{
-          boxSizing: 'border-box',
-          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
-          
-          
-          '& .MuiDataGrid-column': {
-            width: 100,
-          },
-        
-        }}
-      />
-    </div>
+      <UserViewModel handleClose={viewHandleClose} open={viewModelOpen} />  
     </Page>
   );
 };

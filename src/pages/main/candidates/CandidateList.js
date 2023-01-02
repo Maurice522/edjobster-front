@@ -34,201 +34,7 @@ import { number } from 'prop-types';
 import Iconify from '../../../components/Iconify';
 import { deleteCandidateSuccess } from '../../../redux/candidateListSlice';
 
-
-// function CandidateList() {
-  
-
-//   const columns = [
-//     { field: 'id', headerName: 'ID', width: 70, editable: true},
-//     { field: 'firstName', headerName: 'First name', width: 130, editable: true },
-//     { field: 'lastName', headerName: 'Last name', width: 130, editable: true  },
-//     { field: 'status', headerName: 'Status', width: 130, editable: true  },
-//     { field: 'sourcedFrom', headerName: 'Sourced From', width: 130, editable: true  },
-//     { field: 'phone', headerName: 'Phone', headerAlign:'right', width: 130, editable: true  },
-  
-//     {
-//       field: 'fullName',
-//       headerName: 'Full name',
-//       description: 'This column has a value getter and is not sortable.',
-//       sortable: false,
-//       width: 160,
-//       valueGetter: (params) =>
-//         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-//     },
-//     { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => {
-//       return (
-//         <div>
-//           <EditIcon />
-//           <DeleteIcon />
-//         </div>
-//       );
-//    }
-      
-//     }
-//   ];
-  
-//   const rows = [
-//     { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-//     { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-//     { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-//     { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-//     { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-//     { id: 6, lastName: 'Melisandre', firstName: null, age: 150 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-//     { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-//     { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-//     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-//   ];
-
-//   return (
-//     <div style={{ height: 400, width: '100%' }}>
-//           <Container
-//           sx={{
-//             display: "flex",
-//             justifyContent: "flex-end",
-//             '& .MuiDataGrid-cell:hover': {
-//               color: 'primary.main',
-//             },
-//           }}>
-//               <FormControl sx={{ m: 1, minWidth: 300 }}>
-//                             <InputLabel id="demo-simple-select-helper-label">Sort by New to Old</InputLabel>
-//                             <Select
-//                                 labelId="demo-simple-select-helper-label"
-//                                 id="demo-simple-select-helper"
-//                                 label="Sort by New to Old"
-//                                 fullWidth
-//                             >
-//                                 <MenuItem value="">
-//                                     <em>None</em>
-//                                 </MenuItem>
-//                                 <MenuItem value={10}>Ten</MenuItem>
-//                                 <MenuItem value={20}>Twenty</MenuItem>
-//                                 <MenuItem value={30}>Thirty</MenuItem>
-//                             </Select>
-//             </FormControl>
-//             <FormControl sx={{ m: 1, minWidth: 300 }}>
-//                             <InputLabel id="demo-simple-select-helper-label">All Candidates</InputLabel>
-//                             <Select
-//                                 labelId="demo-simple-select-helper-label"
-//                                 id="demo-simple-select-helper"
-//                                 label="Sort by New to Old"
-//                                 fullWidth
-//                             >
-//                                 <MenuItem value="">
-//                                     <em>None</em>
-//                                 </MenuItem>
-//                                 <MenuItem value={10}>Ten</MenuItem>
-//                                 <MenuItem value={20}>Twenty</MenuItem>
-//                                 <MenuItem value={30}>Thirty</MenuItem>
-//                             </Select>
-//           </FormControl>
-//           <Button
-//             variant="contained"
-//             component={RouterLink}
-//             to="/dashboard/jobs/create-job"
-//             sx={{height: 56,
-//                  marginTop:1}}
-//           >
-//             Create Candidate
-//           </Button>
-//         </Container>
-//       <DataGrid
-//         rows={rows}
-//         columns={columns}
-//         pageSize={5}
-//         rowsPerPageOptions={[5]}
-//         checkboxSelection
-//         alignItems="center"
-//         justifyContent="center"
-//         rowHeight={70}
-//         showCellRightBorder
-//         showColumnRightBorder
-//         components={{ Toolbar: GridToolbar }}
-
-//         initialState={{
-//           filter: {
-//             filterModel: {
-//               items: [{ columnField: 'rating', operatorValue: '>', value: '2.5' }],
-//             },
-//           },
-//         }}
-
-        
-        
-//         sx={{
-//           // border:"0.5px solid gray",
-//           marginTop:5,
-//           // background:"#ededed",
-//           boxShadow: 2,
-
-          
-//           '& .MuiDataGrid-cell:hover': {
-//             color: 'primary.main',
-//           },
-//           "& .MuiDataGrid-row:hover": {
-//             backgroundColor: "white"
-//           },
-//           "& .MuiDataGrid-row": {
-//             borderTop: 2,
-//             // borderColor:"white"
-//             borderColor:"white"
-//           }
-//         }}
-//       />
-//     </div>
-
-//   )
-// }
-
-// export default CandidateList
-
-
-
-
-
 function CandidateList() {
-  const dispatch = useDispatch
-
-  const [arrIds, setArrIds] = useState([]);
-  const handleDeleteAll= () => {
-    console.Console(arrIds)
-    dispatch(deleteCandidateSuccess(arrIds))
-  }
-
-  const column = [
- { field: 'id', headerName: 'ID', width: 70, editable: true},
-    { field: 'firstName', headerName: 'First name', width: 130, editable: true },
-    { field: 'lastName', headerName: 'Last name', width: 130, editable: true  },
-    { field: 'status', headerName: 'Status', width: 130, editable: true  },
-    { field: 'sourcedFrom', headerName: 'Sourced From', width: 130, editable: true  },
-    { field: 'phone', headerName: 'Phone', headerAlign:'right', width: 130, editable: true  },
-
-    {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
-    { field: 'details', headerName: 'Details', width: 300, editable: true, headerAlign:'center',align:'center', renderCell: (params) => {
-      return (
-        <div>
-          <a href='/dashboard/candidates/candidate-details'>View</a>          
-        </div>
-      );
-   }},
-    { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => {
-      return (
-        <div>
-          <EditIcon />
-          <DeleteIcon />
-        </div>
-      );
-   }
-
-    },
-  ];
 
   const rows = [
     { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
@@ -241,6 +47,53 @@ function CandidateList() {
     { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
   ];
+
+
+  const [data, setData] = useState(rows)
+  const dispatch = useDispatch
+
+  const [arrIds, setArrIds] = useState([]);
+  const handleDeleteAll= () => {
+    console.log(arrIds)
+    dispatch(deleteCandidateSuccess(arrIds))
+  }
+
+  const column = [
+ { field: 'id', headerName: 'ID', width: 70, editable: true},
+    { field: 'firstName', headerName: 'First name', width: 130, editable: true },
+    { field: 'lastName', headerName: 'Last name', width: 130, editable: true  },
+    { field: 'status', headerName: 'Status', width: 130, editable: true  },
+    { field: 'sourcedFrom', headerName: 'Sourced From', width: 130, editable: true  },
+    { field: 'phone', headerName: 'Phone', headerAlign:'right',align:'right', width: 130, editable: true  },
+
+    {
+      field: 'fullName',
+      headerName: 'Full name',
+      description: 'This column has a value getter and is not sortable.',
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    },
+    { field: 'details', headerName: 'Details', width: 160, editable: true, headerAlign:'center',align:'center', renderCell: (params) => {
+      return (
+        <div>
+          <a href='/dashboard/candidates/candidate-details'>View</a>          
+        </div>
+      );
+   }},
+    { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true,headerAlign:'center',align:'center', renderCell: (params) => {
+      return (
+        <div>
+          <DeleteIcon />
+        </div>
+      );
+   }
+
+    },
+  ];
+
+ 
 
 
 
@@ -282,16 +135,36 @@ function CandidateList() {
           // marginTop: '40px'
            }}>
         <DataGrid
-        rows={rows}
+        // rows={rows}
+        rows={data}
         columns={column}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
         alignItems="center"
         justifyContent="center"
+        editable={{
+          onRowAdd:(newRow)=> new Promise((resolve, reject)=>{
+            const updatedRows=[...data, newRow]
+            setTimeout(()=>{
+              setData(updatedRows)
+              resolve()
+            },2000)
+          }),
+          onRowDelete: selectedRow => new Promise ((resolve, reject) => {
+            const index = selectedRow.tableData.id;
+            const updatedRows = [...data]
+           updatedRows.splice(index, 1)
+           setTimeout(() => {
+             setData(updatedRows)
+              resolve()
+            }, 2000)
+          })
+         
+        }}
         rowHeight={70}
         onSelectionModelChange={(ids) => {
-          setArrIds(ids);
+        setArrIds(ids);
         }}
         showCellRightBorder
         showColumnRightBorder

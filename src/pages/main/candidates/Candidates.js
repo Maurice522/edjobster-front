@@ -37,6 +37,11 @@ const [candidateId,setCandidateId]=useState();
   console.log("Dataaaaa",data?.list);
   const [addApplyCandidate, addApplyCandidateInfo] = useAddApplyJobMutation();
 
+
+// added by kundan
+// added by kundan
+
+
   const sortData = useMemo(() => {
     const sortresult = sortedDataFn(data?.list);
     return sortresult;

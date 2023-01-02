@@ -201,6 +201,7 @@ body {
   font-size: 15px;
   line-height: 175%;
   color: #000000;
+  text-align: left;
 }
 .cc-input {
   background: #ffffff;
@@ -208,7 +209,7 @@ body {
   border-radius: 5px;
   height: 35px;
   margin-top: 3px;
-  width: 300px;
+  width: 400px;
   font-family: "Inter";
   padding: 6px 14px;
   outline: 0;
@@ -473,7 +474,7 @@ select {
   width: 100%;
 }
 .sched-inter-location__label {
-  width: 150px;
+  width: 250px;
 }
 .sched-inter-content-left {
   width: 40%;
@@ -485,7 +486,7 @@ select {
 }
 .sched-inter-content-left-checkbox-main {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin-top: 41px;
   gap: 37px;
   flex-wrap: wrap;
@@ -502,7 +503,6 @@ select {
 .sched-inter-left-input {
   margin-top: 40px;
   display: flex;
-  align-items: center;
   gap: 5px;
 }
 .sched-inter-select-icon {

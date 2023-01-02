@@ -1,4 +1,6 @@
 import React from 'react';
+import { Formik, Form, useField, ErrorMessage, useFormik, isInteger } from "formik";
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,10 +14,66 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { LoadingButton } from '@mui/lab';
 
+const baseUrl= "http://127.0.0.1:8000";
+
 const DepartmentSettingsModal = (props) => {
+  const navigate= useNavigate()
   // eslint-disable-next-line react/prop-types
   const { open, handleClose, addClickHandler, loadingbtn,onChangeHandle } = props;
 
+  const validate = (values) => {
+    const errors ={}
+
+    if(!values.name){
+      errors.name = "enter Department name"
+    }
+
+    return errors
+  }
+  
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      
+      // confirmpassword: "",
+    },
+    validate,
+    onSubmit: async(values) => {
+      // const navigate= useNavigate()
+     
+      const {
+        name,
+      } = values;
+    
+      const res = await fetch(`${baseUrl}/settings/department/`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+         name,          
+        })
+      });
+  
+      const data = await res.json();
+      if(res.status === 422 || !data){
+        window.alert("Invalid Registeration");
+        console.log("Invalid Registeration");
+      }else{
+        window.alert("Registeration Successfull");
+        console.log("Registeration Successfull");
+        navigate("/dashboard/institute-setting/departments");
+      }
+
+
+      
+      alert(JSON.stringify(values, null, 2));
+      console.log(values);
+      // history.push("/dashboard/user/adduser/createpassword");
+    //  navigate('/dashboard/user/adduser/createpassword')
+      
+    },
+  });
   
 
   return (
@@ -66,6 +124,7 @@ const DepartmentSettingsModal = (props) => {
         aria-describedby="alert-dialog-description"
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
+        <form onSubmit={formik.handleSubmit}>
         <div>
           <DialogTitle>Department</DialogTitle>
           <DialogContent>
@@ -76,9 +135,9 @@ const DepartmentSettingsModal = (props) => {
                     id="Departments"
                     label="Department Name"
                     variant="outlined"
-                onChange={onChangeHandle}
+                    onChange={onChangeHandle}
                     name="name"
-                    fullWidth                  />
+                    fullWidth/>
                 </Grid>
               </Grid>
             </Box>
@@ -101,14 +160,15 @@ const DepartmentSettingsModal = (props) => {
           <DialogActions>
             <Box>
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
-                Cance
+                Cancel
               </Button>
-              <LoadingButton onClick={addClickHandler} variant="contained" loading={loadingbtn}>
+              <LoadingButton type="submit" variant="contained" >
                 Add
               </LoadingButton>
             </Box>
           </DialogActions>
         </div>
+        </form>
       </Dialog>
     </>
   );

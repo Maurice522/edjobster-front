@@ -1,9 +1,11 @@
 import { number } from 'prop-types';
+/* eslint-disable camelcase */
 import { Formik, Form, useField, ErrorMessage, useFormik, isInteger } from "formik";
 import * as yup from 'yup';
 import axios from "axios"; 
-// import { useNavigate } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+// import { useHistory } from "react-router-dom";
+// import { Link as RouterLink } from 'react-router-dom';
 import { useState } from 'react';
 import {
     Button,
@@ -16,14 +18,17 @@ import Back from '../../assets/images/back.svg';
 
 
 function AddUser() {
+  const baseUrl= "http://127.0.0.1:8000";
   
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [department, setDepartment] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [role, setRole] = useState('');
+  // const [first_name, setFirst_Name] = useState('');
+  // const [last_name, setLast_Name] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [mobile, setmobile] = useState('');
+  // const [department, setDepartment] = useState('');
+  // const [designation, setDesignation] = useState('');
+  // const [role, setRole] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [confirmpassword, setConfirmPassword] = useState('');
 
       // const Input = ({ name, label, ...props }) => {
       //   const [field, meta] = useField(name);
@@ -47,6 +52,11 @@ function AddUser() {
       //     </div>
       //   );
       // };
+      const navigate= useNavigate()
+      const navigatecancel = () =>{
+        navigate('/dashboard/users/list')
+      }
+
 
     const validate = (values) => {
         const errors = {}
@@ -56,12 +66,12 @@ function AddUser() {
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
           errors.email = 'Invalid email address'
         }
-        if (!values.firstname) {
-          errors.firstname = 'Required'
+        if (!values.first_name) {
+          errors.first_name = 'Required'
         }
         
-        if (!values.lastname) {
-          errors.lastname = 'Required'
+        if (!values.last_name) {
+          errors.last_name = 'Required'
         }
         if (!values.designation) {
           errors.designation = 'Required'
@@ -73,26 +83,81 @@ function AddUser() {
         if (!values.department) {
           errors.department = 'Required'
         }
-        if (!values.phone) {
+        if (!values.mobile) {
           errors.department = 'Required'
         }
+        // if (!values.password) {
+        //   errors.department = 'Required'
+        // }
+        // if (!values.mobile) {
+        //   errors.password = 'Required'
+        // }
+        // if (values.mobile !== values.confirmpassword) {
+        //   errors.password = 'password did not match'
+        // }
       
         return errors
       }
     const formik = useFormik({
         initialValues: {
-          firstname: "",
-          lastname: "",
+          first_name: "",
+          last_name: "",
           department: "",
           designation: "",
           role: "",
           email: "",
-          phone: "",
+          mobile: "",
+          password: "",
+          // confirmpassword: "",
         },
         validate,
-        onSubmit:values => {
+        onSubmit: async(values) => {
+          // const navigate= useNavigate()
+         
+          const {first_name,
+            last_name,
+            department,
+            designation,
+            role,
+            email,
+            mobile,
+            password
+          } = values;
+        
+          const res = await fetch(`${baseUrl}/account/members/`,{
+            method:"POST",
+            headers:{
+              "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+             first_name,
+              last_name,
+              department,
+              designation,
+              role,
+              email,
+              mobile,
+              password
+            })
+          });
+      
+          const data = await res.json();
+          if(res.status === 422 || !data){
+            window.alert("Invalid Registeration");
+            console.log("Invalid Registeration");
+          }else{
+            window.alert("Registeration Successfull");
+            console.log("Registeration Successfull");
+            navigate("/dashboard/users/list");
+          }
+
+
+          
           alert(JSON.stringify(values, null, 2));
-          console.log(values)
+          console.log(values);
+          // history.push("/dashboard/user/adduser/createpassword");
+        //  navigate('/dashboard/user/adduser/createpassword')
+          
         },
       });
     
@@ -105,14 +170,17 @@ function AddUser() {
             marginRight:"auto",
             width: "90%",
             backgroundColor:"#fff",
-            height :"80vh",
+            // height :"80vh",
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}>
               <div className="backbutton tt-back">
-                <RouterLink to="/dashboard/users/list">
-                  <img src={Back} alt="" />
-                </RouterLink>
+                {/* <RouterLink to="/dashboard/users/list"> */}
+                  {/* <img src={Back} alt="" onClick={navigatecancel} /> */}
+                {/* </RouterLink> */}
+                <ArrowBackIosIcon onClick={navigatecancel} sx={{
+                  cursor:"pointer"
+                }}/>
               </div>
 
             <Stack sx={{
@@ -130,34 +198,34 @@ function AddUser() {
 
             <form onSubmit={formik.handleSubmit} className="bg-white w-6/12 shadow-md rounded px-8 pt-6 pb-8">
               <div className='divrow'>
-                <label htmlFor='firstname'>First Name
+                <label htmlFor='first_name'>First Name
                   <input
                       className="inutbar"
-                      id="firstname"
-                      name="firstname"
+                      id="first_name"
+                      name="first_name"
                       type="text"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.firstname}
+                      value={formik.values.first_name}
                   />
-                  {formik.touched.firstname && formik.errors.firstname ? <div>{formik.errors.firstname}</div> : null}
+                  {formik.touched.first_name && formik.errors.first_name ? <div>{formik.errors.first_name}</div> : null}
                 </label>
                 
-                <label htmlFor='lastname'>Last Name
+                <label htmlFor='last_name'>Last Name
                   <input
                       className="inutbar"
-                      id="lastname"
-                      name="lastname"
+                      id="last_name"
+                      name="last_name"
                       type="text"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.lastname}
+                      value={formik.values.last_name}
                   />
-                  {formik.touched.lastname && formik.errors.lastname ? <div>{formik.errors.lastname}</div> : null}
+                  {formik.touched.last_name && formik.errors.last_name ? <div>{formik.errors.last_name}</div> : null}
                 </label>
                 
               </div>
-              <div className='divrow emailphone'>
+              <div className='divrow emailmobile'>
                 <label htmlFor='email'>Email
                   <input
                       className="inutbar"
@@ -171,17 +239,17 @@ function AddUser() {
                   {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
                 </label>
                 
-                <label htmlFor='phone'>Phone Number
+                <label htmlFor='mobile'>mobile Number
                   <input
-                      className="inutbar"
-                      id="phone"
-                      name="phone"
+                      className="phonenumber"
+                      id="mobile"
+                      name="mobile"
                       type="text"
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.phone}
+                      value={formik.values.mobile}
                   />
-                  {formik.touched.phone && formik.errors.phone ? <div>{formik.errors.phone}</div> : null}
+                  {formik.touched.mobile && formik.errors.mobile ? <div>{formik.errors.mobile}</div> : null}
                 </label>
                 
               </div>
@@ -226,12 +294,41 @@ function AddUser() {
                   />
                   {formik.touched.role && formik.errors.role ? <div>{formik.errors.role}</div> : null}
                 </label>
-                
               </div>
+              <label htmlFor='password'>Password
+                <input
+                    className="inutbar"
+                    id="password"
+                    name="password"
+                    type="text"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                />
+                {formik.touched.password && formik.errors.password ? <div>{formik.errors.department}</div> : null}
+              </label>
+              {/* <div className='divrow'>
+                
+                <label htmlFor='confirmpassword'>Confirm Password
+                  <input
+                      className="inutbar"
+                      id="confirmpassword"
+                      name="confirmpassword"
+                      type="text"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.confirmpassword}
+                  />
+                  {formik.touched.confirmpassword && formik.errors.confirmpassword ? <div>{formik.errors.designation}</div> : null}
+                </label>
+                 
+              </div>
+              */}
+                
               <div className="divrow flex items-center justify-between">
                 <button
-                  component={RouterLink}
-                  to="/dashboard/user/adduser/createpassword"
+                  // component={RouterLink}
+                  // to="/dashboard/user/adduser/createpassword"
                   className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
@@ -242,8 +339,12 @@ function AddUser() {
                 <Button
                         type='sub'
                         variant="contained"
-                        component={RouterLink}
-                        to="/dashboard/users/list"
+                        // component={RouterLink}
+                        // to="/dashboard/users/list"
+                        onClick={navigatecancel}
+                        sx={{
+                          marginBottom:"2%"
+                        }}
                     >
                         Cancel
                  </Button>

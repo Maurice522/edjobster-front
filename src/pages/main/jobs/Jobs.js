@@ -242,7 +242,7 @@ const Jobs = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" gutterBottom backgroundColor="#f9fafb">
             Jobs
           </Typography>
           <Button
@@ -411,16 +411,16 @@ const Jobs = () => {
           </DialogContent>
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
-        {/* <Card>
+        <Card>
           <MUIDataTable 
             title={'Job List'}
             data={data?.list} 
             columns={columns} 
             options={options}
             components={{ Toolbar: GridToolbar }} />
-        </Card> */}
+        </Card>
         
-        <Typography variant="h4" gutterBottom sx={{
+        {/* <Typography variant="h4" gutterBottom sx={{
           backgroundColor:'f9fafb !important'
         }}>
             Jobs List
@@ -462,7 +462,7 @@ const Jobs = () => {
         
         }}
       />
-    </div>
+    </div> */}
           <Button 
           component={RouterLink}
           to="/dashboard/jobs/candidate-list">

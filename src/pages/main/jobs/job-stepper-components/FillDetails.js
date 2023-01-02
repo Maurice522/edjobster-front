@@ -50,9 +50,10 @@ const FillDetails = () => {
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
-    if (e.target.name === 'education') {
-      myObj[e.target.name] = [e.target.value];
-    } else if (e.target.name === 'member_names') {
+    // if (e.target.name === 'education') {
+    //   myObj[e.target.name] = [e.target.value];
+    // } else if (e.target.name === 'member_names') {
+     if (e.target.name === 'member_names') {
       console.log('Member name', e.target.value);
       // myObj.member_names = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
       const newValue = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
@@ -255,8 +256,8 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Education</InputLabel>
-                <Select
+                {/* <InputLabel id="demo-simple-select-standard-label">Education</InputLabel> */}
+                {/* <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.education}
@@ -270,7 +271,17 @@ const FillDetails = () => {
                         {item?.name}
                       </MenuItem>
                     ))}
-                </Select>
+                </Select> */}
+                <TextField
+                autoFocus
+                margin="dense"
+                variant="standard"
+                fullWidth
+                name="education"
+                value={textValue.education}
+                label="Education"
+                onChange={onInputChangeHandler}
+              />
               </FormControl>
             </Grid>
             <Grid item xs={6}>
