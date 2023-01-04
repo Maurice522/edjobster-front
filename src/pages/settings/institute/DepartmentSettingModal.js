@@ -162,7 +162,7 @@ const DepartmentSettingsModal = (props) => {
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <LoadingButton type="submit" variant="contained" >
+              <LoadingButton onClick={addClickHandler} variant="contained" loading={loadingbtn}>
                 Add
               </LoadingButton>
             </Box>

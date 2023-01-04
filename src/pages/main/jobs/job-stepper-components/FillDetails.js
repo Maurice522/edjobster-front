@@ -156,7 +156,7 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
+                {/* <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
                 <Select
                   margin="dense"
                   variant="standard"
@@ -172,7 +172,16 @@ const FillDetails = () => {
                         {item?.first_name}
                       </MenuItem>
                     ))}
-                </Select>
+                </Select> */}
+                <TextField
+                margin="dense"
+                variant="standard"
+                fullWidth
+                name="owner"
+                value={textValue.owner}
+                label="Owner"
+                onChange={onInputChangeHandler}
+              />
               </FormControl>
             </Grid>
             <Grid item xs={6}>
@@ -286,7 +295,7 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Major/Speciality</InputLabel>
+                {/* <InputLabel id="demo-simple-select-standard-label">Major/Speciality</InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
@@ -307,7 +316,17 @@ const FillDetails = () => {
                   <MenuItem value={10}>Ten</MenuItem>
                   <MenuItem value={20}>Twenty</MenuItem>
                   <MenuItem value={30}>Thirty</MenuItem> */}
-                </Select>
+                {/* </Select> */}
+                <TextField
+                autoFocus
+                margin="dense"
+                variant="standard"
+                fullWidth
+                name="speciality"
+                value={textValue.speciality}
+                label="Speciality"
+                onChange={onInputChangeHandler}
+              />
               </FormControl>
             </Grid>
             <Grid item xs={3}>

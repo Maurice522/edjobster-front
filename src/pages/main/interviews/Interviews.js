@@ -7,6 +7,8 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import MUIDataTable from 'mui-datatables';
+
 // material
 import {
   Card,
@@ -412,9 +414,9 @@ const Interviews = () => {
           </DialogContent>
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
-        {/* <Card>
+        <Card>
           <MUIDataTable title={'Interview List'} data={data?.list} columns={columns} options={options} />
-        </Card> */}
+        </Card>
         <Typography variant="h4" gutterBottom     background-color="#F9FAFB">
             Interview List
         </Typography>

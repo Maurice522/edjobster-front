@@ -9,7 +9,8 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 const newNavBar = [
   {
     title: 'Career Site',
-    path: '#',
+    path: '/dashboard/career-site',
+    icon: getIcon('material-symbols:home-outline-rounded')
   },
   {
     title: 'Institute Setting',
@@ -22,6 +23,25 @@ const newNavBar = [
       { title: 'Addresses', path: '/dashboard/institute-setting/addresses' },
     ],
   },
+  {
+    title: 'Users',
+    path: '/dashboard/users',
+    icon: getIcon('eva:people-fill'),
+    children: [
+      { title: 'User List', path: '/dashboard/users/list' },
+      { title: 'Approvals', path: '/dashboard/users/approvals' },
+    ],
+  },
+  {
+    title: 'Hiring Pipeline',
+    path: '/dashboard/hiring-pipeline',
+    icon: getIcon('eva:shopping-bag-fill'),
+    children: [
+      { title: 'Stages', path: '/dashboard/hiring-pipeline/stages' },
+      { title: 'Pipelines', path: '/dashboard/hiring-pipeline/pipelines' },
+    ],
+  },
+  { title: 'Email Templates', path: '/dashboard/email-templates/templates',icon:getIcon('mdi:cube-send') },
 ];
 // Edited above by kundan agrawal for update nav bar section
 

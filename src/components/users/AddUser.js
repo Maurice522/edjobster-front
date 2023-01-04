@@ -222,8 +222,7 @@ function AddUser() {
                       value={formik.values.last_name}
                   />
                   {formik.touched.last_name && formik.errors.last_name ? <div>{formik.errors.last_name}</div> : null}
-                </label>
-                
+                </label>                
               </div>
               <div className='divrow emailmobile'>
                 <label htmlFor='email'>Email

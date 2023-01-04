@@ -267,13 +267,13 @@ const [candidateId,setCandidateId]=useState();
           <MainModuleFilter />
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
-        {/* <Card>
+        <Card>
         <MUIDataTable title={'candidate List'} data={data?.list} columns={columns} options={options} />
-        </Card> */}
-        <Typography variant="h4" gutterBottom     background-color="#F9FAFB">
+        </Card>
+        {/* <Typography variant="h4" gutterBottom     background-color="#F9FAFB">
             Candidate List
-        </Typography>
-      <div style={{ height: 400, width: '100%',boxSizing: 'border-box',
+        </Typography> */}
+      {/* <div style={{ height: 400, width: '100%',boxSizing: 'border-box',
           boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
           borderRadius:'16px',
           backgroundColor:'#fff',
@@ -310,7 +310,7 @@ const [candidateId,setCandidateId]=useState();
         
         }}
       />
-    </div>
+    </div> */}
     
       </Container>
       <CandidatesModel open={modelOpen} handleClose={handleClose} candidateId={candidateId}/>

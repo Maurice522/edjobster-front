@@ -101,7 +101,7 @@ const DesignationSettingModal = (props) => {
           <DialogActions>
             <Box>
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
-                Cance
+                Cancel
               </Button>
               <LoadingButton onClick={addClickHandler} variant="contained" loading={loadingbtn}>
                 Add

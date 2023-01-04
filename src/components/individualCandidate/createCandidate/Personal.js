@@ -42,10 +42,6 @@ const CreateCandidate = () => {
           />
           </label>
           <br />
-          <select className="cc-input">
-            <option>Enter mobile email...</option>
-          </select>
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
         </div>
         <div>
           <label htmlFor="cc-label" className="cc-label">
@@ -83,10 +79,6 @@ const CreateCandidate = () => {
           />
           </label>
           <br />
-          <select className="cc-input">
-            <option>Alternate Mobile Number</option>
-          </select>
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
         </div>
       </div>
       <div className="cc-form-content">
@@ -100,10 +92,6 @@ const CreateCandidate = () => {
           />
           </label>
           <br />
-          <select className="cc-input">
-            <option>Type street address</option>
-          </select>
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
         </div>
         <div className="cc-form-select">
           <label htmlFor="cc-label" className="cc-label">
@@ -115,9 +103,6 @@ const CreateCandidate = () => {
           />
           </label>
           <br />
-          <select className="cc-input">
-            <option>Choose country</option>
-          </select>
           <img src={SelectArrow} alt="" className="cc-form-select-icon" />
         </div>
       </div>

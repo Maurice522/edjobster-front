@@ -13,7 +13,7 @@ const TitleTop = () => {
         <p className="tt-back-create">Create a candidate</p>
       </div>
       <div>
-        <p className="tt-create">Create</p>
+        <button className="tt-create">Create</button>
       </div>
     </div>
   );
