@@ -32,6 +32,7 @@ export default function RegisterForm() {
   useEffect(() => {
     if (AddRegisterInfo.isSuccess) {
       dispatch(authTokenAction(AddRegisterInfo.data.access));
+      console.log(AddRegisterInfo.data);
       successToast()
       navigate('/dashboard/app', { replace: true });
     }

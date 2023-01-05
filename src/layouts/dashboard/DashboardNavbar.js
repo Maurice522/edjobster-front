@@ -41,6 +41,7 @@ DashboardNavbar.propTypes = {
 };
 
 export default function DashboardNavbar({ onOpenSidebar }) {
+  const globalUser = localStorage.getItem("globalUser")
   return (
     <RootStyle>
       {/* <ToolbarStyle>

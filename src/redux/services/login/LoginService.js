@@ -8,7 +8,12 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.signIn}`,
         method: "POST",
         body: data,
-      })
+      }),
+      transformResponse: (data) => {
+        console.log(data)
+        // localStorage.setItem("globalUser", data)
+        return data
+      }
     }),
   }),
   overrideExisting: false,

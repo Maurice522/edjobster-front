@@ -88,7 +88,9 @@ const Degrees = () => {
 
 
   const modalHandleClose = () => {
+    console.log("askdjashkjdhsakjdash")
     setModalOpen(false);
+    setEditModalOpen(false);
     setEditModalOpen(false);
   };
 
@@ -179,6 +181,10 @@ const Degrees = () => {
 
   const editChangeHandler = (e) => {
     setEditValue({ ...editValue, [e.target.name]: e.target.value })
+  }
+
+  const handleEditModalClose = () => {
+    setEditModalOpen(false)
   }
 
   return (
