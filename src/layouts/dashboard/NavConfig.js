@@ -42,6 +42,18 @@ const newNavBar = [
     ],
   },
   { title: 'Email Templates', path: '/dashboard/email-templates/templates',icon:getIcon('mdi:cube-send') },
+  { title: 'Webforms', path: '/dashboard/candidate-settings/webforms' },
+  {
+    title: 'Job Boards',
+    path: '/dashboard/job-boards',
+    icon: getIcon('eva:person-add-fill'),
+  },
+  {
+    title: 'Billing',
+    path: '/dashboard/bills',
+    icon: getIcon('eva:person-add-fill'),
+  },
+
 ];
 // Edited above by kundan agrawal for update nav bar section
 

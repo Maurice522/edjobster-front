@@ -19,7 +19,7 @@ export default function RegisterForm() {
   const dispatch =useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
-  // Below edited by Kundan
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [AddRegister, AddRegisterInfo] = useAddRegisterMutation();
 
   if (AddRegisterInfo.isError) {
@@ -38,12 +38,15 @@ export default function RegisterForm() {
     }
   }, [AddRegisterInfo, dispatch, navigate])
   
-
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
   const RegisterSchema = Yup.object().shape({
+    
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('First name required'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
+    phoneNumber: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
+    confirmpassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Re-enter your Password')
   });
 
   const formik = useFormik({
@@ -52,6 +55,8 @@ export default function RegisterForm() {
       lastName: '',
       email: '',
       password: '',
+      confirmpassword:'',
+      phonenumber:''
     },
     validationSchema: RegisterSchema,
     onSubmit: (values) => {
@@ -99,6 +104,14 @@ export default function RegisterForm() {
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
+          <TextField
+            fullWidth
+            type="phonenumber"
+            label="Phone Number"
+            {...getFieldProps('phonenumber')}
+            error={Boolean(touched.phonenumber && errors.phonenumber)}
+            helperText={touched.phonenumber && errors.phonenumber}
+          />
 
           <TextField
             fullWidth
@@ -117,6 +130,24 @@ export default function RegisterForm() {
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
+          />
+          <TextField
+            fullWidth
+            autoComplete="current-password"
+            type={showConfirmPassword ? 'text' : 'password'}
+            label="Confirm Password"
+            {...getFieldProps('confirmpassword')}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton edge="end" onClick={() => setShowConfirmPassword((prev) => !prev)}>
+                    <Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            error={Boolean(touched.confirmpassword && errors.confirmpassword)}
+            helperText={touched.confirmpassword && errors.confirmpassword}
           />
 
           <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>

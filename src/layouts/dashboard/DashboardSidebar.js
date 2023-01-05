@@ -23,6 +23,8 @@ const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
     width: DRAWER_WIDTH,
+    top:`calc(10%)`,
+    marginTop: 80,
   },
 }));
 
@@ -63,6 +65,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
       </Box>
+      <input
+        type="text"
+        className="sidebar-search-input"
+        placeholder="Search…"
+      />
 
 {/* Edited by kundan agrawal for update nav bar section */}
       <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
