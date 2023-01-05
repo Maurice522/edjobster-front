@@ -128,7 +128,7 @@ const SettingModalAddress = (props) => {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="select-city">Select city</InputLabel>
+                    <InputLabel id="select-city">Select country</InputLabel>
                     <Select
                       labelId="select-city"
                       id="country"

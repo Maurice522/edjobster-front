@@ -179,7 +179,7 @@ body {
 }
 .cc-left {
   overflow-y: scroll;
-  height: 100vh;
+  height: 120vh;
   width: 70%;
 }
 .cc-right {

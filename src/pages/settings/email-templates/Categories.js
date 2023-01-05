@@ -1,26 +1,11 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
-
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  ListItemIcon,
+  Card, Stack, Button, Container,
+  Typography, ListItemIcon
 } from '@mui/material';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
@@ -32,8 +17,8 @@ import {
 } from '../../../redux/services/settings/EmailCategoryService';
 // components
 import CategorySettingModal from './CategorySettingModel';
+import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import Page from '../../../components/Page';
-import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
 // mock
 
@@ -47,6 +32,7 @@ const Categories = () => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const [btnLoader, setBtnLoader] = useState(false);
   const [modalName, setModalName] = useState('add');
+
   const [addValue, setAddvalue] = useState({
     name: '',
   });
@@ -54,49 +40,11 @@ const Categories = () => {
     id: undefined,
     name: '',
   });
-
-  const modalHandleClose = () => {
-    setModalOpen(false);
-    setEditModalOpen(false);
-  };
-
-  const addNewCategoryHandler = () => {
-    setModalOpen(true);
-    setModalName('Add');
-  };
-
+  
   const sortData = useMemo(() => {
     const sortresult = sortedDataFn(data.data);
     return sortresult;
   }, [data]);
-
-  // add handle
-
-  const addChangeHandler = (e) => {
-    setAddvalue({ [e.target.name]: e.target.value });
-  };
-  const addClickHandler = async () => {
-    setBtnLoader(true);
-    if (modalName === 'Add') {
-      await AddEmailCategory(addValue);
-    } else {
-      await UpdateEMailCategory(editValue);
-    }
-  };
-  // Edit Handler
-  const editChangeHandler = (e) => {
-    setEditValue({ ...editValue, [e.target.name]: e.target.value });
-    console.log('type hoa');
-  };
-
-  const onEditModalHandler = (dataIndex) => {
-    setEditModalOpen(true);
-    const dataArr = sortData;
-    const currentDataObj = dataArr[dataIndex];
-    setEditValue(currentDataObj);
-    setModalName('Edit');
-  };
-  // show Email Category Listing
 
   useEffect(() => {
     if (AddEmailcategoryInfo.isSuccess) {
@@ -105,7 +53,7 @@ const Categories = () => {
       showToast('success', 'Email Category successfully added.');
       setBtnLoader(false);
       AddEmailcategoryInfo.reset();
-      setAddvalue({ name: '' });
+      // setAddvalue({ name: '' });
     }
     if (AddEmailcategoryInfo.isError) {
       showToast('error', AddEmailcategoryInfo.error.data.msg);
@@ -124,35 +72,47 @@ const Categories = () => {
       setBtnLoader(false);
       UpdateEMailCategoryInfo.reset();
     }
-  }, [
-    modalOpen,
-    AddEmailcategoryInfo,
-    setModalOpen,
-    refetch,
-    setBtnLoader,
-    addValue,
-    setAddvalue,
-    UpdateEMailCategoryInfo,
-  ]);
+  }, [modalOpen, AddEmailcategoryInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen,  UpdateEMailCategoryInfo]);
 
-  // delete Handler
+    if (isLoading) {
+      return <DataTableLazyLoading />;
+    }
+    if (DeleteEmailCategoryInfo.isSuccess) {
+      showToast('success', DeleteEmailCategoryInfo.data.msg);
+      DeleteEmailCategoryInfo.reset();
+      // refetch();
+    }
+    if (DeleteEmailCategoryInfo.isError) {
+      showToast('error', DeleteEmailCategoryInfo.error.data.msg);
+      DeleteEmailCategoryInfo.reset();
+      // refetch();
+    }
+  const modalHandleClose = () => {
+    setModalOpen(false);
+    setEditModalOpen(false);
+  };
+
+  const addNewCategoryHandler = () => {
+    setModalOpen(true);
+    setModalName('Add');
+  };
+
+  const onEditModalHandler = (dataIndex) => {
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    setEditModalOpen(true);
+    setEditValue(currentDataObj);
+    setModalName('Edit');
+  };
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
     const dataArr = sortData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteEmailCategory(currentDataObj.id);
-  };
-  if (DeleteEmailCategoryInfo.isSuccess) {
-    showToast('success', DeleteEmailCategoryInfo.data.msg);
-    DeleteEmailCategoryInfo.reset();
     refetch();
   }
-  if (DeleteEmailCategoryInfo.isError) {
-    showToast('error', DeleteEmailCategoryInfo.error.data.msg);
-    DeleteEmailCategoryInfo.reset();
-    refetch();
-  }
+
   const columns = [
     {
       name: 'id',
@@ -188,8 +148,7 @@ const Categories = () => {
               variant="contained"
               color="error"
               onClick={() => onDeleteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? useDeleteEmailCategoryMutation.isLoading : false}
-            >
+              loading={dataIndex === currentIndex ? DeleteEmailCategoryInfo.isLoading : false}>
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
@@ -203,7 +162,27 @@ const Categories = () => {
   const options = {
     filterType: 'dropdown',
   };
+  const addClickHandler = async () => {
+    setBtnLoader(true);
+    if (modalName === 'Add') {
+      await AddEmailCategory(addValue);
+      setAddvalue({ name: "" })
+    } else {
+      await UpdateEMailCategory(editValue);
+    }
+  }
 
+
+  const addChangeHandler = (e) => {
+    console.log(e.target.value);
+    setAddvalue({ [e.target.name]: e.target.value });
+  };
+
+  // Edit Handler
+  const editChangeHandler = (e) => {
+    setEditValue({ ...editValue, [e.target.name]: e.target.value })
+  }
+  
   const getInputValue = (value) => {
     console.log('value', value);
   };
@@ -222,7 +201,7 @@ const Categories = () => {
             onClick={addNewCategoryHandler}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            Add Category
+            New Category
           </Button>
         </Stack>
 
@@ -234,10 +213,11 @@ const Categories = () => {
         open={modalOpen}
         handleClose={modalHandleClose}
         label="Email Category Name"
-        type="Add"
+        type="text"
         textboxlabel="Add category"
         id="categoryName"
         name="name"
+        value={addValue.name}
         onChange={addChangeHandler}
         buttonlabel="Add Email category"
         addclickhandler={addClickHandler}
@@ -245,14 +225,15 @@ const Categories = () => {
       />
       <CategorySettingModal
         open={editmodalOpen}
-        label="Edit Category Name"
-        type="edit"
         handleClose={modalHandleClose}
+        label="Edit Category Name"
+        type="text"
         textboxlabel="Edit Category"
         id="editCategoryName"
         value={editValue.name}
         name="name"
         onChange={editChangeHandler}
+        buttonlabel="Update Category"
         addclickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />

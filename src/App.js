@@ -18,7 +18,8 @@ export default function App() {
   const navigate = useNavigate();
   const auth = useSelector((state) => state.login.auth);
   useEffect(() => {
-    if (!auth && !(window.location.pathname === '/client') && !(window.location.pathname === '/client/404') && !(window.location.pathname === '/client/a*')) {
+    // if (!auth && !(window.location.pathname === '/client') && !(window.location.pathname === '/client/404') && !(window.location.pathname === '/client/a*')) {
+    if (!auth) {
       navigate('/login');
     }
   }, [auth, navigate]);

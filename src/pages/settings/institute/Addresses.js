@@ -37,8 +37,8 @@ const Addresses = () => {
     address: "",
     city: "",
     pincode: "",
-    country: "",
-    state: "",
+    // country: "",
+    // state: "",
   })
 
 
@@ -158,8 +158,8 @@ const Addresses = () => {
       address: currentDataObj.address,
       city: currentDataObj.city_id,
       pincode: currentDataObj.pincode,
-      country: currentDataObj.country_id,
-      state: currentDataObj.state_id,
+      // country: currentDataObj.country_id,
+      // state: currentDataObj.state_id,
     })
     setModalOpen(true);
     setModalType("Update");

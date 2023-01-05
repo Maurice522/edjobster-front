@@ -30,10 +30,10 @@ export default function DashboardApp() {
   const auth = useSelector((state) => state.login.auth);
   useEffect(() => {
     console.log(location);
-    if (!auth) {
-      navigate('/login');
-    }
-  }, [auth, navigate]);
+    // if (!auth) {
+    //   navigate('/login');
+    // }
+  }, []);
 
   return (
     <Page title="Dashboard">

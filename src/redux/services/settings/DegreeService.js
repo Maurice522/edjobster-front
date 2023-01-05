@@ -1,8 +1,6 @@
 import { apiBasePath } from '../BaseUrl';
 import { apiUrl } from '../../../utils/api';
 
-
-
 const extendedApi = apiBasePath.injectEndpoints({
     endpoints: (build) => ({
         degreeGet: build.query({

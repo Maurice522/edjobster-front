@@ -57,7 +57,9 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
+  console.log("hello from register page")
   const smUp = useResponsive('up', 'sm');
+  console.log(smUp)
 
   const mdUp = useResponsive('up', 'md');
 

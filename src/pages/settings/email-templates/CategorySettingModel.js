@@ -1,27 +1,23 @@
-
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import Slide from '@mui/material/Slide';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { LoadingButton } from '@mui/lab';
 
 const CategorySettingModal = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { open, handleClose, textboxlabel, addClickhandler, loadingbtn } = props;
+  const { open, handleClose, addClickhandler, loadingbtn, onChangeHandle, textboxlabel, buttonlabel } = props;
+
+   
 
   
-
   return (
   //   <>
   //     <Dialog
@@ -71,7 +67,7 @@ const CategorySettingModal = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>Category</DialogTitle>
+          <DialogTitle>{textboxlabel ?? 'Category'}</DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2} mt={1}>
@@ -80,6 +76,8 @@ const CategorySettingModal = (props) => {
                     id="CategoryName"
                     label="Category Name"
                     variant="outlined"
+                    onChange={onChangeHandle}
+                    name="name"
                     fullWidth                  />
                 </Grid>
               </Grid>
@@ -103,10 +101,10 @@ const CategorySettingModal = (props) => {
           <DialogActions>
             <Box>
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
-                Cance
+                Cancel
               </Button>
               <LoadingButton onClick={addClickhandler} variant="contained" loading={loadingbtn}>
-                Add
+                {buttonlabel}
               </LoadingButton>
             </Box>
           </DialogActions>

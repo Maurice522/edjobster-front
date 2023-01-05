@@ -1,19 +1,42 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+import { useAddRegisterMutation } from '../../../redux/services/register/registerService';
+import { authTokenAction, authAction } from '../../../redux/auth/AuthReducer';
+import { showToast } from '../../../utils/toast';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const dispatch =useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
+  // Below edited by Kundan
+  const [AddRegister, AddRegisterInfo] = useAddRegisterMutation();
+
+  if (AddRegisterInfo.isError) {
+    showToast("error", AddRegisterInfo.error.data.msg);
+    AddRegisterInfo.reset();
+  }
+  const successToast = async () => {
+    await showToast("success", "Welcome to edjobster !! ")
+  }
+  useEffect(() => {
+    if (AddRegisterInfo.isSuccess) {
+      dispatch(authTokenAction(AddRegisterInfo.data.access));
+      successToast()
+      navigate('/dashboard/app', { replace: true });
+    }
+  }, [AddRegisterInfo, dispatch, navigate])
+  
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('First name required'),
@@ -30,7 +53,14 @@ export default function RegisterForm() {
       password: '',
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
+    onSubmit: (values) => {
+      AddRegister({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password
+      })
+      dispatch(authAction(true))
       navigate('/dashboard', { replace: true });
     },
   });

@@ -32,7 +32,6 @@ const Degrees = () => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const [btnLoader, setBtnLoader] = useState(false)
 
-
   const [addValue, setAddValue] = useState({
     name: ""
   });
@@ -75,8 +74,6 @@ const Degrees = () => {
     }
   }, [modalOpen, AddDegreeInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDegreeInfo])
 
-
-
   if (isLoading) {
     return <DataTableLazyLoading />
   }
@@ -88,8 +85,6 @@ const Degrees = () => {
     showToast("error", DeleteDegreeInfo.error.data.msg);
     DeleteDegreeInfo.reset();
   }
-
-
 
 
   const modalHandleClose = () => {
@@ -148,7 +143,12 @@ const Degrees = () => {
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
-            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error" onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}>
+            <LoadingButton 
+            style={{ minWidth: 0, margin: "0px 5px" }} 
+            variant="contained" 
+            color="error" 
+            onClick={() => onDeleteHandler(dataIndex)} 
+            loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}>
               <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
               </ListItemIcon>
@@ -170,7 +170,6 @@ const Degrees = () => {
     } else {
       await UpdateDegree(editValue);
     }
-
   }
 
   const addChangeHandler = (e) => {

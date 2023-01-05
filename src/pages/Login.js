@@ -1,4 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
+import React from 'react';
+// import { useNavigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
@@ -57,10 +59,12 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
+  // const navigate = useNavigate()
+  // console.log(navigate(-1))
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
-
+  // console.log(navigate(-1))
   return (
     <Page title="Login">
       <RootStyle>

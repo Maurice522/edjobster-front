@@ -56,6 +56,9 @@ function AddUser() {
       const navigatecancel = () =>{
         navigate('/dashboard/users/list')
       }
+      const proceed = () =>{
+        navigate('/dashboard/user/adduser/createpassword')
+      }
 
 
     const validate = (values) => {
@@ -121,7 +124,6 @@ function AddUser() {
             role,
             email,
             mobile,
-            password
           } = values;
         
           const res = await fetch(`${baseUrl}/account/members/`,{
@@ -137,7 +139,6 @@ function AddUser() {
               role,
               email,
               mobile,
-              password
             })
           });
       
@@ -294,7 +295,7 @@ function AddUser() {
                   {formik.touched.role && formik.errors.role ? <div>{formik.errors.role}</div> : null}
                 </label>
               </div>
-              <label htmlFor='password'>Password
+              {/* <label htmlFor='password'>Password
                 <input
                     className="inutbar"
                     id="password"
@@ -305,7 +306,7 @@ function AddUser() {
                     value={formik.values.password}
                 />
                 {formik.touched.password && formik.errors.password ? <div>{formik.errors.department}</div> : null}
-              </label>
+              </label> */}
               {/* <div className='divrow'>
                 
                 <label htmlFor='confirmpassword'>Confirm Password
@@ -328,8 +329,9 @@ function AddUser() {
                 <button
                   // component={RouterLink}
                   // to="/dashboard/user/adduser/createpassword"
+                  onClick={proceed}
                   className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="submit"
+                  // type="submit"
                 >
                   Register
                 </button>
