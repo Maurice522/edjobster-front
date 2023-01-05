@@ -42,7 +42,10 @@ const newNavBar = [
     ],
   },
   { title: 'Email Templates', path: '/dashboard/email-templates/templates',icon:getIcon('mdi:cube-send') },
-  { title: 'Webforms', path: '/dashboard/candidate-settings/webforms' },
+  { title: 'Webforms',
+    path: '/dashboard/candidate-settings/webforms',
+    icon: getIcon('ri:bar-chart-line')
+  },
   {
     title: 'Job Boards',
     path: '/dashboard/job-boards',
