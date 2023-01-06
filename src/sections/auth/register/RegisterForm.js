@@ -47,7 +47,7 @@ export default function RegisterForm() {
     companyName: Yup.string().required("Company Name is required").min(5, "Too Short!"),
     address: Yup.string().required("Address is required").min(10, "Too Short!"),
     landmark: Yup.string().required("Address is required").min(5, "Too Short!"),
-    city: Yup.string().required("Address is required").min(5, "Too Short!"),
+    city: Yup.string().required("Address is required"),
     pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
   });
 
