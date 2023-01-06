@@ -31,4 +31,9 @@ const extendedApi = apiBasePath.injectEndpoints({
     }),
     overrideExisting: false,
 });
-export const { useDegreeGetQuery, useAddDegreeMutation, useUpdateDegreeMutation, useDeleteDegreeMutation } = extendedApi;
+export const { 
+    useDegreeGetQuery, 
+    useAddDegreeMutation, 
+    useUpdateDegreeMutation, 
+    useDeleteDegreeMutation
+} = extendedApi;

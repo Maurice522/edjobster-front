@@ -88,9 +88,8 @@ const Degrees = () => {
 
 
   const modalHandleClose = () => {
-    console.log("askdjashkjdhsakjdash")
+    console.log(editmodalOpen)
     setModalOpen(false);
-    setEditModalOpen(false);
     setEditModalOpen(false);
   };
 
@@ -183,10 +182,6 @@ const Degrees = () => {
     setEditValue({ ...editValue, [e.target.name]: e.target.value })
   }
 
-  const handleEditModalClose = () => {
-    setEditModalOpen(false)
-  }
-
   return (
     <Page title="Degree">
       <Container>
@@ -225,7 +220,7 @@ const Degrees = () => {
       />
       <DegreeSettingModal
         open={editmodalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Edit Degree"
         type="text"
         textboxlabel="Degree Name"
