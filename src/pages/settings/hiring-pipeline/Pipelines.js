@@ -13,6 +13,8 @@ import {
   Typography,
   ListItemIcon,
 } from '@mui/material';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+
 
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
@@ -195,21 +197,15 @@ const Pipelines = () => {
   return (
     <Page title="User">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Pipelines
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewPipelineHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Pipeline
-          </Button>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <AddCircleRoundedIcon onClick={addNewPipelineHandler}
+            sx={{
+              marginTop:"0",
+              cursor:"pointer",
+              color:"blue",
+              fontSize:"40px"}}
+            />
         </Stack>
-
         <Card>
           <MUIDataTable title={'Pipeline List'} data={sortData} columns={columns} options={options} />
         </Card>

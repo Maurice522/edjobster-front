@@ -55,6 +55,8 @@ import AddUserCreatePassword from './components/users/AddUserCreatePassword';
 import EditUser from './components/users/EditUser';
 import Bill from './pages/settings/billing/Bill';
 import NewIS from './pages/settings/institute/NewIS';
+import NewHiringPipeline from './pages/settings/hiring-pipeline/NewHiringPipeline';
+import CreateEmail from './pages/settings/email-templates/CreateEmail';
 
 
 
@@ -119,6 +121,9 @@ export default function Router() {
 
         //  {New Institute Settings page(combined)}
         { path: '/dashboard/NewInstituteSettings', element: <NewIS /> },
+        { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
+        { path: '/dashboard/createEmail', element: <CreateEmail /> },
+
 
       ],
     },
