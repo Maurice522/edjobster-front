@@ -192,7 +192,7 @@ const Designations = () => {
             fontSize:"40px"}}
           />
         </Stack>
-          <MUIDataTable title={'Designation List'} data={sortedData} columns={columns} options={options} />
+          <MUIDataTable sx={{backgroundColor:"#f9fafb"}} title={'Designation List'} data={sortedData} columns={columns} options={options} />
       </Container>
       <DesignationSettingModal
         open={modalOpen}

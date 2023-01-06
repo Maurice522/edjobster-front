@@ -223,12 +223,12 @@ const Departments = () => {
       renderCell: (dataIndex) => {
           return (
             <div>
-               {/* <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+               <EditIcon onClick={() => onEditModalHandler(dataIndex)}
                   sx={{
                     padding: '0px',
                     minWidth: '0',
                     cursor:"pointer",
-                    color:"grey",}}/> */}
+                    color:"grey",}}/>
                 <DeleteIcon 
                   onClick={() => onDeleteHandler(dataIndex)}
                   loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}
@@ -280,7 +280,7 @@ const Departments = () => {
 
         {/* <Card sx={{marginTop:"0",backgroundColor:"f9fafb",borderRadius:"10px"}}> */}
           <ThemeProvider theme={getMuiTheme}>
-            <MUIDataTable data={sortedData} columns={columns} options={options} sx={{backgroundColor:"7a7a77"}}/>
+            <MUIDataTable data={sortedData} columns={columns} options={options} sx={{backgroundColor:"#f9fafb"}}/>
           </ThemeProvider>
         {/* </Card> */}
         <div style={{ height: 400, width: '100%' }}>
@@ -288,6 +288,9 @@ const Departments = () => {
         rows={sortedData}
         columns={column}
         options={options}
+        sx={{
+          backgroundColor:"#f9fafb"
+        }}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
