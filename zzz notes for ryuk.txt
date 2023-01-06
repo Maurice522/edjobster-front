@@ -1,0 +1,7 @@
+Interview
+Front end side pe 
+
+create interview pe click krne pe jo page khul raha hai use jo frame bheji h uske hisaab se thik krke integrate krna hai and interview ke age pe jo list hai uspe add hojaana chahiye with the option to vieew details of that interview
+current create Interview ka jo page hai vo abhi  src>components>individualCandidate> scheduleInterview> ScheduleInterview.js me hai and vo code bas frame hai kuch bhi linking ni haipura connect krna padega
+1 dusra code hai jo ki view interview list se connected hai per apan ko ui change krna tha sab naya bana diye hai chaho to list se link krne ka code vaha se utha ke daal skte ho
+uska path hai-src> pages> main> interviews> isme bahot saari file hai create edit preview dekhna kidhar kya hai
