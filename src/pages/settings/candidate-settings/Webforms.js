@@ -1,35 +1,19 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 
 // material
 import {
-  Card,
-  Table,
-  Stack,
-  Avatar,
-  Button,
-  Checkbox,
-  TableRow,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  ListItemIcon,
+  Card, Stack, Button, Container,
+  Typography, ListItemIcon
 } from '@mui/material';
 // components
 import { showToast } from '../../../utils/toast';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import {
-  useGetWebformQuery,
-  useAddWebformApiMutation,
-  useUpdateWebformMutation,
-  useDeleteWebformMutation,
+  useGetWebformQuery, useDeleteWebformMutation
 } from '../../../redux/services/settings/WebformService';
 import { useGetWebformFieldsQuery } from '../../../redux/services/settings/FieldServices';
 import Page from '../../../components/Page';
@@ -154,12 +138,6 @@ const Webforms = () => {
       </Button>
     </>
   );
-  // const data = [
-  //   { name: 'Joe James', status: labelStatus, action: editAndDeleteButton },
-  //   { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-  //   { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-  //   { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  // ];
   const options = {
     filterType: 'dropdown',
   };

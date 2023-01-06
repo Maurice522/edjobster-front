@@ -10,10 +10,15 @@ import {
   Typography,
   ListItemIcon,
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
+import { DataGrid } from '@mui/x-data-grid';
 import DepartmentSettingModal from './DepartmentSettingModal';
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
@@ -28,6 +33,24 @@ import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyL
 import { showToast } from '../../../utils/toast';
 
 // mock
+const theme = createTheme({overrides: { MUIDataTableToolbar: { root: { display: 'none' } } }})
+
+const getMuiTheme = () =>
+    createTheme({
+      overrides: {
+        MUIDataTableToolbar: {
+          root: { 
+            display: 'none' 
+          } 
+        },
+        MUIDataTablePagination: {
+          root: {
+            backgroundColor: "#000",
+            color: "red",
+          },
+        },
+      },
+    });
 
 const Departments = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -154,25 +177,70 @@ const Departments = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
-              </ListItemIcon>
-            </Button>
-            <LoadingButton
-              style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
-              color="error"
-              onClick={() => onDeleteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-              </ListItemIcon>
-            </LoadingButton>
+            <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+            sx={{
+              padding: '0px',
+              minWidth: '0',
+              cursor:"pointer",
+              color:"grey",}}/>
+            <DeleteIcon 
+            onClick={() => onDeleteHandler(dataIndex)}
+            loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}
+            sx={{
+              margin: '0px 15px',
+              cursor:"pointer",
+              color:"grey",}}
+            />
           </>
         ),
       },
+    },
+  ];
+  const column = [
+    {
+      field: 'id',
+      headerName: 'Department Id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'name',
+      headerName: 'Name',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'roll',
+      headerName: 'roll',
+    },
+    {
+      field: 'action',
+      headerName: 'Action',
+      renderCell: (dataIndex) => {
+          return (
+            <div>
+               <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+                  sx={{
+                    padding: '0px',
+                    minWidth: '0',
+                    cursor:"pointer",
+                    color:"grey",}}/>
+                <DeleteIcon 
+                  onClick={() => onDeleteHandler(dataIndex)}
+                  loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}
+                  sx={{
+                    margin: '0px 15px',
+                    cursor:"pointer",
+                    color:"grey",}}
+                  />       
+            </div>
+          );
+        }
+      
     },
   ];
 
@@ -184,6 +252,8 @@ const Departments = () => {
     setBtnLoader(true);
     if (modalName === 'Add') {
       await AddDepartment(addValue);
+    }else {
+      await UpdateDepartment(editValue);
     }
   };
 
@@ -195,25 +265,38 @@ const Departments = () => {
   };
   return (
     <Page title="Department">
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Departments
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewDepartmentHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Department
-          </Button>
+      <Container sx={{
+        marginTop:"0"
+      }}>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <AddCircleRoundedIcon onClick={addNewDepartmentHandler}
+          sx={{
+            marginTop:"0",
+            cursor:"pointer",
+            color:"blue",
+            fontSize:"40px"}}
+          />
         </Stack>
 
-        <Card>
-          <MUIDataTable title={'Department List'} data={sortedData} columns={columns} options={options} />
-        </Card>
+        {/* <Card sx={{marginTop:"0",backgroundColor:"f9fafb",borderRadius:"10px"}}> */}
+          <ThemeProvider theme={getMuiTheme}>
+            <MUIDataTable data={sortedData} columns={columns} options={options} sx={{backgroundColor:"#f9fafb"}}/>
+          </ThemeProvider>
+        {/* </Card> */}
+        <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={sortedData}
+        columns={column}
+        options={options}
+        sx={{
+          backgroundColor:"#f9fafb"
+        }}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        checkboxSelection
+        disableSelectionOnClick
+      />
+    </div>
       </Container>
       <DepartmentSettingModal
         open={modalOpen}

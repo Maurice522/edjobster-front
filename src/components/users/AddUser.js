@@ -1,19 +1,13 @@
-import { number } from 'prop-types';
 /* eslint-disable camelcase */
-import { Formik, Form, useField, ErrorMessage, useFormik, isInteger } from "formik";
-import * as yup from 'yup';
-import axios from "axios"; 
+import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
 // import { useHistory } from "react-router-dom";
 // import { Link as RouterLink } from 'react-router-dom';
-import { useState } from 'react';
 import {
-    Button,
-    Card, Stack
+  Button,
+  Card, Stack
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import Iconify from '../Iconify';
-import Back from '../../assets/images/back.svg';
 
 
 
@@ -225,7 +219,7 @@ function AddUser() {
                   {formik.touched.last_name && formik.errors.last_name ? <div>{formik.errors.last_name}</div> : null}
                 </label>                
               </div>
-              <div className='divrow emailmobile'>
+              <div className='divrow emailphone'>
                 <label htmlFor='email'>Email
                   <input
                       className="inutbar"
@@ -295,60 +289,40 @@ function AddUser() {
                   {formik.touched.role && formik.errors.role ? <div>{formik.errors.role}</div> : null}
                 </label>
               </div>
-              {/* <label htmlFor='password'>Password
+              <div className='divrowcb'>
                 <input
-                    className="inutbar"
-                    id="password"
-                    name="password"
-                    type="text"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.password}
+                  className="inutbarcb"
+                  id="status"
+                  name="status"
+                  type="checkbox"
+                  checked
+                  // onChange={formik.handleChange}
+                  // onBlur={formik.handleBlur}
+                  // value={formik.values.role}
                 />
-                {formik.touched.password && formik.errors.password ? <div>{formik.errors.department}</div> : null}
-              </label> */}
-              {/* <div className='divrow'>
-                
-                <label htmlFor='confirmpassword'>Confirm Password
-                  <input
-                      className="inutbar"
-                      id="confirmpassword"
-                      name="confirmpassword"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.confirmpassword}
-                  />
-                  {formik.touched.confirmpassword && formik.errors.confirmpassword ? <div>{formik.errors.designation}</div> : null}
+                <label className="cblabel" htmlFor='Status'>is Active                  
+                  {formik.touched.status && formik.errors.status ? <div>{formik.errors.role}</div> : null}
                 </label>
-                 
               </div>
-              */}
-                
               <div className="divrow flex items-center justify-between">
                 <button
-                  // component={RouterLink}
-                  // to="/dashboard/user/adduser/createpassword"
                   onClick={proceed}
                   className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  // type="submit"
                 >
                   Register
                 </button>
               </div>
               <div className="divrow flex items-center justify-between">
                 <Button
-                        type='sub'
-                        variant="contained"
-                        // component={RouterLink}
-                        // to="/dashboard/users/list"
-                        onClick={navigatecancel}
-                        sx={{
-                          marginBottom:"2%"
-                        }}
-                    >
-                        Cancel
-                 </Button>
+                  type='sub'
+                  variant="contained"
+                  onClick={navigatecancel}
+                  sx={{
+                  marginBottom:"2%"
+                    }}
+                  >
+                  Cancel
+                </Button>
               </div>
             </form>
           </div>           

@@ -4,6 +4,10 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
@@ -135,22 +139,20 @@ const Designations = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
-              </ListItemIcon>
-            </Button>
-            <LoadingButton
-              style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
-              color="error"
-              onClick={() => onDeleteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? DeleteDesignationInfo.isLoading : false}
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-              </ListItemIcon>
-            </LoadingButton>
+            <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+            sx={{
+              padding: '0px',
+              minWidth: '0',
+              cursor:"pointer",
+              color:"grey",}}/>
+            <DeleteIcon 
+            onClick={() => onDeleteHandler(dataIndex)}
+            loading={dataIndex === currentIndex ? DeleteDesignationInfo.isLoading : false}
+            sx={{
+              margin: '0px 15px',
+              cursor:"pointer",
+              color:"grey",}}
+            />
           </>
         ),
       },
@@ -181,24 +183,16 @@ const Designations = () => {
   return (
     <Page title="User">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Designations
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewDesignationHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Designation
-          </Button>
+      <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <AddCircleRoundedIcon onClick={addNewDesignationHandler}
+          sx={{
+            marginTop:"0",
+            cursor:"pointer",
+            color:"blue",
+            fontSize:"40px"}}
+          />
         </Stack>
-
-        <Card>
-          <MUIDataTable title={'Designation List'} data={sortedData} columns={columns} options={options} />
-        </Card>
+          <MUIDataTable sx={{backgroundColor:"#f9fafb"}} title={'Designation List'} data={sortedData} columns={columns} options={options} />
       </Container>
       <DesignationSettingModal
         open={modalOpen}

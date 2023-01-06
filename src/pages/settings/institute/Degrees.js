@@ -10,7 +10,11 @@ import {
   Typography,
   ListItemIcon,
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { LoadingButton } from '@mui/lab';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
@@ -139,21 +143,21 @@ const Degrees = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
-              </ListItemIcon>
-            </Button>
-            <LoadingButton 
-            style={{ minWidth: 0, margin: "0px 5px" }} 
-            variant="contained" 
-            color="error" 
-            onClick={() => onDeleteHandler(dataIndex)} 
-            loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}>
-              <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-              </ListItemIcon>
-            </LoadingButton>
+            <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+              sx={{
+                padding: '0px',
+                minWidth: '0',
+                cursor:"pointer",
+                color:"grey",}}
+            />
+            <DeleteIcon 
+                onClick={() => onDeleteHandler(dataIndex)}
+                loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}
+                sx={{
+                  margin: '0px 15px',
+                  cursor:"pointer",
+                  color:"grey",}}
+            />
           </>
         )
       },
@@ -185,24 +189,16 @@ const Degrees = () => {
   return (
     <Page title="Degree">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Degrees
-          </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewDegreeHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Degree
-          </Button>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <AddCircleRoundedIcon onClick={addNewDegreeHandler}
+          sx={{
+            marginTop:"0",
+            cursor:"pointer",
+            color:"blue",
+            fontSize:"40px"}}
+          />
         </Stack>
-
-        <Card>
           <MUIDataTable title={' Degree List'} data={sortedData} columns={columns} options={options} />
-        </Card>
       </Container>
       <DegreeSettingModal
         open={modalOpen}
