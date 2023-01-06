@@ -24,12 +24,21 @@ function NewIS() {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
-            >
-                <h2>Departments</h2>
+            sx={{
+                paddingDown:"0px",
+                marginDown:"0px"
+            }}>
+                <h2 className='accordianheadings'>Departments</h2>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails sx={{
+                paddingTop:"0px",
+                marginTop:"0px"
+            }}>
                 <Typography>
-                    <Departments />
+                    <Departments sx={{
+                        paddingTop:"0px",
+                        marginToppaddingTop:"0px"
+                         }}/>
                 </Typography>
             </AccordionDetails>
         </Accordion>
@@ -39,7 +48,7 @@ function NewIS() {
             aria-controls="panel2a-content"
             id="panel2a-header"
             >
-                <h2>Designations</h2>
+                <h2 className='accordianheadings'>Designations</h2>
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>
@@ -53,7 +62,7 @@ function NewIS() {
                 aria-controls="panel3a-content"
                 id="panel3a-header"
             >
-                <h2>Degrees</h2>
+                <h2 className='accordianheadings'>Degrees</h2>
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>

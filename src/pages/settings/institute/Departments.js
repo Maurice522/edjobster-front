@@ -1,19 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import MUIDataTable from 'mui-datatables';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
 // material
 import {
-  Card,
-  Stack,
-  Button,
-  Container,
-  Typography,
-  ListItemIcon,
+  Stack, Container
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import { LoadingButton } from '@mui/lab';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 // components
 // eslint-disable-next-line import/no-unresolved
@@ -21,7 +12,6 @@ import { sortedDataFn } from 'src/utils/getSortedData';
 import { DataGrid } from '@mui/x-data-grid';
 import DepartmentSettingModal from './DepartmentSettingModal';
 import Page from '../../../components/Page';
-import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
 import {
   useDepartmentGetQuery,
@@ -31,26 +21,6 @@ import {
 } from '../../../redux/services/settings/DepartmentService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import { showToast } from '../../../utils/toast';
-
-// mock
-const theme = createTheme({overrides: { MUIDataTableToolbar: { root: { display: 'none' } } }})
-
-const getMuiTheme = () =>
-    createTheme({
-      overrides: {
-        MUIDataTableToolbar: {
-          root: { 
-            display: 'none' 
-          } 
-        },
-        MUIDataTablePagination: {
-          root: {
-            backgroundColor: "#000",
-            color: "red",
-          },
-        },
-      },
-    });
 
 const Departments = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -83,7 +53,6 @@ const Departments = () => {
       showToast('success', 'department successfully added.');
       setBtnLoader(false);
       AddDepartmentInfo.reset();
-      setAddValue({ name: '' });
     }
     if (AddDepartmentInfo.isError) {
       showToast('error', AddDepartmentInfo.error.data.msg);
@@ -103,15 +72,10 @@ const Departments = () => {
       UpdateDepartmentInfo.reset();
     }
   }, [
-    modalOpen,
     AddDepartmentInfo,
-    setModalOpen,
     refetch,
     setBtnLoader,
-    setEditModalOpen,
     UpdateDepartmentInfo,
-    addValue,
-    setAddValue,
   ]);
   // console.log('addvalue',addValue);
 
@@ -140,7 +104,7 @@ const Departments = () => {
   const onEditModalHandler = (dataIndex) => {
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(currentDataObj);
+    setEditValue(dataIndex);
     setEditModalOpen(true);
     setModalName('Edit');
   };
@@ -149,7 +113,7 @@ const Departments = () => {
     setCurrentIndex(dataIndex);
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    await DeleteDepartment(currentDataObj.id);
+    await DeleteDepartment(dataIndex.id);
     refetch();
   };
   const columns = [
@@ -197,29 +161,27 @@ const Departments = () => {
     },
   ];
   const column = [
-    {
-      field: 'id',
-      headerName: 'Department Id',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
+    // {
+    //   field: 'id',
+    //   headerName: 'Department Id',
+    //   options: {
+    //     filter: true,
+    //     sort: true,
+    //   },
+    // },
     {
       field: 'name',
       headerName: 'Name',
+      width:900,
       options: {
         filter: true,
         sort: true,
       },
     },
     {
-      field: 'roll',
-      headerName: 'roll',
-    },
-    {
-      field: 'action',
-      headerName: 'Action',
+      field: 'edit',
+      headerName: 'Edit',
+      width:50,
       renderCell: (dataIndex) => {
           return (
             <div>
@@ -228,12 +190,24 @@ const Departments = () => {
                     padding: '0px',
                     minWidth: '0',
                     cursor:"pointer",
-                    color:"grey",}}/>
+                    color:"grey",
+                    }}/>       
+            </div>
+          );
+        }
+      
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      width:100,
+      renderCell: (dataIndex) => {
+          return (
+            <div>
                 <DeleteIcon 
                   onClick={() => onDeleteHandler(dataIndex)}
                   loading={dataIndex === currentIndex ? DeleteDepartmentInfo.isLoading : false}
                   sx={{
-                    margin: '0px 15px',
                     cursor:"pointer",
                     color:"grey",}}
                   />       
@@ -252,6 +226,7 @@ const Departments = () => {
     setBtnLoader(true);
     if (modalName === 'Add') {
       await AddDepartment(addValue);
+      // setAddValue({ name: "" })
     }else {
       await UpdateDepartment(editValue);
     }
@@ -277,12 +252,6 @@ const Departments = () => {
             fontSize:"40px"}}
           />
         </Stack>
-
-        {/* <Card sx={{marginTop:"0",backgroundColor:"f9fafb",borderRadius:"10px"}}> */}
-          <ThemeProvider theme={getMuiTheme}>
-            <MUIDataTable data={sortedData} columns={columns} options={options} sx={{backgroundColor:"#f9fafb"}}/>
-          </ThemeProvider>
-        {/* </Card> */}
         <div style={{ height: 400, width: '100%' }}>
       <DataGrid
         rows={sortedData}

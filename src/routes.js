@@ -120,7 +120,7 @@ export default function Router() {
         { path: '/dashboard/bills', element: <Bill /> },
 
         //  {New Institute Settings page(combined)}
-        { path: '/dashboard/NewInstituteSettings', element: <NewIS /> },
+        { path: '/dashboard/InstituteSettings', element: <NewIS /> },
         { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
         { path: '/dashboard/createEmail', element: <CreateEmail /> },
 

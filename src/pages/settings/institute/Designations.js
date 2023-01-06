@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import MUIDataTable from 'mui-datatables';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
 // material
-import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Stack, Container } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { DataGrid } from '@mui/x-data-grid';
+
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
 import DesignationSettingModal from './DesignationSettingModal';
 import Page from '../../../components/Page';
-import Iconify from '../../../components/Iconify';
 // eslint-disable-next-line import/named
 import {
   useDesignationGetQuery,
@@ -100,9 +97,11 @@ const Designations = () => {
   };
 
   const onEditModalHandler = (dataIndex) => {
+    console.log(dataIndex)
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(currentDataObj);
+    setEditValue(dataIndex);
+    console.log(setEditValue)
     setEditModalOpen(true);
     setModalName('Edit');
   };
@@ -111,7 +110,7 @@ const Designations = () => {
     setCurrentIndex(dataIndex);
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    await DeleteDesignation(currentDataObj.id);
+    await DeleteDesignation(dataIndex.id);
     refetch();
   };
   const columns = [
@@ -158,6 +157,63 @@ const Designations = () => {
       },
     },
   ];
+  const column = [
+    // {
+    //   name: 'id',
+    //   label: 'Designation Id',
+    //   options: {
+    //     filter: true,
+    //     sort: true,
+    //   },
+    // },
+    {
+      field: 'name',
+      headerName: 'Name',
+      width: 900,
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      width:50,
+      renderCell: (dataIndex) => {
+          return (
+            <div>
+               <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+                  sx={{
+                    padding: '0px',
+                    minWidth: '0',
+                    cursor:"pointer",
+                    color:"grey",
+                    }}/>       
+            </div>
+          );
+        }
+      
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      width:100,
+      renderCell: (dataIndex) => {
+          return (
+            <div>
+                <DeleteIcon 
+                  onClick={() => onDeleteHandler(dataIndex)}
+                  loading={dataIndex === currentIndex ? DeleteDesignationInfo.isLoading : false}
+                  sx={{
+                    cursor:"pointer",
+                    color:"grey",}}
+                  />       
+            </div>
+          );
+        }
+      
+    },
+  ];
 
   const options = {
     filterType: 'dropdown',
@@ -182,7 +238,7 @@ const Designations = () => {
 
   return (
     <Page title="User">
-      <Container>
+      {/* <Container>
       <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
           <AddCircleRoundedIcon onClick={addNewDesignationHandler}
           sx={{
@@ -193,6 +249,33 @@ const Designations = () => {
           />
         </Stack>
           <MUIDataTable sx={{backgroundColor:"#f9fafb"}} title={'Designation List'} data={sortedData} columns={columns} options={options} />
+      </Container> */}
+      <Container sx={{
+        marginTop:"0"
+      }}>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <AddCircleRoundedIcon onClick={addNewDesignationHandler}
+          sx={{
+            marginTop:"0",
+            cursor:"pointer",
+            color:"blue",
+            fontSize:"40px"}}
+          />
+        </Stack>
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={sortedData}
+            columns={column}
+            options={options}
+            sx={{
+              backgroundColor:"#f9fafb"
+            }}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+          />
+        </div>
       </Container>
       <DesignationSettingModal
         open={modalOpen}
