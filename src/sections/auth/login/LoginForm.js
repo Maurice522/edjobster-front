@@ -24,6 +24,7 @@ export default function LoginForm() {
 
   if (AddLoginInfo.isError) {
     showToast("error", AddLoginInfo.error.data.msg);
+    console.log(AddLoginInfo.data)
     AddLoginInfo.reset();
   }
   const successToast = async () => {
@@ -33,6 +34,7 @@ export default function LoginForm() {
   useEffect(() => {
     if (AddLoginInfo.isSuccess) {
       dispatch(authTokenAction(AddLoginInfo.data.access));
+      console.log(AddLoginInfo.data)
       successToast()
       navigate('/dashboard/app', { replace: true });
     }

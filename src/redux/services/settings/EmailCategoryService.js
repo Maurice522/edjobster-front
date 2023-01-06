@@ -34,8 +34,7 @@ const extendedApi = apiBasePath.injectEndpoints({
 
 export const {
   useGetEmailCategoryQuery,
-  useDeleteEmailCategoryMutation,
   useAddEmailCategoryMutation,
   useUpdateEmailCategoryMutation,
-  
+  useDeleteEmailCategoryMutation,
 } = extendedApi;

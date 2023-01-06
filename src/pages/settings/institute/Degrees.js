@@ -88,6 +88,7 @@ const Degrees = () => {
 
 
   const modalHandleClose = () => {
+    console.log(editmodalOpen)
     setModalOpen(false);
     setEditModalOpen(false);
   };
@@ -219,7 +220,7 @@ const Degrees = () => {
       />
       <DegreeSettingModal
         open={editmodalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Edit Degree"
         type="text"
         textboxlabel="Degree Name"

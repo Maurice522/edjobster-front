@@ -53,7 +53,6 @@ const Categories = () => {
       showToast('success', 'Email Category successfully added.');
       setBtnLoader(false);
       AddEmailcategoryInfo.reset();
-      // setAddvalue({ name: '' });
     }
     if (AddEmailcategoryInfo.isError) {
       showToast('error', AddEmailcategoryInfo.error.data.msg);
@@ -220,7 +219,7 @@ const Categories = () => {
         value={addValue.name}
         onChange={addChangeHandler}
         buttonlabel="Add Email category"
-        addclickhandler={addClickHandler}
+        addClickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
       <CategorySettingModal
@@ -234,7 +233,7 @@ const Categories = () => {
         name="name"
         onChange={editChangeHandler}
         buttonlabel="Update Category"
-        addclickhandler={addClickHandler}
+        addClickhandler={addClickHandler}
         loadingbtn={btnLoader}
       />
     </Page>
