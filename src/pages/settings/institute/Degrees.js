@@ -185,9 +185,9 @@ const Degrees = () => {
     <Page title="Degree">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          {/* <Typography variant="h4" gutterBottom>
             Degrees
-          </Typography>
+          </Typography> */}
           <Button
             variant="contained"
             component={RouterLink}

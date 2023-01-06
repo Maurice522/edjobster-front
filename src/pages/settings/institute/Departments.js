@@ -197,9 +197,9 @@ const Departments = () => {
     <Page title="Department">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          {/* <Typography variant="h4" gutterBottom>
             Departments
-          </Typography>
+          </Typography> */}
           <Button
             variant="contained"
             component={RouterLink}

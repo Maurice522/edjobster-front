@@ -54,6 +54,7 @@ import AddUser from './components/users/AddUser';
 import AddUserCreatePassword from './components/users/AddUserCreatePassword';
 import EditUser from './components/users/EditUser';
 import Bill from './pages/settings/billing/Bill';
+import NewIS from './pages/settings/institute/NewIS';
 
 
 
@@ -115,6 +116,10 @@ export default function Router() {
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },
         { path: '/dashboard/bills', element: <Bill /> },
+
+        //  {New Institute Settings page(combined)}
+        { path: '/dashboard/NewInstituteSettings', element: <NewIS /> },
+
       ],
     },
     {
