@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // material
 import { Stack, TextField, IconButton, InputAdornment, Divider } from '@mui/material';
-import { LoadingButton, YearPicker } from '@mui/lab';
+import { LoadingButton} from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
 import { useAddRegisterMutation } from '../../../redux/services/register/registerService';
@@ -23,7 +23,7 @@ export default function RegisterForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [AddRegister, AddRegisterInfo] = useAddRegisterMutation();
   
-  const [availableCities, setAvailableCities] = useState([]);
+  // const [availableCities, setAvailableCities] = useState([]);
 
   
   if (AddRegisterInfo.isError) {
@@ -33,14 +33,6 @@ export default function RegisterForm() {
   const successToast = async () => {
     await showToast("success", "Welcome to Edjobster!!")
   }
-  useEffect(() => {
-    if (AddRegisterInfo.isSuccess) {
-      dispatch(authTokenAction(AddRegisterInfo.data.access));
-      console.log(AddRegisterInfo.data);
-      successToast()
-      navigate('/dashboard/app', { replace: true });
-    }
-  }, [AddRegisterInfo, dispatch, navigate])
   
   
 
@@ -48,14 +40,15 @@ export default function RegisterForm() {
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('First name required'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
-    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone Number is required"),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
     confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Re-enter your Password'),
+    companyName: Yup.string().required("Company Name is required").min(5, "Too Short!"),
     address: Yup.string().required("Address is required").min(10, "Too Short!"),
     landmark: Yup.string().required("Address is required").min(5, "Too Short!"),
     city: Yup.string().required("Address is required").min(5, "Too Short!"),
-    pincode: Yup.string().matches(/^[1-9]{6}$/, "Pincode is invalid").required("Pincode is required"),
+    pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
   });
 
   const formData = useForm({
@@ -82,8 +75,8 @@ export default function RegisterForm() {
         last_name: values.lastName,
         email: values.email,
         password: values.password,
-        mobile: `+91${values.mobile}`,
-
+        mobile: values.mobile,
+        
         company: values.companyName,
         address: values.address,
         landmark: values.landmark,
@@ -93,9 +86,24 @@ export default function RegisterForm() {
       dispatch(authAction(true))
       // navigate('/dashboard', { replace: true });
     },
+    validateOnChange: (data) => console.log(data)
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formData;
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setSubmitting } = formData;
+
+  useEffect(() => {
+    if (AddRegisterInfo.isSuccess) {
+      setSubmitting(false)
+      dispatch(authTokenAction(AddRegisterInfo.data.access));
+      console.log(AddRegisterInfo.data);
+      successToast()
+      navigate('/dashboard/app', { replace: true });
+    }
+    if(AddRegisterInfo.isError) {
+      setSubmitting(false)
+      console.log(AddRegisterInfo.error.message)
+    }
+  }, [AddRegisterInfo, dispatch, navigate, setSubmitting])
 
   return (
     <FormikProvider value={formData}>
@@ -149,18 +157,18 @@ export default function RegisterForm() {
             autoComplete="companyName"
             type="string"
             label="Company Name"
-            {...getFieldProps('email')}
-            // error={Boolean(touched.email && errors.email)}
-            // helperText={touched.email && errors.email}
+            {...getFieldProps('companyName')}
+            error={Boolean(touched.companyName && errors.companyName)}
+            helperText={touched.companyName && errors.companyName}
           />
           <TextField
             fullWidth
             autoComplete="address"
             type="string"
             label="Address"
-            {...getFieldProps('companyName')}
-            // error={Boolean(touched.email && errors.email)}
-            // helperText={touched.email && errors.email}
+            {...getFieldProps('address')}
+            error={Boolean(touched.address && errors.address)}
+            helperText={touched.address && errors.address}
           />
           <TextField
             fullWidth
@@ -168,8 +176,8 @@ export default function RegisterForm() {
             type="string"
             label="Landmark"
             {...getFieldProps('landmark')}
-            // error={Boolean(touched.email && errors.email)}
-            // helperText={touched.email && errors.email}
+            error={Boolean(touched.landmark && errors.landmark)}
+            helperText={touched.landmark && errors.landmark}
           />
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
@@ -178,17 +186,17 @@ export default function RegisterForm() {
               type="string"
               label="City"
               {...getFieldProps('city')}
-              // error={Boolean(touched.email && errors.email)}
-              // helperText={touched.email && errors.email}
+              error={Boolean(touched.city && errors.city)}
+              helperText={touched.city && errors.city}
             />
             <TextField
               fullWidth
               autoComplete="pincode"
-              type="string"
+              type="number"
               label="Pincode"
               {...getFieldProps('pincode')}
-              // error={Boolean(touched.email && errors.email)}
-              // helperText={touched.email && errors.email}
+              error={Boolean(touched.pincode && errors.pincode)}
+              helperText={touched.pincode && errors.pincode}
             />
           </Stack>
 

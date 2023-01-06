@@ -16,11 +16,14 @@ import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 
 export default function App() {
   const navigate = useNavigate();
-  const auth = useSelector((state) => state.login.auth);
+  const auth = useSelector((state) => {
+    console.log(state);
+    return state.login.auth
+  });
   useEffect(() => {
     // if (!auth && !(window.location.pathname === '/client') && !(window.location.pathname === '/client/404') && !(window.location.pathname === '/client/a*')) {
     if (!auth) {
-      navigate('/login');
+      navigate('/register');
     }
   }, [auth, navigate]);
 

@@ -11,7 +11,7 @@ const extendedApi = apiBasePath.injectEndpoints({
       }),
       transformResponse: (data) => {
         console.log(data)
-        // localStorage.setItem("globalUser", data)
+        localStorage.setItem("globalUser", data)
         return data
       }
     }),
