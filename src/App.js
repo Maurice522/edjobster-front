@@ -23,7 +23,7 @@ export default function App() {
   useEffect(() => {
     // if (!auth && !(window.location.pathname === '/client') && !(window.location.pathname === '/client/404') && !(window.location.pathname === '/client/a*')) {
     if (!auth) {
-      navigate('/register');
+      navigate('/login');
     }
   }, [auth, navigate]);
 
