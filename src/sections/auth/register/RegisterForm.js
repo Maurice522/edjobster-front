@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import React, { useState, useEffect } from 'react';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { useFormik as useForm, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // material
@@ -13,7 +13,7 @@ import { authTokenAction, authAction } from '../../../redux/auth/AuthReducer';
 import { showToast } from '../../../utils/toast';
 
 
-
+// TODO: @kundan
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ export default function RegisterForm() {
     pincode: Yup.string().matches(/^[1-9]{6}$/, "Pincode is invalid").required("Pincode is required"),
   });
 
-  const formik = useFormik({
+  const formData = useForm({
     initialValues: {
       firstName: '',
       lastName: '',
@@ -83,34 +83,22 @@ export default function RegisterForm() {
         email: values.email,
         password: values.password,
         mobile: `+91${values.mobile}`,
+
         company: values.companyName,
-        city: values.city
+        address: values.address,
+        landmark: values.landmark,
+        city: values.city,
+        pincode: values.pincode
       })
       dispatch(authAction(true))
       // navigate('/dashboard', { replace: true });
     },
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
-
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [phoneBoolean, setPhoneBoolean] = useState(null)
-  const handleChangePhoneNumber = (e) => {
-    if(e.target.value.length < 11) {
-      setPhoneBoolean(true)
-      setPhoneNumber(e.target.value)
-    }
-    else if(e.target.value > 11) {
-      setPhoneBoolean(true)
-    }
-    else {
-      setPhoneBoolean(false)
-      setPhoneNumber(e.target.value)
-    }
-  }
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formData;
 
   return (
-    <FormikProvider value={formik}>
+    <FormikProvider value={formData}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
 
