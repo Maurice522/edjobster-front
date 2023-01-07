@@ -1,9 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import MUIDataTable from 'mui-datatables';
 // material
-import {
-  Stack, Container
-} from '@mui/material';
+import { Stack, Container } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid } from '@mui/x-data-grid';
@@ -97,9 +94,11 @@ const Degrees = () => {
   const onEditModalHandler = (dataIndex) => {
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(dataIndex)
+    setEditValue(dataIndex.row)
     setEditModalOpen(true);
     setModalName("Edit");
+    console.log(dataIndex.row)
+    console.log(dataIndex)
   };
 
   const onDeleteHandler = async (dataIndex) => {
@@ -233,23 +232,12 @@ const Degrees = () => {
   }
 
   const editChangeHandler = (e) => {
+    console.log(e.target.value);
     setEditValue({ ...editValue, [e.target.name]: e.target.value })
   }
 
   return (
     <Page title="Degree">
-      {/* <Container>
-        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
-          <AddCircleRoundedIcon onClick={addNewDegreeHandler}
-          sx={{
-            marginTop:"0",
-            cursor:"pointer",
-            color:"blue",
-            fontSize:"40px"}}
-          />
-        </Stack>
-          <MUIDataTable title={' Degree List'} data={sortedData} columns={columns} options={options} />
-      </Container> */}
       <Container sx={{
         marginTop:"0"
       }}>

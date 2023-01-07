@@ -33,18 +33,18 @@ const Departments = () => {
   const [btnLoader, setBtnLoader] = useState(false);
 
   const [addValue, setAddValue] = useState({
-    name: '',
+    name: ''
   });
   const [editValue, setEditValue] = useState({
     id: undefined,
-    name: '',
+    name: ''
   });
   const [modalName, setModalName] = useState('add');
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
     return result;
-  }, [data]);
+  }, [data])
 
   useEffect(() => {
     if (AddDepartmentInfo.isSuccess) {
@@ -71,16 +71,10 @@ const Departments = () => {
       setBtnLoader(false);
       UpdateDepartmentInfo.reset();
     }
-  }, [
-    AddDepartmentInfo,
-    refetch,
-    setBtnLoader,
-    UpdateDepartmentInfo,
-  ]);
-  // console.log('addvalue',addValue);
+  }, [modalOpen, AddDepartmentInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDepartmentInfo]);
 
   if (isLoading) {
-    return <DataTableLazyLoading />;
+    return <DataTableLazyLoading />
   }
   if (DeleteDepartmentInfo.isSuccess) {
     showToast('success', 'department successfully deleted.');
@@ -90,6 +84,7 @@ const Departments = () => {
     showToast('error', DeleteDepartmentInfo.error.data.msg);
     DeleteDepartmentInfo.reset();
   }
+
 
   const modalHandleClose = () => {
     setModalOpen(false);
@@ -104,13 +99,14 @@ const Departments = () => {
   const onEditModalHandler = (dataIndex) => {
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(dataIndex);
+    setEditValue(dataIndex.row)
     setEditModalOpen(true);
     setModalName('Edit');
+    console.log(dataIndex.row)
   };
 
   const onDeleteHandler = async (dataIndex) => {
-    setCurrentIndex(dataIndex);
+    setCurrentIndex(dataIndex)
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
     await DeleteDepartment(dataIndex.id);
@@ -253,19 +249,19 @@ const Departments = () => {
           />
         </Stack>
         <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={sortedData}
-        columns={column}
-        options={options}
-        sx={{
-          backgroundColor:"#f9fafb"
-        }}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
-      />
-    </div>
+          <DataGrid
+            rows={sortedData}
+            columns={column}
+            options={options}
+            sx={{
+              backgroundColor:"#f9fafb"
+            }}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+          />
+        </div>
       </Container>
       <DepartmentSettingModal
         open={modalOpen}
@@ -283,16 +279,16 @@ const Departments = () => {
       />
       <DepartmentSettingModal
         open={editmodalOpen}
-        handleclose={modalHandleClose}
+        handleClose={modalHandleClose}
         label="Edit Department"
         type="text"
         textboxlabel="Department Name"
         id="editDepratmentName"
         name="name"
         value={editValue.name}
-        onChange={editChangeHandler}
+        onChangeHandle={editChangeHandler}
         buttonlabel="Update Department"
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
     </Page>
