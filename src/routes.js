@@ -57,6 +57,7 @@ import Bill from './pages/settings/billing/Bill';
 import NewIS from './pages/settings/institute/NewIS';
 import NewHiringPipeline from './pages/settings/hiring-pipeline/NewHiringPipeline';
 import CreateEmail from './pages/settings/email-templates/CreateEmail';
+import NewUserList from './pages/settings/users/NewUserList'
 
 
 
@@ -123,8 +124,7 @@ export default function Router() {
         { path: '/dashboard/InstituteSettings', element: <NewIS /> },
         { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
         { path: '/dashboard/createEmail', element: <CreateEmail /> },
-
-
+        { path: '/dashboard/newuserlist', element: <NewUserList /> },
       ],
     },
     {
