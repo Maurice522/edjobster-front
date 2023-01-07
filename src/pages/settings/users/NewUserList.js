@@ -10,6 +10,7 @@ import Page from '../../../components/Page';
 // eslint-disable-next-line import/named
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import { showToast } from '../../../utils/toast';
+import List from './List';
 
 function NewUserList() {
 
@@ -55,20 +56,7 @@ function NewUserList() {
                     fontSize:"40px"}}
             />
         </Stack>
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            // rows={sortedData}
-            columns={column}
-            // options={options}
-            sx={{
-              backgroundColor:"#f9fafb"
-            }}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-            disableSelectionOnClick
-          />
-        </div>
+       <List />
     </div>
   )
 }

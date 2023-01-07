@@ -155,14 +155,14 @@ const Degrees = () => {
     },
   ];
   const column = [
-    // {
-    //   field: 'id',
-    //   headerName: 'Degree Id',
-    //   options: {
-    //     filter: true,
-    //     sort: true,
-    //   },
-    // },
+    {
+      field: 'id',
+      headerName: 'Degree Id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
     {
       field: 'name',
       headerName: 'Name',

@@ -20,11 +20,13 @@ import { newNavBar, mainSideBarData, settingsSideBarData } from './NavConfig';
 const DRAWER_WIDTH = 280;
 
 const RootStyle = styled('div')(({ theme }) => ({
+  top:`calc(50%-0vh)`,
+  marginTop: "80px",
   [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
     width: DRAWER_WIDTH,
-    top:`calc(10%)`,
-    marginTop: 80,
+    top:`calc(50-vh%)`,
+    marginTop: "80px",
   },
 }));
 
@@ -52,13 +54,13 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     if (isOpenSidebar) {
       onCloseSidebar();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   const renderContent = (
     <Scrollbar
       sx={{
         height: 1,
+        marginTop:"20%",
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
@@ -80,12 +82,12 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <NavSection navConfig={newNavBar} />
 {/* Edited above by kundan agrawal for update nav bar section */}
 
-      <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
+      {/* <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
         <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
           Main
         </Typography>
       </Box>
-      <NavSection navConfig={mainSideBarData} />
+      <NavSection navConfig={mainSideBarData} /> */}
 
       <Box sx={{ mb: 1.5, mt: 3, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
         <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>

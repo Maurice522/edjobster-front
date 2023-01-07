@@ -20,6 +20,7 @@ body {
 .header {
   background: #f4f4f4;
   backdrop-filter: blur(32px);
+  z-index: 999;
 }
 .header-content {
   display: flex;

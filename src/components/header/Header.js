@@ -14,7 +14,7 @@ const Header = () => (
             Logo
           </NavLink>
           <NavLink
-            to="/"
+            to="/dashboard/jobs"
             className={({ isActive }) =>
               isActive ? "header-job-active" : "header-job"
             }
@@ -24,7 +24,7 @@ const Header = () => (
         </div>
         <div className="header-menu-list">
           <NavLink
-            to="/candidates"
+            to="/dashboard/candidates"
             className={({ isActive }) =>
               isActive ? "header-job-active" : "header-menu"
             }
@@ -32,25 +32,26 @@ const Header = () => (
             Candidates
           </NavLink>
           <NavLink
-            to="/scheduleinterview"
+            to="/dashboard/interviews"
             className={({ isActive }) =>
               isActive ? "header-job-active" : "header-menu"
             }
           >
             Interviews
           </NavLink>
-          <NavLink to="/" className="header-menu">
+          <NavLink to="/dashboard/assessments" 
+          className="header-menu">
             Assessments
           </NavLink>
           <NavLink
-            to="/sendmail"
+            to="/dashboard/InstituteSettings"
             className={({ isActive }) =>
               isActive ? "header-job-active" : "header-menu"
             }
           >
             Settings
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/login"
             className={({ isActive }) =>
               isActive ? "header-job-active" : "header-menu"
@@ -65,7 +66,7 @@ const Header = () => (
             }
           >
             Register
-          </NavLink>
+          </NavLink> */}
         </div>
         <div className="Header-lower-bar">
           <div className="header-search">
