@@ -111,12 +111,8 @@ const settingsSideBarData = [
   },
   {
     title: 'Hiring Pipeline',
-    path: '/dashboard/hiring-pipeline',
+    path: '/dashboard/hiring-pipeline/pipelines',
     icon: getIcon('eva:shopping-bag-fill'),
-    children: [
-      { title: 'Stages', path: '/dashboard/hiring-pipeline/stages' },
-      { title: 'Pipelines', path: '/dashboard/hiring-pipeline/pipelines' },
-    ],
   },
   {
     title: 'Email Templates',
