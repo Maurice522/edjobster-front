@@ -57,6 +57,7 @@ import EditUser from './components/users/EditUser';
 import Bill from './pages/settings/billing/Bill';
 import NewIS from './pages/settings/institute/NewIS';
 import CreateEmail from './pages/settings/email-templates/CreateEmail';
+import NewUserList from './pages/settings/users/NewUserList'
 
 
 
@@ -121,11 +122,10 @@ export default function Router() {
         { path: '/dashboard/bills', element: <Bill /> },
 
         //  {New Institute Settings page(combined)}
-        { path: '/dashboard/NewInstituteSettings', element: <NewIS /> },
+        { path: '/dashboard/InstituteSettings', element: <NewIS /> },
         { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
         { path: '/dashboard/createEmail', element: <CreateEmail /> },
-
-
+        { path: '/dashboard/newuserlist', element: <NewUserList /> },
       ],
     },
     {

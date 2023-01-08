@@ -1,26 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import MUIDataTable from 'mui-datatables';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
 // material
-import {
-  Card,
-  Stack,
-  Button,
-  Container,
-  Typography,
-  ListItemIcon,
-} from '@mui/material';
+import { Stack, Container } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import { LoadingButton } from '@mui/lab';
+import { DataGrid } from '@mui/x-data-grid';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
 import DegreeSettingModal from './DegreeSettingModal';
 import Page from '../../../components/Page';
-import Iconify from '../../../components/Iconify';
 import { useDegreeGetQuery, useAddDegreeMutation, useUpdateDegreeMutation, useDeleteDegreeMutation } from "../../../redux/services/settings/DegreeService";
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import { showToast } from "../../../utils/toast";
@@ -105,16 +94,18 @@ const Degrees = () => {
   const onEditModalHandler = (dataIndex) => {
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(currentDataObj)
+    setEditValue(dataIndex.row)
     setEditModalOpen(true);
     setModalName("Edit");
+    console.log(dataIndex.row)
+    console.log(dataIndex)
   };
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex)
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    await DeleteDegree(currentDataObj.id);
+    await DeleteDegree(dataIndex.id);
     refetch();
   }
 
@@ -163,6 +154,64 @@ const Degrees = () => {
       },
     },
   ];
+  const column = [
+    {
+      field: 'id',
+      headerName: 'Degree Id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'name',
+      headerName: 'Name',
+      width:900,
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      width:50,
+      renderCell: (dataIndex) => {
+          return (
+            <div>
+               <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+                  sx={{
+                    padding: '0px',
+                    minWidth: '0',
+                    cursor:"pointer",
+                    color:"grey",
+                    }}/>       
+            </div>
+          );
+        }
+      
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      width:100,
+      renderCell: (dataIndex) => {
+          return (
+            <div>
+                <DeleteIcon 
+                  onClick={() => onDeleteHandler(dataIndex)}
+                  loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}
+                  sx={{
+                    cursor:"pointer",
+                    color:"grey",}}
+                  />       
+            </div>
+          );
+        }
+      
+    },
+  ];
+
 
   const options = {
     filterType: 'dropdown',
@@ -175,7 +224,7 @@ const Degrees = () => {
     } else {
       await UpdateDegree(editValue);
     }
-  }
+  };
 
   const addChangeHandler = (e) => {
     console.log(e.target.value);
@@ -183,12 +232,15 @@ const Degrees = () => {
   }
 
   const editChangeHandler = (e) => {
+    console.log(e.target.value);
     setEditValue({ ...editValue, [e.target.name]: e.target.value })
   }
 
   return (
     <Page title="Degree">
-      <Container>
+      <Container sx={{
+        marginTop:"0"
+      }}>
         <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
           <AddCircleRoundedIcon onClick={addNewDegreeHandler}
           sx={{
@@ -198,7 +250,20 @@ const Degrees = () => {
             fontSize:"40px"}}
           />
         </Stack>
-          <MUIDataTable title={' Degree List'} data={sortedData} columns={columns} options={options} />
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={sortedData}
+            columns={column}
+            options={options}
+            sx={{
+              backgroundColor:"#f9fafb"
+            }}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+          />
+        </div>
       </Container>
       <DegreeSettingModal
         open={modalOpen}

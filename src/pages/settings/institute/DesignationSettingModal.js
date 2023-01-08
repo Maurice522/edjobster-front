@@ -14,50 +14,11 @@ import { LoadingButton } from '@mui/lab';
 
 const DesignationSettingModal = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { open, handleClose, addClickHandler, loadingbtn,onChangeHandle } = props;
-
-  
+  const { open, handleClose, addClickHandler, loadingBtn,onChangeHandle,textboxlabel, buttonlabel } = props;
 
   return (
-  //   <>
-  //     <Dialog
-  //       open={open}
-  //       fullWidth
-  //       maxWidth="xs"
-  //       onClose={() => {
-  //         handleclose(false);
-  //       }}
-  //       aria-labelledby="alertmodalCloseHandler-dialog-title"
-  //       aria-describedby="alert-dialog-description"
-  //       BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
-  //     >
-  //       <div>
-  //         <DialogTitle>{textboxlabel}</DialogTitle>
-  //         <DialogContent>
-  //           <Box sx={{ flexGrow: 1 }}>
-  //             <Grid container spacing={2}>
-  //               <Grid item xs={12}>
-  //                 <TextField autoFocus margin="dense" variant="standard" fullWidth {...props} />
-  //               </Grid>
-  //             </Grid>
-  //           </Box>
-  //         </DialogContent>
-  //         <DialogActions>
-  //           <Box>
-  //             <Button onClick={handleclose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
-  //               Cancel
-  //             </Button>
-  //             <LoadingButton onClick={ addClickhandler} variant="contained" loading={loadingbtn}>
-  //               Add
-  //             </LoadingButton>
-  //           </Box>
-  //         </DialogActions>
-  //       </div>
-  //     </Dialog>
-  //   </>
-  // );
   <>
-<Dialog
+      <Dialog
         open={open}
         fullWidth
         maxWidth="xs"
@@ -67,7 +28,7 @@ const DesignationSettingModal = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>Designation</DialogTitle>
+          <DialogTitle>{textboxlabel ?? 'Designation'}</DialogTitle>
           <DialogContent>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2} mt={1}>
@@ -87,7 +48,7 @@ const DesignationSettingModal = (props) => {
               <FormControl sx={{ mt: 5, width: 390 }}>
                 {/* <InputLabel id="Stage label">Add Designation</InputLabel> */}
                 <Select
-                  labelId="Stage label"
+                  labelId="Designation label"
                   id="Designation"
                   name="Designation"
                   multiple
@@ -103,8 +64,8 @@ const DesignationSettingModal = (props) => {
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <LoadingButton onClick={addClickHandler} variant="contained" loading={loadingbtn}>
-                Add
+              <LoadingButton onClick={addClickHandler} variant="contained" loading={loadingBtn}>
+                {buttonlabel}
               </LoadingButton>
             </Box>
           </DialogActions>

@@ -14,20 +14,15 @@ const newNavBar = [
   },
   {
     title: 'Institute Setting',
-    path: '/dashboard/institute-setting',
+    path: '/dashboard/InstituteSettings',
     icon: getIcon('eva:pie-chart-2-fill'),
-    children: [
-      { title: 'Departments', path: '/dashboard/institute-setting/departments' },
-      { title: 'Designations', path: '/dashboard/institute-setting/designations' },
-      { title: 'Degrees', path: '/dashboard/institute-setting/degrees' },
-      { title: 'Addresses', path: '/dashboard/institute-setting/addresses' },
-    ],
   },
   {
     title: 'Users',
     path: '/dashboard/users',
     icon: getIcon('eva:people-fill'),
     children: [
+      { title: 'New User List', path: '/dashboard/newuserlist' },
       { title: 'User List', path: '/dashboard/users/list' },
       { title: 'Approvals', path: '/dashboard/users/approvals' },
     ],
@@ -84,22 +79,6 @@ const mainSideBarData = [
 ];
 
 const settingsSideBarData = [
-  {
-    title: 'Career Site',
-    path: '/dashboard/career-site',
-    icon: getIcon('eva:person-add-fill'),
-  },
-  {
-    title: 'Institute Setting',
-    path: '/dashboard/institute-setting',
-    icon: getIcon('eva:pie-chart-2-fill'),
-    children: [
-      { title: 'Departments', path: '/dashboard/institute-setting/departments' },
-      { title: 'Designations', path: '/dashboard/institute-setting/designations' },
-      { title: 'Degrees', path: '/dashboard/institute-setting/degrees' },
-      { title: 'Addresses', path: '/dashboard/institute-setting/addresses' },
-    ],
-  },
   {
     title: 'Users',
     path: '/dashboard/users',

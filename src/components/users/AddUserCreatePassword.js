@@ -1,46 +1,17 @@
 import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 import {
   Button,
   Card, Stack
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Formik, Form, useField, ErrorMessage } from "formik";
+import { useFormik, Formik, Form, useField, ErrorMessage } from "formik";
 import { object, string, ref } from "yup";
 import Iconify from '../Iconify';
 
-const RegisterValidation = object().shape({
-    password: string().min(8, "Required").required("Required"),
-    confirmPassword: string()
-      .required("Please confirm your password")
-      .oneOf([ref("password")], "Passwords do not match"),
-  });
-  
-  const Input = ({ name, label, ...props }) => {
-    const [field, meta] = useField(name);
-    return (
-      <div className="mb-4">
-        <label htmlFor={field.name}className="block text-gray-700 text-sm font-bold">
-          {label}
-        </label>
-        <input
-          className={`${
-            meta.error && meta.touched ? "border-red-500" : ""
-          } shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-          {...field}
-          {...props}
-        />
-        <ErrorMessage
-          name={field.name}
-          component="div"
-          className="text-red-500 text-xs"
-        />
-      </div>
-    );
-  };
-
 
 function AddUserCreatePassword() {
-
+  const baseUrl= "http://127.0.0.1:8000";
    
   const navigate = useNavigate();
   const cancelProcess = () => {
@@ -49,12 +20,55 @@ function AddUserCreatePassword() {
  
   const goBack = () => {
       navigate('/dashboard/user/adduser');
-    };
+  };
+
+  const RegisterSchema = Yup.object().shape({
+    password: Yup.string().required('Password is required'),
+    confirmpassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Re-enter your Password').min(12,"minimum 8 characters required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confirmpassword: "",
+    },
+    validationSchema: RegisterSchema,
+    onSubmit: async(values) => {
+      // const navigate= useNavigate()
+     
+      const {
+        password,        
+      } = values;
+    
+      const res = await fetch(`${baseUrl}/account/members/`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          password
+        })
+      });
+  
+      const data = await res.json();
+      if(res.status === 422 || !data){
+        window.alert("Invalid Registeration");
+        console.log("Invalid Registeration");
+      }else{
+        window.alert("Registeration Successfull");
+        console.log("Registeration Successfull");
+        navigate("/dashboard/users/list");
+      }
 
 
-    const handleSubmit = (values) => {
-        console.log(values);
-    };
+      
+      alert(JSON.stringify(values, null, 2));
+      console.log(values);
+      // history.push("/dashboard/user/adduser/createpassword");
+    //  navigate('/dashboard/user/adduser/createpassword')
+      
+    },
+  });
       
 
     
@@ -71,9 +85,8 @@ function AddUserCreatePassword() {
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}>
-            <div className="backbutton tt-back">
-              <ArrowBackIosIcon onClick={goBack} sx={{cursor:"pointer"}}/>   
-                        
+            <div className="backbutton2 tt-back">
+              <ArrowBackIosIcon onClick={goBack} sx={{cursor:"pointer"}}/>                          
             </div>
             <Stack sx={{
               marginTop:"5%",
@@ -82,59 +95,38 @@ function AddUserCreatePassword() {
               justifyContent:"center",
               gap:"2%"
               }}>              
-             <h1 className='dialogueTitle'>Create Password</h1> 
+             <h1 className='dialogueTitle2'>Create Password</h1> 
             </Stack>
-            <Stack sx={{
-              marginTop:"3%",
-              display:"flex",
-              flexDirection:"colum",
-              justifyContent:"center",
-              gap:"10%"
-             }}>
-                <Stack className="stackrow"sx={{
-                    color: "#2A72DE",
-                    display:"flex",
-                    flexDirection:"row",
-                    justifyContent:"center",
-                    gap:"10%"
-                        }}>
-                    
-                    <div className="h-screen flex items-center justify-center flex-col bg-gray-100">
-                        <Formik
-                            initialValues={{
-                            password: "",
-                            confirmPassword: "",
-                            }}
-                            onSubmit={handleSubmit}
-                            validationSchema={RegisterValidation}
-                        >
-                            {() => {
-                            return (
-                                <Form className="bg-white w-6/12 shadow-md rounded px-8 pt-6 pb-8">
-                                <Input className="passwordbar2" name="password" label="Enter    Password" type="password" />
-                                <Input sx={{
-                                    marginTop:"2%"
-                                  }}
-                                    className="passwordbar"
-                                    name="confirmPassword"
-                                    label="Confirm Password"
-                                    type="password"
-                                />
-                                <div className="flex items-center justify-between">
-                                    
-                                    <button
-                                    className="registerbutton bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    type="submit"
-                                    >
-                                    Register
-                                    </button>
-                            </div>
-                        </Form>
-                        );
-                        }}
-                    </Formik>
+            <div className="h-screen flex items-center justify-center flex-col bg-gray-100">               
+              <form className="bg-white w-6/12 shadow-md rounded px-8 pt-6 pb-8">
+                <div className='passwordrow'>
+                  <label htmlFor="password">Password
+                    <input htmlFor="password"
+                      className="userpasswordbar"
+                      id="password"
+                      name="password"
+                      type="password"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.password}
+                    />
+                     {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+                  </label>
                 </div>
-                </Stack>
+                <div className='passwordrow'>
+                  <label htmlFor="confirmpassword">Confirm Password
+                    <input htmlFor="confirmpassword"
+                      className="userpasswordbar2"
+                      id="confirmpassword"
+                      name="confirmpassword"
+                      type="password"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.confirmpassword}
+                    />
+                     {formik.touched.confirmpassword && formik.errors.confirmpassword ? <div>{formik.errors.password}</div> : null}
+                  </label>
+                </div>
                 <Stack sx={{
                     marginTop:"5%",
                     display:"flex",
@@ -142,27 +134,32 @@ function AddUserCreatePassword() {
                     justifyContent:"center",
                     gap:"2%"
                     }}>
-                    <ul>
-                        <li className='listitems'>Atlease 8 characters long</li>
-                        <li className='listitems'>A combination of uppercase letters, lowercase letters, numbers, and symbols</li>
-                        <li className='listitems'>Atlease 8 characters long</li>
-                        <li className='listitems'>Atlease 8 characters long</li>
+                    <ul className='ulistBlock'>
+                        <li className='listitems'>Atlease 8 characters long.</li>
+                        <li className='listitems'>A combination of uppercase letters, lowercase letters, numbers, and symbols.</li>
+                        <li className='listitems'>Not a word that can be found in a dictionary or the name of a person, character. product, or organizatopn.</li>
+                        <li className='listitems'>Significantly different from your previous passwords.</li>
+                        <li className='listitems'>Easy for you to remember but difficult for others to guess. Consider using a memorable phrase like "6MonkeysRLooking^".</li>
                     </ul>
                 </Stack>
-                <Stack alignItems="center" justifyContent="center" mb={5}>           
+                <div className="divrow">
+                  <button
+                    className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit"
+                  >
+                    Confirm
+                  </button>
+                </div>
+                <Stack className="divrow" alignItems="center" justifyContent="center" mb={5}>           
                     <Button
                         variant="contained"
                         onClick={cancelProcess}
-                        // component={RouterLink}
-                        // to="/dashboard/users/list"
-                        startIcon={<Iconify icon="eva:plus-fill" />}
                     >
                         Cancel
                     </Button>
-                </Stack>
-         </Stack>
-                                        
-            
+                </Stack>   
+              </form>
+            </div>        
         </Card>
     </div>
   )

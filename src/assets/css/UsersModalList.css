@@ -5,6 +5,16 @@
     font-size: SemiBold;
     line-height: 53px;
 }
+.dialogueTitle2{
+    font-size: 35px;
+    fill: solid rgba(42, 114, 222, 0.75);
+    color: #2A72DE;
+    font-size: SemiBold;
+    line-height: 53px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    padding-top: 0;
+}
 
 .formlabel {
     display: flex;
@@ -67,12 +77,12 @@ label {
 }
 .registerbutton1{
     color: #2A72DE;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(42, 114, 222, 0.15);
     border-radius: 80px;
     cursor: pointer;
     width:400px;
     height:50px;
-    border-radius:80px;
+    border-color: transparent;
     font-size:24px;
     margin-left: auto;
     margin-right: auto;
@@ -100,6 +110,14 @@ label {
     gap: 10%;
     text-align: center;
 }
+.passwordrow{
+    display: flex;
+    margin-top: 3%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10%;
+    text-align: center;
+}
 .divrowcb {
     margin-top: 2%;
     display: flex;
@@ -118,6 +136,27 @@ label {
     align-items: center;
     text-align: center;
     font-size: larger;
+}
+.userpasswordbar{
+    font-size: larger;
+
+    width: 330px;
+    height: 35px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #94D2FF;
+    border: #BFBFBF;
+    margin-right: 2%;
+}
+.userpasswordbar2{
+    font-size: larger;
+    width: 330px;
+    height: 35px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #94D2FF;
+    border: #BFBFBF;
+    margin-right: 2%;
 }
 .inutbarcb{
     width: 25px;
@@ -156,6 +195,11 @@ label {
 .backbutton{
     margin: 2%;
 }
+.backbutton2{
+    margin: 2%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
 .billbriefs{
     margin-top: 10%;
 }
@@ -174,18 +218,92 @@ label {
     font-size: x-large;
 }
 .divrowmid{
-    text-align: center;
+    /* text-align: center; */
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
 }
 .midrow{
     display: flex;
     justify-content: center;
-    gap: 40%;
+    gap: 25%;
+    margin-top: 3%;
 }
 .variables{
     text-align: center;
+}
+.variablediv{
+    display: flex;
+    flex-direction: row;
 }
 .variableComponents{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+
+.variabledivlabel{
+    margin-right: 2%;
+}
+.fileup{
+    margin-top: 5%;
+}
+.emailinutbar{
+    border-radius: 20px;
+    width: 330px;
+    height: 35px;
+    border:1px solid gray;
+    text-align: center;
+}
+.emailinutbar2{
+    border-radius: 20px;
+    width: 206px;
+    height: 35px;
+    border:1px solid gray;
+    text-align: center;
+}
+.divstack{
+    display: flex;
+    margin-top: 5%;
+    justify-content: flex-end;
+    gap: 2%;
+}
+.accordianheadings{
+    color: #2A72DE;
+    margin-bottom: 0%;
+    padding-bottom: 0%;
+}
+.ulistBlock{
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+}
+.emailsubmit{
+   background-color: #4A77FF;
+   border-radius: 20px;
+   width: 101px;
+   height: 44px;
+   color: #ffffff;
+   border: transparent;
+   cursor: pointer;
+}
+.emailcancel{
+   background-color: #9B9B9B;
+   border-radius: 20px;
+   width: 101px;
+   height: 44px;
+   color: #ffffff;
+   border: transparent;
+   cursor: pointer;
+}
+.btns{
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    gap: 5%;
+    justify-content: center;
+    margin-top: 5%;
 }

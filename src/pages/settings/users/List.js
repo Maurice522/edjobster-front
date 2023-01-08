@@ -1,12 +1,13 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MUIDataTable from 'mui-datatables';
-import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 // material
 import {
   Card, Stack, Button, Container,
   Typography, ListItemIcon
 } from '@mui/material';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 // eslint-disable-next-line import/no-unresolved
@@ -26,6 +27,7 @@ import {
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import { showToast } from '../../../utils/toast';
 import SwitchButton from '../../../components/SwitchButton/SwitchButton';
+
 
 // mock
 
@@ -53,6 +55,10 @@ const List = () => {
     photo: null,
   });
 
+  const navigate = useNavigate();
+  const addUserPage =() =>{
+    navigate('/dashboard/user/adduser')
+  }
   useEffect(() => {
     if (AddUserApiInfo.isSuccess) {
       setModalOpen(false);
@@ -191,21 +197,6 @@ const List = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            {/* <Button
-              style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
-              color="success"
-              onClick={() => onViewHandler(dataIndex)}
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="carbon:view-filled" width={24} height={24} />
-              </ListItemIcon>
-            </Button>
-            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
-              </ListItemIcon>
-            </Button> */}
             <LoadingButton
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
@@ -219,6 +210,83 @@ const List = () => {
             </LoadingButton>
           </>
         ),
+      },
+    },
+  ];
+  const column = [
+    {
+      field: 'first_name',
+      headerName: 'Name',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'phone',
+      headerName: 'Contact Number',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'department',
+      headerName: 'Department',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'is_active',
+      headerName: 'Status',
+      options: {
+        filter: false,
+        sort: false,
+        renderCerll: (dataIndex) => {
+          const isActive = sortedData[dataIndex];
+
+          return (
+            <SwitchButton
+              checked={isActive.is_active ? 'true' : false}
+              onChange={() => activateDeactivateHandler(dataIndex)}
+            />
+          );
+        },
+      },
+    },
+    {
+      field: 'action',
+      headerName: 'Action',
+      options: {
+        filter: false,
+        sort: false,
+        renderCerll: (dataIndex) => {
+          return (
+            <div>
+              <LoadingButton
+                style={{ minWidth: 0, margin: '0px 5px' }}
+                variant="contained"
+                color="error"
+                onClick={() => onDeleteHandler(dataIndex)}
+                loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
+              >
+                <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                  <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+                </ListItemIcon>
+              </LoadingButton>
+            </div>
+          )
+        },
       },
     },
   ];
@@ -287,6 +355,7 @@ const List = () => {
     DeleteUserApiInfo.reset();
   }
 
+
   return (
     <Page title="User">
       <Container>
@@ -294,7 +363,7 @@ const List = () => {
           <Typography variant="h4" gutterBottom>
             User List
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             component={RouterLink}
             to="/dashboard/user/adduser"
@@ -302,13 +371,37 @@ const List = () => {
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Add User
-          </Button>
+          </Button> */}
+          <AddCircleRoundedIcon 
+            onClick={addUserPage}
+            sx={{
+              marginTop:"0",
+              cursor:"pointer",
+              color:"blue",
+              fontSize:"40px"}}
+          />
         </Stack>
-
         <Card>
           <MUIDataTable title={'Users List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
+      {/* <Card>
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={sortedData}
+            columns={column}
+            options={options}
+            sx={{
+              backgroundColor:"#f9fafb"
+            }}
+            pageSize={5}
+            
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick 
+          />
+        </div>
+      </Card> */}
       <UserModalList
         open={modalOpen}
         handleClose={modalHandleClose}

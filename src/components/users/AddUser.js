@@ -14,38 +14,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 function AddUser() {
   const baseUrl= "http://127.0.0.1:8000";
   
-  // const [first_name, setFirst_Name] = useState('');
-  // const [last_name, setLast_Name] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [mobile, setmobile] = useState('');
-  // const [department, setDepartment] = useState('');
-  // const [designation, setDesignation] = useState('');
-  // const [role, setRole] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [confirmpassword, setConfirmPassword] = useState('');
-
-      // const Input = ({ name, label, ...props }) => {
-      //   const [field, meta] = useField(name);
-      //   return (
-      //     <div className="mb-4">
-      //       <label htmlFor={field.name} className="block text-gray-700 text-sm font-bold">
-      //         {label}
-      //       </label>
-      //       <input
-      //         className={`${
-      //           meta.error && meta.touched ? "border-red-500" : ""
-      //         } shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-      //         {...field}
-      //         {...props}
-      //       />
-      //       <ErrorMessage
-      //         name={field.name}
-      //         component="div"
-      //         className="text-red-500 text-xs"
-      //       />
-      //     </div>
-      //   );
-      // };
       const navigate= useNavigate()
       const navigatecancel = () =>{
         navigate('/dashboard/users/list')
@@ -170,14 +138,10 @@ function AddUser() {
             borderRadius:'16px',
             }}>
               <div className="backbutton tt-back">
-                {/* <RouterLink to="/dashboard/users/list"> */}
-                  {/* <img src={Back} alt="" onClick={navigatecancel} /> */}
-                {/* </RouterLink> */}
                 <ArrowBackIosIcon onClick={navigatecancel} sx={{
                   cursor:"pointer"
                 }}/>
               </div>
-
             <Stack sx={{
               marginTop:"1%",
               display:"flex",
@@ -309,7 +273,7 @@ function AddUser() {
                   onClick={proceed}
                   className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                  Register
+                  Proceed
                 </button>
               </div>
               <div className="divrow flex items-center justify-between">

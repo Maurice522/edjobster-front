@@ -1,20 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import MUIDataTable from 'mui-datatables';
-import { Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
 // material
-import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Stack, Container } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { DataGrid } from '@mui/x-data-grid';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { sortedDataFn } from 'src/utils/getSortedData';
 import DesignationSettingModal from './DesignationSettingModal';
 import Page from '../../../components/Page';
-import Iconify from '../../../components/Iconify';
-// eslint-disable-next-line import/named
+
 import {
   useDesignationGetQuery,
   useAddDesignationMutation,
@@ -22,7 +18,7 @@ import {
   useDeleteDesignationMutation,
 } from '../../../redux/services/settings/DesignationService';
 import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
-import { showToast } from '../../../utils/toast';
+import { showToast } from "../../../utils/toast";
 // mock
 
 const Designations = () => {
@@ -33,34 +29,35 @@ const Designations = () => {
   const [UpdateDesignation, UpdateDesignationInfo] = useUpdateDesignationMutation();
   const [DeleteDesignation, DeleteDesignationInfo] = useDeleteDesignationMutation();
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [btnLoader, setBtnLoader] = useState(false);
+  const [btnLoader, setBtnLoader] = useState(false)
 
   const [addValue, setAddValue] = useState({
-    name: '',
+    name: ""
   });
 
   const [editValue, setEditValue] = useState({
     id: undefined,
-    name: '',
+    name: ""
   });
-  const [modalName, setModalName] = useState('add');
+  const [modalName, setModalName] = useState("add");
 
   const sortedData = useMemo(() => {
     const result = sortedDataFn(data.data);
     return result;
-  }, [data]);
+  }, [data])
 
   useEffect(() => {
     if (AddDesignationInfo.isSuccess) {
       setModalOpen(false);
       refetch();
-      showToast('success', 'designation successfully added.');
+      showToast("success", "designation successfully added.");
       setBtnLoader(false);
-      setAddValue({ name: '' });
+      // setAddValue({ name: '' });
       AddDesignationInfo.reset();
     }
     if (AddDesignationInfo.isError) {
-      showToast('error', AddDesignationInfo.error.data.msg);
+      showToast("error", AddDesignationInfo.error.data.msg);
+      setBtnLoader(false);
       AddDesignationInfo.reset();
     }
     if (UpdateDesignationInfo.isSuccess) {
@@ -75,10 +72,10 @@ const Designations = () => {
       setBtnLoader(false);
       UpdateDesignationInfo.reset();
     }
-  }, [setBtnLoader, AddDesignationInfo, UpdateDesignationInfo,refetch]);
+  }, [modalOpen, AddDesignationInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateDesignationInfo]);
 
   if (isLoading) {
-    return <DataTableLazyLoading />;
+    return <DataTableLazyLoading />
   }
   if (DeleteDesignationInfo.isSuccess) {
     showToast('success', 'department successfully deleted.');
@@ -86,34 +83,39 @@ const Designations = () => {
   }
   if (DeleteDesignationInfo.isError) {
     showToast('error', DeleteDesignationInfo.error.data.msg);
+    DeleteDesignation.reset();
   }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+
 
   const modalHandleClose = () => {
+    console.log(editmodalOpen)
     setModalOpen(false);
     setEditModalOpen(false);
   };
 
   const addNewDesignationHandler = () => {
     setModalOpen(true);
-    setModalName('Add');
+    setModalName("Add");
   };
 
   const onEditModalHandler = (dataIndex) => {
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    setEditValue(currentDataObj);
+    setEditValue(dataIndex.row)
     setEditModalOpen(true);
-    setModalName('Edit');
+    setModalName("Edit");
+    console.log(dataIndex.row)
+    console.log(dataIndex)
   };
 
   const onDeleteHandler = async (dataIndex) => {
-    setCurrentIndex(dataIndex);
+    setCurrentIndex(dataIndex)
     const dataArr = sortedData;
     const currentDataObj = dataArr[dataIndex];
-    await DeleteDesignation(currentDataObj.id);
+    await DeleteDesignation(dataIndex.id);
     refetch();
-  };
+  }
+
   const columns = [
     {
       name: 'id',
@@ -158,31 +160,91 @@ const Designations = () => {
       },
     },
   ];
+  const column = [
+    // {
+    //   field: 'id',
+    //   headerName: 'Designation Id',
+    //   options: {
+    //     filter: true,
+    //     sort: true,
+    //   },
+    // },
+    {
+      field: 'name',
+      headerName: 'Name',
+      width:900,
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      width:50,
+      renderCell: (dataIndex) => {
+          return (
+            <div>
+               <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+                  sx={{
+                    padding: '0px',
+                    minWidth: '0',
+                    cursor:"pointer",
+                    color:"grey",
+                    }}/>       
+            </div>
+          );
+        }
+      
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      width:100,
+      renderCell: (dataIndex) => {
+          return (
+            <div>
+                <DeleteIcon 
+                  onClick={() => onDeleteHandler(dataIndex)}
+                  loading={dataIndex === currentIndex ? DeleteDesignationInfo.isLoading : false}
+                  sx={{
+                    cursor:"pointer",
+                    color:"grey",}}
+                  />       
+            </div>
+          );
+        }
+      
+    },
+  ];
+
 
   const options = {
     filterType: 'dropdown',
   };
-
   const addClickHandler = async () => {
     setBtnLoader(true);
-    if (modalName === 'Add') {
+    if (modalName === "Add") {
       await AddDesignation(addValue);
+      setAddValue({ name: "" })
     } else {
       await UpdateDesignation(editValue);
     }
   };
 
   const addChangeHandler = (e) => {
+    console.log(e.target.value);
     setAddValue({ [e.target.name]: e.target.value });
   };
 
   const editChangeHandler = (e) => {
-    setEditValue({ ...editValue, [e.target.name]: e.target.value });
-  };
+    console.log(e.target.value);
+    setEditValue({ ...editValue, [e.target.name]: e.target.value })
+  }
 
   return (
-    <Page title="User">
-      <Container>
+    <Page title="Designation">
+      {/* <Container>
       <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
           <AddCircleRoundedIcon onClick={addNewDesignationHandler}
           sx={{
@@ -193,6 +255,33 @@ const Designations = () => {
           />
         </Stack>
           <MUIDataTable sx={{backgroundColor:"#f9fafb"}} title={'Designation List'} data={sortedData} columns={columns} options={options} />
+      </Container> */}
+      <Container sx={{
+        marginTop:"0"
+      }}>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <AddCircleRoundedIcon onClick={addNewDesignationHandler}
+          sx={{
+            marginTop:"0",
+            cursor:"pointer",
+            color:"blue",
+            fontSize:"40px"}}
+          />
+        </Stack>
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={sortedData}
+            columns={column}
+            options={options}
+            sx={{
+              backgroundColor:"#f9fafb"
+            }}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+          />
+        </div>
       </Container>
       <DesignationSettingModal
         open={modalOpen}
@@ -217,9 +306,9 @@ const Designations = () => {
         id="editDesignationName"
         name="name"
         value={editValue.name}
-        onChange={editChangeHandler}
+        onChangeHandle={editChangeHandler}
         buttonlabel="Update Designation"
-        addclickhandler={addClickHandler}
+        addClickHandler={addClickHandler}
         loadingbtn={btnLoader}
       />
     </Page>
