@@ -31,14 +31,7 @@ export default function LoginForm() {
     await showToast("success", "Welcome to edjobster !! ")
 
   }
-  useEffect(() => {
-    if (AddLoginInfo.isSuccess) {
-      dispatch(authTokenAction(AddLoginInfo.data.access));
-      console.log(AddLoginInfo.data)
-      successToast()
-      navigate('/dashboard/app', { replace: true });
-    }
-  }, [AddLoginInfo, dispatch, navigate])
+  
 
 
   const [showPassword, setShowPassword] = useState(false);
@@ -65,11 +58,25 @@ export default function LoginForm() {
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleChange, handleSubmit, getFieldProps } = formik;
+  const { errors, touched, values, isSubmitting, handleChange, handleSubmit, getFieldProps, resetForm, initialValues, setSubmitting } = formik;
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
+
+  useEffect(() => {
+    setSubmitting(false)
+    if (AddLoginInfo.isSuccess) {
+      dispatch(authTokenAction(AddLoginInfo.data.access));
+      console.log(AddLoginInfo.data)
+      localStorage.setItem("globalUser", JSON.stringify(AddLoginInfo.data))
+      successToast()
+      navigate('/dashboard/app', { replace: true });
+    }
+    else {
+      resetForm(initialValues)
+    }
+  }, [AddLoginInfo, dispatch, initialValues, navigate, resetForm, setSubmitting])
 
   return (
     <FormikProvider value={formik}>
@@ -118,7 +125,7 @@ export default function LoginForm() {
           </Link>
         </Stack>
 
-        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={AddLoginInfo.isLoading}>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={AddLoginInfo.isLoading && isSubmitting}>
           Login
         </LoadingButton>
       </Form>

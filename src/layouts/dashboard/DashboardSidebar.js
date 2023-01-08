@@ -72,15 +72,15 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         className="sidebar-search-input"
         placeholder="Search…"
       />
-
-{/* Edited by kundan agrawal for update nav bar section */}
+      
+      {/* Edited by kundan agrawal for update nav bar section */}
       <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
         <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
           New NavBar
         </Typography>
       </Box>
       <NavSection navConfig={newNavBar} />
-{/* Edited above by kundan agrawal for update nav bar section */}
+      {/* Edited above by kundan agrawal for update nav bar section */}
 
       {/* <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
         <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>

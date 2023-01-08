@@ -20,6 +20,7 @@ import List from './pages/settings/users/List';
 import Approvals from './pages/settings/users/Approvals';
 import Stages from './pages/settings/hiring-pipeline/Stages';
 import Pipelines from './pages/settings/hiring-pipeline/Pipelines';
+import NewHiringPipeline from './pages/settings/hiring-pipeline/NewHiringPipeline';
 import Categories from './pages/settings/email-templates/Categories';
 import Templates from './pages/settings/email-templates/Templates';
 import Fields from './pages/settings/candidate-settings/Fields';
@@ -55,7 +56,6 @@ import AddUserCreatePassword from './components/users/AddUserCreatePassword';
 import EditUser from './components/users/EditUser';
 import Bill from './pages/settings/billing/Bill';
 import NewIS from './pages/settings/institute/NewIS';
-import NewHiringPipeline from './pages/settings/hiring-pipeline/NewHiringPipeline';
 import CreateEmail from './pages/settings/email-templates/CreateEmail';
 import NewUserList from './pages/settings/users/NewUserList'
 
@@ -111,6 +111,7 @@ export default function Router() {
         { path: 'users/approvals', element: <Approvals /> },
         { path: 'hiring-pipeline/stages', element: <Stages /> },
         { path: 'hiring-pipeline/pipelines', element: <Pipelines /> },
+        { path: 'hiring-pipeline/new-pipelines', element: <NewHiringPipeline /> },
         { path: 'email-templates/categories', element: <Categories /> },
         { path: 'email-templates/templates', element: <Templates /> },
         { path: 'candidate-settings/fields', element: <Fields /> },
