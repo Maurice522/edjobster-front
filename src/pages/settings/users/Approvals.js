@@ -89,17 +89,17 @@ const Approvals = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0, color: "#fff" }} variant="contained" color="success" onClick={() => onEditModalHandler(dataIndex)}>
+            <Button style={{ minWidth: 0, color: "#fff" }} variant="contained" color="success" onClick={() => addNewApprovalsHandler(dataIndex)}>
               {/* <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon> */}
               Approve
             </Button>
-            <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
+            {/* <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
             // onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteAddressInfo.isLoading : false}
             >
               Reject
-            </LoadingButton>
+            </LoadingButton> */}
           </>
         )
       },

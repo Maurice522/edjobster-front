@@ -22,7 +22,7 @@ const newNavBar = [
     path: '/dashboard/users',
     icon: getIcon('eva:people-fill'),
     children: [
-      { title: 'New User List', path: '/dashboard/newuserlist' },
+      // { title: 'New User List', path: '/dashboard/newuserlist' },
       { title: 'User List', path: '/dashboard/users/list' },
       { title: 'Approvals', path: '/dashboard/users/approvals' },
     ],
