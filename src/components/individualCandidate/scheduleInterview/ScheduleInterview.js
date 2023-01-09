@@ -1,3 +1,4 @@
+import * as Yup from 'yup';
 import React from 'react';
 // import { Link } from 'react-router-dom';
 import ReactQuill from 'react-quill';
@@ -19,55 +20,29 @@ const ScheduleInterview = () => {
     navigate('/dashboard/interviews')
   }
 
-  const validate = (values) => {
-    const errors = {}
-  
-    // if (!values.email) {
-    //   errors.email = 'Required'
-    // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    //   errors.email = 'Invalid email address'
-    // }
-    if (!values.name) {
-      errors.name = 'Required'
-    }
-    
-    if (!values.date) {
-      errors.date = 'Required'
-    }
-    if (!values.time) {
-      errors.time = 'Required'
-    }
-    if (!values.duration) {
-      errors.duration = 'Required'
-    }
-    
-    if (!values.location) {
-      errors.location = 'Required'
-    }
-    if (!values.emai_template) {
-      errors.emai_template = 'Required'
-    }
-    if (!values.job) {
-      errors.job = 'Required'
-    }
-    if (!values.subject) {
-      errors.subject = 'Required'
-    }
-    if (!values.body) {
-      errors.body = 'Required'
-    }
-    if (!values.interviewer) {
-      errors.interviewer = 'Required'
-    }
-    return errors
-  }
+ 
+  // const RegisterSchema = Yup.object().shape({
+  //   name: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('First name required'),
+  //   date: Yup.date().max(new Date()).required(),
+  //   // time: Yup.date().max(new Date()).required(),
+  //   location: Yup.string().required("Location is required").min(5, "Too Short!"),
+  //   emai_template: Yup.string().required("Address is required").min(5, "Too Short!"),
+  //   location: Yup.string().required("Company Name is required").min(5, "Too Short!"),
+  //   location: Yup.string().required("Company Name is required").min(5, "Too Short!"),
+  //   interviewer: Yup.string().required("Address is required").min(10, "Too Short!"),
+  //   city: Yup.string().required("Address is required"),
+  //   pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
+  //   email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+  //   password: Yup.string().required('Password is required'),
+  //   confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Re-enter your Password'),
+  // });
   
   const formik = useFormik({
     initialValues: {
       name: "",
       date: "",
       time: "",
-      duration: "",
+      // duration: "",
       location: "",
       emai_template: "",
       job: "",
@@ -76,7 +51,6 @@ const ScheduleInterview = () => {
       interviewer: "",
       // confirmpassword: "",
     },
-    validate,
     onSubmit: async(values) => {
       // const navigate= useNavigate()
      

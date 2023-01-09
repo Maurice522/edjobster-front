@@ -8,8 +8,24 @@ import Divider from '@mui/material/Divider';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Billing = () => {
+  function createData(feature, basic, advance, premium) {
+    return { feature, basic, advance, premium };
+  }
+  const rows = [
+    createData('Feature 1', <DoneIcon />, <DoneIcon />, <DoneIcon />),
+    createData('Feature 2', <CloseIcon />, <DoneIcon />, <DoneIcon />),
+  ];
   const [textValue, setTextValue] = useState({
     firstName: '',
     lastname: '',
@@ -168,6 +184,35 @@ const Billing = () => {
                 </CardContent>
               </Card>
             </Grid>
+            <TableContainer component={Paper} sx={{marginTop:"5%",marginBottom:"5%"}}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell sx={{fontSize:"larger"}}>Features</TableCell>
+                            <TableCell sx={{fontSize:"large"}} align="right">Basic</TableCell>
+                            <TableCell sx={{fontSize:"large"}} align="right">Advanced&nbsp;</TableCell>
+                            <TableCell sx={{fontSize:"large"}} align="right">Premium&nbsp;</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {rows.map((row) => (
+                        <TableRow
+                        key={row.feature}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                        >
+                        <TableCell component="th" scope="row">
+                            {row.feature}
+                        </TableCell>
+                            <TableCell align="right">{row.basic}</TableCell>
+                            <TableCell align="right">{row.advance}</TableCell>
+                            <TableCell align="right">{row.premium}</TableCell>
+                            <TableCell align="right">{row.dummy}</TableCell>
+                            <TableCell align="right">{row.dummy}</TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>                        
           </Card>
         </Box>
      

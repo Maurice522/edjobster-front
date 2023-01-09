@@ -67,11 +67,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
       </Box>
-      <input
+      {/* <input
         type="text"
         className="sidebar-search-input"
         placeholder="Search…"
-      />
+      /> */}
       
       {/* Edited by kundan agrawal for update nav bar section */}
       <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
@@ -89,13 +89,13 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Box>
       <NavSection navConfig={mainSideBarData} /> */}
 
-      <Box sx={{ mb: 1.5, mt: 3, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
+      {/* <Box sx={{ mb: 1.5, mt: 3, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
         <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
           Settings
         </Typography>
       </Box>
 
-      <NavSection navConfig={settingsSideBarData} />
+      <NavSection navConfig={settingsSideBarData} /> */}
     </Scrollbar>
   );
 

@@ -50,7 +50,10 @@ const newNavBar = [
     title: 'Billing',
     path: '/dashboard/bills',
     icon: getIcon('eva:person-add-fill'),
+    
   },
+  { title: 'Assessment Categories', path: '/dashboard/candidate-settings/assessment-categories' },
+
 
 ];
 // Edited above by kundan agrawal for update nav bar section
