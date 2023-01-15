@@ -1,5 +1,15 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import Pipelines from './Pipelines'
+import MUIDataTable from 'mui-datatables';
+import { LoadingButton } from '@mui/lab';
+import {
+  Card,
+  Stack,
+  Button,
+  Container,
+  Typography,
+  ListItemIcon,
+} from '@mui/material';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import {
   useGetPipelineQuery,
   useDeletePipelineApiMutation,
@@ -8,7 +18,9 @@ import {
 } from '../../../redux/services/settings/PipelineService';
 import { sortedDataFn } from '../../../utils/getSortedData';
 import { showToast } from '../../../utils/toast';
-import { useGetStagesQuery } from '../../../redux/services/settings/StageService';
+import Page from '../../../components/Page';
+import Iconify from '../../../components/Iconify';
+
 
 function NewHiringPipeline() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,6 +40,54 @@ function NewHiringPipeline() {
     name: '',
     fileds: [],
   });
+  const options = {
+    filterType: 'dropdown',
+  };
+  const columns = [
+    {
+      name: 'id',
+      label: 'Id',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'name',
+      label: 'Name',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'action',
+      label: 'Action',
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="ep:edit" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
+          </>
+        ),
+      },
+    },
+  ];
 
   const modalHandleClose = () => {
     console.log('value');
@@ -101,11 +161,26 @@ function NewHiringPipeline() {
       refetch();
     }
   
-  }, [AddPipelineApiInfo, DeletePipelineInfo]);
+  }, [AddPipelineApi, AddPipelineApiInfo, DeletePipelineInfo, refetch]);
 
   return (
     <div>
-      <Pipelines />
+      <Page title="Pipeline">
+        <Container>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <AddCircleRoundedIcon onClick={addNewPipelineHandler}
+            sx={{
+              marginTop:"0",
+              cursor:"pointer",
+              color:"blue",
+              fontSize:"40px"}}
+            />
+        </Stack>
+        <Card>
+          <MUIDataTable title={'Pipeline List'} data={sortData} columns={columns} options={options} />
+        </Card>
+        </Container>
+      </Page>
     </div>
   )
 }

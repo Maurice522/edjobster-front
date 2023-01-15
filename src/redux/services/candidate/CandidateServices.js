@@ -40,6 +40,11 @@ const extendedApi = apiBasePath.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    addCandidate: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.ca}`
+      })
+    })
   }),
   overrideExisting: false,
 });
