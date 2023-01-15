@@ -463,11 +463,11 @@ const Jobs = () => {
         }}
       />
     </div> */}
-          <Button 
+          {/* <Button 
           component={RouterLink}
           to="/dashboard/jobs/candidate-list">
             View Candidates
-          </Button>
+          </Button> */}
       </Container>
       {modelOpen && detailsId && <JobModel open={modelOpen} handleClose={handleClose} detailsId={detailsId} />}
     </Page>

@@ -27,6 +27,13 @@ const extendedApi = apiBasePath.injectEndpoints({
           body: data
         }),
       }),
+    addCandidateDetails: build.mutation({
+        query: (data) => ({
+          url: `${apiUrl.candidate}create-candidate/`,
+          method: 'POST',
+          body: data
+        }),
+      }),
     updateCandidate: build.mutation({
       query: (data) => ({
         url: `${apiUrl.candidate}applications/`,
@@ -50,6 +57,7 @@ const extendedApi = apiBasePath.injectEndpoints({
 });
 
 export const {
+  useAddCandidateDetailsMutation,
   useGetCandidateListQuery,
   useGetCandidateDetailsQuery,
   useAddApplyJobMutation,

@@ -202,6 +202,7 @@ const WebFormsModal = (props) => {
                                   margin="dense"
                                   variant="outlined"
                                   fullWidth
+                                  disabled
                                 />
                               </Item>
                               <Item>

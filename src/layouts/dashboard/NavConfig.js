@@ -22,7 +22,7 @@ const newNavBar = [
     path: '/dashboard/users',
     icon: getIcon('eva:people-fill'),
     children: [
-      { title: 'New User List', path: '/dashboard/newuserlist' },
+      // { title: 'New User List', path: '/dashboard/newuserlist' },
       { title: 'User List', path: '/dashboard/users/list' },
       { title: 'Approvals', path: '/dashboard/users/approvals' },
     ],
@@ -50,7 +50,10 @@ const newNavBar = [
     title: 'Billing',
     path: '/dashboard/bills',
     icon: getIcon('eva:person-add-fill'),
+    
   },
+  { title: 'Assessment Categories', path: '/dashboard/candidate-settings/assessment-categories' },
+
 
 ];
 // Edited above by kundan agrawal for update nav bar section

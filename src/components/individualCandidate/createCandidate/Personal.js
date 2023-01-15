@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {useGetCandidateListQuery,
+       useGetCandidateDetailsQuery,
+      useAddApplyJobMutation,
+      useAddCandidateResumeMutation,
+      useUpdateCandidateMutation,
+      useDeleteCandidateMutation} from '../../../redux/services/candidate/CandidateServices'
+import { authTokenAction, authAction } from '../../../redux/auth/AuthReducer';
 import SelectArrow from "../../../assets/images/selectarrow.svg";
 
 const CreateCandidate = () => {
+
+  const navigate = useNavigate();
+  const dispatch =useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // const [AddCandidate, AddCandidateInfo] = 
+
+
   return (
     <div>
       <p className="cc-pd">Personal Details</p>
@@ -103,7 +120,6 @@ const CreateCandidate = () => {
           />
           </label>
           <br />
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
         </div>
       </div>
       <div className="cc-form-content">
@@ -115,8 +131,7 @@ const CreateCandidate = () => {
           </select>
           </label>
           <br />
-          
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
+
         </div>
         <div className="cc-form-select">
           <label htmlFor="cc-label" className="cc-label">
@@ -126,8 +141,7 @@ const CreateCandidate = () => {
           </select>
           </label>
           <br />
-          
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
+
         </div>
         <div className="cc-form-select">
           <label htmlFor="cc-label" className="cc-label">
@@ -137,8 +151,7 @@ const CreateCandidate = () => {
           </select>
           </label>
           <br />
-          
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
+
         </div>
       </div>
       <div className="cc-form-content">
@@ -150,8 +163,7 @@ const CreateCandidate = () => {
           </select>
           </label>
           <br />
-          
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
+
         </div>
         <div className="cc-form-select">
           <label htmlFor="cc-label" className="cc-label">
@@ -161,8 +173,6 @@ const CreateCandidate = () => {
           </select>
           </label>
           <br />
-          
-          <img src={SelectArrow} alt="" className="cc-form-select-icon" />
         </div>
       </div>
     </div>

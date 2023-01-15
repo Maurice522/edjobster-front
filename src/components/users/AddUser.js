@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-import { useFormik } from "formik";
+import * as Yup from 'yup';
+import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 // import { useHistory } from "react-router-dom";
 // import { Link as RouterLink } from 'react-router-dom';
@@ -13,6 +14,19 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 function AddUser() {
   const baseUrl= "http://127.0.0.1:8000";
+
+  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+  const RegisterSchema = Yup.object().shape({
+    firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('First name required'),
+    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Last name required'),
+    mobile: Yup.string().matches(phoneRegExp, 'Phone number is not valid').required("Phone Number is required"),
+    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    companyName: Yup.string().required("Company Name is required").min(5, "Too Short!"),
+    address: Yup.string().required("Address is required").min(10, "Too Short!"),
+    landmark: Yup.string().required("Address is required").min(5, "Too Short!"),
+    city: Yup.string().required("Address is required"),
+    pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
+  });
   
       const navigate= useNavigate()
       const navigatecancel = () =>{
@@ -72,7 +86,6 @@ function AddUser() {
           role: "",
           email: "",
           mobile: "",
-          password: "",
           // confirmpassword: "",
         },
         validate,

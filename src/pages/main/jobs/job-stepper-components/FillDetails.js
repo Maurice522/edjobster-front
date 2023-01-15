@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
+import ReactQuill from 'react-quill';
 
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -47,6 +48,32 @@ const FillDetails = () => {
       },
     },
   };
+
+    const modules = {
+      toolbar: [
+        [{ 'font': [] }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        ['bold', 'italic', 'underline'],
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        [{ 'align': [] }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['clean']
+      ]
+  };
+
+  const formats = [
+      'font',
+      'size',
+      'bold', 'italic', 'underline',
+      'list', 'bullet',
+      'align',
+      'color', 'background'
+    ];
+
+    const state = {
+      comments: ''
+  }
+
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
@@ -503,6 +530,15 @@ const FillDetails = () => {
                 label="Job Description"
                 onChange={onInputChangeHandler}
               />
+              <div className='editor2'>
+                <ReactQuill sx={{
+                  outerWidth:"80vw",
+                  marginBottom:"20px"
+                }}theme="snow" 
+                  modules={modules}
+                  formats={formats} value={state.comments || ''}
+                />
+              </div>
             </Grid>
           </Grid>
         </Box>

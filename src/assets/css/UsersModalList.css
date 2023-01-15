@@ -307,3 +307,10 @@ label {
     justify-content: center;
     margin-top: 5%;
 }
+.filldetailspage{
+    align-items: center;
+    width: 60%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
