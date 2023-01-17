@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 
 // material
@@ -30,6 +30,8 @@ import {
 // import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
 
 const Stages = () => {
+  const { id } = useParams();
+  console.log(id)
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const [viewModelOpen, setViewModelOpen] = useState(false);

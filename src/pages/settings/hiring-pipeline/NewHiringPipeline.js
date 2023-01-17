@@ -8,8 +8,11 @@ import {
   Container,
   Typography,
   ListItemIcon,
+  Link
 } from '@mui/material';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+import { useNavigate } from 'react-router-dom';
+import PipelineModel from '../../../components/settings/pipelineModel';
 import {
   useGetPipelineQuery,
   useDeletePipelineApiMutation,
@@ -23,6 +26,7 @@ import Iconify from '../../../components/Iconify';
 
 
 function NewHiringPipeline() {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -58,6 +62,15 @@ function NewHiringPipeline() {
       options: {
         filter: true,
         sort: true,
+        customBodyRenderLite: (dataIndex) => (
+          <Link sx={{
+            textDecoration: "none",
+            color: "black"
+          }} 
+          href={`/dashboard/hiring-pipeline/stages/${data.data[dataIndex].id}`}> 
+            {data.data[dataIndex].name}
+          </Link>
+        )
       },
     },
     {
@@ -85,7 +98,7 @@ function NewHiringPipeline() {
             </LoadingButton>
           </>
         ),
-      },
+      }
     },
   ];
 
@@ -106,7 +119,6 @@ function NewHiringPipeline() {
     setStageApidata({
       id: null,
       name: '',
-      fileds: [],
     });
   };
   const onEditModalHandler = (index) => {
@@ -160,26 +172,38 @@ function NewHiringPipeline() {
       DeletePipelineInfo.reset();
       refetch();
     }
-  
   }, [AddPipelineApi, AddPipelineApiInfo, DeletePipelineInfo, refetch]);
+  console.log(data)
 
   return (
     <div>
       <Page title="Pipeline">
         <Container>
-        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
-          <AddCircleRoundedIcon onClick={addNewPipelineHandler}
-            sx={{
-              marginTop:"0",
-              cursor:"pointer",
-              color:"blue",
-              fontSize:"40px"}}
+          <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+            <AddCircleRoundedIcon onClick={addNewPipelineHandler}
+              sx={{
+                marginTop:"0",
+                cursor:"pointer",
+                color:"blue",
+                fontSize:"40px"
+              }}
             />
-        </Stack>
-        <Card>
-          <MUIDataTable title={'Pipeline List'} data={sortData} columns={columns} options={options} />
-        </Card>
+          </Stack>
+          <Card>
+            <MUIDataTable title={'Pipeline List'} data={sortData} columns={columns} options={options} />
+          </Card>
         </Container>
+        <PipelineModel
+          open={modalOpen}
+          handleClose={modalHandleClose}
+          textBoxLabel="Add Pipeline Name"
+          id="pipelineName"
+          name="pipeline"
+          buttonLabel="Add Pipeline"
+          onsubmit={onSubmitHandler}
+          type={modalType}
+          formstagedata={stageApidata}
+        />
       </Page>
     </div>
   )

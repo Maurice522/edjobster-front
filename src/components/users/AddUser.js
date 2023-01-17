@@ -9,11 +9,16 @@ import {
   Card, Stack
 } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useEffect } from 'react';
+import { showToast } from '../../utils/toast';
+import {
+  useAddUserMutation
+} from "../../redux/services/user/userService"
 
 
 
 function AddUser() {
-  const baseUrl= "http://127.0.0.1:8000";
+  const [AddUser, AddUserInfo] = useAddUserMutation();
 
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
   const RegisterSchema = Yup.object().shape({
@@ -26,15 +31,16 @@ function AddUser() {
     landmark: Yup.string().required("Address is required").min(5, "Too Short!"),
     city: Yup.string().required("Address is required"),
     pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
+    password: Yup.string().required("Password is required").min(8, "Too Short")
   });
   
-      const navigate= useNavigate()
-      const navigatecancel = () =>{
-        navigate('/dashboard/users/list')
-      }
-      const proceed = () =>{
-        navigate('/dashboard/user/adduser/createpassword')
-      }
+    const navigate= useNavigate()
+    const navigatecancel = () =>{
+      navigate('/dashboard/users/list')
+    }
+    // const proceed = () =>{
+    //   navigate('/dashboard/user/adduser/createpassword')
+    // }
 
 
     const validate = (values) => {
@@ -65,78 +71,31 @@ function AddUser() {
         if (!values.mobile) {
           errors.department = 'Required'
         }
-        // if (!values.password) {
-        //   errors.department = 'Required'
-        // }
-        // if (!values.mobile) {
-        //   errors.password = 'Required'
-        // }
-        // if (values.mobile !== values.confirmpassword) {
-        //   errors.password = 'password did not match'
-        // }
       
         return errors
       }
     const formik = useFormik({
-        initialValues: {
-          first_name: "",
-          last_name: "",
-          department: "",
-          designation: "",
-          role: "",
-          email: "",
-          mobile: "",
-          // confirmpassword: "",
-        },
-        validate,
-        onSubmit: async(values) => {
-          // const navigate= useNavigate()
-         
-          const {first_name,
-            last_name,
-            department,
-            designation,
-            role,
-            email,
-            mobile,
-          } = values;
-        
-          const res = await fetch(`${baseUrl}/account/members/`,{
-            method:"POST",
-            headers:{
-              "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-             first_name,
-              last_name,
-              department,
-              designation,
-              role,
-              email,
-              mobile,
-            })
-          });
-      
-          const data = await res.json();
-          if(res.status === 422 || !data){
-            window.alert("Invalid Registeration");
-            console.log("Invalid Registeration");
-          }else{
-            window.alert("Registeration Successfull");
-            console.log("Registeration Successfull");
-            navigate("/dashboard/users/list");
-          }
-
-
-          
-          alert(JSON.stringify(values, null, 2));
-          console.log(values);
-          // history.push("/dashboard/user/adduser/createpassword");
-        //  navigate('/dashboard/user/adduser/createpassword')
-          
-        },
-      });
-    
+      initialValues: {
+        first_name: "",
+        last_name: "",
+        department: "",
+        designation: "",
+        role: "",
+        email: "",
+        mobile: "",
+        password: ""
+        // confirmpassword: "",
+      },
+      validate,
+      onSubmit: async (values) => {         
+        AddUser(values)
+      },
+    });
+    useEffect(() => {
+      if(AddUserInfo.isSuccess) {
+        showToast("success", "Success User Created")
+      }
+    })
 
   return (
       <div>
@@ -209,7 +168,7 @@ function AddUser() {
                   />
                   {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
                 </label>
-                
+
                 <label htmlFor='mobile'>mobile Number
                   <input
                       className="phonenumber"
@@ -266,6 +225,36 @@ function AddUser() {
                   {formik.touched.role && formik.errors.role ? <div>{formik.errors.role}</div> : null}
                 </label>
               </div>
+              <div className='divrow'>
+                <div className='passwordrow'>
+                  <label htmlFor="password">Password
+                    <input htmlFor="password"
+                      className="userpasswordbar"
+                      id="password"
+                      name="password"
+                      type="password"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.password}
+                    />
+                     {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+                  </label>
+                </div>
+                <div className='passwordrow'>
+                  <label htmlFor="confirmpassword">Confirm Password
+                    <input htmlFor="confirmpassword"
+                      className="userpasswordbar2"
+                      id="confirmpassword"
+                      name="confirmpassword"
+                      type="password"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.confirmpassword}
+                    />
+                     {formik.touched.confirmpassword && formik.errors.confirmpassword ? <div>{formik.errors.password}</div> : null}
+                  </label>
+                </div>
+              </div>
               <div className='divrowcb'>
                 <input
                   className="inutbarcb"
@@ -283,10 +272,10 @@ function AddUser() {
               </div>
               <div className="divrow flex items-center justify-between">
                 <button
-                  onClick={proceed}
                   className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type='submit'
                 >
-                  Proceed
+                  Submit
                 </button>
               </div>
               <div className="divrow flex items-center justify-between">

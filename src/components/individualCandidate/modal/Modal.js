@@ -1,8 +1,7 @@
 import React from "react";
 import ModalClose from "../../../assets/images/modalclose.svg";
 
-const Modal = ({ children, modalHandler }) => {
-  return (
+const Modal = ({ children, modalHandler }) => (
     <div>
       <div className="modal">
         <button className="modal-close" onClick={() => modalHandler(false)}>
@@ -13,6 +12,5 @@ const Modal = ({ children, modalHandler }) => {
       <p className="modal-overlay"/>
     </div>
   );
-};
 
 export default Modal;

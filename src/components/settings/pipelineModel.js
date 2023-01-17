@@ -35,7 +35,15 @@ const PipelineModel = (props) => {
   const { open, handleClose, textboxlabel, loadingbtn, formstagedata, onsubmit, type } = props;
 
   const theme = useTheme();
-  const [stageData, setStageData] = useState([]);
+  const [stageData, setStageData] = useState([
+    "Associated/Screening",
+    "Applied",
+    "Shortlisted",
+    "Interview",
+    "Offered",
+    "Hired",
+    "On Board",
+  ]);
   const [stageTextValue, setStageTextValue] = useState(formstagedata);
   // console.log('stagetext', formStageData);
 
@@ -110,7 +118,7 @@ const PipelineModel = (props) => {
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
         <div>
-          <DialogTitle>{textboxlabel}</DialogTitle>
+          <DialogTitle>{textboxlabel || "Add Pipeline"}</DialogTitle>
           <DialogContent style={{ marginBottom: '15%' }}>
             <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={2} mt={1}>
@@ -125,7 +133,7 @@ const PipelineModel = (props) => {
                 </Grid>
               </Grid>
             </Box>
-            <Box sx={{ flexGrow: 1 }}>
+            {/* <Box sx={{ flexGrow: 1 }}>
               <br />
               <InputLabel id="Stage_label">Add Pipeline Stages</InputLabel>
               <br />
@@ -153,7 +161,7 @@ const PipelineModel = (props) => {
                     ))}
                 </Select>
               <FormControl sx={{ mt: 5, width: 390 }} />
-            </Box>
+            </Box> */}
           </DialogContent>
           <DialogActions>
             <Box>

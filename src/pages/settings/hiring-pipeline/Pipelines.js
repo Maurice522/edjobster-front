@@ -66,7 +66,7 @@ const Pipelines = () => {
   const addNewPipelineHandler = () => {
     setModalOpen(true);
     setModalType('Add');
-    setStageApidata({
+    setStageApidata({ 
       id: null,
       name: '',
       fileds: [],
