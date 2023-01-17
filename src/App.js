@@ -18,14 +18,13 @@ export default function App() {
   const navigate = useNavigate();
   const auth = JSON.parse(localStorage.getItem("globalUser"))
   useEffect(() => {
-    // if(!auth && !auth.account) {
-    //   navigate("/register")
-    // }
-    // else {
-    if(!auth && !auth.account)
+    if(!auth && !auth.account) {
       navigate("/login")
+    }
+    // else {
+    //   navigate("/login")
     // }
-  }, [navigate]);
+  }, []);
 
   return (
     <ThemeProvider>
