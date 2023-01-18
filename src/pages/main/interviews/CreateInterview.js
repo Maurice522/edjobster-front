@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from '@mui/material/Card';
@@ -19,9 +19,11 @@ import {
   useGetEmailTamplateQuery,
   useGetEmailVariableTamplateQuery,
 } from '../../../redux/services/settings/EmailTamplateService';
+import { sortedDataFn } from '../../../utils/getSortedData';
 import {
   useAddInterviewMutation,
   useDeleteInterviewMutation,
+  useGetInterviewListAllQuery
 } from '../../../redux/services/interview/InterviewServices';
 
 import RichTextEditer from '../../../components/Rich-text-editer/RichTextEditer';
@@ -32,10 +34,13 @@ const CreateInterview = (props) => {
   
   const { editInterview } = useParams();
   const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery();
-// const [fieldData,setFieldData]=useState({
-// email_msg:''
-// })
-  // const { open, handleClose, categoryData, variableData, emailTemplateData } = props;
+  const { data = [], refetch} = useGetInterviewListAllQuery();
+  const [DeleteInterview, DeleteInterviewInfo] = useDeleteInterviewMutation();
+  const [currentIndex, setCurrentIndex] = useState(null);
+  // const [fieldData,setFieldData]=useState({
+  // email_msg:''
+  // })
+    // const { open, handleClose, categoryData, variableData, emailTemplateData } = props;
   console.log('variable data', variableData);
   const [textValue, setTextValue] = useState({
     candidate_id: '',
@@ -52,12 +57,22 @@ const CreateInterview = (props) => {
     email_msg: '',
   });
 
+  const sortData = useMemo(() => {
+    const sortresult = sortedDataFn(data?.list);
+    return sortresult;
+  }, [data]);
+
+  const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    const dataArr = sortData;
+    const currentDataObj = dataArr[dataIndex];
+    await DeleteInterview(currentDataObj.id);
+  };
+
 
   const [addInterview, addInterviewInfo] = useAddInterviewMutation();
-
   const { data: locationData } = useGetLocationQuery();
-
-  console.log('Location===:', locationData);
+  console.log(locationData);
 
   const { data: jobsData } = useGetJobQuery();
 
@@ -94,6 +109,9 @@ const CreateInterview = (props) => {
   }, [addInterviewInfo]);
 
   console.log('TextValue data', textValue);
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   //   const [files, setFiles] = React.useState([]);
   return (

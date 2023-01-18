@@ -44,9 +44,8 @@ import {
 
 const Interviews = () => {
   const { data = [], refetch } = useGetInterviewListAllQuery();
+  console.log(data)
   // const [modelOpen, setModelOpen] = useState(false);
-
-
   const [currentIndex, setCurrentIndex] = useState(null);
 
   const [deleteInterview, deleteInterviewInfo] = useDeleteInterviewMutation();

@@ -6,6 +6,9 @@ const extendedApi = apiBasePath.injectEndpoints({
         getLocation: build.query({
             query: () => ({
                 url: `${apiUrl.location}`,
+                headers: {
+                  'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+                }
             }),
         }),
         

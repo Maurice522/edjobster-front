@@ -84,6 +84,7 @@ const Templates = () => {
     await DeleteEmailTemplate(currentDataObj.id);
   };
   useEffect(() => {
+    console.log(categoryData)
     if (DeleteEmailTemplateInfo.isSuccess) {
       showToast('success', DeleteEmailTemplateInfo.data.msg);
       DeleteEmailTemplateInfo.reset();
@@ -94,7 +95,7 @@ const Templates = () => {
       DeleteEmailTemplateInfo.reset();
       refetch();
     }
-  }, [DeleteEmailTemplateInfo, refetch]);
+  }, [DeleteEmailTemplateInfo, refetch, categoryData]);
 
   const columns = [
     {

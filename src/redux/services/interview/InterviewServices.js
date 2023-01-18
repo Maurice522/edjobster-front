@@ -6,21 +6,34 @@ const extendedApi = apiBasePath.injectEndpoints({
     getInterviewListAll: build.query({
       query: () => ({
         url: `${apiUrl.interview}`,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     getInterviewListjob: build.query({
         query: (id) => ({
           url: `${apiUrl.interview}?id=${id}`,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
+          
         }),
       }),
     getInterviewListCandidate: build.query({
         query: (candidateId) => ({
           url: `${apiUrl.interview}?candidate_id=${candidateId}`,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
     getInterviewDetails: build.query({
         query: (id) => ({
           url: `${apiUrl.interview}?id=${id}`,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
     addInterview: build.mutation({
@@ -28,6 +41,9 @@ const extendedApi = apiBasePath.injectEndpoints({
           url: `${apiUrl.interview}`,
           method: 'POST',
           body: data,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
     updateInterview: build.mutation({
@@ -35,12 +51,18 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.interview}`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     deleteInterview: build.mutation({
       query: (id) => ({
         url: `${apiUrl.interview}?id=${id}`,
         method: 'DELETE',
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
   }),

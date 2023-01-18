@@ -29,12 +29,8 @@ const newNavBar = [
   },
   {
     title: 'Hiring Pipeline',
-    path: '/dashboard/hiring-pipeline',
-    icon: getIcon('eva:shopping-bag-fill'),
-    children: [
-      { title: 'Stages', path: '/dashboard/hiring-pipeline/stages' },
-      { title: 'Pipelines', path: '/dashboard/hiring-pipeline/pipelines' },
-    ],
+    path: '/dashboard/hiring-pipeline/pipelines',
+    icon: getIcon('eva:shopping-bag-fill')
   },
   { title: 'Email Templates', path: '/dashboard/email-templates/templates',icon:getIcon('mdi:cube-send') },
   { title: 'Webforms',

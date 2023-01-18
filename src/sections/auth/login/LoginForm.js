@@ -23,7 +23,7 @@ export default function LoginForm() {
 
 
   if (AddLoginInfo.isError) {
-    showToast("error", AddLoginInfo.error.data.msg);
+    showToast("error", AddLoginInfo.error.data);
     console.log(AddLoginInfo.data)
     AddLoginInfo.reset();
   }
@@ -48,8 +48,8 @@ export default function LoginForm() {
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: (values) => {
-      AddLogin({
+    onSubmit: async (values) => {
+      await AddLogin({
         username: values.username,
         password: values.password
       })
@@ -66,14 +66,17 @@ export default function LoginForm() {
 
   useEffect(() => {
     setSubmitting(false)
+    console.log(AddLoginInfo)
     if (AddLoginInfo.isSuccess) {
       dispatch(authTokenAction(AddLoginInfo.data.access));
-      console.log(AddLoginInfo.data)
+      console.log("success", AddLoginInfo.data)
       localStorage.setItem("globalUser", JSON.stringify(AddLoginInfo.data))
+      sessionStorage.setItem("globalUser", JSON.stringify(AddLoginInfo.data))
       successToast()
-      navigate('/dashboard/app', { replace: true });
+      navigate('/dashboard/app', { replace: true });  
     }
     else {
+      console.log("error", AddLoginInfo.error?AddLoginInfo.error.message:"Retry")
       resetForm(initialValues)
     }
   }, [AddLoginInfo, dispatch, initialValues, navigate, resetForm, setSubmitting])

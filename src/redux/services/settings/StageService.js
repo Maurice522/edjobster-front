@@ -32,8 +32,9 @@ const extendedApi = apiBasePath.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetStagesQuery, 
+export const { 
+  useGetStagesQuery, 
   useAddStageApiMutation, 
   useUpdateStageApiMutation, 
-  useDeleteStageApiMutation } =
-  extendedApi;
+  useDeleteStageApiMutation 
+} = extendedApi;

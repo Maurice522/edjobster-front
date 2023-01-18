@@ -16,14 +16,16 @@ import { BaseOptionChartStyle } from './components/chart/BaseOptionChart';
 
 export default function App() {
   const navigate = useNavigate();
-  const auth = JSON.parse(localStorage.getItem("globalUser"))
+  const auth = JSON.parse(localStorage.getItem("globalUser") || sessionStorage.getItem("globalUser"))
+  console.log(auth)
   useEffect(() => {
     if(!auth && !auth.account) {
       navigate("/login")
     }
     // else {
-    //   navigate("/login")
+    //   navigate("/dashboard/app")
     // }
+    // navigate("/login") 
   }, [navigate]);
 
   return (

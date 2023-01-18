@@ -6,11 +6,17 @@ const extendedApi = apiBasePath.injectEndpoints({
     getCandidateList: build.query({
       query: () => ({
         url: `${apiUrl.candidate}candidate/`,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     getCandidateDetails: build.query({
       query: (id) => ({
         url: `${apiUrl.candidate}applications/?id=${id}`,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     addApplyJob: build.mutation({
@@ -18,20 +24,29 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.candidate}apply/`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     addCandidateResume: build.mutation({
         query: (data) => ({
           url: `${apiUrl.candidate}resume-parse/`,
           method: 'POST',
-          body: data
+          body: data,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
     addCandidateDetails: build.mutation({
         query: (data) => ({
           url: `${apiUrl.candidate}create-candidate/`,
           method: 'POST',
-          body: data
+          body: data,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
     updateCandidate: build.mutation({
@@ -39,17 +54,28 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.candidate}applications/`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     deleteCandidate: build.mutation({
       query: (id) => ({
         url: `${apiUrl.candidate}applications/?id=${id}`,
         method: 'DELETE',
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     addCandidate: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.ca}`
+        url: `${apiUrl.ca}`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       })
     })
   }),

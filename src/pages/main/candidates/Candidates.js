@@ -31,6 +31,7 @@ const Candidates = () => {
 const [candidateId,setCandidateId]=useState();
   const [salectedJobId, setSalectedJobId] = useState('');
   const { data = [], refetch } = useGetCandidateListQuery();
+  console.log(data)
   const [currentIndex, setCurrentIndex] = useState(null);
   const [deleteJob, deleteJobInfo] = useDeleteCandidateMutation();
   const { data: jobIdData} = useGetJobQuery();
@@ -63,6 +64,7 @@ const [candidateId,setCandidateId]=useState();
   }, [refetch]);
 
   useEffect(() => {
+
     if (deleteJobInfo.isSuccess) {
       showToast('success', deleteJobInfo.data.msg);
       deleteJobInfo.reset();

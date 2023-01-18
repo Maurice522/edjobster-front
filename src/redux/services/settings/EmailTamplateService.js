@@ -25,6 +25,9 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.emailtamplate}`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.get("globalUser").access}`
+        }
       }),
     }),
     deleteEmailTemplate: build.mutation({

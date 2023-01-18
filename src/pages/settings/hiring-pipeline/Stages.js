@@ -24,7 +24,7 @@ import {
   useGetStagesQuery,
   useDeleteStageApiMutation,
   useAddStageApiMutation,
-  useUpdateStageApiMutation,
+  useUpdateStageApiMutation
 } from '../../../redux/services/settings/StageService';
 
 // import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
@@ -53,8 +53,8 @@ const Stages = () => {
   });
 
   const [viewStatusvalue, setViewStatusValue] = useState({
-    id: undefined,
-    status: [''],
+    id: 1,
+    status: ['IN PROGRESS'],
   });
 
   const modalHandleClose = () => {

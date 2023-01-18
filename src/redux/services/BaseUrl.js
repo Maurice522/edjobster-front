@@ -7,10 +7,14 @@ export const apiBasePath = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().login.authToken || JSON.parse(localStorage.getItem("globalUser")).access;
+      const token = JSON.parse(localStorage.getItem("globalUser") || sessionStorage.getItem("globalUser"));
+      console.log(token)
       // If we have a token set in state, let's assume that we should be passing it.
-      if (token) {
-        headers.set('Authorization', `Token ${token}`)
+      if (token && token.access) {
+        headers.set('Authorization', `Token ${token.access}`)
+      }
+      else if(getState().login.authToken) {
+        headers.set("Authorization", `Token ${getState().login.authToken}`)
       }
       return headers
     },

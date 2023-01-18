@@ -70,6 +70,10 @@ import DashboardWithoutSidebar from './layouts/dashboard/DashboardwithoutSidebar
 export default function Router() {
   return useRoutes([
     {
+      path: "/login",
+      element: <Login />
+    },
+    {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [

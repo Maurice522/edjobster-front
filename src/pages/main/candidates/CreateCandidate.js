@@ -18,10 +18,21 @@ import {
   useGetCandidateListQuery,
   useGetCandidateDetailsQuery,
 } from '../../../redux/services/candidate/CandidateServices';
+import { 
+  useGetCountryQuery, 
+  useGetStateQuery, 
+  useGetCityQuery
+} from '../../../redux/services/settings/CountryStateCityService';
 
 const CreateCandidate = () => {
   const [modelOpen, setModelOpen] = useState(false);
-  const { data: candidateData, candidateDataInfo } = useGetCandidateListQuery;
+  const {data: stateData} = useGetStateQuery();
+  const {data: countryData} = useGetCountryQuery();
+  const {data: cityData} = useGetCityQuery();
+  console.log(stateData)
+  console.log(cityData)
+  console.log(countryData)
+  const { data: candidateData, candidateDataInfo } = useGetCandidateListQuery();
 
   const onCandidateModelView = () => {
     setModelOpen(true);

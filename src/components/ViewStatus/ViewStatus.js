@@ -69,6 +69,9 @@ const ViewStatus = (props) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{'Status Details'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title" sx={{
+          textAlign: "center"
+        }}>{'In Progress'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <Grid container style={{ display: 'flex', justifyContent: 'flex-end' }}>

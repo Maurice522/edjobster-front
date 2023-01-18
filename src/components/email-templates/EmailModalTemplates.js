@@ -28,7 +28,7 @@ const EmailModalTemplates = (props) => {
   const [UpdateEmailTemplate, UpdateEmailTemplateInfo] = useUpdateEmailTemplateMutation();
 
   const [textValue, setTextValue] = useState({
-    category: emailTemplateData?.category_id ?? '',
+    category: emailTemplateData?.category_id ?? 1,
     subject: emailTemplateData?.subject ?? '',
     variables: '',
     body: emailTemplateData?.message ?? '',
@@ -56,7 +56,7 @@ const EmailModalTemplates = (props) => {
     if (emailTemplateData) {
       await UpdateEmailTemplate({
         id: emailTemplateData.id,
-        category: textValue.category,
+        category: textValue.category || 1,
         type: textValue.type,
         subject: textValue.subject,
         message: textValue.body,
