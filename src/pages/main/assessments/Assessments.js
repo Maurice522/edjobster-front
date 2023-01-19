@@ -18,7 +18,12 @@ import MainModuleFilter from '../../../components/main/MainModuleFilter';
 import Page from '../../../components/Page';
 
 import Iconify from '../../../components/Iconify';
-import { useGetAssesmentQuery, useDeleteAssesmentMutation, useUpdateAssesmentMutation, useAddAssesmentMutation } from '../../../redux/services/main/AssesmentService';
+import { 
+  useGetAssesmentQuery, 
+  useDeleteAssesmentMutation, 
+  useUpdateAssesmentMutation, 
+  useAddAssesmentMutation 
+} from '../../../redux/services/main/AssesmentService';
 // mock
 
 const Assessments = () => {
@@ -135,34 +140,16 @@ useEffect(() => {
   }, [deleteAssesmentInfo, refetch]);
 
   const rows = [
-    // { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 6, lastName: 'Melisandre', firstName: null, age: 150 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
     { id: 1, title: "Demo",date:"04/04/2002" , action: 'Edit'},
   ];
   const column = [
     { field: 'title', headerName: 'Title', width: 300, editable: true, headerAlign:'center',align:'center'},
     { field: 'date', headerName: 'Date',type:"date", width: 300, editable: true, headerAlign:'center',align:'center'},
-  //   { field: 'details', headerName: 'Details', width: 300, editable: false, headerAlign:'center',align:'center', renderCell: (params) => {
-  //     return (
-  //       <div>
-  //         <a href='/dashboard/interviews/interview-details'>View</a>          
-  //       </div>
-  //     );
-  //  }},
-    { field: 'action', headerName: 'Action', width: 300, editable: true, headerAlign:'center',align:'center', renderCell: (params) => {
-      return (
+    { field: 'action', headerName: 'Action', width: 300, editable: true, headerAlign:'center',align:'center', renderCell: (params) => (
         <div>
           <a href='/dashboard/assessments/edit-assessment'><EditIcon /></a>          
         </div>
-      );
-   }},
+      )},
     
   ]
   
