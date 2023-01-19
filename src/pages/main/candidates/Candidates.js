@@ -31,7 +31,6 @@ const Candidates = () => {
 const [candidateId,setCandidateId]=useState();
   const [salectedJobId, setSalectedJobId] = useState('');
   const { data = [], refetch } = useGetCandidateListQuery();
-  console.log(data)
   const [currentIndex, setCurrentIndex] = useState(null);
   const [deleteJob, deleteJobInfo] = useDeleteCandidateMutation();
   const { data: jobIdData} = useGetJobQuery();

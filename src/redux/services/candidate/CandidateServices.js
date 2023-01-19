@@ -70,7 +70,7 @@ const extendedApi = apiBasePath.injectEndpoints({
     }),
     addCandidate: build.mutation({
       query: (data) => ({
-        url: `${apiUrl.ca}`,
+        url: `${apiUrl.candidate}`,
         method: 'POST',
         body: data,
         headers: {

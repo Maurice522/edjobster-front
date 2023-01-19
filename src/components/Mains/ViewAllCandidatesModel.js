@@ -69,10 +69,7 @@ function getStyles(name, personName, theme) {
 }
 
 
-const Transition = React.forwardRef((props, ref) => {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
-
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 const drawerWidth = 240;
 
 
@@ -471,10 +468,7 @@ const ViewAllCandidatesModel = (props) => {
                                     ))}
                                 </Select>
                             </FormControl>
-
                             <Button variant="contained" size='large' sx={{ width: "200px", mt: 2, ml: 2 }} color="info">Apply Filter</Button>
-
-
                         </Drawer>
                     </Grid>
                     <Grid item md={10} sx={{ mt: 2, pr: 4 }}>

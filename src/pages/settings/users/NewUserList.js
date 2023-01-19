@@ -28,20 +28,17 @@ function NewUserList() {
           field: 'edit',
           headerName: 'Edit',
           width:50,
-          renderCell: (dataIndex) => {
-              return (
-                <div>
-                   <EditIcon 
-                      sx={{
-                        padding: '0px',
-                        minWidth: '0',
-                        cursor:"pointer",
-                        color:"grey",
-                        }}/>       
-                </div>
-              );
-            }
-          
+          renderCell: (dataIndex) => (
+            <div>
+                <EditIcon 
+                  sx={{
+                    padding: '0px',
+                    minWidth: '0',
+                    cursor:"pointer",
+                    color:"grey",
+                    }}/>       
+            </div>
+          )
         },
       ];
 

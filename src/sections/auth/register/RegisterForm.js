@@ -4,20 +4,26 @@ import { useFormik as useForm, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // material
-import { Stack, TextField, IconButton, InputAdornment, Divider } from '@mui/material';
+import { Stack, TextField, IconButton, InputAdornment, Divider, Select, MenuItem } from '@mui/material';
 import { LoadingButton} from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
 import { useAddRegisterMutation } from '../../../redux/services/register/registerService';
 import { authTokenAction, authAction } from '../../../redux/auth/AuthReducer';
 import { showToast } from '../../../utils/toast';
+import { useGetCountryQuery, useGetStateQuery, useGetCityQuery } from "../../../redux/services/settings/CountryStateCityService";
 
 
 // TODO: @kundan
 
 export default function RegisterForm() {
   const navigate = useNavigate();
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
+  const {data: countryData} = useGetCountryQuery();
+  const [countryIndex, setCountryIndex] = useState(1)
+  console.log(countryData.countries)
+  const {data: stateData} = useGetStateQuery(countryIndex)
+  console.log(stateData)
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -177,26 +183,54 @@ export default function RegisterForm() {
             error={Boolean(touched.landmark && errors.landmark)}
             helperText={touched.landmark && errors.landmark}
           />
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <TextField
-              fullWidth
-              autoComplete="city"
-              type="string"
-              label="City"
-              {...getFieldProps('city')}
-              error={Boolean(touched.city && errors.city)}
-              helperText={touched.city && errors.city}
-            />
-            <TextField
-              fullWidth
-              autoComplete="pincode"
-              type="number"
-              label="Pincode"
-              {...getFieldProps('pincode')}
-              error={Boolean(touched.pincode && errors.pincode)}
-              helperText={touched.pincode && errors.pincode}
-            />
-          </Stack>
+          <TextField
+            fullWidth
+            autoComplete="country"
+            type="string"
+            label="Country"
+            {...getFieldProps('country')}
+            error={Boolean(touched.city && errors.city)}
+            helperText={touched.city && errors.city}
+          />
+          <Select
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            label="Age"
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+          <TextField
+            fullWidth
+            autoComplete="state"
+            type="string"
+            label="State"
+            {...getFieldProps('state')}
+            error={Boolean(touched.city && errors.city)}
+            helperText={touched.city && errors.city}
+          />
+          <TextField
+            fullWidth
+            autoComplete="city"
+            type="string"
+            label="City"
+            {...getFieldProps('city')}
+            error={Boolean(touched.city && errors.city)}
+            helperText={touched.city && errors.city}
+          />
+          <TextField
+            fullWidth
+            autoComplete="pincode"
+            type="number"
+            label="Pincode"
+            {...getFieldProps('pincode')}
+            error={Boolean(touched.pincode && errors.pincode)}
+            helperText={touched.pincode && errors.pincode}
+          />
 
           <Divider orientation="horizontal" flexItem>
             Password

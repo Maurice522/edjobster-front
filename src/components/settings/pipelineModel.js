@@ -32,7 +32,7 @@ const MenuProps = {
   },
 };
 const PipelineModel = (props) => {
-  const { open, handleClose, textboxlabel, loadingbtn, formstagedata, onsubmit, type } = props;
+  const { open, handleClose, textboxlabel, loadingbtn, formstagedata, onsubmit, type, companyName } = props;
 
   const theme = useTheme();
   const [stageData, setStageData] = useState([
@@ -129,6 +129,7 @@ const PipelineModel = (props) => {
                     variant="outlined"
                     fullWidth
                     onChange={(e) => setNameInput(e.target.value)}
+                    value={companyName}
                   />
                 </Grid>
               </Grid>

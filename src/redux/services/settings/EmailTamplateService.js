@@ -26,7 +26,7 @@ const extendedApi = apiBasePath.injectEndpoints({
         method: 'POST',
         body: data,
         headers: {
-          'Authorization': `Token ${localStorage.get("globalUser").access}`
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
         }
       }),
     }),

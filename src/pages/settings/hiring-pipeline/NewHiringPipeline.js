@@ -203,6 +203,7 @@ function NewHiringPipeline() {
           onsubmit={onSubmitHandler}
           type={modalType}
           formstagedata={stageApidata}
+          // companyName={data[currentIndex].name}
         />
       </Page>
     </div>

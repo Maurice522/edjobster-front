@@ -13,7 +13,7 @@ const apiUrl = {
   city: `${baseUrl}common/cities/?id=`,
   address: `${baseUrl}settings/location/`,
   user: `${baseUrl}account/members/`,
-  userUpdate: `${baseUrl}account/member-update/`,
+  userUpdate: `${baseUrl}account/update-account/`,
   userPhoto: `${baseUrl}account/member-photo/`,
   activateUser: `${baseUrl}account/activate-member/`,
   deleteUser: `${baseUrl}account/members/`,

@@ -6,6 +6,9 @@ const extendedApi = apiBasePath.injectEndpoints({
     getAssesmentCategory: build.query({
       query: () => ({
         url: `${apiUrl.assementCategory}`,
+        headers: {
+          'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+        }
       }),
     }),
 
@@ -14,6 +17,9 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.assementCategory}`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+        }
       }),
     }),
     updateAssesmentCategory: build.mutation({
@@ -21,12 +27,18 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.assementCategory}`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+        }
       }),
     }),
     deleteAssesmentCategory: build.mutation({
       query: (id) => ({
         url: `${apiUrl.assementCategory}?id=${id}`,
         method: 'DELETE',
+        headers: {
+          'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+        }
       }),
     }),
   }),

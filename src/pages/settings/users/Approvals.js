@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
+// eslint-disable-next-line import/no-unresolved
+import { sortedDataFn } from 'src/utils/getSortedData';
 
 // material
 import {
@@ -23,15 +25,29 @@ import {
   ListItemIcon,
 } from '@mui/material';
 // components
-import UsersModalApproval from '../../../components/users/UsersModalApproval';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
+import { 
+  useGetUsersApiQuery,
+  useUpdateUserApiMutation,
+  useDeleteUserApiMutation
+} from '../../../redux/services/settings/UserService';
 // mock
 
 const Approvals = () => {
+  const [currentIndex, setCurrentIndex] = useState(null)
+  const [UpdateUserApi, UpdateUserApiInfo] = useUpdateUserApiMutation();
+  const [DeleteUserApi, DeleteUserApiInfo] = useDeleteUserApiMutation();
+  const {data: userData, refetch} = useGetUsersApiQuery()
+  const data = userData.list
+  console.log(userData)
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
+  const sortedData = useMemo(() => {
+    const result = sortedDataFn(data.list);
+    return result;
+  }, [data]);
 
   const modalHandleClose = (value) => {
     console.log('value', value);
@@ -39,8 +55,21 @@ const Approvals = () => {
     setEditModalOpen(value);
   };
 
-  const addNewApprovalsHandler = () => {
-    setModalOpen(true);
+  const addNewApprovalsHandler = async () => {
+    await UpdateUserApi({
+      approved: true
+    })
+  };
+  useEffect(() => {
+    refetch()
+  }, [refetch])
+
+  const onDeleteHandler = async (dataIndex) => {
+    setCurrentIndex(dataIndex);
+    const dataArr = sortedData;
+    const currentDataObj = dataArr[dataIndex];
+    await DeleteUserApi(currentDataObj.account_id);
+    refetch();
   };
 
   const onEditModalHandler = () => {
@@ -48,7 +77,7 @@ const Approvals = () => {
   };
   const columns = [
     {
-      name: 'name',
+      name: 'first_name',
       label: 'Name',
       options: {
         filter: true,
@@ -89,17 +118,28 @@ const Approvals = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0, color: "#fff" }} variant="contained" color="success" onClick={() => addNewApprovalsHandler(dataIndex)}>
-              {/* <ListItemIcon style={{ color: "#fff", padding: "0px", minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
-              </ListItemIcon> */}
+            <Button 
+              style={{ 
+                minWidth: 0, 
+                color: "#fff" 
+              }} 
+              variant="contained" 
+              color="success" 
+              onClick={() => addNewApprovalsHandler(dataIndex)}
+            >
               Approve
             </Button>
-            {/* <LoadingButton style={{ minWidth: 0, margin: "0px 5px" }} variant="contained" color="error"
-            // onClick={() => onDeleteHandler(dataIndex)} loading={dataIndex === currentIndex ? DeleteAddressInfo.isLoading : false}
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
             >
-              Reject
-            </LoadingButton> */}
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
           </>
         )
       },
@@ -124,19 +164,6 @@ const Approvals = () => {
       </Button>
     </>
   );
-  const data = [
-    {
-      name: 'Abid Gaush Mohd Ansari',
-      email: 'abid.reactdeveloper@gmail.com',
-      phone: '8856823440',
-      department: 'computer',
-      status: labelStatus,
-      action: editAndDeleteButton,
-    },
-    { name: 'John Walsh', status: labelStatus, action: editAndDeleteButton },
-    { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
-    { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
-  ];
   const options = {
     filterType: 'dropdown',
   };
@@ -152,43 +179,12 @@ const Approvals = () => {
           <Typography variant="h4" gutterBottom>
             Approvals
           </Typography>
-          {/* <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewApprovalsHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Approval
-          </Button> */}
         </Stack>
-
         <Card>
           <MUIDataTable title={'Approval List'} data={data} columns={columns} options={options} />
         </Card>
       </Container>
-      <UsersModalApproval
-        open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Add Approval"
-        type="text"
-        textBoxLabel="Approval Name"
-        id="approvalName"
-        name="approval"
-        getInputValue={getInputValue}
-        buttonLabel="Add Approval"
-      />
-      <UsersModalApproval
-        open={editmodalOpen}
-        handleClose={modalHandleClose}
-        label="Edit Approval"
-        type="text"
-        textBoxLabel="Approval Name"
-        id="editApprovalName"
-        name="approval"
-        getInputValue={getInputValue}
-        buttonLabel="Update Approval"
-      />
+
     </Page>
   );
 };

@@ -52,9 +52,9 @@ const EmailModalTemplates = (props) => {
   const modalCloseHandler = () => {
     handleClose(false);
   };
-  const addEmailTemplateHandler = async () => {
+  const addEmailTemplateHandler = () => {
     if (emailTemplateData) {
-      await UpdateEmailTemplate({
+      UpdateEmailTemplate({
         id: emailTemplateData.id,
         category: textValue.category || 1,
         type: textValue.type,
@@ -62,8 +62,8 @@ const EmailModalTemplates = (props) => {
         message: textValue.body,
       });
     } else {
-      await AddEmailTemplate({
-        category: textValue.category,
+      AddEmailTemplate({
+        category: textValue.category || 1,
         type: textValue.type,
         subject: textValue.subject,
         message: textValue.body,
@@ -97,7 +97,7 @@ const EmailModalTemplates = (props) => {
       });
     }
     if (AddEmailTemplateInfo.isError) {
-      showToast('error', AddEmailTemplateInfo.error.data.msg);
+      showToast('error', AddEmailTemplateInfo.error);
       AddEmailTemplateInfo.reset();
     }
     if (UpdateEmailTemplateInfo.isSuccess) {

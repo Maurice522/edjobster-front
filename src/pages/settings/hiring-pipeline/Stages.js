@@ -238,34 +238,12 @@ const Stages = () => {
           <Typography variant="h4" gutterBottom>
             Stages
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewStageHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            Add Stage
-          </Button>
         </Stack>
 
         <Card>
           <MUIDataTable title={'Stage List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
-      <SettingsModal
-        open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Satge Name"
-        type="Add"
-        textboxlabel="Add Stage"
-        id="StageName"
-        name="name"
-        onChangeHandle={addChangeHandler}
-        buttonlabel="Add Stage"
-        addClickHandler={addClickHandler}
-        loadingbtn={btnLoader}
-      />
       <SettingsModal
         open={editmodalOpen}
         label="Satge Name"

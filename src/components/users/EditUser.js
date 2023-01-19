@@ -142,49 +142,47 @@ function EditUser() {
         onSubmit={handleSubmit}
         validationSchema={RegisterValidation}
       >
-        {() => {
-          return (
-            <Form className="bg-white w-6/12 shadow-md rounded px-8 pt-6 pb-8">
-              <div className='divrow'>
-                <Input className="inutbar"name="firstname" label="First Name" />
-                <Input className="inutbar"name="lastnamename" label="Last Name" />
-              </div>
-              <div className='divrow emailphone'>
-                <Input className="inutbar" name="email" label="Email" />
-                <Input className="inutbar" name="phone" label="Phone Number" />
-              </div>    
-              <div className='divrow'>  
-                <Input className="inutbar" name="department" label="Department" />
-                <Input className="inutbar" name="designation" label="Designation" />
-              </div>
-              <div className='divrow'>
-                <Input className="inutbar" name="role" label="Role" />
-              </div>
-              <div className="divrow flex items-center justify-between">
-                <button
-                //   component={RouterLink}
-                  onClick={navigateToPassword}
-                  to="/dashboard/users/list"
-                  className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type="submit"
-                >
-                  Save
-                </button>
-              </div>
-              <div className="divrow flex items-center justify-between">
-                <Button
-                        variant="contained"
-                        // component={RouterLink}
-                        onClick={cancelProcess}
-                        to="/dashboard/users/list"
-                        startIcon={<Iconify icon="eva:plus-fill" />}
-                    >
-                        Cancel
-                 </Button>
-              </div>
-            </Form>
-          );
-        }}
+        {() => (
+          <Form className="bg-white w-6/12 shadow-md rounded px-8 pt-6 pb-8">
+            <div className='divrow'>
+              <Input className="inutbar"name="firstname" label="First Name" />
+              <Input className="inutbar"name="lastnamename" label="Last Name" />
+            </div>
+            <div className='divrow emailphone'>
+              <Input className="inutbar" name="email" label="Email" />
+              <Input className="inutbar" name="phone" label="Phone Number" />
+            </div>    
+            <div className='divrow'>  
+              <Input className="inutbar" name="department" label="Department" />
+              <Input className="inutbar" name="designation" label="Designation" />
+            </div>
+            <div className='divrow'>
+              <Input className="inutbar" name="role" label="Role" />
+            </div>
+            <div className="divrow flex items-center justify-between">
+              <button
+              //   component={RouterLink}
+                onClick={navigateToPassword}
+                to="/dashboard/users/list"
+                className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Save
+              </button>
+            </div>
+            <div className="divrow flex items-center justify-between">
+              <Button
+                      variant="contained"
+                      // component={RouterLink}
+                      onClick={cancelProcess}
+                      to="/dashboard/users/list"
+                      startIcon={<Iconify icon="eva:plus-fill" />}
+                  >
+                      Cancel
+                </Button>
+            </div>
+          </Form>
+        )}
       </Formik>
     </div>
                                         

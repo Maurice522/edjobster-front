@@ -182,7 +182,7 @@ const List = () => {
 
           return (
             <SwitchButton
-              checked={isActive.is_active ? 'true' : false}
+              checked={isActive.is_active}
               onChange={() => activateDeactivateHandler(dataIndex)}
             />
           );
@@ -257,7 +257,7 @@ const List = () => {
 
           return (
             <SwitchButton
-              checked={isActive.is_active ? 'true' : false}
+              checked={!!isActive.is_active}
               onChange={() => activateDeactivateHandler(dataIndex)}
             />
           );
@@ -270,23 +270,21 @@ const List = () => {
       options: {
         filter: false,
         sort: false,
-        renderCerll: (dataIndex) => {
-          return (
-            <div>
-              <LoadingButton
-                style={{ minWidth: 0, margin: '0px 5px' }}
-                variant="contained"
-                color="error"
-                onClick={() => onDeleteHandler(dataIndex)}
-                loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
-              >
-                <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                  <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-                </ListItemIcon>
-              </LoadingButton>
-            </div>
-          )
-        },
+        renderCerll: (dataIndex) => (
+          <div>
+            <LoadingButton
+              style={{ minWidth: 0, margin: '0px 5px' }}
+              variant="contained"
+              color="error"
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+              </ListItemIcon>
+            </LoadingButton>
+          </div>
+        ),
       },
     },
   ];
@@ -299,7 +297,7 @@ const List = () => {
     const currentData = await sortedData[index];
     ActivateDeactivateApi({
       account_id: currentData.account_id,
-      status: currentData.is_active ? 'D' : 'A',
+      status: currentData.is_active ? 'D':'A',
     });
   };
 
@@ -337,6 +335,9 @@ const List = () => {
     showToast('success', ActivateDeactivateApiInfo.data.msg);
     refetch();
     ActivateDeactivateApiInfo.reset();
+  }
+  else if(ActivateDeactivateApiInfo.isError) {
+    showToast('error', ActivateDeactivateApiInfo.error.message)
   }
 
   const onDeleteHandler = async (dataIndex) => {

@@ -42,6 +42,7 @@ const Jobs = () => {
 
   const [detailsId, setDetailsId] = useState();
   const { data = [], refetch } = useGetJobQuery();
+  console.log(data)
   const { editJobId } = useParams();
 
   const [currentIndex, setCurrentIndex] = useState(editJobId);
@@ -55,7 +56,6 @@ const Jobs = () => {
   const handleClose = () => {
     setModelOpen(false);
     refetch();
-
   };
 
   const sortData = useMemo(() => {

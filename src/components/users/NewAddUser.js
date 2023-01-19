@@ -29,69 +29,68 @@ function AddUser() {
     role: Yup.string().required("Address is required"),
   });
 
-    const formData = useFormik({
-        initialValues: {
-          first_name: "",
-          last_name: "",
-          department: "",
-          designation: "",
-          role: "",
-          email: "",
-          mobile: "",
-        },
-        validationSchema: RegisterSchema,
-        onSubmit: async(values) => {
-
-         
-          const {first_name,
+  const formData = useFormik({
+      initialValues: {
+        first_name: "",
+        last_name: "",
+        department: "",
+        designation: "",
+        role: "",
+        email: "",
+        mobile: "",
+      },
+      validationSchema: RegisterSchema,
+      onSubmit: async (values) => {
+        const {
+          first_name,
+          last_name,
+          department,
+          designation,
+          role,
+          email,
+          mobile,
+        } = values;
+      
+        const res = await fetch(`${baseUrl}/account/members/`,{
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            first_name,
             last_name,
             department,
             designation,
             role,
             email,
             mobile,
-          } = values;
-        
-          const res = await fetch(`${baseUrl}/account/members/`,{
-            method:"POST",
-            headers:{
-              "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-             first_name,
-              last_name,
-              department,
-              designation,
-              role,
-              email,
-              mobile,
-            })
-          });
-      
-          const data = await res.json();
-          if(res.status === 422 || !data){
-            window.alert("Invalid Registeration");
-            console.log("Invalid Registeration");
-          }else{
-            window.alert("Registeration Successfull");
-            console.log("Registeration Successfull");
-          }
-
-
-          
-          alert(JSON.stringify(values, null, 2));
-          console.log(values);
-          // history.push("/dashboard/user/adduser/createpassword");
-        //  navigate('/dashboard/user/adduser/createpassword')
-          
-        },
-    });
+          })
+        });
     
-    const navigate = useNavigate()
-    const navigatecancel=()=>{
-        navigate('/dashboard/user')
-    }
-    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setSubmitting } = formData;
+        const data = await res.json();
+        if(res.status === 422 || !data){
+          window.alert("Invalid Registeration");
+          console.log("Invalid Registeration");
+        }else{
+          window.alert("Registeration Successfull");
+          console.log("Registeration Successfull");
+        }
+
+
+        
+        alert(JSON.stringify(values, null, 2));
+        console.log(values);
+        // history.push("/dashboard/user/adduser/createpassword");
+      //  navigate('/dashboard/user/adduser/createpassword')
+        
+      },
+  });
+    
+  const navigate = useNavigate()
+  const navigatecancel=()=>{
+    navigate('/dashboard/user')
+  }
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setSubmitting } = formData;
 
   return (
       <div>

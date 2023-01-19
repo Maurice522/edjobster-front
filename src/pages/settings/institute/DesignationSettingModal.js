@@ -14,7 +14,7 @@ import { LoadingButton } from '@mui/lab';
 
 const DesignationSettingModal = (props) => {
   // eslint-disable-next-line react/prop-types
-  const { open, handleClose, addClickHandler, loadingBtn,onChangeHandle,textboxlabel, buttonlabel } = props;
+  const { open, handleClose, addClickHandler, loadingBtn,onChangeHandle,textboxlabel, buttonlabel, value } = props;
 
   return (
   <>
@@ -39,7 +39,9 @@ const DesignationSettingModal = (props) => {
                     variant="outlined"
                     onChange={onChangeHandle}
                     name="name"
-                    fullWidth                  />
+                    fullWidth        
+                    value={value}          
+                  />
                 </Grid>
               </Grid>
             </Box>

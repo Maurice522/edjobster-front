@@ -26,12 +26,13 @@ import {
 
 const CreateCandidate = () => {
   const [modelOpen, setModelOpen] = useState(false);
-  const {data: stateData} = useGetStateQuery();
   const {data: countryData} = useGetCountryQuery();
-  const {data: cityData} = useGetCityQuery();
-  console.log(stateData)
-  console.log(cityData)
   console.log(countryData)
+
+  // const {data: stateData} = useGetStateQuery();
+  // const {data: cityData} = useGetCityQuery();
+  // console.log(stateData)
+  // console.log(cityData)
   const { data: candidateData, candidateDataInfo } = useGetCandidateListQuery();
 
   const onCandidateModelView = () => {

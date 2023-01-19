@@ -19,7 +19,7 @@ const baseUrl= "http://127.0.0.1:8000";
 const DepartmentSettingsModal = (props) => {
   const navigate= useNavigate()
   // eslint-disable-next-line react/prop-types
-  const { open, handleClose, addClickHandler, loadingBtn,onChangeHandle, textboxlabel, buttonlabel } = props;
+  const { open, handleClose, addClickHandler, loadingBtn,onChangeHandle, textboxlabel, buttonlabel, value } = props;
 
   return (
   <>
@@ -44,7 +44,9 @@ const DepartmentSettingsModal = (props) => {
                     variant="outlined"
                     onChange={onChangeHandle}
                     name="name"
-                    fullWidth/>
+                    fullWidth
+                    value={value}
+                  />
                 </Grid>
               </Grid>
             </Box>

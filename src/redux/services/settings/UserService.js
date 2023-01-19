@@ -8,6 +8,9 @@ const extendedApi = apiBasePath.injectEndpoints({
         getUsersApi: build.query({
             query: () => ({
                 url: `${apiUrl.user}`,
+                headers: {
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                }
             }),
         }),
         addUserApi: build.mutation({
@@ -15,26 +18,38 @@ const extendedApi = apiBasePath.injectEndpoints({
                 url: `${apiUrl.user}`,
                 method: "POST",
                 body: data,
+                headers: {
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                }
             })
         }),
         updateUserApi: build.mutation({
             query: (data) => ({
-                url: `${apiUrl.user}`,
+                url: `${apiUrl.userUpdate}`,
                 method: "POST",
                 body: data,
+                headers: {
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                }
             })
         }),
         deleteUserApi: build.mutation({
             query: (id) => ({
                 url: `${apiUrl.user}?account_id=${id}`,
                 method: "DELETE",
+                headers: {
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                }
             })
         }),
-        activateDeactivateUserApi:build.mutation({
+        activateDeactivateUserApi: build.mutation({
             query:(data)=>({
-                url :`${apiUrl.activate_deactivate_user}`,
+                url :`${apiUrl.activateUser}`,
                 method:"POST",
-                body:data
+                body:data,
+                headers: {
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                }
             })
         })
 
