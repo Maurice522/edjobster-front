@@ -62,6 +62,8 @@ import NewUserList from './pages/settings/users/NewUserList'
 import DashboardNavbar from './layouts/dashboard/DashboardNavbar';
 import DashboardWithoutSidebar from './layouts/dashboard/DashboardwithoutSidebar'
 import CreateWebform from './pages/settings/candidate-settings/CreateWebform';
+import NewcreateCandidate from './pages/main/CreateCandidate/NewcreateCandidate';
+
 
 
 
@@ -176,6 +178,8 @@ export default function Router() {
 
         { path: '/dashboard/candidates/scheduleinterview', element: <IndCanScheduleInterview /> },
         { path: '/dashboard/candidates/newcreate', element: <IndCanJob /> },
+        { path: '/dashboard/Newcandidates', element: <NewcreateCandidate /> },
+
 
 
       ],
