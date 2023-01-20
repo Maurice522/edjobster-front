@@ -9,8 +9,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-const EditAssessment = () => {
-  return (
+const EditAssessment = () => (
     <>
       <Grid container spacing={2} padding="20px">
         <Grid item xs={6} display="flex">
@@ -229,7 +228,6 @@ const EditAssessment = () => {
       </Container>
     </>
   );
-};
 
 export default EditAssessment;
 

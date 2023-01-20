@@ -8,7 +8,6 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { DataGrid } from '@mui/x-data-grid';
 import Page from '../../../components/Page';
 // eslint-disable-next-line import/named
-import DataTableLazyLoading from '../../../components/lazyloading/DataTableLazyLoading';
 import { showToast } from '../../../utils/toast';
 import List from './List';
 

@@ -61,6 +61,7 @@ import CreateEmail from './pages/settings/email-templates/CreateEmail';
 import NewUserList from './pages/settings/users/NewUserList'
 import DashboardNavbar from './layouts/dashboard/DashboardNavbar';
 import DashboardWithoutSidebar from './layouts/dashboard/DashboardwithoutSidebar'
+import CreateWebform from './pages/settings/candidate-settings/CreateWebform';
 
 
 
@@ -124,6 +125,7 @@ export default function Router() {
         { path: 'email-templates/templates', element: <Templates /> },
         { path: 'candidate-settings/fields', element: <Fields /> },
         { path: 'candidate-settings/webforms', element: <Webforms /> },
+        { path: 'candidate-settings/webforms/new', element: <CreateWebform /> },
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },

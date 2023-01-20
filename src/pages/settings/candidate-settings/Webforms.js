@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 
 // material
@@ -22,6 +22,7 @@ import Iconify from '../../../components/Iconify';
 import WebFormsModal from '../../../components/webform/WebFormModal';
 
 const Webforms = () => {
+  const navigate = useNavigate()
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetWebformQuery();
@@ -157,7 +158,7 @@ const Webforms = () => {
             variant="contained"
             component={RouterLink}
             to="#"
-            onClick={addNewWebformHandler}
+            onClick={() => navigate("/dashboard/candidate-settings/webforms/new", {replace: true})}
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Webform
