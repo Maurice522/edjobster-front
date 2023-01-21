@@ -26,7 +26,7 @@ export default function Logo({ disabledLink = false, sx }) {
   const logo = (
     <Box sx={{ width: 40, height: 40, ...sx }}>
 
-      <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+      {/* <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
         width="4501.000000pt" height="4500.000000pt" viewBox="0 0 4501.000000 4500.000000"
         preserveAspectRatio="xMidYMid meet">
 
@@ -50,9 +50,9 @@ export default function Logo({ disabledLink = false, sx }) {
               648 1076 580 2493 -167 3495 -494 661 -1201 1081 -2043 1212 -103 16 -190 21
               -415 23 -157 2 -298 1 -315 -1z"/>
         </g>
-      </svg>
+      </svg> */}
 
-      {/* <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
+      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
         <defs>
           <linearGradient id="BG1" x1="100%" x2="50%" y1="9.946%" y2="50%">
             <stop offset="0%" stopColor={PRIMARY_DARK} />
@@ -82,7 +82,7 @@ export default function Logo({ disabledLink = false, sx }) {
             d="M450 384c26.509 0 48-21.491 48-48s-21.491-48-48-48-48 21.491-48 48 21.491 48 48 48"
           />
         </g>
-      </svg> */}
+      </svg>
     </Box>
   );
 
@@ -90,5 +90,5 @@ export default function Logo({ disabledLink = false, sx }) {
     return <>{logo}</>;
   }
 
-  return <RouterLink to="/">{logo}</RouterLink>;
+  return logo;
 }

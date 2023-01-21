@@ -14,16 +14,25 @@ import { showToast } from '../../../utils/toast';
 import { useGetCountryQuery, useGetStateQuery, useGetCityQuery } from "../../../redux/services/settings/CountryStateCityService";
 
 
-// TODO: @kundan
-
 export default function RegisterForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {data: countryData} = useGetCountryQuery();
-  const [countryIndex, setCountryIndex] = useState(1)
-  console.log(countryData.countries)
-  const {data: stateData} = useGetStateQuery(countryIndex)
-  console.log(stateData)
+  const {data: countryData} = useGetCountryQuery()
+  const [country, setCountry] = useState(1)
+  const {data: stateData, refetch: stateDataRefetch} = useGetStateQuery(country)
+  const [currentState, setCurrentState] = useState(1)
+  const {data: cityData, refetch: cityDataRefetch} = useGetCityQuery(currentState)
+  const [city, setCity] = useState(1)
+  const handleChangeCountry = (e) => {
+    setCountry(e.target.value)
+    stateDataRefetch()
+    cityDataRefetch()
+  }
+  const handleChangeState = (e) => {
+    setCurrentState(e.target.value)
+    cityDataRefetch()
+  }
+  const handleChangeCity = (e) => setCity(e.target.value)
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -53,7 +62,9 @@ export default function RegisterForm() {
     companyName: Yup.string().required("Company Name is required").min(5, "Too Short!"),
     address: Yup.string().required("Address is required").min(10, "Too Short!"),
     landmark: Yup.string().required("Address is required").min(5, "Too Short!"),
-    city: Yup.string().required("Address is required"),
+    city: Yup.number().required("City is required"),
+    state: Yup.number().required("State is required"),
+    country: Yup.number().required("Country is required"),
     pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
   });
 
@@ -63,15 +74,14 @@ export default function RegisterForm() {
       lastName: '',
       email: '',
       mobile:'',
-
       companyName: '',
-
       password: '',
       confirmPassword: '',
-
       address: '',
       landmark: '',
-      city: '',
+      country: 1,
+      state: 1,
+      city: 1,
       pincode: '',
     },
     validationSchema: RegisterSchema,
@@ -87,7 +97,9 @@ export default function RegisterForm() {
         address: values.address,
         landmark: values.landmark,
         city: values.city,
-        pincode: values.pincode
+        pincode: values.pincode,
+        state: values.state,
+        country: values.country
       })
       dispatch(authAction(true))
       // navigate('/dashboard', { replace: true });
@@ -184,6 +196,12 @@ export default function RegisterForm() {
             helperText={touched.landmark && errors.landmark}
           />
           <TextField
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            label="Age"
+            type={"number"}
+          />
+          <TextField
             fullWidth
             autoComplete="country"
             type="string"
@@ -192,19 +210,26 @@ export default function RegisterForm() {
             {...getFieldProps('country')}
             error={Boolean(touched.city && errors.city)}
             helperText={touched.city && errors.city}
-          />
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            label="Age"
+            SelectProps={{
+              native: true,
+            }}
+            value={country}
+            onChange={handleChangeCountry}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
+            <option 
+              value={0} 
+              style={{
+                fontStyle: "italic"
+              }}
+            >
+              Country
+            </option>
+            {countryData.countries.map((e, i) => (
+              <option key={i} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+          </TextField>
           <TextField
             fullWidth
             autoComplete="state"
@@ -214,7 +239,26 @@ export default function RegisterForm() {
             {...getFieldProps('state')}
             error={Boolean(touched.city && errors.city)}
             helperText={touched.city && errors.city}
-          />
+            onChange={handleChangeState}
+            SelectProps={{
+              native: true,
+            }}
+            value={currentState}
+          >
+            <option 
+              value={0} 
+              style={{
+                fontStyle: "italic"
+              }}
+            >
+              State
+            </option>
+            {stateData.states.map((e, i) => (
+              <option key={i} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+          </TextField>
           <TextField
             fullWidth
             autoComplete="city"
@@ -224,7 +268,26 @@ export default function RegisterForm() {
             {...getFieldProps('city')}
             error={Boolean(touched.city && errors.city)}
             helperText={touched.city && errors.city}
-          />
+            onChange={handleChangeCity}
+            SelectProps={{
+              native: true,
+            }}
+            value={city}
+          >
+            <option 
+              value={0} 
+              style={{
+                fontStyle: "italic"
+              }}
+            >
+              City
+            </option>
+            {cityData.cities.map((e, i) => (
+              <option key={i} value={e.id}>
+                {e.name}
+              </option>
+            ))}
+          </TextField>
           <TextField
             fullWidth
             autoComplete="pincode"
