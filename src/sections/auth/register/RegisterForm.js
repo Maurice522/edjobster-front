@@ -188,6 +188,7 @@ export default function RegisterForm() {
             autoComplete="country"
             type="string"
             label="Country"
+            select
             {...getFieldProps('country')}
             error={Boolean(touched.city && errors.city)}
             helperText={touched.city && errors.city}
@@ -209,6 +210,7 @@ export default function RegisterForm() {
             autoComplete="state"
             type="string"
             label="State"
+            select
             {...getFieldProps('state')}
             error={Boolean(touched.city && errors.city)}
             helperText={touched.city && errors.city}
@@ -218,6 +220,7 @@ export default function RegisterForm() {
             autoComplete="city"
             type="string"
             label="City"
+            select
             {...getFieldProps('city')}
             error={Boolean(touched.city && errors.city)}
             helperText={touched.city && errors.city}
