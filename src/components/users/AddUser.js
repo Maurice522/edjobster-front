@@ -4,20 +4,20 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 // import { useHistory } from "react-router-dom";
 // import { Link as RouterLink } from 'react-router-dom';
-import {
-  Button,
-  Card, Stack
-} from '@mui/material';
+import { Stack, TextField, IconButton, InputAdornment, Divider, Select, MenuItem, Card, Button } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { showToast } from '../../utils/toast';
 import {
   useAddUserMutation
 } from "../../redux/services/user/userService"
-
+import Iconify from '../Iconify';
 
 
 function AddUser() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [AddUser, AddUserInfo] = useAddUserMutation();
 
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -33,267 +33,265 @@ function AddUser() {
     pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
     password: Yup.string().required("Password is required").min(8, "Too Short")
   });
-  
-    const navigate= useNavigate()
-    const navigatecancel = () =>{
-      navigate('/dashboard/users/list')
+
+  const navigate = useNavigate()
+  const navigatecancel = () => {
+    navigate('/dashboard/users/list')
+  }
+  // const proceed = () =>{
+  //   navigate('/dashboard/user/adduser/createpassword')
+  // }
+
+
+  const validate = (values) => {
+    const errors = {}
+
+    if (!values.email) {
+      errors.email = 'Required'
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = 'Invalid email address'
     }
-    // const proceed = () =>{
-    //   navigate('/dashboard/user/adduser/createpassword')
-    // }
+    if (!values.first_name) {
+      errors.first_name = 'Required'
+    }
 
+    if (!values.last_name) {
+      errors.last_name = 'Required'
+    }
+    if (!values.designation) {
+      errors.designation = 'Required'
+    }
+    if (!values.role) {
+      errors.role = 'Required'
+    }
 
-    const validate = (values) => {
-        const errors = {}
-      
-        if (!values.email) {
-          errors.email = 'Required'
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-          errors.email = 'Invalid email address'
-        }
-        if (!values.first_name) {
-          errors.first_name = 'Required'
-        }
-        
-        if (!values.last_name) {
-          errors.last_name = 'Required'
-        }
-        if (!values.designation) {
-          errors.designation = 'Required'
-        }
-        if (!values.role) {
-          errors.role = 'Required'
-        }
-        
-        if (!values.department) {
-          errors.department = 'Required'
-        }
-        if (!values.mobile) {
-          errors.department = 'Required'
-        }
-      
-        return errors
-      }
-    const formik = useFormik({
-      initialValues: {
-        first_name: "",
-        last_name: "",
-        department: "",
-        designation: "",
-        role: "",
-        email: "",
-        mobile: "",
-        password: ""
-        // confirmpassword: "",
-      },
-      validate,
-      onSubmit: async (values) => {         
-        AddUser(values)
-      },
-    });
-    useEffect(() => {
-      if(AddUserInfo.isSuccess) {
-        showToast("success", "Success User Created")
-      }
-    })
+    if (!values.department) {
+      errors.department = 'Required'
+    }
+    if (!values.mobile) {
+      errors.department = 'Required'
+    }
+
+    return errors
+  }
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      department: "",
+      designation: "",
+      role: "",
+      email: "",
+      mobile: "",
+      password: ""
+      // confirmpassword: "",
+    },
+    validate,
+    onSubmit: async (values) => {
+      AddUser(values)
+      console.log(values)
+    },
+  });
+  useEffect(() => {
+    if (AddUserInfo.isSuccess) {
+      showToast("success", "Success User Created")
+    }
+  })
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setSubmitting } = formik;
+
 
   return (
-      <div>
+    <FormikProvider value={formik}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+
         <Card sx={{
-            position:"relative",
-            marginLeft:"auto",
-            marginRight:"auto",
-            width: "90%",
-            backgroundColor:"#fff",
-            // height :"80vh",
-            boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
-            borderRadius:'16px',
-            }}>
-              <div className="backbutton tt-back">
-                <ArrowBackIosIcon onClick={navigatecancel} sx={{
-                  cursor:"pointer"
-                }}/>
-              </div>
-            <Stack sx={{
-              marginTop:"1%",
-              display:"flex",
-              flexDirection:"row",
-              justifyContent:"center",
-              gap:"2%"
-              }}>              
-             <h1 className='dialogueTitle'>Create User Profile</h1> 
-            </Stack>
-            
+          position: "relative",
+          marginLeft: "auto",
+          marginRight: "auto",
+          width: "90%",
+          backgroundColor: "#fff",
+          // height :"80vh",
+          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
+          borderRadius: '16px',
+        }}>
+          <div className="backbutton tt-back">
+            <ArrowBackIosIcon onClick={navigatecancel} sx={{
+              cursor: "pointer"
+            }} />
+          </div>
+          <Stack sx={{
+            marginTop: "1%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            gap: "2%"
+          }}>
+            <h1 className='dialogueTitle'>Create User Profile</h1>
+          </Stack>
+
           <div className="h-screen flex items-center justify-center flex-col bg-gray-100">
-      
 
-            <form onSubmit={formik.handleSubmit} className="bg-white w-6/12 shadow-md rounded px-8 pt-6 pb-8">
-              <div className='divrow'>
-                <label htmlFor='first_name'>First Name
-                  <input
-                      className="inutbar"
-                      id="first_name"
-                      name="first_name"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.first_name}
-                  />
-                  {formik.touched.first_name && formik.errors.first_name ? <div>{formik.errors.first_name}</div> : null}
-                </label>
-                
-                <label htmlFor='last_name'>Last Name
-                  <input
-                      className="inutbar"
-                      id="last_name"
-                      name="last_name"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.last_name}
-                  />
-                  {formik.touched.last_name && formik.errors.last_name ? <div>{formik.errors.last_name}</div> : null}
-                </label>                
-              </div>
-              <div className='divrow emailphone'>
-                <label htmlFor='email'>Email
-                  <input
-                      className="inutbar"
-                      id="email"
-                      name="email"
-                      type="email"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.email}
-                  />
-                  {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
-                </label>
 
-                <label htmlFor='mobile'>mobile Number
-                  <input
-                      className="phonenumber"
-                      id="mobile"
-                      name="mobile"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.mobile}
-                  />
-                  {formik.touched.mobile && formik.errors.mobile ? <div>{formik.errors.mobile}</div> : null}
-                </label>
-                
-              </div>
-              <div className='divrow'>
-                <label htmlFor='department'>Department
-                  <input
-                      className="inutbar"
-                      id="department"
-                      name="department"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.department}
-                  />
-                  {formik.touched.department && formik.errors.department ? <div>{formik.errors.department}</div> : null}
-                </label>
-                
-                <label htmlFor='designation'>Designation
-                  <input
-                      className="inutbar"
-                      id="designation"
-                      name="designation"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.designation}
-                  />
-                  {formik.touched.designation && formik.errors.designation ? <div>{formik.errors.designation}</div> : null}
-                </label>
-                
-              </div>
-              <div className='divrow'>
-                <label htmlFor='role'>Role
-                  <input
-                      className="inutbar"
-                      id="role"
-                      name="role"
-                      type="text"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.role}
-                  />
-                  {formik.touched.role && formik.errors.role ? <div>{formik.errors.role}</div> : null}
-                </label>
-              </div>
-              <div className='divrow'>
-                <div className='passwordrow'>
-                  <label htmlFor="password">Password
-                    <input htmlFor="password"
-                      className="userpasswordbar"
-                      id="password"
-                      name="password"
-                      type="password"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.password}
-                    />
-                     {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
-                  </label>
-                </div>
-                <div className='passwordrow'>
-                  <label htmlFor="confirmpassword">Confirm Password
-                    <input htmlFor="confirmpassword"
-                      className="userpasswordbar2"
-                      id="confirmpassword"
-                      name="confirmpassword"
-                      type="password"
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.confirmpassword}
-                    />
-                     {formik.touched.confirmpassword && formik.errors.confirmpassword ? <div>{formik.errors.password}</div> : null}
-                  </label>
-                </div>
-              </div>
-              <div className='divrowcb'>
-                <input
-                  className="inutbarcb"
-                  id="status"
-                  name="status"
-                  type="checkbox"
-                  checked
-                  // onChange={formik.handleChange}
-                  // onBlur={formik.handleBlur}
-                  // value={formik.values.role}
+            <div className='divrow'>
+              <div className='passwordrow'>
+
+                <TextField
+                  fullWidth
+                  label="First name"
+                  {...getFieldProps('first_name')}
+                  error={Boolean(touched.firstName && errors.firstName)}
+                  helperText={touched.firstName && errors.firstName}
                 />
-                <label className="cblabel" htmlFor='Status'>is Active                  
-                  {formik.touched.status && formik.errors.status ? <div>{formik.errors.role}</div> : null}
-                </label>
               </div>
-              <div className="divrow flex items-center justify-between">
-                <button
-                  className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  type='submit'
-                >
-                  Submit
-                </button>
+              <div className='passwordrow'>
+
+                <TextField
+                  fullWidth
+                  label="Last name"
+                  {...getFieldProps('last_name')}
+                  error={Boolean(touched.last_name && errors.last_name)}
+                  helperText={touched.last_name && errors.last_name}
+                />
               </div>
-              <div className="divrow flex items-center justify-between">
-                <Button
-                  type='sub'
-                  variant="contained"
-                  onClick={navigatecancel}
-                  sx={{
-                  marginBottom:"2%"
-                    }}
-                  >
-                  Cancel
-                </Button>
+            </div>
+            <div className='divrow'>
+              <div className='passwordrow'>
+
+                <TextField
+                  fullWidth
+                  label="Email"
+                  {...getFieldProps('email')}
+                  error={Boolean(touched.email && errors.email)}
+                  helperText={touched.email && errors.email}
+                />
               </div>
-            </form>
-          </div>           
+              <div className='passwordrow'>
+
+                <TextField
+                  fullWidth
+                  label="Mobile"
+                  {...getFieldProps('mobile')}
+                  error={Boolean(touched.mobile && errors.mobile)}
+                  helperText={touched.mobile && errors.mobile}
+                />
+              </div>
+
+            </div>
+            <div className='divrow'>
+              <div className='passwordrow'>
+
+                <TextField
+                  fullWidth
+                  label="Department"
+                  {...getFieldProps('department')}
+                  error={Boolean(touched.department && errors.department)}
+                  helperText={touched.department && errors.department}
+                />
+              </div>
+              <div className='passwordrow'>
+
+                <TextField
+                  fullWidth
+                  label="Designation"
+                  {...getFieldProps('designation')}
+                  error={Boolean(touched.designation && errors.designation)}
+                  helperText={touched.designation && errors.designation}
+                />
+              </div>
+            </div>
+            <div className='divrow'>
+              <div className='passwordrow'>
+                <TextField
+                  fullWidth
+                  label="Role"
+                  {...getFieldProps('role')}
+                  error={Boolean(touched.role && errors.role)}
+                  helperText={touched.role && errors.role}
+                />
+              </div>
+            </div>
+            <div className='divrow'>
+              <div className='passwordrow'>
+                <TextField
+                  fullWidth
+                  autoComplete="current-password"
+                  type={showPassword ? 'text' : 'password'}
+                  label="Password"
+                  {...getFieldProps('password')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
+                          <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(touched.password && errors.password)}
+                  helperText={touched.password && errors.password}
+                />
+              </div>
+              <div className='passwordrow'>
+                <TextField
+                  fullWidth
+                  autoComplete="current-password"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  label="Confirm Password"
+                  {...getFieldProps('confirmpassword')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton edge="end" onClick={() => setShowConfirmPassword((prev) => !prev)}>
+                          <Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+                  helperText={touched.confirmPassword && errors.confirmPassword}
+                />
+              </div>
+            </div>
+            <div className='divrowcb'>
+              <input
+                className="inutbarcb"
+                id="status"
+                name="status"
+                type="checkbox"
+                checked
+              // onChange={formik.handleChange}
+              // onBlur={formik.handleBlur}
+              // value={formik.values.role}
+              />
+              <label className="cblabel" htmlFor='Status'>is Active
+                {formik.touched.status && formik.errors.status ? <div>{formik.errors.role}</div> : null}
+              </label>
+            </div>
+            <div className="divrow flex items-center justify-between">
+              <button
+                className="registerbutton1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type='submit'
+              >
+                Submit
+              </button>
+            </div>
+            <div className="divrow flex items-center justify-between">
+              <Button
+                type='sub'
+                variant="contained"
+                onClick={navigatecancel}
+                sx={{
+                  marginBottom: "2%"
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
         </Card>
-      </div>
+      </Form>
+
+    </FormikProvider >
   )
 }
 

@@ -63,6 +63,7 @@ import DashboardNavbar from './layouts/dashboard/DashboardNavbar';
 import DashboardWithoutSidebar from './layouts/dashboard/DashboardwithoutSidebar'
 import CreateWebform from './pages/settings/candidate-settings/CreateWebform';
 import NewcreateCandidate from './pages/main/CreateCandidate/NewcreateCandidate';
+import NewCreateInterview from './pages/main/CreateNewInteview/NewCreateInterview';
 
 
 
@@ -179,6 +180,7 @@ export default function Router() {
         { path: '/dashboard/candidates/scheduleinterview', element: <IndCanScheduleInterview /> },
         { path: '/dashboard/candidates/newcreate', element: <IndCanJob /> },
         { path: '/dashboard/Newcandidates', element: <NewcreateCandidate /> },
+        { path: '/dashboard/NewInterview', element: <NewCreateInterview /> },
 
 
 
