@@ -521,22 +521,26 @@ const FillDetails = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="description"
-                value={textValue.description}
-                label="Job Description"
-                onChange={onInputChangeHandler}
-              />
+              <h3 
+                style={{
+                  padding: "0.2rem",
+                }}
+              >
+                Job Description
+              </h3>
               <div className='editor2'>
-                <ReactQuill sx={{
-                  outerWidth:"80vw",
-                  marginBottom:"20px"
-                }}theme="snow" 
+                <ReactQuill 
+                  sx={{
+                    outerWidth:"80vw",
+                    marginBottom:"20px"
+                  }}
+                  theme="snow" 
                   modules={modules}
-                  formats={formats} value={state.comments || ''}
+                  formats={formats} 
+                  value={textValue.comments || ''}
+                  name="comments"
+                  onChange={(e) => onInputChangeHandler({target: {name: "comments", value: e}})}
+                  // onChange={onInputChangeHandler}
                 />
               </div>
             </Grid>

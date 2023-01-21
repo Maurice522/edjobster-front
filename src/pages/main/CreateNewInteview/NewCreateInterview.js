@@ -27,10 +27,10 @@ import Back from "../../../assets/images/back.svg"
 function NewCreateInterview() {
 
   const label = { inputProps: { 'aria-label': 'Mode' } };
-  const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
+  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
+  const handleChange = (e) => setValue(e)
+  const [startTime, setStartTime] = React.useState(dayjs('2014-08-18T21:11:54')); 
+  const [endTime, setEndTime] = React.useState(dayjs('2014-08-18T21:11:54')); 
 
   const modules = {
     toolbar: [
