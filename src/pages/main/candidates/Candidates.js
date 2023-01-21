@@ -100,22 +100,17 @@ const [candidateId,setCandidateId]=useState();
       valueGetter: (params) =>
         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
-    { field: 'details', headerName: 'Details', width: 300, editable: true, headerAlign:'center',align:'center', renderCell: (params) => {
-      return (
+    { field: 'details', headerName: 'Details', width: 300, editable: true, headerAlign:'center',align:'center', renderCell: (params) => (
         <div>
           <a href='/dashboard/candidates/candidate'>View</a>          
         </div>
-      );
-   }},
-    { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => {
-      return (
+      )},
+    { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => (
         <div>
           <EditIcon />
           <DeleteIcon />
         </div>
-      );
-   }
-
+      )
     },
   ];
 
