@@ -14,7 +14,7 @@ const Header = () => {
         <div className="header-content">
           <div className="header-logo-job">
             <NavLink to="/" className="header-logo">
-              Logo
+              <img src='../../assets/images/test-image.svg' alt="logo"/>
             </NavLink>
             <NavLink
               to="/dashboard/jobs"
@@ -33,6 +33,14 @@ const Header = () => {
               }
             >
               Candidates
+            </NavLink>
+            <NavLink
+              to="/dashboard/Newcandidates"
+              className={({ isActive }) =>
+                isActive ? "header-job-active" : "header-menu"
+              }
+            >
+              NewCandidates
             </NavLink>
             <NavLink
               to="/dashboard/interviews"

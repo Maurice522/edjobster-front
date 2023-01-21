@@ -11,7 +11,6 @@ const index = () => {
       <div className="common-width cc">
         <div className="cc-left">
           <Personal />
-          <Education />
         </div>
         <div className="cc-right">
           <AssigntoJob />

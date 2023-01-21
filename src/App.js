@@ -19,7 +19,7 @@ export default function App() {
   const auth = JSON.parse(localStorage.getItem("globalUser") || sessionStorage.getItem("globalUser"))
   console.log(auth)
   useEffect(() => {
-    if(!auth && !auth.account) {
+    if(!auth) {
       navigate("/login")
     }
     // else {
