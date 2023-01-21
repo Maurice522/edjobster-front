@@ -1,32 +1,26 @@
-import React from 'react'
+import * as Yup from 'yup';
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import {
-  Card,
   Stack,
   Button,
-  Container,
-  Typography,
-  ListItemIcon,
-  Grid,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  DialogContent,
-  Box,
+  RadioGroup,
+  Radio,
+  FormLabel
 } from '@mui/material';
 import ReactQuill from 'react-quill';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { useFormik as useForm, Form, FormikProvider } from 'formik';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { useGetJobListQuery } from "../../../redux/services/jobs/JobListService";
+import { useGetEmailCategoryQuery } from "../../../redux/services/settings/EmailCategoryService";
 import Back from "../../../assets/images/back.svg"
 
 
@@ -63,6 +57,26 @@ function NewCreateInterview() {
     comments: ''
   }
 
+  const {data: jobData, refetch: jobDataRefetch} = useGetJobListQuery()
+  const [job, setJob] = useState(0)
+  const handleChangeJob = (e) => setJob(e.target.value)
+
+  const {data: emailTemplateData, refetch: emailTemplateDataRefetch} = useGetEmailCategoryQuery()
+  const [emailTemplate, setEmailTemplate] = useState(0)
+  const handleChangeEmailTemplate = (e) => setEmailTemplate(e.target.value)
+
+  const RegisterSchema = Yup.object().shape({
+    title: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name required'),
+    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
+    street: Yup.string().required("Address is required").min(10, "Too Short!"),
+    city: Yup.number().required("City is required"),
+    state: Yup.number().required("State is required"),
+    country: Yup.number().required("Country is required"),
+    pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
+    marital_status: Yup.string().matches(/^((F|f)e)?(M|m)ale$/, "Marital Status format invalid").required("Marital Status is required"),
+  });
+
+
   return (
     <div>
       <Stack sx={{
@@ -89,26 +103,33 @@ function NewCreateInterview() {
                 variant="standard"
               />
             </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={5} mb={5} ml={0} mr={0}>
-              <FormControlLabel
-                value="end"
-                control={<Checkbox />}
-                label="In Person"
-                labelPlacement="end"
-              />
-              <FormControlLabel
-                value="end"
-                control={<Checkbox />}
-                label="Telephonic"
-                labelPlacement="end"
-              />
-              <FormControlLabel
-                value="end"
-                control={<Checkbox />}
-                label="Video"
-                labelPlacement="end"
-              />
-            </Stack>
+            <FormLabel sx={{textAlign: "left"}}>Interview Type</FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="female"
+              name="radio-buttons-group"
+            >
+              <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={5} mb={5} ml={0} mr={0}>
+                <FormControlLabel
+                  value="IP"
+                  control={<Radio />}
+                  label="In Person"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  value="PC"
+                  control={<Radio />}
+                  label="Telephonic"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  value="VC"
+                  control={<Radio />}
+                  label="Video"
+                  labelPlacement="end"
+                />
+              </Stack>
+            </RadioGroup>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
