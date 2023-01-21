@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -18,28 +18,51 @@ import {
   MenuItem,
   DialogContent,
   Box,
+  Divider,
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useGetCountryQuery, useGetStateQuery, useGetCityQuery } from "../../../redux/services/settings/CountryStateCityService";
+import { useGetAssesmentCategoryQuery } from "../../../redux/services/main/AssesmentCatagoriesservice";
+import { useGetJobListQuery } from "../../../redux/services/jobs/JobListService" 
 import Back from "../../../assets/images/back.svg"
 
 function NewcreateCandidate() {
-
   const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
-
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+  const {data: countryData} = useGetCountryQuery()
+  const [country, setCountry] = useState(1)
+  const {data: stateData, refetch: stateDataRefetch} = useGetStateQuery(country)
+  const [currentState, setCurrentState] = useState(1)
+  const {data: cityData, refetch: cityDataRefetch} = useGetCityQuery(currentState)
+  const [city, setCity] = useState(1)
+  const handleChangeCountry = (e) => {
+    setCountry(e.target.value)
+    stateDataRefetch()
+    cityDataRefetch()
+  }
+  const handleChangeState = (e) => {
+    setCurrentState(e.target.value)
+    cityDataRefetch()
+  }
+  const handleChangeCity = (e) => setCity(e.target.value) 
+  
+  const {data: assessmentData, refetch: assessmentDataRefetech} = useGetAssesmentCategoryQuery()
+  const [assessment, setAssessment] = useState(0)
+  const handleChangeAssessment = (e) => setAssessment(e.target.value)
+
+  const {data: jobData, refetch: jobDataRefetch} = useGetJobListQuery()
+  console.log(jobData)
+  const [job, setJob] = useState(0)
+  const handleChangeJob = (e) => setJob(e.target.value)
 
 
   return (
     <div>
-      
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} ml={5} mr={5}>
           <Stack sx={{
             display: "flex",
@@ -125,19 +148,35 @@ function NewcreateCandidate() {
                   label="Address"
                   variant="standard"
                 />
-                <TextField sx={{
-                  width: "60%"
-                }}
+                <TextField 
+                  sx={{
+                    width: "60%"
+                  }}
                   required
                   id="standard-select-currency-native"
                   select
-                  label="country"
+                  label="Country"
                   SelectProps={{
                     native: true,
                   }}
                   // helperText="Please select your country"
                   variant="standard"
-                />
+                  onChange={handleChangeCountry}
+                >
+                  <option 
+                    value={0} 
+                    style={{
+                      fontStyle: "italic"
+                    }}
+                  >
+                    Country
+                  </option>
+                  {countryData.countries.map((e, i) => (
+                    <option key={i} value={e.id}>
+                      {e.name}
+                    </option>
+                  ))}
+                </TextField>
 
               </Stack>
               <Stack direction="row" alignItems="center" justifyContent="flex-start"  gap={10} mb={5} ml={0} mr={0}>
@@ -149,22 +188,58 @@ function NewcreateCandidate() {
                   id="standard-required"
                   label="State"
                   variant="standard"
-                />
-                <TextField sx={{
-                  width: "15%"
-                }}
+                  onChange={handleChangeState}
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  <option 
+                    value={0} 
+                    style={{
+                      fontStyle: "italic"
+                    }}
+                  >
+                    State
+                  </option>
+                  {stateData.states.map((e, i) => (
+                    <option key={i} value={e.id}>
+                      {e.name}
+                    </option>
+                  ))}
+                </TextField>
+                <TextField 
+                  sx={{
+                    width: "15%"
+                  }}
                   required
                   id="standard-required"
                   select
                   label="City"
                   variant="standard"
-                />
+                  onChange={handleChangeCity}
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  <option 
+                    value={0} 
+                    style={{
+                      fontStyle: "italic"
+                    }}
+                  >
+                    City
+                  </option>
+                  {cityData.cities.map((e, i) => (
+                    <option key={i} value={e.id}>
+                      {e.name}
+                    </option>
+                  ))}
+                </TextField>
                 <TextField sx={{
                   width: "20%"
                 }}
                   required
                   id="standard-required"
-                  select
                   label="Zip-code"
                   variant="standard"
                 />
@@ -238,9 +313,28 @@ function NewcreateCandidate() {
                 }}
                   required
                   id="standard-required"
-                  label="Add"
+                  label="Assign to job"
                   variant="standard"
-                />
+                  select
+                  onChange={handleChangeJob}
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  <option 
+                    value={0} 
+                    style={{
+                      fontStyle: "italic"
+                    }}
+                  >
+                    Job
+                  </option>
+                  {jobData.map((e, i) => (
+                    <option key={i} value={e.id}>
+                      {e.title}
+                    </option>
+                  ))}
+                </TextField>
               </Stack>
               <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
                 <TextField sx={{
@@ -248,9 +342,28 @@ function NewcreateCandidate() {
                 }}
                   required
                   id="standard-required"
-                  label="General Questions"
+                  label="Assessment Questions"
                   variant="standard"
-                />
+                  select
+                  onChange={handleChangeAssessment}
+                  SelectProps={{
+                    native: true,
+                  }}
+                >
+                  <option 
+                    value={0} 
+                    style={{
+                      fontStyle: "italic"
+                    }}
+                  >
+                    Assessment Question
+                  </option>
+                  {assessmentData.data.map((e, i) => (
+                    <option key={i} value={e.id}>
+                      {e.name}
+                    </option>
+                  ))}
+                </TextField>
               </Stack>
             </Stack>
           </Stack>

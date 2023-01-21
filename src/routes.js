@@ -95,7 +95,7 @@ export default function Router() {
         { path: '/dashboard/jobs/edit-job/:editJobId', element: <CreateJob /> },
 
         { path: '/dashboard/candidates', element: <Candidates /> },
-        { path: '/dashboard/candidates/create-candidate', element: <CreateCandidate /> },
+        { path: '/dashboard/candidates/create-candidate', element: <NewcreateCandidate /> },
         { path: '/dashboard/candidates/edit-candidate', element: <EditCandidate /> },
 
         //  Individuals can
@@ -177,7 +177,7 @@ export default function Router() {
       children: [
 
         { path: '/dashboard/candidates/scheduleinterview', element: <IndCanScheduleInterview /> },
-        { path: '/dashboard/candidates/newcreate', element: <IndCanJob /> },
+        { path: '/dashboard/candidates/newcreate', element: <NewcreateCandidate /> },
         { path: '/dashboard/Newcandidates', element: <NewcreateCandidate /> },
 
 
