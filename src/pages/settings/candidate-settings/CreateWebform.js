@@ -2,40 +2,37 @@ import { useState, useEffect } from "react";
 import {
     Card, Stack, Button, Container,
     Typography, ListItemIcon,
-    Chip, TextField, Divider
+    Chip, TextField, Divider, Input
 } from '@mui/material';
 import { showToast } from '../../../utils/toast';
 
 const dataTypes = [
-    "Short Text",
+    "Text",
     "Paragraph",
     "Number",
     "Phone",
     "Email",
-    "Single Choice",
-    "Multiple Choice"
+    // "Single Choice",
+    // "Multiple Choice"
 ]
 
 function Editable(props) {
-    const { children, value, handleChange, multiLine, placeholder } = props
-    console.log(multiLine, placeholder)
+    const { children, value, handleChange, multiLine, placeholder, fullWidth } = props
     const [editable, setEditable] = useState(false)
     return (
         editable?(
-            <Container sx={{display: "flex", justifyContent: "space-between"}}>
+            <Container sx={{display: "flex", justifyContent: "space-between", alignItems: "center", gap: "2rem"}}>
                 <TextField 
                     id="outlined-basic" 
                     label="Outlined" 
                     variant="outlined" 
                     value={value} 
                     onChange={handleChange}
-                    multiline={multiLine}
-                    maxRows={6}
                     placeholder={placeholder}
+                    fullWidth={fullWidth}
+                    multiline={multiLine}
                 />
-                <Button variant="contained" onClick={() => setEditable(false)} sx={{
-                    padding: "0 2rem"
-                }}>
+                <Button variant="contained" onClick={() => setEditable(false)}>
                     Save
                 </Button>
             </Container>
@@ -55,7 +52,6 @@ export default function CreateWebform() {
     const handleChangeFormTitle = (e) => setFormTitle(e.target.value.trim())
     const [formData, setFormData] = useState([{
         name: "Personal Details",
-        description: "",
         fields: [
             {
                 name: "First Name",
@@ -75,40 +71,25 @@ export default function CreateWebform() {
             }
         ]
     }])
-    const [sections, setSections] = useState([])
+    const [sections, setSections] = useState(["personal details"])
     const [currentSection, setCurrentSection] = useState(-1)
-    const addSection = (name, description, fields) => {
+    const addSection = (name, fields) => {
         setFormData(prev => {
             if(!sections.includes(name.toLowerCase())) {
                 setSections(pre => [...pre, name.toLowerCase()]);
-                return [...prev, {name, description, fields}]
+                return [...prev, {name, fields}]
             }
             showToast("error", "Section with the same already exists.");
             return prev
         })
     }
-    const updateSectionName = (name, newName) => {
-        if(sections.includes(name.toLowerCase())) {
-            setSections(prev => {
-                prev[sections.indexOf(name)] = newName.toLowerCase()
+    const updateSectionFields = (sectionName, fieldName, fields) => {
+        console.log(fields)
+        if(sections.includes(sectionName.toLowerCase())) {
+            setFormData(prev => {
+                prev[sections.indexOf(sectionName)] = {...prev[sections.indexOf(fieldName)], fields}
+                console.log(prev)
                 return prev
-            })
-            setFormData(prev => {
-                prev[sections.indexOf(name)] = {...prev[sections.indexOf(name)], name: newName}
-            })
-        }
-    }
-    const updateSectionFields = (name, fields) => {
-        if(sections.includes(name.toLowerCase())) {
-            setFormData(prev => {
-                prev[sections.indexOf(name)] = {...prev[sections.indexOf(name)], fields}
-            })
-        }
-    }
-    const updateSectionDescription = (name, des) => {
-        if(sections.includes(name.toLowerCase())) {
-            setFormData(prev => {
-                prev[sections.indexOf(name)] = {...prev[sections.indexOf(name)], description: des}
             })
         }
     }
@@ -139,6 +120,7 @@ export default function CreateWebform() {
                         handleChange={handleChangeFormTitle}
                         multiLine
                         placeholder={"Edit Form Title"}
+                        fullWidth
                     >
                         <Typography variant="h4">{formTitle}</Typography>
                     </Editable>
@@ -149,6 +131,33 @@ export default function CreateWebform() {
                         <Divider orientation="horizontal" flexItem>
                             {e.name}
                         </Divider>
+                        <Container sx={{display: "flex", borderRadius: "1rem", flexDirection: "column", gap: "2rem"}}>
+                            {e.fields.map((elem, j) => (
+                                <Container key={j} sx={{display: "flex", flexDirection: "column", gap: "1   rem"}}>
+                                    <Editable 
+                                        value={e.fields[j].name}
+                                        placeholder={e.name}
+                                        handleChange={(event) => {
+                                            // eslint-disable-next-line prefer-const
+                                            let { fields } = e
+                                            fields[j].name = event.target.value.trim()
+                                            console.log(fields[j].name)
+                                            updateSectionFields(e.name, e.fields[j].name, fields)
+                                        }}
+
+                                    >
+                                        <TextField 
+                                            // type={`${e.fields[j].type.split(" ").length>0?e.fields[j].type.split(" ")[1].toLowerCase():e.fields[j].type.toLowerCase()}`} 
+                                            type={`${e.fields[j].type.toLowerCase()}`}
+                                            placeholder={e.fields[j].name}
+                                            variant="filled"
+                                            label={e.fields[j].type}
+                                            disabled
+                                        />
+                                    </Editable>
+                                </Container>
+                            ))}
+                        </Container>
                     </Container>
                 ))}
             </Container>
