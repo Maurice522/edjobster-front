@@ -90,4 +90,5 @@ export const {
   useAddCandidateResumeMutation,
   useUpdateCandidateMutation,
   useDeleteCandidateMutation,
+  useAddCandidateMutation
 } = extendedApi;
