@@ -1,12 +1,14 @@
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Stack, Button, TextField, Container, CircularProgress } from '@mui/material';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useFormik as useForm, Form, FormikProvider } from 'formik';
+// eslint-disable-next-line import/no-unresolved
+import { showToast } from 'src/utils/toast';
 import { useAddCandidateMutation } from '../../../redux/services/candidate/CandidateServices';
 import {
   useGetCountryQuery,
@@ -18,6 +20,7 @@ import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService'
 import Back from '../../../assets/images/back.svg';
 
 function NewcreateCandidate() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false)
   const [AddCandidate, AddCandidateInfo] = useAddCandidateMutation()
   const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
@@ -83,13 +86,13 @@ function NewcreateCandidate() {
       institute: ""
     },
     validationSchema: NewCandidateSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log({...values, date_of_birth: value})
-      // AddCandidate(values)
+      await AddCandidate({...values, date_of_birth: value});
     },
     validateOnChange: (value) => {
       NewCandidateSchema.validateSync(value)
-    }
+    }    
   })
 
   const { data: assessmentData, refetch: assessmentDataRefetech } = useGetAssesmentCategoryQuery();
@@ -100,7 +103,7 @@ function NewcreateCandidate() {
   const [job, setJob] = useState(0);
   const handleChangeJob = (e) => setJob(e.target.value);
 
-  const { errors, touched, handleSubmit, getFieldProps, handleChange: handleChangeFormData } = formData;
+  const { errors, touched, handleSubmit, getFieldProps, handleChange: handleChangeFormData, resetForm, initialValues} = formData;
   
   // useEffect(() => {
   //   if(!countryData) {
@@ -121,6 +124,19 @@ function NewcreateCandidate() {
   // }, [cityData, cityDataRefetch, countryData, countryDataRefetch, stateData, stateDataRefetch])
 
 
+  useEffect(() => {
+    console.log(AddCandidateInfo.data)
+    if(AddCandidateInfo.isError) {
+      console.log(AddCandidateInfo.error)
+      resetForm(initialValues)
+      showToast("error", "Error has occurred")
+    }
+    if(AddCandidateInfo.isSuccess) {
+      showToast("success", "Successfully added candidate")
+      navigate("/dashboard/candidates/");
+    }
+  }, [AddCandidateInfo, initialValues, navigate, resetForm])
+  
   if(isLoading) {
     return (
       <Container sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -128,7 +144,6 @@ function NewcreateCandidate() {
       </Container>
     )
   }
-
   return (
     <div>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} ml={5} mr={5}>
@@ -144,7 +159,7 @@ function NewcreateCandidate() {
           </Link>
           <h2 style={{ width: '300px' }}>Create a Candidate</h2>
         </Stack>
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained" onClick={() => handleSubmit()}>
           Create
         </Button>
       </Stack>

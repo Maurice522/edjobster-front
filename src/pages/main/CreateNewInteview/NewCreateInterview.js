@@ -29,8 +29,10 @@ function NewCreateInterview() {
   const label = { inputProps: { 'aria-label': 'Mode' } };
   const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
   const handleChange = (e) => setValue(e)
-  const [startTime, setStartTime] = React.useState(dayjs('2014-08-18T21:11:54')); 
+  const [startTime, setStartTime] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const handleChangeStartTime = (e) => setStartTime(e)
   const [endTime, setEndTime] = React.useState(dayjs('2014-08-18T21:11:54')); 
+  const handleChangeEndTime = (e) => setEndTime(e)
 
   const modules = {
     toolbar: [
@@ -152,8 +154,8 @@ function NewCreateInterview() {
                   <TimePicker
                     required
                     label="Start Time"
-                    value={value}
-                    onChange={handleChange}
+                    value={startTime}
+                    onChange={handleChangeStartTime}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </Stack>
@@ -165,7 +167,7 @@ function NewCreateInterview() {
                   <TimePicker
                     required
                     label="End Time"
-                    value={value}
+                    value={endTime}
                     onChange={handleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
