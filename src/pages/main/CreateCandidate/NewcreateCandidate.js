@@ -66,34 +66,46 @@ function NewcreateCandidate() {
     institute: Yup.string().required("Institute is required")
   });
 
-  const formData = useForm({
-    initialValues: {
-      job_id: 1,
-      first_name: '',
-      last_name: "",
-      mobile: "",
-      email: "",
-      gender: "",
-      date_of_birth: value,
-      pincode: "",
-      street: "",
-      city: "",
-      state: "",
-      country: "",
-      exp_months: 0,
-      exp_years: 0,
-      marital_status: "",
-      institute: ""
-    },
-    validationSchema: NewCandidateSchema,
-    onSubmit: async (values) => {
-      console.log({ ...values, date_of_birth: value })
-      await AddCandidate({ ...values, date_of_birth: value });
-    },
-    validateOnChange: (value) => {
-      NewCandidateSchema.validateSync(value)
+
+  // const formData = useForm({
+  //   initialValues: {
+  //     job_id: 1,
+  //     first_name: '',
+  //     last_name: "",
+  //     mobile: "",
+  //     email: "",
+  //     gender: "",
+  //     date_of_birth: value,
+  //     pincode: "",
+  //     street: "",
+  //     city: "",
+  //     state: "",
+  //     country: "",
+  //     exp_months: 0,
+  //     exp_years: 0,
+  //     marital_status: "",
+  //     institute: ""
+  //   },
+  //   validationSchema: NewCandidateSchema,
+  //   onSubmit: async (values) => {
+  //     console.log({ ...values, date_of_birth: value })
+  //     await AddCandidate({ ...values, date_of_birth: value });
+  //   },
+  //   validateOnChange: (value) => {
+  //     NewCandidateSchema.validateSync(value)
+  //   }
+  // })
+
+  useEffect(() => {
+    if(AddCandidateInfo.isError) {
+      console.log(AddCandidateInfo.error)
+      showToast("error", "Error adding candidate")
     }
-  })
+    if(AddCandidateInfo.isSuccess) {
+      showToast("success", "Successfully added candidate")
+      navigate("/dashboard/candidates")
+    }
+  }, [AddCandidateInfo, navigate])
 
   const { data: assessmentData, refetch: assessmentDataRefetech } = useGetAssesmentCategoryQuery();
   const [assessment, setAssessment] = useState(1);
@@ -103,39 +115,48 @@ function NewcreateCandidate() {
   const [job, setJob] = useState(0);
   const handleChangeJob = (e) => setJob(e.target.value);
 
-  const { errors, touched, handleSubmit, getFieldProps, handleChange: handleChangeFormData, resetForm, initialValues } = formData;
+  const [formData, setFormData] = useState({
+    job_id: 1,
+    first_name: "",
+    last_name: "",
+    mobile: "",
+    email: "",
+    gender: "Male",
+    date_of_birth: `${value.get("year")}-${String(value.get("month")+1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
+    pincode: "",
+    street: "",
+    city: "",
+    state: "",
+    country: "",
+    exp_months: 0,
+    exp_years: 0,
+    marital_status: "",
+    institute: ""
+  })
+  const handleChangeFormData = (name, value) => {
+    setFormData(prev => {
+      prev[name] = value
+      return prev
+    })
+    console.log(formData)
+  }
 
-  // useEffect(() => {
-  //   if(!countryData) {
-  //     countryDataRefetch()
-  //     setIsLoading(true)
-  //   }
-  //   if(!stateData) {
-  //     stateDataRefetch()
-  //     setIsLoading(true)
-  //   }
-  //   if(!cityData) {
-  //     cityDataRefetch()
-  //     setIsLoading(true)
-  //   }
-  //   if(countryData && countryData.countries && stateData && stateData.states && cityData && cityData.cities) {
-  //     setIsLoading(false)
-  //   }
-  // }, [cityData, cityDataRefetch, countryData, countryDataRefetch, stateData, stateDataRefetch])
-
+  const handleSubmit = async () => {
+    console.log(formData)
+    await AddCandidate(formData)
+  }
 
   useEffect(() => {
     console.log(AddCandidateInfo.data)
     if (AddCandidateInfo.isError) {
-      console.log(AddCandidateInfo.error)
-      resetForm(initialValues)
+      console.log(AddCandidateInfo.error.error)
       showToast("error", "Error has occurred")
     }
     if (AddCandidateInfo.isSuccess) {
       showToast("success", "Successfully added candidate")
       navigate("/dashboard/candidates/");
     }
-  }, [AddCandidateInfo, initialValues, navigate, resetForm])
+  }, [AddCandidateInfo, navigate])
 
   if (isLoading) {
     return (
@@ -159,7 +180,7 @@ function NewcreateCandidate() {
           </Link>
           <h2 style={{ width: '300px' }}>Create a Candidate</h2>
         </Stack>
-        <Button variant="contained" onClick={() => handleSubmit()}>
+        <Button variant="contained" onClick={handleSubmit}>
           Create
         </Button>
       </Stack>
@@ -175,10 +196,9 @@ function NewcreateCandidate() {
                 required
                 id="standard-required"
                 label="First Name"
-                {...getFieldProps("first_name")}
                 variant="standard"
-                error={Boolean(errors.first_name && touched.first_name)}
-              // helperText={errors.first_name && touched.first_name}
+                name="first_name"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
               />
               <TextField
                 sx={{
@@ -187,10 +207,12 @@ function NewcreateCandidate() {
                 required
                 id="standard-required"
                 label="Last Name"
-                {...getFieldProps("last_name")}
+                // {...getFieldProps("last_name")}
                 variant="standard"
-                error={Boolean(errors.last_name && touched.last_name)}
+                // error={Boolean(errors.last_name && touched.last_name)}
               // helperText={errors.last_name && touched.last_name}
+              name="last_name"
+              onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -201,9 +223,11 @@ function NewcreateCandidate() {
                 required
                 id="standard-required"
                 label="Email"
-                {...getFieldProps("email")}
+                // {...getFieldProps("email")}
                 variant="standard"
-                error={Boolean(errors.email && touched.email)}
+                name="email"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                // error={Boolean(errors.email && touched.email)}
               // helperText={errors.email && touched.email}
               />
               <TextField
@@ -213,9 +237,11 @@ function NewcreateCandidate() {
                 required
                 id="standard-required"
                 label="Mobile Number"
-                {...getFieldProps("mobile")}
+                // {...getFieldProps("mobile")}
                 variant="standard"
-                error={Boolean(errors.mobile && touched.mobile)}
+                name="mobile"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                // error={Boolean(errors.mobile && touched.mobile)}
               // helperText={errors.mobile && touched.mobile}
               />
             </Stack>
@@ -227,13 +253,14 @@ function NewcreateCandidate() {
                   label="Date of Birth"
                   inputFormat="YYYY-MM-DD"
                   value={value}
-                  onChange={handleChange}
+                  onChange={e => {
+                    handleChange(e)
+                    const date = dayjs(e)
+                    handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month")+1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
+                  }}
                   renderInput={(params) =>
                     <TextField
                       {...params}
-                      
-                    // error={Boolean(errors.date_of_birth && touched.date_of_birth)} 
-                    // helperText={errors.date_of_birth && touched.date_of_birth} 
                     />
                   }
                 />
@@ -248,8 +275,10 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Street"
                 variant="standard"
-                {...getFieldProps("street")}
-                error={Boolean(errors.street && touched.street)}
+                name="street"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                // {...getFieldProps("street")}
+                // error={Boolean(errors.street && touched.street)}
               // helperText={errors.street && touched.street}
               />
               <TextField
@@ -265,10 +294,12 @@ function NewcreateCandidate() {
                 }}
                 // // helperText="Please select your country"
                 variant="standard"
+                name="country"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
                 // onChange={handleChangeCountry}
                 // value={country}
-                {...getFieldProps("country")}
-                error={Boolean(errors.country && touched.country)}
+                // {...getFieldProps("country")}
+                // error={Boolean(errors.country && touched.country)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -281,13 +312,15 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="State"
                 variant="standard"
+                name="state"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
                 // value={currentState}
                 // onChange={handleChangeState}
                 SelectProps={{
                   native: true,
                 }}
-                {...getFieldProps("state")}
-                error={Boolean(errors.state && touched.state)}
+                // {...getFieldProps("state")}
+                // error={Boolean(errors.state && touched.state)}
               />
               {/* <option
                   value={0}
@@ -312,13 +345,15 @@ function NewcreateCandidate() {
                 // select
                 label="City"
                 variant="standard"
+                name="city"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
                 // onChange={handleChangeCity}
                 SelectProps={{
                   native: true,
                 }}
                 // value={city}
-                {...getFieldProps("city")}
-                error={Boolean(errors.city && touched.city)}
+                // {...getFieldProps("city")}
+                // error={Boolean(errors.city && touched.city)}
               />
               {/* <option
                   value={0}
@@ -342,8 +377,10 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Zip-code"
                 variant="standard"
-                {...getFieldProps("pincode")}
-                error={Boolean(errors.pincode && touched.pincode)}
+                name="pincode"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                // {...getFieldProps("pincode")}
+                // error={Boolean(errors.pincode && touched.pincode)}
               />
             </Stack>
           </Stack>
@@ -358,7 +395,7 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Institute"
                 variant="standard"
-                {...getFieldProps("institute")}
+                // {...getFieldProps("institute")}
               />
               <TextField
                 sx={{
@@ -379,6 +416,8 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Years of Experience"
                 variant="standard"
+                name="exp_years"
+                onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
               />
               <TextField
                 sx={{
@@ -388,6 +427,8 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Month of Experience"
                 variant="standard"
+                name="exp_months"
+                onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -442,9 +483,13 @@ function NewcreateCandidate() {
                 label="Assign to job"
                 variant="standard"
                 select
-                onChange={handleChangeJob}
                 SelectProps={{
                   native: true,
+                }}
+                name="job_id"
+                onChange={(e) =>{ 
+                  handleChangeJob(e)
+                  handleChangeFormData(e.target.name, +e.target.value)
                 }}
               >
                 <option
