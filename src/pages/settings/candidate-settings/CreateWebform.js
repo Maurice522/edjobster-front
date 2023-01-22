@@ -97,6 +97,14 @@ export default function CreateWebform() {
             })
         }
     }
+    const addTempSection = () => {
+        addSection("Academics", [
+            {
+                name: "Institute Name",
+                type: "Text"
+            }
+        ])
+    }
     return (
         <Container sx={{gap: "1rem", display: "flex", flexDirection: "column"}}>
             <Container
@@ -116,7 +124,7 @@ export default function CreateWebform() {
                         gap: "1rem"
                     }}
                 >
-                    <Button variant="outlined">Add Section</Button>
+                    <Button variant="outlined" onClick={() => addTempSection()}>Add Section</Button>
                     <Button variant="contained">Create Webform</Button>
                 </Container>
             </Container>
