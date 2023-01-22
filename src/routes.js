@@ -101,7 +101,6 @@ export default function Router() {
 
         //  Individuals can
         // { path: '/dashboard/candidates/newcreate', element: <IndCanJob /> },
-        { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
         // { path: '/dashboard/candidates/scheduleinterview', element: <IndCanScheduleInterview /> },
         { path: '/dashboard/candidates/sendmail', element: <IndCanSendMail /> },
 
@@ -181,6 +180,8 @@ export default function Router() {
         { path: '/dashboard/candidates/newcreate', element: <NewcreateCandidate /> },
         { path: '/dashboard/Newcandidates', element: <NewcreateCandidate /> },
         { path: '/dashboard/NewInterview', element: <NewCreateInterview /> },
+        { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
+
 
 
 

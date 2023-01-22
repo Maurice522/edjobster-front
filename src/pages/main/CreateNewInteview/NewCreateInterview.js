@@ -13,7 +13,7 @@ import ReactQuill from 'react-quill';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useFormik as useForm, Form, FormikProvider } from 'formik';
+import { useFormik, Form, FormikProvider } from 'formik';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -78,7 +78,8 @@ function NewCreateInterview() {
 
 
   return (
-    <div>
+    <FormikProvider>
+      <Form autoComplete="off" >
       <Stack sx={{
         display: "flex",
         flexDirection: "row",
@@ -230,18 +231,7 @@ function NewCreateInterview() {
             </Stack>
             <p>Email Body</p>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-              {/* <TextField sx={{
-                width: "100%"
-              }}
-                required
-                id="standard-required"
-                label="Email-Body"
-                variant="standard"
-              /> */}
-
               <ReactQuill sx={{
-                // outerWidth: "80vw",
-                // marginBottom: "20px"
               }} theme="snow"
                 modules={modules}
                 formats={formats} value={state.comments || ''}
@@ -260,7 +250,6 @@ function NewCreateInterview() {
                   type="file"
                   accept='.pdf'
                   hidden
-                  // style={{visibility:"hidden"}}
                 />
                 Browse
                 </label>
@@ -273,7 +262,9 @@ function NewCreateInterview() {
         <hr style={{ width: '90%', color: 'grey', marginBottom: '5%' }} />
         <Button variant="contained">Schedule</Button>
       </Stack>
-    </div>
+      </Form>
+
+</FormikProvider >
   )
 }
 

@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  Card,
+  Stack,
+  Button,
+  Container,
+  Typography,
+  ListItemIcon,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  DialogContent,
+  Box,
+} from '@mui/material';
 import BtnArrow from '../../../assets/images/btnarrow.svg';
 
 
@@ -7,6 +23,10 @@ const ContentTop = ({ modalHandler }) => {
   const [menu, setMenu] = useState({
     toggle: false,
     menuName: 'Hiring Stage',
+  });
+  const [jobmenu, setJobMenu] = useState({
+    toggle: false,
+    menuName: 'Job',
   });
 
   const menuToggle = (value) => {
@@ -18,13 +38,9 @@ const ContentTop = ({ modalHandler }) => {
 
   return (
     <div className="common-width">
-      <p className="content-top-border"/>
+      <p className="content-top-border" />
       <div className="ct-content">
         <div className="ct-content ct-content__left">
-          <div>
-            <p className="ct-content-title">Last Job Applied</p>
-            <p className="ct-content-des">HOD, Civil</p>
-          </div>
           <div>
             <p className="ct-content-title">Hiring Status</p>
             <p className="ct-content-des">Shortlisted</p>
@@ -35,12 +51,21 @@ const ContentTop = ({ modalHandler }) => {
           </div>
         </div>
         <div className="ct-content ct-content__right">
-          <Link to="/dashboard/candidates/scheduleinterview">
-            <button className="ct-content-btn">Schedule Interview</button>
-          </Link>
-          <button className="ct-content-btn" onClick={() => modalHandler(true)}>
-            Assign to a job
-          </button>
+          <Button
+            sx={{ height: "57px" }}
+            variant="contained"
+            component={Link}
+            to="/dashboard/candidates/scheduleinterview"
+          >
+            Schedule Interview
+          </Button>
+          <Button
+            sx={{ height: "57px",width:"150px" }}
+            variant="contained"
+            onClick={() => modalHandler(true)}
+          >
+            Assign Job
+          </Button>
           <div className="ct-content-hs-reletive">
             <button className="ct-content-hs" onClick={() => menuToggle(menu.menuName)}>
               <p className="ct-content-btn ct-content-btn__hs">{menu.menuName}</p>

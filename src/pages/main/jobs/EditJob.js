@@ -24,9 +24,11 @@ function getStepContent(step) {
       return <FillDetails />;
     case 1:
       return <SelectAssessment />;
+    // case 2:
+    //   return <SelectJobBoards />;
+    // case 3:
+    //   return <Publish />;
     case 2:
-      return <SelectJobBoards />;
-    case 3:
       return <Publish />;
     default:
       return 'Unknown step';
