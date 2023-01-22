@@ -35,28 +35,12 @@ const Header = () => {
               Candidates
             </NavLink>
             <NavLink
-              to="/dashboard/Newcandidates"
-              className={({ isActive }) =>
-                isActive ? "header-job-active" : "header-menu"
-              }
-            >
-              NewCandidates
-            </NavLink>
-            <NavLink
               to="/dashboard/interviews"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
             >
               Interviews
-            </NavLink>
-            <NavLink
-              to="/dashboard/NewInterview"
-              className={({ isActive }) =>
-                isActive ? "header-job-active" : "header-menu"
-              }
-   New         >
-              NewInterviews
             </NavLink>
             <NavLink to="/dashboard/assessments" 
           className="header-menu">
