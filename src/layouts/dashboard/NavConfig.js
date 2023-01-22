@@ -49,6 +49,7 @@ const newNavBar = [
     
   },
   { title: 'Assessment Categories', path: '/dashboard/candidate-settings/assessment-categories' },
+  { title: 'Email Categories', path: 'email-templates/categories' },
 
 
 ];
