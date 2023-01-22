@@ -36,6 +36,7 @@ function getStepContent(step) {
     // case 2:
     //   return <SelectJobBoards />;
     // case 3:
+    //   return <Publish />;
     case 2:
       return <Publish />;
     default:
