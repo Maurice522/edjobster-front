@@ -219,7 +219,7 @@ const Interviews = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="/dashboard/candidates/scheduleinterview"
+            to="/dashboard/NewInterview"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Create Interview
