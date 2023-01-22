@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 
 // material
@@ -157,14 +157,12 @@ const Webforms = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
-            onClick={() => navigate("/dashboard/candidate-settings/webforms/new", {replace: true})}
+            to="/dashboard/candidate-settings/webforms/new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Webform
           </Button>
         </Stack>
-
         <Card>
           <MUIDataTable title={'Webform List'} data={sortData} columns={columns} options={options} />
         </Card>

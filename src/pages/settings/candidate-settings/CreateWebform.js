@@ -22,7 +22,7 @@ function Editable(props) {
     return (
         editable?(
             <Container sx={{display: "flex", justifyContent: "space-between", alignItems: "center", gap: "2rem"}}>
-                <TextField 
+                <TextField
                     id="outlined-basic" 
                     label="Outlined" 
                     variant="outlined" 
