@@ -16,18 +16,17 @@ const SelectAssessment = () => {
   const job = useSelector((state) => state.job.job);
   const { data: selectAssesmentData } = useGetAssesmentQuery();
   const { data: selectWebFormData } = useGetWebformQuery();
+  console.log(selectAssesmentData)
 
   const [textValue, setTextValue] = useState({
     assesment: job.assesment,
     webform: job.webform
-
   });
  
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
     myObj[e.target.name] = e.target.value;
-
     setTextValue({ ...myObj });
   };
   
@@ -40,7 +39,7 @@ const SelectAssessment = () => {
   );
   return (
     <Container style={{ padding: 50, margin: 10 }}>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, gap: "4rem", display: "flex", flexDirection: "row"}}>
         <Grid container justifyContent="center">
           <Grid item xs={8}>
             <InputLabel id="demo-simple-select-standard-label">Select Assessment</InputLabel>

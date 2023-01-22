@@ -153,7 +153,6 @@ const CreateJob = () => {
   useEffect(() => {
     if (addJobDataInfo.isSuccess) {
       showToast('success', 'job is created succesfully');
-
       const textValue1 = {
         title: '',
         vacancies: null,
@@ -189,7 +188,6 @@ const CreateJob = () => {
         city_name:'',
       };
       dispatch(jobAction(textValue1));
-      // const savedAssesmentRecord = addJobDataInfo.data.data.find((item) => item.name === assesmentName);
       addJobDataInfo.reset();
       refetch();
       dispatch(setJobList(allJobs));
@@ -236,7 +234,7 @@ const CreateJob = () => {
       };
       dispatch(jobAction(textValue2));
     };
-  }, [addJobDataInfo.isSuccess, addJobDataInfo.isError, dispatch]);
+  }, [addJobDataInfo.isSuccess, addJobDataInfo.isError, dispatch, addJobDataInfo, refetch, allJobs, navigate]);
 
   const handleReset = () => {
     setActiveStep(0);

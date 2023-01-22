@@ -27,7 +27,7 @@ const apiUrl = {
   webform: `${baseUrl}settings/webform/`,
   fields: `${baseUrl}settings/webform-fields/`,
   assementCategory: `${baseUrl}jobs/assesment-category/`,
-  assesment:`${baseUrl}jobs/assesment/`,
+  assesment:`${baseUrl}jobs/assesment-category/`,
   assesmentQuestions: `${baseUrl}jobs/assesment-question/`,
   jobs: `${baseUrl}jobs/`,  
   candidate:`${baseUrl}candidate/`,
