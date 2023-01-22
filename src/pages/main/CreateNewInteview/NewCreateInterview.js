@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Stack,
   Button,
@@ -13,27 +13,34 @@ import ReactQuill from 'react-quill';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { useFormik, Form, FormikProvider, Field } from 'formik';
 import dayjs from 'dayjs';
+// eslint-disable-next-line import/no-unresolved
+import { showToast } from 'src/utils/toast';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { useGetJobListQuery } from "../../../redux/services/jobs/JobListService";
-import { useGetEmailCategoryQuery } from "../../../redux/services/settings/EmailCategoryService";
+import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import { useGetUsersApiQuery } from '../../../redux/services/settings/UserService';
+import { useGetLocationQuery } from "../../../redux/services/settings/LocationService";
+import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
+import { useAddInterviewMutation } from "../../../redux/services/interview/InterviewServices"
 import Back from "../../../assets/images/back.svg"
 
 
 function NewCreateInterview() {
-
+  const navigate = useNavigate();
+  const [ addInterview, addInterviewInfo ] = useAddInterviewMutation();
   const label = { inputProps: { 'aria-label': 'Mode' } };
-  const [value, setValue] = useState(dayjs('2014-08-18T21:11:54'));
+  const [value, setValue] = useState(dayjs(Date.now()));
   const handleChange = (e) => setValue(e)
-  const [startTime, setStartTime] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [startTime, setStartTime] = React.useState(dayjs(Date.now()));
   const handleChangeStartTime = (e) => setStartTime(e)
-  const [endTime, setEndTime] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [endTime, setEndTime] = React.useState(dayjs(Date.now()));
   const handleChangeEndTime = (e) => setEndTime(e)
-
+  
   const modules = {
     toolbar: [
       [{ 'font': [] }],
@@ -45,7 +52,7 @@ function NewCreateInterview() {
       ['clean']
     ]
   };
-
+  
   const formats = [
     'font',
     'size',
@@ -54,30 +61,54 @@ function NewCreateInterview() {
     'align',
     'color', 'background'
   ];
-
+  
   const state = {
     comments: ''
   }
-
+  
   const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery()
-  const [job, setJob] = useState(0)
-  const handleChangeJob = (e) => setJob(e.target.value)
+  const { data: emailTemplateData, refetch: emailTemplateDataRefetch } = useGetEmailTamplateQuery()
+  const { data: candidateData, refetch: candidateDataRefetch} = useGetCandidateListQuery()
+  const { data: locationData, refetch: locationDataRefetch } = useGetLocationQuery()
+  const { data: interviewerData, refetch: interviewerDataRefetch} = useGetUsersApiQuery()
+  
+  const [formData, setFormData] = useState({
+    candidate_id: 0,
+    job_id: 0,
+    date: `${value.get("year")}-${String(value.get("month")+1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
+    time_start: `${startTime.get("hour")}:${startTime.get("minutes")}`,
+    time_end: `${endTime.get("hour")}:${endTime.get("minutes")}`,
+    location_id: 0,
+    type: "",
+    interviewers: "",
+    email_temp_id: 0,
+    email_sub: "",
+    email_msg: "",
+    title: "",
+  })
+  const handleChangeFormData = (name, value) => {
+    setFormData(prev => {
+      prev[name] = value
+      return prev
+    })
+    console.log(formData)
+  }
 
-  const { data: emailTemplateData, refetch: emailTemplateDataRefetch } = useGetEmailCategoryQuery()
-  const [emailTemplate, setEmailTemplate] = useState(0)
-  const handleChangeEmailTemplate = (e) => setEmailTemplate(e.target.value)
+  const handleSubmit = async () => {
+    console.log(formData)
+    await addInterview(formData)
+  }
 
-  const RegisterSchema = Yup.object().shape({
-    title: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Name required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    street: Yup.string().required("Address is required").min(10, "Too Short!"),
-    city: Yup.number().required("City is required"),
-    state: Yup.number().required("State is required"),
-    country: Yup.number().required("Country is required"),
-    pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, "Pincode is invalid").required("Pincode is required"),
-    marital_status: Yup.string().matches(/^((F|f)e)?(M|m)ale$/, "Marital Status format invalid").required("Marital Status is required"),
-  });
-
+  useEffect(() => {
+    if(addInterviewInfo.isSuccess) {
+      showToast("success", "Interview added successfully")
+      
+      navigate("/dashboard/interviews", {replace: true})
+    }
+    if(addInterviewInfo.isError) {
+      console.log(addInterviewInfo.error)
+    }
+  }, [addInterviewInfo, navigate])
 
   return (
     <div>
@@ -95,7 +126,6 @@ function NewCreateInterview() {
           </Stack>
           <Stack direction="row" alignItems="flex-start" justifyContent="center">
             <Stack>
-
               <Stack sx={{ borderRight: '2px solid grey' }}>
                 <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
                   <TextField sx={{
@@ -105,13 +135,38 @@ function NewCreateInterview() {
                     id="standard-required"
                     label="Name"
                     variant="standard"
+                    name="title"
+                    onChange={(e) => handleChangeFormData(e.target.name, e.target.value.trim())}
                   />
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
+                  <TextField sx={{
+                    width: "60%"
+                  }}
+                    required
+                    select
+                    id="standard-required"
+                    label="Candidate"
+                    variant="standard"
+                    name="candidate_id"
+                    SelectProps={{
+                      native: true
+                    }}
+                    onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                  >
+                    {candidateData && candidateData?.list?.map((e) => (
+                      <option id={e.id} key={e.id} value={e.id}>
+                        {e.first_name}
+                      </option>
+                    ))}
+                  </TextField>
                 </Stack>
                 <FormLabel sx={{ textAlign: "left" }}>Interview Type</FormLabel>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="female"
-                  name="radio-buttons-group"
+                  name="type"
+                  onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
                 >
                   <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={5} mb={5} ml={0} mr={0}>
                     <FormControlLabel
@@ -140,9 +195,14 @@ function NewCreateInterview() {
                       <DesktopDatePicker
                         label="Date"
                         required
-                        inputFormat="MM/DD/YYYY"
+                        inputFormat="YYYY-MM-DD"
+                        name="date"
                         value={value}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          handleChange(e)
+                          const date = dayjs(e)
+                          handleChangeFormData("date", `${date.get("year")}-${String(date.get("month")+1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
+                        }}
                         variant="standard"
                         renderInput={(params) => <TextField {...params} />}
                       />
@@ -156,7 +216,11 @@ function NewCreateInterview() {
                         required
                         label="Start Time"
                         value={startTime}
-                        onChange={handleChangeStartTime}
+                        onChange={e => {
+                          handleChangeStartTime(e)
+                          const date = dayjs(e)
+                          handleChangeFormData("time_start", `${date.get("hour")}:${date.get("minutes")}:00`)
+                        }}
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </Stack>
@@ -169,7 +233,11 @@ function NewCreateInterview() {
                         required
                         label="End Time"
                         value={endTime}
-                        onChange={handleChange}
+                        onChange={e => {
+                          handleChangeStartTime(e)
+                          const date = dayjs(e)
+                          handleChangeFormData("time_end", `${date.get("hour")}:${date.get("minutes")}:00`)
+                        }}
                         renderInput={(params) => <TextField {...params} />}
                       />
                     </Stack>
@@ -180,10 +248,22 @@ function NewCreateInterview() {
                     width: "60%"
                   }}
                     required
+                    select
                     id="standard-required"
                     label="Loaction"
                     variant="standard"
-                  />
+                    name="location_id"
+                    SelectProps={{
+                      native: true
+                    }}
+                    onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                  >
+                    {locationData && locationData?.data?.map((e) => (
+                      <option id={e.id} key={e.id} value={e.id}>
+                        {e.name}
+                      </option>
+                    ))}
+                  </TextField>
                 </Stack>
                 <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
                   <TextField sx={{
@@ -192,9 +272,24 @@ function NewCreateInterview() {
                     required
                     id="standard-required"
                     select
+                    name="interviewers"
                     label="Interviewrs"
                     variant="standard"
-                  />
+                    SelectProps={{
+                      native: true
+                    }}
+                    onChange={(e) => !formData[e.target.name].includes(e.target.value)?
+                      handleChangeFormData(e.target.name, [...formData[e.target.name], e.target.value]):
+                      handleChangeFormData(e.target.name, formData[e.target.name])
+                    }
+                    // onChange={(e) => handleChangeFormData()}
+                  >
+                    {interviewerData && interviewerData?.list?.map((e) => (
+                      <option id={e.id} key={e.account_id} value={e.account_id}>
+                        {e.first_name}
+                      </option>
+                    ))}
+                  </TextField>
                 </Stack>
               </Stack>
             </Stack>
@@ -209,7 +304,18 @@ function NewCreateInterview() {
                     id="standard-required"
                     label="Select Email Template"
                     variant="standard"
-                  />
+                    name="email_temp_id"
+                    SelectProps={{
+                      native: true
+                    }}
+                    onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                  >
+                    {emailTemplateData && emailTemplateData?.data?.map((e) => (
+                      <option id={e.id} key={e.id} value={e.id}>
+                        {e.subject}
+                      </option>
+                    ))}
+                  </TextField>
                 </Stack>
                 <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
                   <TextField sx={{
@@ -220,7 +326,18 @@ function NewCreateInterview() {
                     id="standard-required"
                     label="Job"
                     variant="standard"
-                  />
+                    name="job_id"
+                    SelectProps={{
+                      native: true
+                    }}
+                    onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                  >
+                    {jobData && jobData?.map((e) => (
+                      <option id={e.id} key={e.id} value={e.id}>
+                        {e.title}
+                      </option>
+                    ))}
+                  </TextField>
                 </Stack>
                 <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
                   <TextField sx={{
@@ -230,14 +347,20 @@ function NewCreateInterview() {
                     id="standard-required"
                     label="Subject"
                     variant="standard"
+                    name="email_sub"
+                    onChange={e => handleChangeFormData(e.target.name, e.target.value.trim())}
                   />
                 </Stack>
                 <p>Email Body</p>
                 <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-                  <ReactQuill sx={{
-                  }} theme="snow"
+                  <ReactQuill 
+                    theme="snow"
                     modules={modules}
                     formats={formats} value={state.comments || ''}
+                    name="email_msg"
+                    onChange={e => {
+                      handleChangeFormData("email_msg", e)
+                    }}
                   />
                 </Stack>
                 <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mt={5} mb={5} ml={0} mr={0}>
@@ -263,7 +386,7 @@ function NewCreateInterview() {
           </Stack>
           <Stack justifyContent="center" alignItems='center' pt={4}>
             <hr style={{ width: '90%', color: 'grey', marginBottom: '5%' }} />
-            <Button variant="contained">Schedule</Button>
+            <Button variant="contained" onClick={handleSubmit}>Schedule</Button>
           </Stack>
         {/* </Form>
 
