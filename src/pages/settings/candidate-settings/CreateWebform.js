@@ -68,6 +68,10 @@ export default function CreateWebform() {
             {
                 name: "Email",
                 type: dataTypes[dataTypes.indexOf("Email")]
+            },
+            {
+                name: "Address",
+                type: dataTypes[dataTypes.indexOf("Paragraph")]
             }
         ]
     }])
@@ -95,9 +99,27 @@ export default function CreateWebform() {
     }
     return (
         <Container sx={{gap: "1rem", display: "flex", flexDirection: "column"}}>
-            <Typography variant="h3" textAlign={"center"} bgcolor={"Background"}>
-                Create Webform
-            </Typography>
+            <Container
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center"
+                }}
+            >
+                <h2 variant="h3">
+                    Create Webform
+                </h2>
+                <Container 
+                    sx={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        gap: "1rem"
+                    }}
+                >
+                    <Button variant="outlined">Add Section</Button>
+                    <Button variant="contained">Create Webform</Button>
+                </Container>
+            </Container>
             <Container sx={{
                 gap: "1rem", 
                 display: "flex", 
