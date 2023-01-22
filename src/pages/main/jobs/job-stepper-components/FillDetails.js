@@ -183,7 +183,7 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                {/* <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
+                <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
                 <Select
                   margin="dense"
                   variant="standard"
@@ -199,16 +199,7 @@ const FillDetails = () => {
                         {item?.first_name}
                       </MenuItem>
                     ))}
-                </Select> */}
-                <TextField
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="owner"
-                value={textValue.owner}
-                label="Owner"
-                onChange={onInputChangeHandler}
-              />
+                </Select>
               </FormControl>
             </Grid>
             <Grid item xs={6}>

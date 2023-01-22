@@ -1,0 +1,18 @@
+.InstituteTitle{
+    text-align: center;
+    color: #2A72DE;
+}
+.InstitutePhotoAddress{
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 10%;
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+}
+.InstituteDescription{
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 10%;
+
+}

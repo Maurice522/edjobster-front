@@ -168,52 +168,6 @@ const Jobs = () => {
       {sentenceCase('active')}
     </Label>
   );
-  const rows = [
-    // { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 6, lastName: 'Melisandre', firstName: null, age: 150 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    // { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    // { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    { id: 1, jobtitle: "developer", department: 'IT'},
-  ];
-  const column = [
-    { field: 'jobtitle', headerName: 'Job Title', width: 230, editable: true, headerAlign:'center',align:'center'},
-    { field: 'publishdate', headerName: 'Publishing Date', width:  230, editable: true , headerAlign:'center',align:'center'},
-    { field: 'department', headerName: 'Department', width: 230, editable: true, headerAlign:'center',align:'center'  },
-    { field: 'owner', headerName: 'Owner', width: 230, editable: true, headerAlign:'center',align:'center'  },
-    { field: 'notes', headerName: 'Notes', width: 230, editable: true, headerAlign:'center',align:'center'  , renderCell: (params) => {
-      return (
-        <div>
-          <a href='/dashboard/jobs/job-list/add-notes'>Add Notes</a>          
-        </div>
-      );
-   }},
-    { field: 'action', headerName: 'Action', width:  230, editable: true , headerAlign:'center' },
-  
-  //   {
-  //     field: 'fullName',
-  //     headerName: 'Full name',
-  //     description: 'This column has a value getter and is not sortable.',
-  //     sortable: false,
-  //     width: 160,
-  //     valueGetter: (params) =>
-  //       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  //   },
-  //   { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => {
-  //     // return (
-  //     //   <div>
-  //     //     <EditIcon />
-  //     //     <DeleteIcon />
-  //     //   </div>
-  //     // );
-  //  }
-      
-  //   }
-  ];
   // const data = [
   //   { name: 'Joe James', status: labelStatus },
   //   { name: 'John Walsh', status: labelStatus },
