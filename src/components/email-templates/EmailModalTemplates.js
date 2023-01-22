@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import ReactQuill from 'react-quill';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Editor } from 'react-draft-wysiwyg';
 import RichTextEditer from '../Rich-text-editer/RichTextEditer';
@@ -26,6 +27,35 @@ const EmailModalTemplates = (props) => {
   const { open, handleClose, categoryData, variableData, emailTemplateData } = props;
   const [AddEmailTemplate, AddEmailTemplateInfo] = useAddEmailTemplateMutation();
   const [UpdateEmailTemplate, UpdateEmailTemplateInfo] = useUpdateEmailTemplateMutation();
+
+  const handleChangeFormData = (name, value) => {
+    console.log("rect quill")
+  }
+
+  const modules = {
+    toolbar: [
+      [{ 'font': [] }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline'],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'align': [] }],
+      [{ 'color': [] }, { 'background': [] }],
+      ['clean']
+    ]
+  };
+  
+  const formats = [
+    'font',
+    'size',
+    'bold', 'italic', 'underline',
+    'list', 'bullet',
+    'align',
+    'color', 'background'
+  ];
+  
+  const state = {
+    comments: ''
+  }
 
   const [textValue, setTextValue] = useState({
     category: emailTemplateData?.category_id ?? 1,
@@ -178,7 +208,7 @@ const EmailModalTemplates = (props) => {
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     autoFocus
                     margin="dense"
@@ -189,30 +219,19 @@ const EmailModalTemplates = (props) => {
                     label="Subject"
                     onChange={onSubjectInputChangeHandler}
                   />
-                </Grid>
-                {/* <Grid item xs={6}>
-                  <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                    <InputLabel id="demo-simple-select-standard-label">Variables</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      value={textValue.variables}
-                      onChange={handleVariablesChange}
-                      label="Variables"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {variableData?.map((item) => (
-                        <MenuItem key={item.value} value={item.name}>
-                          {item.name}
-                        </MenuItem>
-                      ))}                      
-                    </Select>
-                  </FormControl>
                 </Grid> */}
                 <Grid item xl={12} style={{ heigth: '45vh' }}>
-                  <RichTextEditer onChange={onInputChangeHandler} variableData={variableData} body={textValue.body} />
+                  {/* <RichTextEditer onChange={onInputChangeHandler} variableData={variableData} body={textValue.body} /> */}
+                  <p>Subject</p>
+                  <ReactQuill 
+                    theme="snow"
+                    modules={modules}
+                    formats={formats} value={state.comments || ''}
+                    name="email_msg"
+                    onChange={e => {
+                      handleChangeFormData("email_msg", e)
+                    }}
+                  />
                 </Grid>
               </Grid>
             </Box>

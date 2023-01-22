@@ -64,6 +64,7 @@ import DashboardWithoutSidebar from './layouts/dashboard/DashboardwithoutSidebar
 import CreateWebform from './pages/settings/candidate-settings/CreateWebform';
 import NewcreateCandidate from './pages/main/CreateCandidate/NewcreateCandidate';
 import NewCreateInterview from './pages/main/CreateNewInteview/NewCreateInterview';
+import CareerSiteDescription from './pages/SubDomain/CareerSiteDescription';
 
 
 
@@ -127,7 +128,7 @@ export default function Router() {
         { path: 'email-templates/templates', element: <Templates /> },
         { path: 'candidate-settings/fields', element: <Fields /> },
         { path: 'candidate-settings/webforms', element: <Webforms /> },
-        { path: 'candidate-settings/webforms/new', element: <CreateWebform /> },
+        { path: '/dashboard/candidate-settings/webforms/new', element: <CreateWebform /> },
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },
@@ -181,6 +182,7 @@ export default function Router() {
         { path: '/dashboard/Newcandidates', element: <NewcreateCandidate /> },
         { path: '/dashboard/NewInterview', element: <NewCreateInterview /> },
         { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
+        { path: '/dashboard/Institute-Description', element: <CareerSiteDescription />},
 
 
 

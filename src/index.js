@@ -3,6 +3,7 @@ import 'simplebar/src/simplebar.css';
 // import "./assets/css/reset.css";
 import "./assets/css/style.css";
 import "./assets/css/UsersModalList.css";
+import "./assets/css/Careersite.css"
 // import "./assets/css/responsive.css";
 
 import ReactDOM from 'react-dom';

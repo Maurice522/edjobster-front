@@ -33,6 +33,8 @@ import {
   useUpdateUserApiMutation,
   useDeleteUserApiMutation
 } from '../../../redux/services/settings/UserService';
+import { showToast } from '../../../utils/toast';
+
 // mock
 
 const Approvals = () => {
@@ -70,7 +72,16 @@ const Approvals = () => {
     const currentDataObj = dataArr[dataIndex];
     await DeleteUserApi(currentDataObj.account_id);
     refetch();
+    console.log("delte hua")
   };
+  if (DeleteUserApiInfo.isSuccess) {
+    showToast('success', DeleteUserApiInfo.data.msg);
+    DeleteUserApiInfo.reset();
+  }
+  if (DeleteUserApiInfo.isError) {
+    showToast('error', DeleteUserApiInfo.error.data.msg);
+    DeleteUserApiInfo.reset();
+  }
 
   const onEditModalHandler = () => {
     setEditModalOpen(true);

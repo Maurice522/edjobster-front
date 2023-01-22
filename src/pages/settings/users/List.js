@@ -213,81 +213,6 @@ const List = () => {
       },
     },
   ];
-  const column = [
-    {
-      field: 'first_name',
-      headerName: 'Name',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      field: 'phone',
-      headerName: 'Contact Number',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      field: 'department',
-      headerName: 'Department',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      field: 'is_active',
-      headerName: 'Status',
-      options: {
-        filter: false,
-        sort: false,
-        renderCerll: (dataIndex) => {
-          const isActive = sortedData[dataIndex];
-
-          return (
-            <SwitchButton
-              checked={!!isActive.is_active}
-              onChange={() => activateDeactivateHandler(dataIndex)}
-            />
-          );
-        },
-      },
-    },
-    {
-      field: 'action',
-      headerName: 'Action',
-      options: {
-        filter: false,
-        sort: false,
-        renderCerll: (dataIndex) => (
-          <div>
-            <LoadingButton
-              style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
-              color="error"
-              onClick={() => onDeleteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-              </ListItemIcon>
-            </LoadingButton>
-          </div>
-        ),
-      },
-    },
-  ];
 
   const options = {
     filterType: 'dropdown',
@@ -364,15 +289,6 @@ const List = () => {
           <Typography variant="h4" gutterBottom>
             User List
           </Typography>
-          {/* <Button
-            variant="contained"
-            component={RouterLink}
-            to="/dashboard/user/adduser"
-            // onClick={addNewListHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            Add User
-          </Button> */}
           <AddCircleRoundedIcon 
             onClick={addUserPage}
             sx={{
@@ -386,23 +302,6 @@ const List = () => {
           <MUIDataTable title={'Users List'} data={sortedData} columns={columns} options={options} />
         </Card>
       </Container>
-      {/* <Card>
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={sortedData}
-            columns={column}
-            options={options}
-            sx={{
-              backgroundColor:"#f9fafb"
-            }}
-            pageSize={5}
-            
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-            disableSelectionOnClick 
-          />
-        </div>
-      </Card> */}
       <UserModalList
         open={modalOpen}
         handleClose={modalHandleClose}
