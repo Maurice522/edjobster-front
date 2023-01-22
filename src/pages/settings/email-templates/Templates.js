@@ -131,14 +131,14 @@ const Templates = () => {
         sort: true,
       },
     },
-    {
-      name: 'message',
-      label: 'Message',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
+    // {
+    //   name: 'message',
+    //   label: 'Message',
+    //   options: {
+    //     filter: true,
+    //     sort: true,
+    //   },
+    // },
     {
       name: 'action',
       label: 'Action',
