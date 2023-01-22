@@ -44,8 +44,8 @@ function NewcreateCandidate() {
   // };
   // const handleChangeCity = (e) => setCity(e.target.value);
 
-  
-  
+
+
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const NewCandidateSchema = Yup.object().shape({
     job_id: Yup.number().required("The job field is required"),
@@ -87,12 +87,12 @@ function NewcreateCandidate() {
     },
     validationSchema: NewCandidateSchema,
     onSubmit: async (values) => {
-      console.log({...values, date_of_birth: value})
-      await AddCandidate({...values, date_of_birth: value});
+      console.log({ ...values, date_of_birth: value })
+      await AddCandidate({ ...values, date_of_birth: value });
     },
     validateOnChange: (value) => {
       NewCandidateSchema.validateSync(value)
-    }    
+    }
   })
 
   const { data: assessmentData, refetch: assessmentDataRefetech } = useGetAssesmentCategoryQuery();
@@ -103,8 +103,8 @@ function NewcreateCandidate() {
   const [job, setJob] = useState(0);
   const handleChangeJob = (e) => setJob(e.target.value);
 
-  const { errors, touched, handleSubmit, getFieldProps, handleChange: handleChangeFormData, resetForm, initialValues} = formData;
-  
+  const { errors, touched, handleSubmit, getFieldProps, handleChange: handleChangeFormData, resetForm, initialValues } = formData;
+
   // useEffect(() => {
   //   if(!countryData) {
   //     countryDataRefetch()
@@ -126,20 +126,20 @@ function NewcreateCandidate() {
 
   useEffect(() => {
     console.log(AddCandidateInfo.data)
-    if(AddCandidateInfo.isError) {
+    if (AddCandidateInfo.isError) {
       console.log(AddCandidateInfo.error)
       resetForm(initialValues)
       showToast("error", "Error has occurred")
     }
-    if(AddCandidateInfo.isSuccess) {
+    if (AddCandidateInfo.isSuccess) {
       showToast("success", "Successfully added candidate")
       navigate("/dashboard/candidates/");
     }
   }, [AddCandidateInfo, initialValues, navigate, resetForm])
-  
-  if(isLoading) {
+
+  if (isLoading) {
     return (
-      <Container sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <Container sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         <CircularProgress />
       </Container>
     )
@@ -178,7 +178,7 @@ function NewcreateCandidate() {
                 {...getFieldProps("first_name")}
                 variant="standard"
                 error={Boolean(errors.first_name && touched.first_name)}
-                // helperText={errors.first_name && touched.first_name}
+              // helperText={errors.first_name && touched.first_name}
               />
               <TextField
                 sx={{
@@ -190,7 +190,7 @@ function NewcreateCandidate() {
                 {...getFieldProps("last_name")}
                 variant="standard"
                 error={Boolean(errors.last_name && touched.last_name)}
-                // helperText={errors.last_name && touched.last_name}
+              // helperText={errors.last_name && touched.last_name}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -204,7 +204,7 @@ function NewcreateCandidate() {
                 {...getFieldProps("email")}
                 variant="standard"
                 error={Boolean(errors.email && touched.email)}
-                // helperText={errors.email && touched.email}
+              // helperText={errors.email && touched.email}
               />
               <TextField
                 sx={{
@@ -216,22 +216,24 @@ function NewcreateCandidate() {
                 {...getFieldProps("mobile")}
                 variant="standard"
                 error={Boolean(errors.mobile && touched.mobile)}
-                // helperText={errors.mobile && touched.mobile}
+              // helperText={errors.mobile && touched.mobile}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DesktopDatePicker
+                <DesktopDatePicker sx={{
+                  width: "60%"
+                }}
                   label="Date of Birth"
                   inputFormat="YYYY-MM-DD"
                   value={value}
                   onChange={handleChange}
-                  renderInput={(params) => 
-                    <TextField 
-                      {...params} 
-                      fullWidth
-                      // error={Boolean(errors.date_of_birth && touched.date_of_birth)} 
-                      // helperText={errors.date_of_birth && touched.date_of_birth} 
+                  renderInput={(params) =>
+                    <TextField
+                      {...params}
+                      
+                    // error={Boolean(errors.date_of_birth && touched.date_of_birth)} 
+                    // helperText={errors.date_of_birth && touched.date_of_birth} 
                     />
                   }
                 />
@@ -248,7 +250,7 @@ function NewcreateCandidate() {
                 variant="standard"
                 {...getFieldProps("street")}
                 error={Boolean(errors.street && touched.street)}
-                // helperText={errors.street && touched.street}
+              // helperText={errors.street && touched.street}
               />
               <TextField
                 sx={{
@@ -287,7 +289,7 @@ function NewcreateCandidate() {
                 {...getFieldProps("state")}
                 error={Boolean(errors.state && touched.state)}
               />
-                {/* <option
+              {/* <option
                   value={0}
                   style={{
                     fontStyle: 'italic',
@@ -318,7 +320,7 @@ function NewcreateCandidate() {
                 {...getFieldProps("city")}
                 error={Boolean(errors.city && touched.city)}
               />
-                {/* <option
+              {/* <option
                   value={0}
                   style={{
                     fontStyle: 'italic',

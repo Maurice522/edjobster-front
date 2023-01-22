@@ -324,6 +324,7 @@ select {
   padding: 18px 22px;
   border: 1px solid #bfbfbf;
   cursor: pointer;
+  width: 100%;
 }
 
 /* candidate profile start */

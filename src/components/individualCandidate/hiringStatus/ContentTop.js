@@ -16,6 +16,7 @@ import {
   DialogContent,
   Box,
 } from '@mui/material';
+import FormHelperText from '@mui/material/FormHelperText';
 import BtnArrow from '../../../assets/images/btnarrow.svg';
 
 
@@ -34,6 +35,11 @@ const ContentTop = ({ modalHandler }) => {
       toggle: !menu.toggle,
       menuName: value,
     });
+  };
+  const [job, setJob] = React.useState('');
+
+  const handleChange = (event) => {
+    setJob(event.target.value);
   };
 
   return (
@@ -59,13 +65,23 @@ const ContentTop = ({ modalHandler }) => {
           >
             Schedule Interview
           </Button>
-          <Button
-            sx={{ height: "57px",width:"150px" }}
-            variant="contained"
-            onClick={() => modalHandler(true)}
-          >
-            Assign Job
-          </Button>
+          <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-helper-label">Assign</InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={job}
+              label="Assign"
+              onChange={handleChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
           <div className="ct-content-hs-reletive">
             <button className="ct-content-hs" onClick={() => menuToggle(menu.menuName)}>
               <p className="ct-content-btn ct-content-btn__hs">{menu.menuName}</p>
@@ -73,9 +89,6 @@ const ContentTop = ({ modalHandler }) => {
             </button>
             {menu.toggle && (
               <ul className="ct-content-hs-items">
-                <buttton className="ct-content-hs-list" onClick={() => menuToggle('Hiring Stage')}>
-                  Hiring Stage
-                </buttton>
                 <button className="ct-content-hs-list" onClick={() => menuToggle('Applied')}>
                   Applied
                 </button>

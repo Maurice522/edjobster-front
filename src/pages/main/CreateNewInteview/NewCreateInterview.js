@@ -31,7 +31,7 @@ function NewCreateInterview() {
   const handleChange = (e) => setValue(e)
   const [startTime, setStartTime] = React.useState(dayjs('2014-08-18T21:11:54'));
   const handleChangeStartTime = (e) => setStartTime(e)
-  const [endTime, setEndTime] = React.useState(dayjs('2014-08-18T21:11:54')); 
+  const [endTime, setEndTime] = React.useState(dayjs('2014-08-18T21:11:54'));
   const handleChangeEndTime = (e) => setEndTime(e)
 
   const modules = {
@@ -59,11 +59,11 @@ function NewCreateInterview() {
     comments: ''
   }
 
-  const {data: jobData, refetch: jobDataRefetch} = useGetJobListQuery()
+  const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery()
   const [job, setJob] = useState(0)
   const handleChangeJob = (e) => setJob(e.target.value)
 
-  const {data: emailTemplateData, refetch: emailTemplateDataRefetch} = useGetEmailCategoryQuery()
+  const { data: emailTemplateData, refetch: emailTemplateDataRefetch } = useGetEmailCategoryQuery()
   const [emailTemplate, setEmailTemplate] = useState(0)
   const handleChangeEmailTemplate = (e) => setEmailTemplate(e.target.value)
 
@@ -80,193 +80,195 @@ function NewCreateInterview() {
 
 
   return (
-    <FormikProvider>
-      <Form autoComplete="off" >
-      <Stack sx={{
-        display: "flex",
-        flexDirection: "row",
-        gap: "5%"
-      }} ml={5} mb={5}>
-        <Link to="/dashboard/interviews">
-          <img src={Back} alt="Go Back" />
-        </Link>
-        <h2>Schedule Interview</h2>
-      </Stack>
-      <Stack direction="row" alignItems="flex-start" justifyContent="center">
-        <Stack>
+    <div>
+      {/* <FormikProvider>
+        <Form autoComplete="off" > */}
+          <Stack sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "5%"
+          }} ml={5} mb={5}>
+            <Link to="/dashboard/interviews">
+              <img src={Back} alt="Go Back" />
+            </Link>
+            <h2>Schedule Interview</h2>
+          </Stack>
+          <Stack direction="row" alignItems="flex-start" justifyContent="center">
+            <Stack>
 
-          <Stack sx={{ borderRight: '2px solid grey' }}>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "60%"
-              }}
-                required
-                id="standard-required"
-                label="Name"
-                variant="standard"
-              />
-            </Stack>
-            <FormLabel sx={{textAlign: "left"}}>Interview Type</FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={5} mb={5} ml={0} mr={0}>
-                <FormControlLabel
-                  value="IP"
-                  control={<Radio />}
-                  label="In Person"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  value="PC"
-                  control={<Radio />}
-                  label="Telephonic"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  value="VC"
-                  control={<Radio />}
-                  label="Video"
-                  labelPlacement="end"
-                />
-              </Stack>
-            </RadioGroup>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
-                  <DesktopDatePicker
-                    label="Date"
+              <Stack sx={{ borderRight: '2px solid grey' }}>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
+                  <TextField sx={{
+                    width: "60%"
+                  }}
                     required
-                    inputFormat="MM/DD/YYYY"
-                    value={value}
-                    onChange={handleChange}
+                    id="standard-required"
+                    label="Name"
                     variant="standard"
-                    renderInput={(params) => <TextField {...params} />}
                   />
                 </Stack>
-              </LocalizationProvider>
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
-                  <TimePicker
+                <FormLabel sx={{ textAlign: "left" }}>Interview Type</FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-radio-buttons-group-label"
+                  defaultValue="female"
+                  name="radio-buttons-group"
+                >
+                  <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={5} mb={5} ml={0} mr={0}>
+                    <FormControlLabel
+                      value="IP"
+                      control={<Radio />}
+                      label="In Person"
+                      labelPlacement="end"
+                    />
+                    <FormControlLabel
+                      value="PC"
+                      control={<Radio />}
+                      label="Telephonic"
+                      labelPlacement="end"
+                    />
+                    <FormControlLabel
+                      value="VC"
+                      control={<Radio />}
+                      label="Video"
+                      labelPlacement="end"
+                    />
+                  </Stack>
+                </RadioGroup>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
+                      <DesktopDatePicker
+                        label="Date"
+                        required
+                        inputFormat="MM/DD/YYYY"
+                        value={value}
+                        onChange={handleChange}
+                        variant="standard"
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
+                      <TimePicker
+                        required
+                        label="Start Time"
+                        value={startTime}
+                        onChange={handleChangeStartTime}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
+                      <TimePicker
+                        required
+                        label="End Time"
+                        value={endTime}
+                        onChange={handleChange}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </Stack>
+                  </LocalizationProvider>
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
+                  <TextField sx={{
+                    width: "60%"
+                  }}
                     required
-                    label="Start Time"
-                    value={startTime}
-                    onChange={handleChangeStartTime}
-                    renderInput={(params) => <TextField {...params} />}
+                    id="standard-required"
+                    label="Loaction"
+                    variant="standard"
                   />
                 </Stack>
-              </LocalizationProvider>
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
-                  <TimePicker
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
+                  <TextField sx={{
+                    width: "60%"
+                  }}
                     required
-                    label="End Time"
-                    value={endTime}
-                    onChange={handleChange}
-                    renderInput={(params) => <TextField {...params} />}
+                    id="standard-required"
+                    select
+                    label="Interviewrs"
+                    variant="standard"
                   />
                 </Stack>
-              </LocalizationProvider>
+              </Stack>
             </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "60%"
-              }}
-                required
-                id="standard-required"
-                label="Loaction"
-                variant="standard"
-              />
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "60%"
-              }}
-                required
-                id="standard-required"
-                select
-                label="Interviewrs"
-                variant="standard"
-              />
-            </Stack>
-          </Stack>
-        </Stack>
-        <Stack ml={5}>
-          <Stack mt={7}>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "100%"
-              }}
-                required
-                select
-                id="standard-required"
-                label="Select Email Template"
-                variant="standard"
-              />
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "100%"
-              }}
-                required
-                select
-                id="standard-required"
-                label="Job"
-                variant="standard"
-              />
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "100%"
-              }}
-                required
-                id="standard-required"
-                label="Subject"
-                variant="standard"
-              />
-            </Stack>
-            <p>Email Body</p>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-              <ReactQuill sx={{
-              }} theme="snow"
-                modules={modules}
-                formats={formats} value={state.comments || ''}
-              />
-            </Stack>
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mt={5} mb={5} ml={0} mr={0}>
-              <div>Attachment:</div>
-              <Button sx={{
-                textAlign:"center",
-                alignItems:"center",
-              }}>
-                <label htmlFor="file-input" flow-btn>
-                
-                <input
-                id="file-input"
-                  type="file"
-                  accept='.pdf'
-                  hidden
-                />
-                Browse
-                </label>
-              </Button>
-            </Stack>
-          </Stack>
-        </Stack>
-      </Stack>
-      <Stack justifyContent="center" alignItems='center' pt={4}>
-        <hr style={{ width: '90%', color: 'grey', marginBottom: '5%' }} />
-        <Button variant="contained">Schedule</Button>
-      </Stack>
-      </Form>
+            <Stack ml={5}>
+              <Stack mt={7}>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
+                  <TextField sx={{
+                    width: "100%"
+                  }}
+                    required
+                    select
+                    id="standard-required"
+                    label="Select Email Template"
+                    variant="standard"
+                  />
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
+                  <TextField sx={{
+                    width: "100%"
+                  }}
+                    required
+                    select
+                    id="standard-required"
+                    label="Job"
+                    variant="standard"
+                  />
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
+                  <TextField sx={{
+                    width: "100%"
+                  }}
+                    required
+                    id="standard-required"
+                    label="Subject"
+                    variant="standard"
+                  />
+                </Stack>
+                <p>Email Body</p>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
+                  <ReactQuill sx={{
+                  }} theme="snow"
+                    modules={modules}
+                    formats={formats} value={state.comments || ''}
+                  />
+                </Stack>
+                <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mt={5} mb={5} ml={0} mr={0}>
+                  <div>Attachment:</div>
+                  <Button sx={{
+                    textAlign: "center",
+                    alignItems: "center",
+                  }}>
+                    <label htmlFor="file-input" flow-btn>
 
-</FormikProvider >
+                      <input
+                        id="file-input"
+                        type="file"
+                        accept='.pdf'
+                        hidden
+                      />
+                      Browse
+                    </label>
+                  </Button>
+                </Stack>
+              </Stack>
+            </Stack>
+          </Stack>
+          <Stack justifyContent="center" alignItems='center' pt={4}>
+            <hr style={{ width: '90%', color: 'grey', marginBottom: '5%' }} />
+            <Button variant="contained">Schedule</Button>
+          </Stack>
+        {/* </Form>
+
+      </FormikProvider > */}
+    </div>
   )
 }
 
