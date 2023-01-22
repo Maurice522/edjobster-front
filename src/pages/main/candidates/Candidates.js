@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 
 // material
@@ -168,6 +168,29 @@ const [candidateId,setCandidateId]=useState();
       },
     },
     {
+      name: 'view',
+      label: 'View',
+      options: {
+        filter: false,
+        sort: false,
+
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button
+              style={{ minWidth: 0, marginRight: '5px' }}
+              variant="contained"
+              onClick={() => Navigate("/dashboard/candidates/candidate")}
+              color="info"
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="carbon:view-filled" width={24} height={24} />
+              </ListItemIcon>
+            </Button>
+          </>
+        ),
+      },
+    },
+    {
       name: 'action',
       label: 'Action',
       options: {
@@ -239,9 +262,9 @@ const [candidateId,setCandidateId]=useState();
   const options = {
     filterType: 'dropdown',
     responsive: 'stacked',
-    filter: false,
-    download: false,
-    print: false,
+    filter: true,
+    download: true,
+    print: true,
   };
   return (
     <Page title="User">

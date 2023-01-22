@@ -74,6 +74,7 @@ const Templates = () => {
     const currentDataObj = dataArr[dataIndex];
     setEditValue(currentDataObj);
     setModalName('Edit');
+    
   };
 
   /// delete email template

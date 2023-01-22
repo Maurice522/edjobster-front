@@ -17,6 +17,9 @@ const dataTypes = [
 ]
 
 function Editable(props) {
+    const demobutton ={
+        // navigate("/")
+    }
     const { children, value, handleChange, multiLine, placeholder, fullWidth } = props
     const [editable, setEditable] = useState(false)
     return (
