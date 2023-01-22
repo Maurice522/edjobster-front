@@ -72,7 +72,7 @@ const EmailModalTemplates = (props) => {
       showToast("error", "Error in updating email template")
       handleClose()
     }
-  }, [AddEmailTemplateInfo, UpdateEmailTemplateInfo, handleClose])
+  }, [AddEmailTemplateInfo, UpdateEmailTemplateInfo])
 
   const modules = {
     toolbar: [
