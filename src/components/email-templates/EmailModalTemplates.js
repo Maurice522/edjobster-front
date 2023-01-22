@@ -28,9 +28,51 @@ const EmailModalTemplates = (props) => {
   const [AddEmailTemplate, AddEmailTemplateInfo] = useAddEmailTemplateMutation();
   const [UpdateEmailTemplate, UpdateEmailTemplateInfo] = useUpdateEmailTemplateMutation();
 
+  const [formData, setFormData] = useState(emailTemplateData || {
+    category: 0,
+    type: "",
+    subject: "",
+    message: ""
+  })
+
   const handleChangeFormData = (name, value) => {
-    console.log("rect quill")
+    setFormData(prev => {
+      prev[name] = value
+      return prev
+    })
+    console.log(formData)
   }
+
+  const modalCloseHandler = () => handleClose()
+
+  const handleSubmit = async () =>  {
+    if(emailTemplateData) {
+      await UpdateEmailTemplate(formData)
+    }
+    else {
+      await AddEmailTemplate(formData)
+    }
+  }
+
+  useEffect(() => {
+    if(AddEmailTemplateInfo.isError) {
+      console.log(AddEmailTemplateInfo.error)
+      showToast("error", "Error in adding email template")
+      console.log(AddEmailTemplate.error)
+    }
+    if(AddEmailTemplateInfo.isSuccess) {
+      showToast("success", "Successfully added email template")
+      handleClose()
+    }
+    if(UpdateEmailTemplateInfo.isSuccess) {
+      showToast("success", "Successfully updated email template")
+      handleClose()
+    }
+    if(UpdateEmailTemplateInfo.isError) {
+      showToast("error", "Error in updating email template")
+      handleClose()
+    }
+  }, [AddEmailTemplateInfo, UpdateEmailTemplateInfo, handleClose])
 
   const modules = {
     toolbar: [
@@ -57,104 +99,6 @@ const EmailModalTemplates = (props) => {
     comments: ''
   }
 
-  const [textValue, setTextValue] = useState({
-    category: emailTemplateData?.category_id ?? 1,
-    subject: emailTemplateData?.subject ?? '',
-    variables: '',
-    body: emailTemplateData?.message ?? '',
-    type: emailTemplateData?.type ?? '',
-  });
-  const onSubjectInputChangeHandler = (e) => {
-    e.preventDefault();
-    setTextValue({ ...textValue, subject: e.target.value });
-  };
-  const handleTypeChange = (e) => {
-    e.preventDefault();
-    setTextValue({ ...textValue, type: e.target.value });
-  };
-  const handleCategoryChange = (e) => {
-    e.preventDefault();
-    setTextValue({ ...textValue, category: e.target.value });
-  };
-  const handleVariablesChange = (e) => {
-    e.preventDefault();
-  };
-  const modalCloseHandler = () => {
-    handleClose(false);
-  };
-  const addEmailTemplateHandler = () => {
-    if (emailTemplateData) {
-      UpdateEmailTemplate({
-        id: emailTemplateData.id,
-        category: textValue.category || 1,
-        type: textValue.type,
-        subject: textValue.subject,
-        message: textValue.body,
-      });
-    } else {
-      AddEmailTemplate({
-        category: textValue.category || 1,
-        type: textValue.type,
-        subject: textValue.subject,
-        message: textValue.body,
-      });
-    }
-  };
-  const onInputChangeHandler = (changedText) => {
-    setTextValue({ ...textValue, body: `${changedText.replace('<p>', '').replace('</p>', '')}` });
-  };
-  useEffect(() => {
-    setTextValue({
-      category: emailTemplateData?.category_id ?? '',
-      subject: emailTemplateData?.subject ?? '',
-      variables: '',
-      body: emailTemplateData?.message ?? '',
-      type: emailTemplateData?.type ?? '',
-    });
-  }, [emailTemplateData]);
-  useEffect(() => {
-    if (AddEmailTemplateInfo.isSuccess) {
-      showToast('success', 'Email Category successfully added.');
-      handleClose(false);
-      AddEmailTemplateInfo.reset();
-      setTextValue({
-        category: '',
-        subject: '',
-        variables: '',
-        body: '',
-        type: '',
-        message: '',
-      });
-    }
-    if (AddEmailTemplateInfo.isError) {
-      showToast('error', AddEmailTemplateInfo.error);
-      AddEmailTemplateInfo.reset();
-    }
-    if (UpdateEmailTemplateInfo.isSuccess) {
-      showToast('success', 'Email Category successfully updated.');
-      handleClose(false);
-      UpdateEmailTemplateInfo.reset();
-      setTextValue({
-        category: '',
-        subject: '',
-        variables: '',
-        body: '',
-        type: '',
-        message: '',
-      });
-    }
-    if (UpdateEmailTemplateInfo.isError) {
-      showToast('error', UpdateEmailTemplateInfo.error.data.msg);
-      UpdateEmailTemplateInfo.reset();
-    }
-  }, [
-    AddEmailTemplateInfo.isSuccess,
-    AddEmailTemplateInfo.isError,
-    AddEmailTemplateInfo,
-    handleClose,
-    UpdateEmailTemplateInfo,
-  ]);
-
   return (
     <>
       <Dialog
@@ -179,14 +123,14 @@ const EmailModalTemplates = (props) => {
                     <Select
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"
-                      value={textValue.category}
-                      onChange={handleCategoryChange}
+                      name="category"
+                      onChange={e => handleChangeFormData(e.target.name, +e.target.value)}
                       label="Category"
                     >
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {categoryData?.map((item) => (
+                      {categoryData && categoryData?.map((item) => (
                         <MenuItem key={item.id} value={item.id}>
                           {item.name}
                         </MenuItem>
@@ -199,37 +143,36 @@ const EmailModalTemplates = (props) => {
                     <RadioGroup
                       row
                       aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
-                      value={textValue.type}
-                      onChange={handleTypeChange}
+                      name="type"
+                      onChange={e => handleChangeFormData(e.target.name, e.target.value)}
                     >
                       <FormControlLabel value="C" control={<Radio />} label="Candidate" />
                       <FormControlLabel value="I" control={<Radio />} label="Internal" />
                     </RadioGroup>
                   </FormControl>
                 </Grid>
-                {/* <Grid item xs={12}>
+                <Grid item xs={12}>
                   <TextField
                     autoFocus
                     margin="dense"
                     variant="standard"
                     fullWidth
                     name="subject"
-                    value={textValue.subject}
                     label="Subject"
-                    onChange={onSubjectInputChangeHandler}
+                    onChange={e => handleChangeFormData(e.target.name, e.target.value)}
                   />
-                </Grid> */}
+                </Grid>
                 <Grid item xl={12} style={{ heigth: '45vh' }}>
                   {/* <RichTextEditer onChange={onInputChangeHandler} variableData={variableData} body={textValue.body} /> */}
-                  <p>Subject</p>
+                  <p>Body</p>
                   <ReactQuill 
                     theme="snow"
                     modules={modules}
                     formats={formats} value={state.comments || ''}
-                    name="email_msg"
+                    name="message"
                     onChange={e => {
-                      handleChangeFormData("email_msg", e)
+                      console.log(e)
+                      handleChangeFormData("message", e)
                     }}
                   />
                 </Grid>
@@ -241,7 +184,7 @@ const EmailModalTemplates = (props) => {
               <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
-              <Button onClick={addEmailTemplateHandler} variant="contained">
+              <Button onClick={handleSubmit} variant="contained">
                 {emailTemplateData ? 'Update Template' : 'Add Template'}
               </Button>
             </Box>
