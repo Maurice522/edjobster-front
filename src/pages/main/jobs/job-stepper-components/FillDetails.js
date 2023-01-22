@@ -284,7 +284,7 @@ const FillDetails = () => {
                   label="on site"
                   name="nature"
                 >
-                  <MenuItem value={'P'}>Physical </MenuItem>
+                  <MenuItem value={'P'}>Physical</MenuItem>
                   <MenuItem value={'R'}>Remote</MenuItem>
                   {/* <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
@@ -292,8 +292,8 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                {/* <InputLabel id="demo-simple-select-standard-label">Education</InputLabel> */}
-                {/* <Select
+                <InputLabel id="demo-simple-select-standard-label">Education</InputLabel>
+                <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.education}
@@ -301,23 +301,28 @@ const FillDetails = () => {
                   label="Choose Degree"
                   name="education"
                 >
-                  {jobDegreeData &&
-                    jobDegreeData?.data?.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item?.name}
-                      </MenuItem>
-                    ))}
-                </Select> */}
-                <TextField
-                autoFocus
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="education"
-                value={textValue.education}
-                label="Education"
-                onChange={onInputChangeHandler}
-              />
+                  <MenuItem value={"High School"}>High School</MenuItem>
+                  <MenuItem value={"Junior College"}>Junior College</MenuItem>
+                  <MenuItem value={"Bachelors"}>Bachelors</MenuItem>
+                  <MenuItem value={"Masters"}>Masters</MenuItem>
+                </Select>
+                {/* <TextField
+                  autoFocus
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  name="education"
+                  value={textValue.education}
+                  label="Education"
+                  onChange={onInputChangeHandler}
+                  select
+                >
+                  <option>Education</option>
+                  <option>Education</option>
+                  <option>Education</option>
+                  <option>Education</option>
+                  <option>Education</option>
+                </TextField> */}
               </FormControl>
             </Grid>
             <Grid item xs={6}>
@@ -449,10 +454,10 @@ const FillDetails = () => {
                   label="Salary Type"
                   name="salary_type"
                 >
-                  <MenuItem value={'M'}>Monthly</MenuItem>
                   <MenuItem value={'Y'}>Yearly</MenuItem>
-                  <MenuItem value={'D'}>Daily</MenuItem>
+                  <MenuItem value={'M'}>Monthly</MenuItem>
                   <MenuItem value={'W'}>Weekly</MenuItem>
+                  <MenuItem value={'D'}>Daily</MenuItem>
 
                 </Select>
               </FormControl>
@@ -520,7 +525,7 @@ const FillDetails = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <h3 
                 style={{
                   padding: "0.2rem",
@@ -537,12 +542,26 @@ const FillDetails = () => {
                   theme="snow" 
                   modules={modules}
                   formats={formats} 
-                  value={textValue.comments || ''}
+                  value={textValue.description || ''}
                   name="comments"
-                  onChange={(e) => onInputChangeHandler({target: {name: "comments", value: e}})}
+                  onChange={(e) => onInputChangeHandler({target: {name: "description", value: e}})}
                   // onChange={onInputChangeHandler}
                 />
               </div>
+            </Grid> */}
+            <Grid item xs={3}>
+              <TextField
+                margin="dense"
+                variant="standard"
+                fullWidth
+                name="description"
+                value={textValue.description}
+                label="Job Description"
+                onChange={onInputChangeHandler}
+                multiline
+                rows={3}
+                maxRows={6}
+              />
             </Grid>
           </Grid>
         </Box>

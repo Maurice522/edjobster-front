@@ -104,7 +104,7 @@ const CreateJob = () => {
     setCompleted(newCompleted);
     handleNext();
     if (isValidateUpdateJob()) {
-      await addJobData(job);
+      await addJobData({...job, education: [1]});
     }
   };
   useEffect(() => {
@@ -123,7 +123,7 @@ const CreateJob = () => {
         member_names: jobData?.data?.members,
         type: jobData?.data?.type,
         nature: jobData?.data?.nature,
-        education: jobData?.data?.educations?.map((x) => x.id),
+        education: jobData?.data?.educations,
         speciality: jobData?.data?.speciality,
         exp_min: jobData?.data?.exp_min,
         exp_max: jobData?.data?.exp_max,
@@ -152,7 +152,7 @@ const CreateJob = () => {
 
   useEffect(() => {
     if (addJobDataInfo.isSuccess) {
-      showToast('success', 'job is created succesfully');
+      showToast('success', 'Job created succesfully');
       const textValue1 = {
         title: '',
         vacancies: null,
@@ -163,7 +163,7 @@ const CreateJob = () => {
         member_names: [],
         type: '',
         nature: '',
-        education: [],
+        education: '',
         speciality: '',
         exp_min: null,
         exp_max: null,
@@ -187,7 +187,7 @@ const CreateJob = () => {
         department_name:'',
         city_name:'',
       };
-      dispatch(jobAction(textValue1));
+      dispatch(jobAction(job));
       addJobDataInfo.reset();
       refetch();
       dispatch(setJobList(allJobs));
@@ -195,6 +195,7 @@ const CreateJob = () => {
     }
     if (addJobDataInfo.isError) {
       showToast('error', addJobDataInfo.error.data.msg);
+      console.log(addJobDataInfo.error)
       addJobDataInfo.reset();
       refetch();
     }
