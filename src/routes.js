@@ -127,7 +127,7 @@ export default function Router() {
         { path: 'email-templates/categories', element: <Categories /> },
         { path: 'email-templates/templates', element: <Templates /> },
         { path: 'candidate-settings/fields', element: <Fields /> },
-        { path: 'candidate-settings/webforms', element: <Webforms /> },
+        { path: '/dashboard/candidate-settings/webforms', element: <Webforms /> },
         { path: '/dashboard/candidate-settings/webforms/new', element: <CreateWebform /> },
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
