@@ -81,6 +81,7 @@ export default function RegisterForm() {
       landmark: '',
       country: 1,
       state: 1,
+      countries:'',
       city: 1,
       pincode: '',
     },
@@ -224,7 +225,7 @@ export default function RegisterForm() {
             >
               Country
             </option>
-            {countryData.countries.map((e, i) => (
+            {countryData?.countries?.map((e, i) => (
               <option key={i} value={e.id}>
                 {e.name}
               </option>
@@ -253,7 +254,7 @@ export default function RegisterForm() {
             >
               State
             </option>
-            {stateData.states.map((e, i) => (
+            {stateData?.states?.map((e, i) => (
               <option key={i} value={e.id}>
                 {e.name}
               </option>
@@ -282,7 +283,7 @@ export default function RegisterForm() {
             >
               City
             </option>
-            {cityData.cities.map((e, i) => (
+            {cityData?.cities?.map((e, i) => (
               <option key={i} value={e.id}>
                 {e.name}
               </option>

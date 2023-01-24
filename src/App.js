@@ -19,13 +19,13 @@ export default function App() {
   const auth = JSON.parse(localStorage.getItem("globalUser") || sessionStorage.getItem("globalUser"))
   console.log(auth)
   useEffect(() => {
-    if(!auth) {
-      navigate("/login")
-    }
-    // else {
-    //   navigate("/dashboard/app")
+    // if(!auth) {
+    //   navigate("/login")
     // }
-    // navigate("/login") 
+    // else {
+      // navigate("/dashboard/app")
+    // }
+    navigate("/login") 
   }, [navigate]);
 
   return (
