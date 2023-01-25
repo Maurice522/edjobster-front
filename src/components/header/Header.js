@@ -42,6 +42,14 @@ const Header = () => {
             >
               Interviews
             </NavLink>
+            <NavLink
+              to="/dashboard/institute-description"
+              className={({ isActive }) =>
+                isActive ? "header-job-active" : "header-menu"
+              }
+            >
+              Institute-SubDomian
+            </NavLink>
             <NavLink to="/dashboard/assessments" 
           className="header-menu">
               Assessments
