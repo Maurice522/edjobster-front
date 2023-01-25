@@ -36,7 +36,8 @@ const apiUrl = {
   location:`${baseUrl}settings/location/`,  
   notes: `${baseUrl}candidate/notes/`,
   notesType:`${baseUrl}common/note-types/`,
-  signUp: `${baseUrl}account/sign-up/`
+  signUp: `${baseUrl}account/sign-up/`,
+  approveUser: `${baseUrl}account/approve-user/`
 };
 
 export { baseUrl, apiUrl };

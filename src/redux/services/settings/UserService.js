@@ -25,7 +25,7 @@ const extendedApi = apiBasePath.injectEndpoints({
         }),
         updateUserApi: build.mutation({
             query: (data) => ({
-                url: `${apiUrl.userUpdate}`,
+                url: `${apiUrl.approveUser}`,
                 method: "POST",
                 body: data,
                 headers: {

@@ -36,6 +36,7 @@ const EmailModalTemplates = (props) => {
   })
 
   const handleChangeFormData = (name, value) => {
+    console.log(name,value)
     setFormData(prev => {
       prev[name] = value
       return prev
@@ -50,6 +51,7 @@ const EmailModalTemplates = (props) => {
       await UpdateEmailTemplate(formData)
     }
     else {
+      console.log(formData)
       await AddEmailTemplate(formData)
     }
   }
@@ -168,7 +170,8 @@ const EmailModalTemplates = (props) => {
                   <ReactQuill 
                     theme="snow"
                     modules={modules}
-                    formats={formats} value={state.comments || ''}
+                    formats={formats}
+                    //  value={state.comments || ''}
                     name="message"
                     onChange={e => {
                       console.log(e)

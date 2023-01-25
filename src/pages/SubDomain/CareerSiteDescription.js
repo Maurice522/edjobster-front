@@ -81,7 +81,7 @@ function CareerSiteDescription() {
     },[])
 
 
-    
+        
 
 
     return (
@@ -119,7 +119,7 @@ function CareerSiteDescription() {
                     {jobList?.map((item)=>{
 
                         return (
-<Card sx={{
+                    <Card sx={{
                         borderRadius: "14px",
                         boxSizing: "border-box 1px solid #eaf1f5",
                         width:"60%",
