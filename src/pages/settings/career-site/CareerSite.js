@@ -78,7 +78,7 @@ const CareerSite = () => {
   }
   if (UpdateCompanyInfo.isError) {
     showToast("error", UpdateCompanyInfo.error.data.msg);
-    UpdateCompanyInfo.reset();
+    console.log("description daal")
   }
   if (UpdateCompanyLogoInfo.isSuccess) {
     showToast("success", UpdateCompanyLogoInfo.data.msg);

@@ -31,7 +31,7 @@ function CareerSiteDescription() {
 
     return (
         <div>
-            <h1 className='InstituteTitle'>SRM Institute Of Technology (Institute-Title)</h1>
+            <h1 className='InstituteTitle'>(Institute-Title)</h1>
             <hr style={{ width: '70%', color: 'grey', margin: '5% auto', justifyContent: "center", marginBottom: "2%" }} />
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider',display:"flex",justifyContent:"center" }}>
@@ -40,8 +40,8 @@ function CareerSiteDescription() {
                         <Tab label="Job" value="2" sx={{ width: "10%" }} />
                     </TabList>
                 </Box>
-                <TabPanel value="1">
-                    <Card>
+                <TabPanel value="1" sx={{displya:"flex",justifyContent:"center"}}>
+                    <Card sx={{width:"80%",marginLeft:"auto",marginRight:"auto"}}>
                         <div className='InstitutePhotoAddress'>
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
                         e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
@@ -69,14 +69,14 @@ function CareerSiteDescription() {
                     <Card sx={{
                         borderRadius: "14px",
                         boxSizing: "border-box 1px solid #eaf1f5",
-                        width:"60%"
-                    }}>
+                        width:"60%",
+                        cursor:"pointer"
+                     }}>
                         <div className='JobInnerCard'>
                             <Stack sx={{
                                 display: "flex",
                                 flexDirection: "row",
-                                gap: "2%"
-
+                                gap: "2%",
                              }}>
                                 <div className='JobCardImgDiv'>
                                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
