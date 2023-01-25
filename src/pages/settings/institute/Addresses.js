@@ -11,7 +11,6 @@ import {
   Typography,
   ListItemIcon,
 } from '@mui/material';
-import { sortedDataFn } from 'src/utils/getSortedData';
 // components
 // eslint-disable-next-line import/no-unresolved
 import { useGetAddressesQuery, useDeleteAddressesMutation, useAddAddressesMutation, useUpdateAddressesMutation } from '../../../redux/services/settings/AddressesService';
@@ -26,71 +25,76 @@ import { showToast } from "../../../utils/toast";
 
 const Addresses = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetAddressesQuery();
   const [PostAddress, PostAddressInfo] = useAddAddressesMutation();
   const [UpdateAddress, UpdateAddressInfo] = useUpdateAddressesMutation();
   const [DeleteAddress, DeleteAddressInfo] = useDeleteAddressesMutation();
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [btnLoader, setBtnLoader] = useState(false)
-
+  const [modalType, setModalType] = useState("Add")
   const [addData, setAddData] = useState({
+    id: null,
     name: "",
     address: "",
     city: "",
     pincode: "",
-    country: "",
-    state: "",
+    // country: "",
+    // state: "",
   })
-  const [editValue, setEditValue] = useState({
-    id: undefined,
-    name: "",
-    address: "",
-    city: "",
-    pincode: "",
-    country: "",
-    state: "",
-  });
-  const [modalName, setModalName] = useState("add");
 
-  const sortedData = useMemo(() => {
-    const result = sortedDataFn(data.data);
-    return result;
-  }, [data])
 
   useEffect(() => {
     if (PostAddressInfo.isSuccess) {
       setModalOpen(false);
       refetch();
       showToast("success", "address successfully added.");
-      setBtnLoader(false);
+      // setBtnLoader(false);
       PostAddressInfo.reset();
     }
     if (PostAddressInfo.isError) {
       showToast("error", PostAddressInfo.error.data.msg);
-      setBtnLoader(false);
+      // setBtnLoader(false);
       PostAddressInfo.reset();
     }
     if (UpdateAddressInfo.isSuccess) {
       refetch();
-      showToast("success", "address successfully updated.");
-      setEditModalOpen(false);
-      setBtnLoader(false);
+
+      setModalOpen(false);
+      // setBtnLoader(false);
       UpdateAddressInfo.reset();
 
     }
     if (UpdateAddressInfo.isError) {
       showToast("error", UpdateAddressInfo.error.data.msg);
-      setBtnLoader(false);
+      // setBtnLoader(false);
       UpdateAddressInfo.reset();
     }
-  }, [modalOpen, PostAddressInfo, setModalOpen, refetch, setBtnLoader, setEditModalOpen, UpdateAddressInfo])
+  }, [PostAddressInfo, UpdateAddressInfo,refetch])
+
+
+  // const sortedData = useMemo(() => {
+  //   const result = sortedDataFn(data.data);
+  //   console.log("result", result);
+  //   const dataNewArr = [];
+  //   result.forEach((value) => {
+  //     dataNewArr.push({
+  //       ...value,
+  //       completeAddress: `${value.address},${value.city_name} - ${value.pincode},${value.state_name},${value.country_name}`,
+
+  //     })
+  //   })
+  //   return dataNewArr;
+  // }, [data])
+
+  console.log("arry data", data?.data)
+
+
+  // delete Address
 
   if (isLoading) {
     return <DataTableLazyLoading />
   }
   if (DeleteAddressInfo.isSuccess) {
-    showToast("success", "address successfully deleted.");
+    showToast("success", "degree successfully deleted.");
     DeleteAddressInfo.reset();
   }
   if (DeleteAddressInfo.isError) {
@@ -125,10 +129,8 @@ const Addresses = () => {
     refetch();
   }
 
-  const modalHandleClose = () => {
-    console.log(editmodalOpen)
-    setModalOpen(false);
-    setEditModalOpen(false);
+  const modalHandleClose = (value) => {
+    setModalOpen(value);
   };
 
   const emptyObjectFn = (currObj) => {
@@ -225,9 +227,7 @@ const Addresses = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Addresses
-          </Typography>
+          <Typography variant="h4" gutterBottom/>
           <Button
             variant="contained"
             component={RouterLink}
