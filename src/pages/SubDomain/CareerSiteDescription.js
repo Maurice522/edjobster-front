@@ -20,8 +20,8 @@ import WorkIcon from '@mui/icons-material/Work';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FileUpload from 'react-material-file-upload';
+import { showToast } from '../../utils/toast';
 import { useGetCompanyInfoQuery} from '../../redux/services/settings/CareerSiteService';
-import { showToast } from 'src/utils/toast';
 
 function CareerSiteDescription() {
     const { data, isLoading, refetch } = useGetCompanyInfoQuery();
@@ -55,8 +55,8 @@ function CareerSiteDescription() {
                 institute_country: data?.company?.country_name,
             })
         }
-        if(data?.code !=200){
-            showToast("Error","Error fetching the Data")
+        if(data?.code !==200){
+            showToast("error","Error fetching the Data")
         }
     },[data])
 
