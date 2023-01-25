@@ -9,7 +9,7 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: () => ({
                 url: `${apiUrl.country}`,
                 headers: {
-                  'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+                  'Authorization': `Token ${localStorage.getItem("globalUser")?.access}`
                 }
             }),
         }),
