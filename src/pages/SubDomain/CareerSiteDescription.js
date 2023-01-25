@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -20,11 +20,14 @@ import WorkIcon from '@mui/icons-material/Work';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FileUpload from 'react-material-file-upload';
+import { useGetJobListQuery } from '../../redux/services/jobs/JobListService';
 import { showToast } from '../../utils/toast';
 import { useGetCompanyInfoQuery} from '../../redux/services/settings/CareerSiteService';
 
 function CareerSiteDescription() {
     const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+    const {data: jobList} = useGetJobListQuery();
+    
     const [AboutData,setAboutData]= useState({
         institute_name: '',
         institute_logo: '',
@@ -42,7 +45,7 @@ function CareerSiteDescription() {
         setValue(newValue);
     };
 
-    useState(()=>{
+    useEffect(()=>{
         if(data?.company){
             setAboutData({
                 institute_name: data?.company?.name,
@@ -59,6 +62,27 @@ function CareerSiteDescription() {
             showToast("error","Error fetching the Data")
         }
     },[data])
+    useEffect(()=>{
+        if(data?.company){
+            setAboutData({
+                institute_name: data?.company?.name,
+                institute_logo: data?.company?.logo,
+                institute_description: data?.company?.description,
+                institute_address: data?.company?.address,
+                institute_landmark: data?.company?.landmark,
+                institute_city: data?.company?.city_name,
+                institute_state: data?.company?.state_name,
+                institute_country: data?.company?.country_name,
+            })
+        }
+        if(data?.code !==200){
+            showToast("error","Error fetching the Data")
+        }
+    },[])
+
+
+    
+
 
     return (
         <div>
@@ -92,7 +116,10 @@ function CareerSiteDescription() {
                 <TabPanel value="2" sx={{
                     marginLeft:"20%"
                 }}>
-                    <Card sx={{
+                    {jobList?.map((item)=>{
+
+                        return (
+<Card sx={{
                         borderRadius: "14px",
                         boxSizing: "border-box 1px solid #eaf1f5",
                         width:"60%",
@@ -110,8 +137,8 @@ function CareerSiteDescription() {
                                     />
                                 </div>
                                 <div>
-                                    <h2>Job Title</h2>
-                                    <h4>Institute Name</h4>
+                                    <h2>{item?.title}</h2>
+                                    <h4>{item?.institute_name}</h4>
                                 </div>
                             </Stack>
                             <Stack sx={{
@@ -122,22 +149,26 @@ function CareerSiteDescription() {
                             }}>
                                 <div style={{alignItems:"center",display:"flex",flexDirection:"row"}}>
                                     <WorkIcon color='disabled' />
-                                    <p>Expirience</p>
+                                    <p>{item?.exp_min}-{item?.exp_max}</p>
                                 </div>
                                 <div style={{alignItems:"center",display:"flex",flexDirection:"row"}}>
                                 <CurrencyRupeeIcon color='disabled'sx={{marginTop:"2%",paddingTop:"2%"}}/>
-                                    <p>Salary</p>
+                                    <p>{item?.salary_min}-{item?.salary_max}</p>
                                 </div>
                                 <div style={{alignItems:"center",display:"flex",flexDirection:"row"}}>
                                 <LocationOnIcon color='disabled'/>
-                                    <p>Location</p>
+                                    <p>{item?.country},{item?.state},{item?.city}</p>
                                 </div>
                             </Stack>
                             <Typography variant="body1" gutterBottom sx={{marginTop:"2%"}}>
-                               Job Description
+                               {item?.description}
                             </Typography>
                         </div>
                     </Card>
+                        )
+                        
+                    })}
+                    
                 </TabPanel>
             </TabContext>
         </div>
