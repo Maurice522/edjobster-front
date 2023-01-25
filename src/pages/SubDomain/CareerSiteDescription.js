@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -20,18 +20,49 @@ import WorkIcon from '@mui/icons-material/Work';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FileUpload from 'react-material-file-upload';
+import { useGetCompanyInfoQuery} from '../../redux/services/settings/CareerSiteService';
+import { showToast } from 'src/utils/toast';
 
 function CareerSiteDescription() {
+    const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+    const [AboutData,setAboutData]= useState({
+        institute_name: '',
+        institute_logo: '',
+        institute_description: '',
+        institute_address: '',
+        institute_landmark: '',
+        institute_city:'',
+        institute_state: '',
+        institute_country: '',
 
+    })
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    useState(()=>{
+        if(data?.company){
+            setAboutData({
+                institute_name: data?.company?.name,
+                institute_logo: data?.company?.logo,
+                institute_description: data?.company?.description,
+                institute_address: data?.company?.address,
+                institute_landmark: data?.company?.landmark,
+                institute_city: data?.company?.city_name,
+                institute_state: data?.company?.state_name,
+                institute_country: data?.company?.country_name,
+            })
+        }
+        if(data?.code !=200){
+            showToast("Error","Error fetching the Data")
+        }
+    },[data])
+
     return (
         <div>
-            <h1 className='InstituteTitle'>(Institute-Title)</h1>
+            <h1 className='InstituteTitle'>{AboutData?.institute_name}</h1>
             <hr style={{ width: '70%', color: 'grey', margin: '5% auto', justifyContent: "center", marginBottom: "2%" }} />
             <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider',display:"flex",justifyContent:"center" }}>
@@ -43,23 +74,18 @@ function CareerSiteDescription() {
                 <TabPanel value="1" sx={{displya:"flex",justifyContent:"center"}}>
                     <Card sx={{width:"80%",marginLeft:"auto",marginRight:"auto"}}>
                         <div className='InstitutePhotoAddress'>
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
-                        e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
+                            <img src={AboutData?.institute_logo} alt="InstitutePhoto"
                             />
                             <div className='InstituteAddress'>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has
-                                survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. (landmark, city, state, country)
+                                {AboutData?.institute_address} 
+                              <p>
+                                 {AboutData?.institute_landmark}, {AboutData?.institute_city}, {AboutData?.institute_state}, {AboutData?.institute_country}
+                            </p>
                             </div>
                         </div>
 
                         <div className='InstituteDescription'>
-                            <p>(Description)</p>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-                            since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only
-                            five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
-                            release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.
+                            {AboutData?.institute_description}
                         </div>
                     </Card>
                 </TabPanel>
