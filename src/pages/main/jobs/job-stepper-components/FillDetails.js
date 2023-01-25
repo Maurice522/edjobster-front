@@ -30,8 +30,8 @@ const FillDetails = () => {
   const { data: jobDegreeData } = useDegreeGetQuery();
   const { data: jobGetuserData } = useGetUsersApiQuery();
   const { data: jobGetDepartmentData } = useDepartmentGetQuery();
-  const { data: jobStateData } = useGetStateQuery(1);
-  const { data: jobCityData } = useGetCityQuery(1);
+  const { data: jobStateData } = useGetStateQuery(3);
+  const { data: jobCityData } = useGetCityQuery(4);
   const { data: jobGetPipelineData } = useGetPipelineQuery();
   const { data: jobGetDesignationData } = useDesignationGetQuery();
 

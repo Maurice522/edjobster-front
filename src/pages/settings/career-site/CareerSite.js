@@ -53,6 +53,7 @@ const CareerSite = () => {
   useEffect(() => {
     if (data) {
       const response = data?.company;
+      console.log(response)
       setCompanyData({
         company: response.name,
         logo: response.logo,
@@ -113,6 +114,7 @@ const CareerSite = () => {
   const onInputChangeHandler = (e) => {
     setCompanyData({ ...companyData, [e.target.name]: e.target.value })
   }
+  console.log(companyData)
 
 
   return (
@@ -208,6 +210,7 @@ const CareerSite = () => {
                     //   onChange={handleChange}
                     label="Select State"
                   >
+                    
                     {stateData && stateData?.states?.map((state) => <MenuItem key={state?.id} value={state?.id}>{state?.name}</MenuItem>)}
                   </Select>
                 </FormControl>
