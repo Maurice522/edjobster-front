@@ -218,14 +218,9 @@ const CareerSite = () => {
                   <Select
                     labelId="select-city"
                     id="city"
-                    name="city"
-                    value={companyData.city}
-                    onChange={onInputChangeHandler}
+                    value={companyData.city_id}
                     label="Select City"
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
                     {cityData && cityData?.cities?.map((city) => <MenuItem key={city?.id} value={city?.id}>{city?.name}</MenuItem>)}
                   </Select>
                 </FormControl>

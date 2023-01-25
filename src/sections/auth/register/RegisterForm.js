@@ -201,7 +201,7 @@ export default function RegisterForm() {
             label="Age"
             type={"number"}
           />
-          <TextField
+          {/* <TextField
             fullWidth
             autoComplete="country"
             type="string"
@@ -296,7 +296,7 @@ export default function RegisterForm() {
             {...getFieldProps('pincode')}
             error={Boolean(touched.pincode && errors.pincode)}
             helperText={touched.pincode && errors.pincode}
-          />
+          /> */}
 
           <Divider orientation="horizontal" flexItem>
             Password
