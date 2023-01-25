@@ -22,19 +22,19 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FileUpload from 'react-material-file-upload';
 import { useGetJobListQuery } from '../../redux/services/jobs/JobListService';
 import { showToast } from '../../utils/toast';
-import { useGetCompanyInfoQuery} from '../../redux/services/settings/CareerSiteService';
+import { useGetCompanyInfoQuery } from '../../redux/services/settings/CareerSiteService';
 
 function CareerSiteDescription() {
     const { data, isLoading, refetch } = useGetCompanyInfoQuery();
-    const {data: jobList} = useGetJobListQuery();
-    
-    const [AboutData,setAboutData]= useState({
+    const { data: jobList } = useGetJobListQuery();
+
+    const [AboutData, setAboutData] = useState({
         institute_name: '',
         institute_logo: '',
         institute_description: '',
         institute_address: '',
         institute_landmark: '',
-        institute_city:'',
+        institute_city: '',
         institute_state: '',
         institute_country: '',
 
@@ -45,8 +45,8 @@ function CareerSiteDescription() {
         setValue(newValue);
     };
 
-    useEffect(()=>{
-        if(data?.company){
+    useEffect(() => {
+        if (data?.company) {
             setAboutData({
                 institute_name: data?.company?.name,
                 institute_logo: data?.company?.logo,
@@ -58,12 +58,12 @@ function CareerSiteDescription() {
                 institute_country: data?.company?.country_name,
             })
         }
-        if(data?.code !==200){
-            showToast("error","Error fetching the Data")
+        if (data?.code !== 200) {
+            showToast("error", "Error fetching the Data")
         }
-    },[data])
-    useEffect(()=>{
-        if(data?.company){
+    }, [data])
+    useEffect(() => {
+        if (data?.company) {
             setAboutData({
                 institute_name: data?.company?.name,
                 institute_logo: data?.company?.logo,
@@ -75,10 +75,11 @@ function CareerSiteDescription() {
                 institute_country: data?.company?.country_name,
             })
         }
-        if(data?.code !==200){
-            showToast("error","Error fetching the Data")
+        if (data?.code !== 200) {
+            showToast("error", "Error fetching the Data")
         }
-    },[])
+    }, [])
+
 
 
         
@@ -89,22 +90,24 @@ function CareerSiteDescription() {
             <h1 className='InstituteTitle'>{AboutData?.institute_name}</h1>
             <hr style={{ width: '70%', color: 'grey', margin: '5% auto', justifyContent: "center", marginBottom: "2%" }} />
             <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider',display:"flex",justifyContent:"center" }}>
-                    <TabList onChange={handleChange} aria-label="lab API tabs example" sx={{display:"flex",justifyContent:"center"}}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "center" }}>
+                    <TabList onChange={handleChange} aria-label="lab API tabs example" sx={{ display: "flex", justifyContent: "center" }}>
                         <Tab label="About" value="1" sx={{ width: "10%" }} />
                         <Tab label="Job" value="2" sx={{ width: "10%" }} />
                     </TabList>
                 </Box>
-                <TabPanel value="1" sx={{displya:"flex",justifyContent:"center"}}>
-                    <Card sx={{width:"80%",marginLeft:"auto",marginRight:"auto"}}>
+                <TabPanel value="1" sx={{ displya: "flex", justifyContent: "center" }}>
+                    <Card sx={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}>
                         <div className='InstitutePhotoAddress'>
-                            <img src={AboutData?.institute_logo} alt="InstitutePhoto"
-                            />
+                            {/* <img src={AboutData?.institute_logo} alt="InstitutePhoto"
+                            /> */}
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
+                                    e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto" />
                             <div className='InstituteAddress'>
-                                {AboutData?.institute_address} 
-                              <p>
-                                 {AboutData?.institute_landmark}, {AboutData?.institute_city}, {AboutData?.institute_state}, {AboutData?.institute_country}
-                            </p>
+                                {AboutData?.institute_address}
+                                <p>
+                                    {AboutData?.institute_landmark}, {AboutData?.institute_city}, {AboutData?.institute_state}, {AboutData?.institute_country}
+                                </p>
                             </div>
                         </div>
 
@@ -114,61 +117,60 @@ function CareerSiteDescription() {
                     </Card>
                 </TabPanel>
                 <TabPanel value="2" sx={{
-                    marginLeft:"20%"
+                    marginLeft: "20%"
                 }}>
-                    {jobList?.map((item)=>{
+                    {jobList?.map((item) => {
 
                         return (
-                    <Card sx={{
-                        borderRadius: "14px",
-                        boxSizing: "border-box 1px solid #eaf1f5",
-                        width:"60%",
-                        cursor:"pointer"
-                     }}>
-                        <div className='JobInnerCard'>
-                            <Stack sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                gap: "2%",
-                             }}>
-                                <div className='JobCardImgDiv'>
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
-                                    e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
-                                    />
-                                </div>
-                                <div>
-                                    <h2>{item?.title}</h2>
-                                    <h4>{item?.institute_name}</h4>
-                                </div>
-                            </Stack>
-                            <Stack sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                gap: "4%",
-                                marginTop:"2%",
+                            <Card sx={{
+                                borderRadius: "14px",
+                                boxSizing: "border-box 1px solid #eaf1f5",
+                                width: "60%",
+                                cursor: "pointer",
+                                marginBottom:"2%"
                             }}>
-                                <div style={{alignItems:"center",display:"flex",flexDirection:"row"}}>
-                                    <WorkIcon color='disabled' />
-                                    <p>{item?.exp_min}-{item?.exp_max}</p>
+                                <div className='JobInnerCard'>
+                                    <Stack sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        gap: "2%",
+                                    }}>
+                                        <div className='JobCardImgDiv'>
+                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
+                                    e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
+                                            />
+                                        </div>
+                                        <div>
+                                            <h2>{item?.title}</h2>
+                                            <h4>{item?.institute_name}</h4>
+                                        </div>
+                                    </Stack>
+                                    <Stack sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        gap: "4%",
+                                        marginTop: "2%",
+                                    }}>
+                                        <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
+                                            <WorkIcon color='disabled' />
+                                            <p>{item?.exp_min}-{item?.exp_max}</p>
+                                        </div>
+                                        <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
+                                            <CurrencyRupeeIcon color='disabled' sx={{ marginTop: "2%", paddingTop: "2%" }} />
+                                            <p>{item?.salary_min}-{item?.salary_max}</p>
+                                        </div>
+                                        <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
+                                            <LocationOnIcon color='disabled' />
+                                            <p>{item?.country},{item?.state},{item?.city}</p>
+                                        </div>
+                                    </Stack>
+                                    <Typography variant="body1" gutterBottom sx={{ marginTop: "2%" }}>
+                                        {item?.description}
+                                    </Typography>
                                 </div>
-                                <div style={{alignItems:"center",display:"flex",flexDirection:"row"}}>
-                                <CurrencyRupeeIcon color='disabled'sx={{marginTop:"2%",paddingTop:"2%"}}/>
-                                    <p>{item?.salary_min}-{item?.salary_max}</p>
-                                </div>
-                                <div style={{alignItems:"center",display:"flex",flexDirection:"row"}}>
-                                <LocationOnIcon color='disabled'/>
-                                    <p>{item?.country},{item?.state},{item?.city}</p>
-                                </div>
-                            </Stack>
-                            <Typography variant="body1" gutterBottom sx={{marginTop:"2%"}}>
-                               {item?.description}
-                            </Typography>
-                        </div>
-                    </Card>
+                            </Card>
                         )
-                        
                     })}
-                    
                 </TabPanel>
             </TabContext>
         </div>

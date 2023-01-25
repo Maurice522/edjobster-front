@@ -65,6 +65,7 @@ import CreateWebform from './pages/settings/candidate-settings/CreateWebform';
 import NewcreateCandidate from './pages/main/CreateCandidate/NewcreateCandidate';
 import NewCreateInterview from './pages/main/CreateNewInteview/NewCreateInterview';
 import CareerSiteDescription from './pages/SubDomain/CareerSiteDescription';
+import InstitueAddress from './pages/settings/institute/InstitueAddress';
 
 
 
@@ -135,7 +136,8 @@ export default function Router() {
         { path: '/dashboard/bills', element: <Billing /> },
 
         //  {New Institute Settings page(combined)}
-        { path: '/dashboard/InstituteSettings', element: <NewIS /> },
+        { path: '/dashboard/InstituteSettings/DDD', element: <NewIS /> },
+        { path: '/dashboard/InstituteSettings/address', element: <InstitueAddress /> },
         { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
         { path: '/dashboard/createEmail', element: <CreateEmail /> },
         { path: '/dashboard/newuserlist', element: <NewUserList /> },
