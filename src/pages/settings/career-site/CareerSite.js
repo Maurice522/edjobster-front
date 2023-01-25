@@ -53,7 +53,6 @@ const CareerSite = () => {
   useEffect(() => {
     if (data) {
       const response = data?.company;
-      console.log(response)
       setCompanyData({
         company: response.name,
         logo: response.logo,
@@ -79,7 +78,7 @@ const CareerSite = () => {
   }
   if (UpdateCompanyInfo.isError) {
     showToast("error", UpdateCompanyInfo.error.data.msg);
-    UpdateCompanyInfo.reset();
+    console.log("description daal")
   }
   if (UpdateCompanyLogoInfo.isSuccess) {
     showToast("success", UpdateCompanyLogoInfo.data.msg);
