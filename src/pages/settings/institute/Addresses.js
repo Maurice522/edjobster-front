@@ -37,8 +37,8 @@ const Addresses = () => {
     address: "",
     city: "",
     pincode: "",
-    // country: "",
-    // state: "",
+    country: "",
+    state: "",
   })
 
 
@@ -104,19 +104,23 @@ const Addresses = () => {
   const onSubmitHandler = (value) => {
     if (modalType === "Add") {
       PostAddress({
-        name: value.name,
-        address: value.address,
-        city: value.city,
-        pincode: value.pincode
+        name: value?.name,
+        address: value?.address,
+        city: value?.city,
+        pincode: value?.pincode,
+        state: value?.state,
+        country: value?.country,
       })
     } else {
 
       UpdateAddress({
-        id: value.id,
-        name: value.name,
-        address: value.address,
-        city: value.city,
-        pincode: value.pincode
+        id: value?.id,
+        name: value?.name,
+        address: value?.address,
+        city: value?.city,
+        pincode: value?.pincode,
+        state: value?.state,
+        country: value?.country,
       })
     }
   }
