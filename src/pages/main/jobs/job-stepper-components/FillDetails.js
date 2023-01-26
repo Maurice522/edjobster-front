@@ -495,7 +495,7 @@ const FillDetails = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
                 <Select
@@ -515,7 +515,7 @@ const FillDetails = () => {
                     ))}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
             {/* <Grid item xs={12}>
               <h3 
                 style={{
