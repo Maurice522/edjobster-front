@@ -27,23 +27,6 @@ function NewcreateCandidate() {
   const handleChange = (newValue) => {
     setValue(newValue);
   };
-  // const [country, setCountry] = useState(1);
-  // const { data: countryData, refetch: countryDataRefetch } = useGetCountryQuery();
-  // const { data: stateData, refetch: stateDataRefetch } = useGetStateQuery(country);
-  // const [currentState, setCurrentState] = useState(1);
-  // const { data: cityData, refetch: cityDataRefetch} = useGetCityQuery(currentState);
-  // const [city, setCity] = useState(1);
-  // const handleChangeCountry = (e) => {
-  //   setCountry(e.target.value);
-  //   stateDataRefetch();
-  //   cityDataRefetch();
-  // };
-  // const handleChangeState = (e) => {
-  //   setCurrentState(e.target.value);
-  //   cityDataRefetch();
-  // };
-  // const handleChangeCity = (e) => setCity(e.target.value);
-
 
 
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -445,14 +428,16 @@ function NewcreateCandidate() {
                 >
                   <DesktopDatePicker
                     label="From"
-                    inputFormat="MM/DD/YYYY"
+                    views={['year', 'month']}
+                    inputFormat="MM/YYYY"
                     value={value}
                     onChange={handleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
                   <DesktopDatePicker
                     label="To"
-                    inputFormat="MM/DD/YYYY"
+                    inputFormat="MM/YYYY"
+                    views={['year', 'month']}
                     value={value}
                     onChange={handleChange}
                     renderInput={(params) => <TextField {...params} />}
