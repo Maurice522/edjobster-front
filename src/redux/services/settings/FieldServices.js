@@ -6,20 +6,29 @@ const extendedApi = apiBasePath.injectEndpoints({
       getWebformFields: build.query({
         query: () => ({
           url: `${apiUrl.fields}`,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
       addWebformFields: build.mutation({
         query: (data) => ({
-          url: `${apiUrl.fields}`,
+          url: `${apiUrl.webform}`,
           method: 'POST',
           body: data,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
       updateWebformFields: build.mutation({
         query: (data) => ({
-          url: `${apiUrl.fields}`,
+          url: `${apiUrl.webform}`,
           method: 'POST',
           body: data,
+          headers: {
+            'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
         }),
       }),
     }),
