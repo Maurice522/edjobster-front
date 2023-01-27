@@ -66,6 +66,7 @@ import NewcreateCandidate from './pages/main/CreateCandidate/NewcreateCandidate'
 import NewCreateInterview from './pages/main/CreateNewInteview/NewCreateInterview';
 import CareerSiteDescription from './pages/SubDomain/CareerSiteDescription';
 import InstitueAddress from './pages/settings/institute/InstitueAddress';
+import SingleJobView from './pages/SubDomain/SingleJobView';
 
 
 
@@ -185,6 +186,7 @@ export default function Router() {
         { path: '/dashboard/NewInterview', element: <NewCreateInterview /> },
         { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
         { path: '/dashboard/Institute-Description', element: <CareerSiteDescription />},
+        { path: '/dashboard/Institute-Description/Individual-Job', element: <SingleJobView />},
 
 
 

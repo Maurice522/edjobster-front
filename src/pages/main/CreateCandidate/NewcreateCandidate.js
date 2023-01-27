@@ -97,11 +97,11 @@ function NewcreateCandidate() {
   // })
 
   useEffect(() => {
-    if(AddCandidateInfo.isError) {
+    if (AddCandidateInfo.isError) {
       console.log(AddCandidateInfo.error)
       showToast("error", "Error adding candidate")
     }
-    if(AddCandidateInfo.isSuccess) {
+    if (AddCandidateInfo.isSuccess) {
       showToast("success", "Successfully added candidate")
       navigate("/dashboard/candidates")
     }
@@ -122,7 +122,7 @@ function NewcreateCandidate() {
     mobile: "",
     email: "",
     gender: "Male",
-    date_of_birth: `${value.get("year")}-${String(value.get("month")+1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
+    date_of_birth: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
     pincode: "",
     street: "",
     city: "",
@@ -210,9 +210,9 @@ function NewcreateCandidate() {
                 // {...getFieldProps("last_name")}
                 variant="standard"
                 // error={Boolean(errors.last_name && touched.last_name)}
-              // helperText={errors.last_name && touched.last_name}
-              name="last_name"
-              onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                // helperText={errors.last_name && touched.last_name}
+                name="last_name"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -227,7 +227,7 @@ function NewcreateCandidate() {
                 variant="standard"
                 name="email"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-                // error={Boolean(errors.email && touched.email)}
+              // error={Boolean(errors.email && touched.email)}
               // helperText={errors.email && touched.email}
               />
               <TextField
@@ -241,7 +241,7 @@ function NewcreateCandidate() {
                 variant="standard"
                 name="mobile"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-                // error={Boolean(errors.mobile && touched.mobile)}
+              // error={Boolean(errors.mobile && touched.mobile)}
               // helperText={errors.mobile && touched.mobile}
               />
             </Stack>
@@ -256,7 +256,7 @@ function NewcreateCandidate() {
                   onChange={e => {
                     handleChange(e)
                     const date = dayjs(e)
-                    handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month")+1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
+                    handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
                   }}
                   renderInput={(params) =>
                     <TextField
@@ -277,8 +277,8 @@ function NewcreateCandidate() {
                 variant="standard"
                 name="street"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-                // {...getFieldProps("street")}
-                // error={Boolean(errors.street && touched.street)}
+              // {...getFieldProps("street")}
+              // error={Boolean(errors.street && touched.street)}
               // helperText={errors.street && touched.street}
               />
               <TextField
@@ -296,10 +296,10 @@ function NewcreateCandidate() {
                 variant="standard"
                 name="country"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-                // onChange={handleChangeCountry}
-                // value={country}
-                // {...getFieldProps("country")}
-                // error={Boolean(errors.country && touched.country)}
+              // onChange={handleChangeCountry}
+              // value={country}
+              // {...getFieldProps("country")}
+              // error={Boolean(errors.country && touched.country)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -319,8 +319,8 @@ function NewcreateCandidate() {
                 SelectProps={{
                   native: true,
                 }}
-                // {...getFieldProps("state")}
-                // error={Boolean(errors.state && touched.state)}
+              // {...getFieldProps("state")}
+              // error={Boolean(errors.state && touched.state)}
               />
               {/* <option
                   value={0}
@@ -351,9 +351,9 @@ function NewcreateCandidate() {
                 SelectProps={{
                   native: true,
                 }}
-                // value={city}
-                // {...getFieldProps("city")}
-                // error={Boolean(errors.city && touched.city)}
+              // value={city}
+              // {...getFieldProps("city")}
+              // error={Boolean(errors.city && touched.city)}
               />
               {/* <option
                   value={0}
@@ -379,8 +379,8 @@ function NewcreateCandidate() {
                 variant="standard"
                 name="pincode"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-                // {...getFieldProps("pincode")}
-                // error={Boolean(errors.pincode && touched.pincode)}
+              // {...getFieldProps("pincode")}
+              // error={Boolean(errors.pincode && touched.pincode)}
               />
             </Stack>
           </Stack>
@@ -395,7 +395,7 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Institute"
                 variant="standard"
-                // {...getFieldProps("institute")}
+              // {...getFieldProps("institute")}
               />
               <TextField
                 sx={{
@@ -487,7 +487,7 @@ function NewcreateCandidate() {
                   native: true,
                 }}
                 name="job_id"
-                onChange={(e) =>{ 
+                onChange={(e) => {
                   handleChangeJob(e)
                   handleChangeFormData(e.target.name, +e.target.value)
                 }}
@@ -545,6 +545,21 @@ function NewcreateCandidate() {
                   </option>
                 ))}
               </TextField>
+            </Stack>
+            <Stack>
+              <Button
+                sx={{
+                  width:"40%"
+                }}
+                variant="contained"
+                component="label"
+              >
+                Upload Resume
+                <input
+                  type="file"
+                  hidden
+                />
+              </Button>
             </Stack>
           </Stack>
         </Stack>

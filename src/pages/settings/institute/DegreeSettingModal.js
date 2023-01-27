@@ -26,7 +26,7 @@ const DegreeSettingModal = (props) => {
         aria-labelledby="alertmodalCloseHandler-dialog-title"
         aria-describedby="alert-dialog-description"
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
-      >
+       >
         <div>
           <DialogTitle>{textboxlabel ?? 'Degree'}</DialogTitle>
           <DialogContent>

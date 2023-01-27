@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import Box from '@mui/material/Box';
+import React, { useEffect, useState, } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import Button from '@mui/material/Button';
-import DialogContent from '@mui/material/DialogContent';
-import TextField from '@mui/material/TextField';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
+import {
+    Card,
+    Stack,
+    Button,
+    Container,
+    Typography,
+    ListItemIcon,
+    Grid,
+    TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    DialogContent,
+    Box,
+  } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -25,6 +29,7 @@ import { showToast } from '../../utils/toast';
 import { useGetCompanyInfoQuery } from '../../redux/services/settings/CareerSiteService';
 
 function CareerSiteDescription() {
+    const navigate = useNavigate()
     const { data, isLoading, refetch } = useGetCompanyInfoQuery();
     const { data: jobList } = useGetJobListQuery();
 
@@ -82,7 +87,7 @@ function CareerSiteDescription() {
 
 
 
-        
+
 
 
     return (
@@ -126,8 +131,7 @@ function CareerSiteDescription() {
                                 borderRadius: "14px",
                                 boxSizing: "border-box 1px solid #eaf1f5",
                                 width: "60%",
-                                cursor: "pointer",
-                                marginBottom:"2%"
+                                marginBottom: "2%",
                             }}>
                                 <div className='JobInnerCard'>
                                     <Stack sx={{
@@ -167,6 +171,10 @@ function CareerSiteDescription() {
                                     <Typography variant="body1" gutterBottom sx={{ marginTop: "2%" }}>
                                         {item?.description}
                                     </Typography>
+                                    {/* <Button onClick={navigate('/dashboard/Institute-Description/Individual-Job')}> */}
+                                    <Button>
+                                        Apply
+                                    </Button>
                                 </div>
                             </Card>
                         )
