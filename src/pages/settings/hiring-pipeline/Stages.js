@@ -31,7 +31,7 @@ import {
   useUpdateStageApiMutation
 } from '../../../redux/services/settings/StageService';
 
-// import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
+ import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
 
 const Stages = () => {
   const { id } = useParams();
@@ -41,7 +41,7 @@ const Stages = () => {
   const [viewModelOpen, setViewModelOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const { data = [], refetch } = useGetStagesQuery();
-  // const { statusData = [], isError, isLoading } = useGetStatusApiQuery();
+  const { statusData = [], isError, isLoading } = useGetStatusApiQuery();
   const [DeleteStageApi, DeleteStageApiInfo] = useDeleteStageApiMutation();
   const [AddStage, AddStageInfo] = useAddStageApiMutation();
   const [UpdateStage, UpdateStageInfo] = useUpdateStageApiMutation();
@@ -62,6 +62,7 @@ const Stages = () => {
   });
 
   const modalHandleClose = () => {
+    console.log('value');
     setModalOpen(false);
   };
   const modalViewHandleClose = () => {

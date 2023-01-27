@@ -35,7 +35,7 @@ const JobsList = () => {
 
     const { data : jobData } = useGetJobListQuery();
     const [modelOpen, setModelOpen] = useState(false);
-    const [jobId , setJobId]=useState();
+    const [jobId , setJobId] = useState();
 
     const ModelhandleClose = () => {
         setModelOpen(false);
