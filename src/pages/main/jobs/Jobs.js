@@ -83,11 +83,12 @@ const Jobs = () => {
       deleteJobInfo.reset();
       refetch();
     }
-  }, [addJobDataInfo, deleteJobInfo ]);
+  }, [addJobDataInfo, deleteJobInfo]);
 
-    useEffect(() => {
-        refetch();
-    }, [])
+  useEffect(()=>{
+    refetch();
+  },[])
+
   const columns = [
     {
       name: 'title',
