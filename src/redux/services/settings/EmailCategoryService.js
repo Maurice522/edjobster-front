@@ -6,6 +6,9 @@ const extendedApi = apiBasePath.injectEndpoints({
     getEmailCategory: build.query({
       query: () => ({
         url: `${apiUrl.emailCategory}`,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     addEmailCategory: build.mutation({
@@ -13,6 +16,9 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.emailCategory}`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     updateEmailCategory: build.mutation({
@@ -20,12 +26,18 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.emailCategory}`,
         method: 'POST',
         body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
     deleteEmailCategory: build.mutation({
       query: (id) => ({
         url: `${apiUrl.emailCategory}?id=${id}`,
         method: 'DELETE',
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
       }),
     }),
   }),

@@ -55,6 +55,7 @@ const Categories = () => {
       AddEmailcategoryInfo.reset();
     }
     if (AddEmailcategoryInfo.isError) {
+      console.log(AddEmailcategoryInfo.error)
       showToast('error', AddEmailcategoryInfo.error.data.msg);
       setBtnLoader(false);
       AddEmailcategoryInfo.reset();
@@ -164,6 +165,7 @@ const Categories = () => {
   const addClickHandler = async () => {
     setBtnLoader(true);
     if (modalName === 'Add') {
+      console.log(addValue)
       await AddEmailCategory(addValue);
       setAddvalue({ name: "" })
     } else {
@@ -217,7 +219,7 @@ const Categories = () => {
         id="categoryName"
         name="name"
         value={addValue.name}
-        onChange={addChangeHandler}
+        onChangeHandle={addChangeHandler}
         buttonlabel="Add Email category"
         addClickhandler={addClickHandler}
         loadingbtn={btnLoader}
@@ -231,7 +233,7 @@ const Categories = () => {
         id="editCategoryName"
         value={editValue.name}
         name="name"
-        onChange={editChangeHandler}
+        onChangeHandle={editChangeHandler}
         buttonlabel="Update Category"
         addClickhandler={addClickHandler}
         loadingbtn={btnLoader}
