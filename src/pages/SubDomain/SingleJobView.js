@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import {
     Card,
     Stack,
@@ -18,6 +19,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function SingleJobView() {
+    const navigate=useNavigate()
     return (
         <div style={{ backgroundColor: "#ffffff", height: "100%" }}>
             <div classNameName='applicationTop'>
@@ -134,6 +136,7 @@ function SingleJobView() {
                     justifyContent: "center"
                  }}
                     variant="contained"
+                    onClick={navigate('/dashboard/Institute-Description/Individual-Job/Application')}
                 >
                     Apply
                 </Button>

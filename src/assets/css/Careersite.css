@@ -44,5 +44,27 @@
     padding: 20px;
     text-align: center;
   }
+.next_btn{
+    margin-left: auto;
+    padding: 0 16px; 
+    padding-top:1rem;
+    padding-bottom: 1rem;
+    display: flex; 
+    align-items: center; 
+    justify-content: end; 
+    font-family: Poppins; /* Body */
+    font-size: 16px; 
+    line-height: 26px; 
+    color: #FFFFFFFF; /* white */
+    background: #535CE8FF; /* primary-500 */
+    opacity: 1; 
+    border: none; 
+    border-radius: 6px; /* border-m */
+}
+.ApplicationSteps{
+    display: flex;
+    justify-content: center;
+    margin-top: 4%;
+}
 
 
