@@ -14,6 +14,7 @@ import ReactQuill from 'react-quill';
 
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import { useGetLocationQuery } from '../../../../redux/services/settings/LocationService';
 import { jobAction } from '../../../../redux/job/JobReducer';
 import { useDegreeGetQuery } from '../../../../redux/services/settings/DegreeService';
 import { useGetUsersApiQuery } from '../../../../redux/services/settings/UserService';
@@ -30,8 +31,7 @@ const FillDetails = () => {
   const { data: jobDegreeData } = useDegreeGetQuery();
   const { data: jobGetuserData } = useGetUsersApiQuery();
   const { data: jobGetDepartmentData } = useDepartmentGetQuery();
-  const { data: jobStateData } = useGetStateQuery(1);
-  const { data: jobCityData } = useGetCityQuery(1);
+  const { data: jobAddressData } = useGetLocationQuery();
   const { data: jobGetPipelineData } = useGetPipelineQuery();
   const { data: jobGetDesignationData } = useDesignationGetQuery();
 
@@ -74,18 +74,18 @@ const FillDetails = () => {
       comments: ''
   }
 
-
-  const onInputChangeHandler = (e) => {
+  const onInputChangeHandler = (name, value) => {
+    console.log(name,value)
     const myObj = { ...textValue };
     // if (e.target.name === 'education') {
     //   myObj[e.target.name] = [e.target.value];
     // } else if (e.target.name === 'member_names') {
-     if (e.target.name === 'member_names') {
-      console.log('Member name', e.target.value);
-      // myObj.member_names = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
-      const newValue = typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value;
+     if (name === 'member_names') {
+      console.log('Member name', value);
+      // myObj.member_names = typeof value === 'string' ? value.split(',') : value;
+      const newValue = typeof value === 'string' ? value.split(',') : value;
       console.log('new value is', newValue);
-      myObj[e.target.name] = newValue;
+      myObj[name] = newValue;
       // myObj.member_names = [];
       const newMemberId = [];
       // eslint-disable-next-line no-plusplus
@@ -99,17 +99,24 @@ const FillDetails = () => {
       }
       myObj.member_ids = newMemberId;
       // console.log('name membrer name', myObj.member_names);
-      // myObj.member_name = typeof value === 'string' ? e.target.value.split(',') : e.target.value;
+      // myObj.member_name = typeof value === 'string' ? value.split(',') : value;
     } else if (
-      e.target.name === 'vacancies' ||
-      e.target.name === 'department' ||
-      e.target.name === 'assesment' ||
-      e.target.name === 'exp_min' ||
-      e.target.name === 'exp_max'
+      name === 'vacancies' ||
+      name === 'department' ||
+      name === 'assesment' ||
+      name === 'exp_min' ||
+      name === 'exp_max'
     ) {
-      myObj[e.target.name] = parseInt(e.target.value, 10);
+
+     console.log(Number.isNaN(value),value,"vacn")
+      if(Number.isNaN(value) || value===""){
+        myObj[name] = value;
+      }
+      else{
+        myObj[name] = parseInt(value, 10);
+      }
     } else {
-      myObj[e.target.name] = e.target.value;
+      myObj[name] = value;
     }
 
     dispatch(jobAction({ ...myObj }));
@@ -145,7 +152,7 @@ const FillDetails = () => {
                 name="title"
                 value={textValue.title}
                 label="Job Title"
-                onChange={onInputChangeHandler}
+                onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
               />
             </Grid>
             <Grid item xs={6}>
@@ -156,7 +163,7 @@ const FillDetails = () => {
                 name="vacancies"
                 value={textValue.vacancies}
                 label="Number of Vacancies"
-                onChange={onInputChangeHandler}
+                onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
               />
             </Grid>
 
@@ -168,7 +175,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.department}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Select the Department"
                   name="department"
                 >
@@ -191,7 +198,7 @@ const FillDetails = () => {
                   name="owner"
                   value={textValue.owner}
                   label="owner"
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                 >
                   {jobGetuserData &&
                     jobGetuserData?.list?.map((item) => (
@@ -232,7 +239,7 @@ const FillDetails = () => {
                   value={textValue.member_names}
                   name="member_names"
                   fullWidth
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   renderValue={renderMultiSelectValues}
                   MenuProps={MenuProps}
                 >
@@ -254,7 +261,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.type}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Type"
                   name="type"
                 >
@@ -271,7 +278,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.nature}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="on site"
                   name="nature"
                 >
@@ -288,7 +295,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.education}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Choose Degree"
                   name="education"
                 >
@@ -305,7 +312,7 @@ const FillDetails = () => {
                   name="education"
                   value={textValue.education}
                   label="Education"
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   select
                 >
                   <option>Education</option>
@@ -323,7 +330,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.speciality}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Major/Speciality"
                   name="speciality"
                 >
@@ -348,7 +355,7 @@ const FillDetails = () => {
                 name="speciality"
                 value={textValue.speciality}
                 label="Speciality"
-                onChange={onInputChangeHandler}
+                onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
               />
               </FormControl>
             </Grid>
@@ -359,7 +366,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.exp_min}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Work Ex. min. (years)"
                   name="exp_min"
                 >
@@ -381,7 +388,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.exp_max}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Work Ex. max. (years)"
                   name="exp_max"
                 >
@@ -404,7 +411,7 @@ const FillDetails = () => {
                 name="salary_min"
                 value={textValue.salary_min}
                 label="Salary Minimum"
-                onChange={onInputChangeHandler}
+                onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
               />
             </Grid>
             <Grid item xs={3}>
@@ -415,7 +422,7 @@ const FillDetails = () => {
                 name="salary_max"
                 value={textValue.salary_max}
                 label="Salary Maximum"
-                onChange={onInputChangeHandler}
+                onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
               />
             </Grid>
             <Grid item xs={3}>
@@ -425,7 +432,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.currency}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Currency"
                   name="currency"
                 >
@@ -441,7 +448,7 @@ const FillDetails = () => {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={textValue.salary_type}
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   label="Salary Type"
                   name="salary_type"
                 >
@@ -455,22 +462,21 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">State</InputLabel>
+                <InputLabel id="demo-simple-select-standard-label">Address (name)</InputLabel>
                 <Select
                   margin="dense"
                   variant="standard"
                   fullWidth
-                  name="state"
-                  value={textValue.state}
-                  label="State"
-                  onChange={onInputChangeHandler}
+                  name="address"
+                  value={textValue.address}
+                  label="Address (name)"
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                 >
-                  {jobStateData &&
-                    jobStateData?.states?.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item?.name}
-                      </MenuItem>
-                    ))}
+                  {jobAddressData && jobAddressData?.data?.map((item)=>(
+                    <MenuItem key={item.id} value={item.id}>
+                    {item?.name}
+                  </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>
@@ -484,7 +490,7 @@ const FillDetails = () => {
                   name="pipeline"
                   value={textValue.pipeline}
                   label="pipeline"
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                 >
                   {jobGetPipelineData &&
                     jobGetPipelineData?.data?.map((item) => (
@@ -495,7 +501,7 @@ const FillDetails = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
                 <Select
@@ -505,7 +511,7 @@ const FillDetails = () => {
                   name="city"
                   value={textValue.city}
                   label="City"
-                  onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                 >
                   {jobCityData &&
                     jobCityData?.cities?.map((item) => (
@@ -515,7 +521,7 @@ const FillDetails = () => {
                     ))}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
             {/* <Grid item xs={12}>
               <h3 
                 style={{
@@ -535,23 +541,26 @@ const FillDetails = () => {
                   formats={formats} 
                   value={textValue.description || ''}
                   name="comments"
-                  onChange={(e) => onInputChangeHandler({target: {name: "description", value: e}})}
-                  // onChange={onInputChangeHandler}
+                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)e) => onInputChangeHandler({target: {name: "description", value: e}})}
+                  // onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                 />
               </div>
             </Grid> */}
-            <Grid item xs={3}>
-              <TextField
-                margin="dense"
-                variant="standard"
-                fullWidth
-                name="description"
-                value={textValue.description}
-                label="Job Description"
-                onChange={onInputChangeHandler}
-                multiline
-                rows={3}
-                maxRows={6}
+            <Grid item xs={12}>
+            <InputLabel id="demo-simple-select-standard-label">Job Description</InputLabel>
+              <ReactQuill 
+                    theme="snow"
+                    style={{width:"100%"}}
+                    modules={modules}
+                    formats={formats}
+                    label="Job Description"
+                    value={textValue?.description}
+                    //  value={state.comments || ''}
+                    name="description"
+                    onChange={(e)=>{
+                      console.log(e)
+                      onInputChangeHandler("description", e)
+                    }}
               />
             </Grid>
           </Grid>

@@ -78,7 +78,7 @@ const CareerSite = () => {
   }
   if (UpdateCompanyInfo.isError) {
     showToast("error", UpdateCompanyInfo.error.data.msg);
-    UpdateCompanyInfo.reset();
+    console.log("description daal")
   }
   if (UpdateCompanyLogoInfo.isSuccess) {
     showToast("success", UpdateCompanyLogoInfo.data.msg);
@@ -113,6 +113,7 @@ const CareerSite = () => {
   const onInputChangeHandler = (e) => {
     setCompanyData({ ...companyData, [e.target.name]: e.target.value })
   }
+  console.log(companyData)
 
 
   return (
@@ -208,6 +209,7 @@ const CareerSite = () => {
                     //   onChange={handleChange}
                     label="Select State"
                   >
+                    
                     {stateData && stateData?.states?.map((state) => <MenuItem key={state?.id} value={state?.id}>{state?.name}</MenuItem>)}
                   </Select>
                 </FormControl>
@@ -218,14 +220,9 @@ const CareerSite = () => {
                   <Select
                     labelId="select-city"
                     id="city"
-                    name="city"
-                    value={companyData.city}
-                    onChange={onInputChangeHandler}
+                    value={companyData.city_id}
                     label="Select City"
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
                     {cityData && cityData?.cities?.map((city) => <MenuItem key={city?.id} value={city?.id}>{city?.name}</MenuItem>)}
                   </Select>
                 </FormControl>

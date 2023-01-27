@@ -138,16 +138,18 @@ const Degrees = () => {
               sx={{
                 padding: '0px',
                 minWidth: '0',
-                cursor:"pointer",
-                color:"grey",}}
+                cursor: "pointer",
+                color: "grey",
+              }}
             />
-            <DeleteIcon 
-                onClick={() => onDeleteHandler(dataIndex)}
-                loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}
-                sx={{
-                  margin: '0px 15px',
-                  cursor:"pointer",
-                  color:"grey",}}
+            <DeleteIcon
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}
+              sx={{
+                margin: '0px 15px',
+                cursor: "pointer",
+                color: "grey",
+              }}
             />
           </>
         )
@@ -166,7 +168,7 @@ const Degrees = () => {
     {
       field: 'name',
       headerName: 'Name',
-      width:900,
+      width: 900,
       options: {
         filter: true,
         sort: true,
@@ -175,40 +177,41 @@ const Degrees = () => {
     {
       field: 'edit',
       headerName: 'Edit',
-      width:50,
+      width: 50,
       renderCell: (dataIndex) => {
-          return (
-            <div>
-               <EditIcon onClick={() => onEditModalHandler(dataIndex)}
-                  sx={{
-                    padding: '0px',
-                    minWidth: '0',
-                    cursor:"pointer",
-                    color:"grey",
-                    }}/>       
-            </div>
-          );
-        }
-      
+        return (
+          <div>
+            <EditIcon onClick={() => onEditModalHandler(dataIndex)}
+              sx={{
+                padding: '0px',
+                minWidth: '0',
+                cursor: "pointer",
+                color: "grey",
+              }} />
+          </div>
+        );
+      }
+
     },
     {
       field: 'delete',
       headerName: 'Delete',
-      width:100,
+      width: 100,
       renderCell: (dataIndex) => {
-          return (
-            <div>
-                <DeleteIcon 
-                  onClick={() => onDeleteHandler(dataIndex)}
-                  loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}
-                  sx={{
-                    cursor:"pointer",
-                    color:"grey",}}
-                  />       
-            </div>
-          );
-        }
-      
+        return (
+          <div>
+            <DeleteIcon
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? DeleteDegreeInfo.isLoading : false}
+              sx={{
+                cursor: "pointer",
+                color: "grey",
+              }}
+            />
+          </div>
+        );
+      }
+
     },
   ];
 
@@ -239,15 +242,16 @@ const Degrees = () => {
   return (
     <Page title="Degree">
       <Container sx={{
-        marginTop:"0"
+        marginTop: "0"
       }}>
-        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{ marginTop: "0" }}>
           <AddCircleRoundedIcon onClick={addNewDegreeHandler}
-          sx={{
-            marginTop:"0",
-            cursor:"pointer",
-            color:"blue",
-            fontSize:"40px"}}
+            sx={{
+              marginTop: "0",
+              cursor: "pointer",
+              color: "blue",
+              fontSize: "40px"
+            }}
           />
         </Stack>
         <div style={{ height: 400, width: '100%' }}>
@@ -256,7 +260,7 @@ const Degrees = () => {
             columns={column}
             options={options}
             sx={{
-              backgroundColor:"#f9fafb"
+              backgroundColor: "#f9fafb"
             }}
             pageSize={5}
             rowsPerPageOptions={[5]}

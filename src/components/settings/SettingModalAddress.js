@@ -25,26 +25,28 @@ const SettingModalAddress = (props) => {
   const [fieldValue, setFieldValue] = useState(formData);
   const [countryId, setCountryId] = useState(skipToken);
   const [stateId, setStateId] = useState(skipToken);
-  const { data: stateData } = useGetStateQuery(countryId);
+  const { data: stateData,refetch } = useGetStateQuery(countryId);
   const { data: countryData } = useGetCountryQuery();
-  const { data: cityData } = useGetCityQuery(stateId);
+  const { data: cityData,refetch: refectCity } = useGetCityQuery(stateId);
 
   // console.log("formData", formData)
   // console.log("countryId", countryId);
 
 
   useEffect(() => {
-    if (formData?.id) {
-      setCountryId(formData.country);
-      setStateId(formData.state);
       setFieldValue(formData);
-    } else {
-      setFieldValue(formData);
-    }
-
-
   }, [formData, skipToken])
 
+  useEffect(()=>{
+    setCountryId(fieldValue?.country)
+    refetch()
+  },[fieldValue?.country])
+
+  useEffect(()=>{
+    setStateId(fieldValue?.state)
+    refectCity()
+  },[fieldValue?.state])
+  
 
   const modalCloseHandler = () => {
     handleClose(false);
@@ -72,6 +74,7 @@ const SettingModalAddress = (props) => {
 
   return (
     <>
+    
       <Dialog
         open={open}
         fullWidth
@@ -83,6 +86,8 @@ const SettingModalAddress = (props) => {
         aria-describedby="alert-dialog-description"
         BackdropProps={{ style: { background: 'rgba(0, 0, 0, 0.5)' } }}
       >
+      
+        
         <div>
           <DialogTitle>{type === "Add" ? "Add Address" : "Update Address"}</DialogTitle>
           <DialogContent>
@@ -128,14 +133,14 @@ const SettingModalAddress = (props) => {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="select-city">Select country</InputLabel>
+                    <InputLabel id="select-country">Select country</InputLabel>
                     <Select
-                      labelId="select-city"
+                      labelId="select-country"
                       id="country"
-                      name="city"
-                      value={fieldValue.city}
+                      name="country"
+                      value={fieldValue.country}
                       onChange={onInputChangeHandler}
-                      label="Select city"
+                      label="Select country"
                     >
                       {countryData && countryData?.countries?.map((country) => <MenuItem key={country.id} value={country.id}>{country.name}</MenuItem>)}
                     </Select>
@@ -178,7 +183,8 @@ const SettingModalAddress = (props) => {
               </Grid>
             </Box>
           </DialogContent>
-          <DialogActions>
+        </div>
+        <DialogActions style={{position: "relative"}}>
             <Box>
               <Button onClick={modalCloseHandler} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
@@ -187,8 +193,7 @@ const SettingModalAddress = (props) => {
                 {type === "Add" ? "Add Address" : "Update Address"}
               </Button>
             </Box>
-          </DialogActions>
-        </div>
+        </DialogActions>
       </Dialog>
     </>
   );

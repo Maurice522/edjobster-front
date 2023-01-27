@@ -37,8 +37,8 @@ const Addresses = () => {
     address: "",
     city: "",
     pincode: "",
-    // country: "",
-    // state: "",
+    country: "",
+    state: "",
   })
 
 
@@ -104,19 +104,23 @@ const Addresses = () => {
   const onSubmitHandler = (value) => {
     if (modalType === "Add") {
       PostAddress({
-        name: value.name,
-        address: value.address,
-        city: value.city,
-        pincode: value.pincode
+        name: value?.name,
+        address: value?.address,
+        city: value?.city,
+        pincode: value?.pincode,
+        state: value?.state,
+        country: value?.country,
       })
     } else {
 
       UpdateAddress({
-        id: value.id,
-        name: value.name,
-        address: value.address,
-        city: value.city,
-        pincode: value.pincode
+        id: value?.id,
+        name: value?.name,
+        address: value?.address,
+        city: value?.city,
+        pincode: value?.pincode,
+        state: value?.state,
+        country: value?.country,
       })
     }
   }
@@ -227,9 +231,7 @@ const Addresses = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Addresses
-          </Typography>
+          <Typography variant="h4" gutterBottom/>
           <Button
             variant="contained"
             component={RouterLink}

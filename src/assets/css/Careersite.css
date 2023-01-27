@@ -14,5 +14,16 @@
     margin-left: 15%;
     margin-right: 15%;
     margin-top: 10%;
-
+}
+.JobInnerCard{
+    padding: 24px;
+}
+.JobCardImgDiv{
+    width: 71px;
+    height: 60px;
+}
+.JobCardImgDiv img{
+    width: 71px;
+    height: 60px;
+    border-radius: 10px;
 }

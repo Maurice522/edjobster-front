@@ -42,12 +42,12 @@ const Approvals = () => {
   const [UpdateUserApi, UpdateUserApiInfo] = useUpdateUserApiMutation();
   const [DeleteUserApi, DeleteUserApiInfo] = useDeleteUserApiMutation();
   const {data: userData, refetch} = useGetUsersApiQuery()
-  const data = userData.list
+  const data = userData?.list
   console.log(userData)
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const sortedData = useMemo(() => {
-    const result = sortedDataFn(data.list);
+    const result = sortedDataFn(data?.list);
     return result;
   }, [data]);
 
@@ -57,20 +57,18 @@ const Approvals = () => {
     setEditModalOpen(value);
   };
 
-  const addNewApprovalsHandler = async () => {
+  const addNewApprovalsHandler = async (accountId) => {
     await UpdateUserApi({
-      approved: true
+      status: "A",
+      account_id: accountId,
     })
   };
   useEffect(() => {
     refetch()
   }, [refetch])
 
-  const onDeleteHandler = async (dataIndex) => {
-    setCurrentIndex(dataIndex);
-    const dataArr = sortedData;
-    const currentDataObj = dataArr[dataIndex];
-    await DeleteUserApi(currentDataObj.account_id);
+  const onDeleteHandler = async (accountId) => {
+    await DeleteUserApi(accountId);
     refetch();
     console.log("delte hua")
   };
@@ -114,6 +112,19 @@ const Approvals = () => {
       },
     },
     {
+      name: 'account_id',
+      label: 'account_id',
+      options: {
+        filter: false,
+        sort: false,
+        viewColumns: false,
+        display: false,
+        hide:true,
+      },
+      show: false,
+      hide: true,
+    },
+    {
       name: 'department',
       label: 'Department',
       options: {
@@ -127,7 +138,7 @@ const Approvals = () => {
       options: {
         filter: false,
         sort: false,
-        customBodyRenderLite: (dataIndex) => (
+        customBodyRender: (value,tableMeta) => (
           <>
             <Button 
               style={{ 
@@ -136,16 +147,15 @@ const Approvals = () => {
               }} 
               variant="contained" 
               color="success" 
-              onClick={() => addNewApprovalsHandler(dataIndex)}
-            >
+              onClick={() => addNewApprovalsHandler(tableMeta?.rowData?.[3])}
+            > 
               Approve
             </Button>
             <LoadingButton
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="error"
-              onClick={() => onDeleteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? DeleteUserApiInfo.isLoading : false}
+              onClick={() => onDeleteHandler(tableMeta?.rowData?.[3])}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="eva:trash-2-outline" width={24} height={24} />
@@ -154,6 +164,7 @@ const Approvals = () => {
           </>
         )
       },
+      
     },
   ];
   const labelStatus = (

@@ -81,7 +81,6 @@ export default function RegisterForm() {
       landmark: '',
       country: 1,
       state: 1,
-      countries:'',
       city: 1,
       pincode: '',
     },
@@ -202,7 +201,7 @@ export default function RegisterForm() {
             label="Age"
             type={"number"}
           />
-          <TextField
+          {/* <TextField
             fullWidth
             autoComplete="country"
             type="string"
@@ -225,7 +224,7 @@ export default function RegisterForm() {
             >
               Country
             </option>
-            {countryData?.countries?.map((e, i) => (
+            {countryData.countries.map((e, i) => (
               <option key={i} value={e.id}>
                 {e.name}
               </option>
@@ -254,7 +253,7 @@ export default function RegisterForm() {
             >
               State
             </option>
-            {stateData?.states?.map((e, i) => (
+            {stateData.states.map((e, i) => (
               <option key={i} value={e.id}>
                 {e.name}
               </option>
@@ -283,7 +282,7 @@ export default function RegisterForm() {
             >
               City
             </option>
-            {cityData?.cities?.map((e, i) => (
+            {cityData.cities.map((e, i) => (
               <option key={i} value={e.id}>
                 {e.name}
               </option>
@@ -297,7 +296,7 @@ export default function RegisterForm() {
             {...getFieldProps('pincode')}
             error={Boolean(touched.pincode && errors.pincode)}
             helperText={touched.pincode && errors.pincode}
-          />
+          /> */}
 
           <Divider orientation="horizontal" flexItem>
             Password
