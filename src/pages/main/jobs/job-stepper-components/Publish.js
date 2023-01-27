@@ -7,6 +7,7 @@ import {
   Grid,
   Container,
 } from '@mui/material';
+import ReactQuill from 'react-quill';
 
 const Publish = () => {
   const job = useSelector((state) => state.job.job);
@@ -54,11 +55,11 @@ const Publish = () => {
               State
             </Typography>
             <Typography variant="body2">{job.state_name}</Typography>
-            <Grid item md={6}>
+            <Grid item md={12}>
               <Typography variant="subtitle1" sx={{ mt: 2 }}>
                 Description
               </Typography>
-              <Typography variant="body2">{job.description}</Typography>
+              <ReactQuill value={`${job?.description}`}  theme={"snow"} readOnly formats={[]} modules={{toolbar: false}}/>
             </Grid>
           </Grid>
           <Grid item md={5}>
@@ -105,10 +106,10 @@ const Publish = () => {
                 <Typography variant="body2">{job.salary_type}</Typography>
               </Grid>
             </Grid>
-            <Typography variant="subtitle1" sx={{ mt: 2 }}>
+            {/* <Typography variant="subtitle1" sx={{ mt: 2 }}>
               City
             </Typography>
-            <Typography variant="body2">{job.city}</Typography>
+            <Typography variant="body2">{job.city}</Typography> */}
           </Grid>
         </Grid>
       </Container>

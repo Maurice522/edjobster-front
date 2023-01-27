@@ -186,6 +186,7 @@ const CreateJob = () => {
         owner_name: '',
         department_name:'',
         city_name:'',
+
       };
       dispatch(jobAction(job));
       addJobDataInfo.reset();
@@ -304,14 +305,9 @@ const CreateJob = () => {
       status = false;
       showToast('error', 'fill the salary_type');
     }
-    if (job.state === null || job.state === '' || job.state === undefined) {
+    if(job.address ===null || job.address === '' || job.address === undefined) {
       status = false;
-      showToast('error', 'fill the job state');
-    }
-
-    if (job.city === null || job.city === '' || job.city === undefined) {
-      status = false;
-      showToast('error', 'fill the city');
+      showToast('error', 'fill the Address state');
     }
     if (job.description === null || job.description === '' || job.description === undefined) {
       status = false;
