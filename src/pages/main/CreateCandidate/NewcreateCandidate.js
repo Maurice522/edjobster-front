@@ -9,7 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useFormik as useForm, Form, FormikProvider } from 'formik';
 // eslint-disable-next-line import/no-unresolved
 import { showToast } from 'src/utils/toast';
-import { useAddCandidateMutation } from '../../../redux/services/candidate/CandidateServices';
+import { useAddCandidateMutation, useAddCandidateWithResumeMutation } from '../../../redux/services/candidate/CandidateServices';
 import {
   useGetCountryQuery,
   useGetStateQuery,
@@ -93,9 +93,10 @@ function NewcreateCandidate() {
   const { data: assessmentData, refetch: assessmentDataRefetech } = useGetAssesmentCategoryQuery();
   const [assessment, setAssessment] = useState(1);
   const handleChangeAssessment = (e) => setAssessment(e.target.value);
-
+  const [UploadedFileName,setUploadedFileName]=useState("")
+  const [Uploaded,setUploaded]= useState(false);
   const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery();
-  const [job, setJob] = useState(0);
+  const [job,setJob] = useState(0);
   const handleChangeJob = (e) => setJob(e.target.value);
 
   const [formData, setFormData] = useState({
@@ -114,7 +115,8 @@ function NewcreateCandidate() {
     exp_months: 0,
     exp_years: 0,
     marital_status: "",
-    institute: ""
+    institute: "",
+    // resume: "",
   })
   const handleChangeFormData = (name, value) => {
     setFormData(prev => {
@@ -532,19 +534,27 @@ function NewcreateCandidate() {
               </TextField>
             </Stack>
             <Stack>
-              <Button
+              {/* <Button
                 sx={{
                   width:"40%"
                 }}
                 variant="contained"
                 component="label"
               >
-                Upload Resume
-                <input
+                {Uploaded ? UploadedFileName : "Upload Resume" }
+                {/* Upload Resume */}
+                {/* <input
                   type="file"
                   hidden
+                  name='resume'
+                  accept='application/pdf'
+                  onChange={(e)=>  setUploaded(true) &
+                  setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
+                  handleChangeFormData(e?.target?.name, e?.target.files[0])
+                }
                 />
-              </Button>
+              </Button> */}
+
             </Stack>
           </Stack>
         </Stack>

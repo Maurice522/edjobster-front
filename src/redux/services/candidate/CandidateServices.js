@@ -77,6 +77,16 @@ const extendedApi = apiBasePath.injectEndpoints({
           'Authorization': `Token ${localStorage.getItem("globalUser").access}`
         }
       })
+    }),
+    addCandidateWithResume: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.createCandidateWithResume}`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
+      })
     })
   }),
   overrideExisting: false,
@@ -90,5 +100,6 @@ export const {
   useAddCandidateResumeMutation,
   useUpdateCandidateMutation,
   useDeleteCandidateMutation,
-  useAddCandidateMutation
+  useAddCandidateMutation,
+  useAddCandidateWithResumeMutation,
 } = extendedApi;
