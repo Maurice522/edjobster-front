@@ -2,8 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
-import { LoadingButton } from '@mui/lab';
-
 // material
 import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
@@ -83,36 +81,6 @@ const [candidateId,setCandidateId]=useState();
     setModelOpen(false);
   };
 
-  const column = [
-    { field: 'id', headerName: 'ID', width: 70, editable: true},
-    { field: 'firstName', headerName: 'First name', width: 130, editable: true },
-    { field: 'lastName', headerName: 'Last name', width: 130, editable: true  },
-    { field: 'status', headerName: 'Status', width: 130, editable: true  },
-    { field: 'sourcedFrom', headerName: 'Sourced From', width: 130, editable: true  },
-    { field: 'phone', headerName: 'Phone', headerAlign:'right', width: 130, editable: true  },
-
-    {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
-    { field: 'details', headerName: 'Details', width: 300, editable: true, headerAlign:'center',align:'center', renderCell: (params) => (
-        <div>
-          <a href='/dashboard/candidates/candidate'>View</a>          
-        </div>
-      )},
-    { field: 'action', headerName: 'Action', sortable: false, width: 130, disableClickEventBubbling: true, renderCell: (params) => (
-        <div>
-          <EditIcon />
-          <DeleteIcon />
-        </div>
-      )
-    },
-  ];
 
   const rows = [
     { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
@@ -179,7 +147,8 @@ const [candidateId,setCandidateId]=useState();
             <Button
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
-              onClick={() => Navigate("/dashboard/candidates/candidate")}
+              // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
+              onClick={() => onCandidateModelView(data.list[dataIndex].id)}
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
@@ -199,16 +168,7 @@ const [candidateId,setCandidateId]=useState();
 
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button
-              style={{ minWidth: 0, marginRight: '5px' }}
-              variant="contained"
-              onClick={() => onCandidateModelView(data.list[dataIndex].id)}
-              color="info"
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="carbon:view-filled" width={24} height={24} />
-              </ListItemIcon>
-            </Button>
+            
             <Button
               style={{ minWidth: 0 }}
               variant="contained"
@@ -288,49 +248,7 @@ const [candidateId,setCandidateId]=useState();
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
         <MUIDataTable title={'candidate List'} data={data?.list} columns={columns} options={options} />
-        </Card>
-        {/* <Typography variant="h4" gutterBottom     background-color="#F9FAFB">
-            Candidate List
-        </Typography> */}
-      {/* <div style={{ height: 400, width: '100%',boxSizing: 'border-box',
-          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
-          borderRadius:'16px',
-          backgroundColor:'#fff',
-          // marginTop: '40px'
-           }}>
-        <DataGrid
-        rows={rows}
-        columns={column}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-         alignItems="center"
-        justifyContent="center"
-        rowHeight={70}
-        showCellRightBorder
-        showColumnRightBorder
-        components={{ Toolbar: GridToolbar }}
-         initialState={{
-          filter: {
-            filterModel: {
-              items: [{ columnField: 'rating', operatorValue: '>', value: '2.5' }],
-            },
-          },
-        }}
-        
-        sx={{
-          boxSizing: 'border-box',
-          boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
-          
-          
-          '& .MuiDataGrid-column': {
-            width: 100,
-          },
-        
-        }}
-      />
-    </div> */}
-    
+        </Card>    
       </Container>
       <CandidatesModel open={modelOpen} handleClose={handleClose} candidateId={candidateId}/>
     </Page>

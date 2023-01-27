@@ -27,3 +27,10 @@
     height: 60px;
     border-radius: 10px;
 }
+.applicationTop{
+    display: flex;
+    flex-direction: row;
+    padding-top: 2%;
+}
+
+
