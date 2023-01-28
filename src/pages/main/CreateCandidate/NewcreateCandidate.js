@@ -23,10 +23,10 @@ function NewcreateCandidate() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false)
   const [AddCandidate, AddCandidateInfo] = useAddCandidateMutation()
-  const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [value, setValue] = React.useState(dayjs('2002-08-18T21:11:54'));
   const [birthvalue, setbirthValue] = React.useState(dayjs('2014-08-18T21:11:54'));
-  const [admissionvalue, setadmissionValue] = React.useState(dayjs('2014-08-18T21:11:54'));
-  const [graduationvalue, setgraduationValue] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [admissionvalue, setadmissionValue] = React.useState(dayjs('2016-08-18T21:11:54'));
+  const [graduationvalue, setgraduationValue] = React.useState(dayjs('2020-08-18T21:11:54'));
   const handleChangeBirth = (newValue) => {
     setValue(newValue);
   };
@@ -51,43 +51,14 @@ function NewcreateCandidate() {
     pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, 'Pincode is invalid').required('Pincode is required'),
     street: Yup.string().required('Address is required').min(10, 'Too Short!'),
     city: Yup.string().required('City is required'),
-    state: Yup.string().required('State is required'),
-    country: Yup.string().required('Country is required'),
+    State: Yup.string().required('State is required'),
+    Country: Yup.string().required('Country is required'),
     exp_months: Yup.number().required("Experience Months is required"),
     exp_years: Yup.number().required("Experience Years is required"),
     marital_status: Yup.string().matches(/^((u|U)n)?(m|M)arried$/, 'Marital Status format invalid').required('Marital Status is required'),
     institute: Yup.string().required("Institute is required")
   });
 
-
-  // const formData = useForm({
-  //   initialValues: {
-  //     job_id: 1,
-  //     first_name: '',
-  //     last_name: "",
-  //     mobile: "",
-  //     email: "",
-  //     gender: "",
-  //     date_of_birth: value,
-  //     pincode: "",
-  //     street: "",
-  //     city: "",
-  //     state: "",
-  //     country: "",
-  //     exp_months: 0,
-  //     exp_years: 0,
-  //     marital_status: "",
-  //     institute: ""
-  //   },
-  //   validationSchema: NewCandidateSchema,
-  //   onSubmit: async (values) => {
-  //     console.log({ ...values, date_of_birth: value })
-  //     await AddCandidate({ ...values, date_of_birth: value });
-  //   },
-  //   validateOnChange: (value) => {
-  //     NewCandidateSchema.validateSync(value)
-  //   }
-  // })
 
   useEffect(() => {
     if (AddCandidateInfo.isError) {
@@ -119,9 +90,9 @@ function NewcreateCandidate() {
     date_of_birth: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
     pincode: "",
     street: "",
-    city: "",
-    state: "",
-    country: "",
+    ity: "",
+    State: "",
+    Country: "",
     exp_months: 0,
     exp_years: 0,
     marital_status: "",
@@ -291,12 +262,9 @@ function NewcreateCandidate() {
                 }}
                 // // helperText="Please select your country"
                 variant="standard"
-                name="country"
+                name="Country"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-              // onChange={handleChangeCountry}
-              // value={country}
-              // {...getFieldProps("country")}
-              // error={Boolean(errors.country && touched.country)}
+
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -309,63 +277,29 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="State"
                 variant="standard"
-                name="state"
+                name="State"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-                // value={currentState}
-                // onChange={handleChangeState}
+
                 SelectProps={{
                   native: true,
                 }}
-              // {...getFieldProps("state")}
-              // error={Boolean(errors.state && touched.state)}
+
               />
-              {/* <option
-                  value={0}
-                  style={{
-                    fontStyle: 'italic',
-                  }}
-                >
-                  State
-                </option>
-                {stateData.states && stateData.states.map((e, i) => (
-                  <option key={i} value={e.id}>
-                    {e.name}
-                  </option>
-                ))}
-              </TextField> */}
+
               <TextField
                 sx={{
                   width: '15%',
                 }}
                 required
                 id="standard-required"
-                // select
                 label="City"
                 variant="standard"
                 name="city"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-                // onChange={handleChangeCity}
                 SelectProps={{
                   native: true,
                 }}
-              // value={city}
-              // {...getFieldProps("city")}
-              // error={Boolean(errors.city && touched.city)}
               />
-              {/* <option
-                  value={0}
-                  style={{
-                    fontStyle: 'italic',
-                  }}
-                >
-                  City
-                </option>
-                {cityData.cities && cityData.cities.map((e, i) => (
-                  <option key={i} value={e.id}>
-                    {e.name}
-                  </option>
-                ))}
-              </TextField> */}
               <TextField
                 sx={{
                   width: '20%',
@@ -444,7 +378,7 @@ function NewcreateCandidate() {
                   <DesktopDatePicker
                     label="From"
                     views={['year', 'month','day']}
-                    inputFormat="DD/MM/YYYY"
+                    inputFormat="YYYY-MM-DD"
                     value={admissionvalue}
                     name="admission_date"
                     id="admission"
@@ -458,7 +392,7 @@ function NewcreateCandidate() {
                   />
                   <DesktopDatePicker
                     label="To"
-                    inputFormat="DD/MM/YYYY"
+                    inputFormat="YYYY-MM-DD"
                     views={['year', 'month','day']}
                     value={graduationvalue}
                     id="graduation"
