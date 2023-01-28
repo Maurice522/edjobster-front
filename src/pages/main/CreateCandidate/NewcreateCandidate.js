@@ -87,8 +87,7 @@ function NewcreateCandidate() {
     mobile: "",
     email: "",
     gender: "Male",
-    date_of_birth: '',
-    // date_of_birth: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
+    date_of_birth: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
     pincode: "",
     street: "",
     ity: "",
@@ -98,8 +97,8 @@ function NewcreateCandidate() {
     exp_years: 0,
     marital_status: "",
     institute: "",
-    admission_date: '',
-    graduation_date: ''
+    admission_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
+    graduation_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
     // resume: "",
   })
   const handleChangeFormData = (name, value) => {
