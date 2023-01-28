@@ -213,15 +213,15 @@ const Interviews = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <h1>
             Interviews
-          </Typography>
+          </h1>
           <Button
             variant="contained"
             component={RouterLink}
             to="/dashboard/NewInterview"
             startIcon={<Iconify icon="eva:plus-fill" />}
-          >
+           >
             Create Interview
           </Button>
         </Stack>

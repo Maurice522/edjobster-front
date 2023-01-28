@@ -25,7 +25,7 @@ export default function App() {
     // else {
     //   navigate("/dashboard/app")
     // }
-    // navigate("/login") 
+    //  navigate("/login") 
   }, [navigate]);
 
   return (

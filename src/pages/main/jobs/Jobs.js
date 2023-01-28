@@ -201,9 +201,12 @@ const Jobs = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom backgroundColor="#f9fafb">
+          <h1>
             Jobs
-          </Typography>
+          </h1>
+          {/* <Typography variant="h4" gutterBottom backgroundColor="#f9fafb">
+            Jobs
+          </Typography> */}
           <Button
             variant="contained"
             component={RouterLink}

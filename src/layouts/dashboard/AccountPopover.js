@@ -17,20 +17,22 @@ const MENU_OPTIONS = [
     linkTo: '/dashboard',
   },
   {
-    label: 'Profile',
+    label: 'Settings',
     icon: 'eva:person-fill',
-    linkTo: '#',
+    linkTo: 'dashboard/InstituteSettings/settings',
   },
   {
-    label: 'Settings',
+    label: 'Billing',
     icon: 'eva:settings-2-fill',
-    linkTo: '#',
+    linkTo: '/dashboard/bills',
   },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const userData = JSON.parse(localStorage.getItem("globalUser")).account
+
   const anchorRef = useRef(null);
 
   const [open, setOpen] = useState(null);
@@ -82,10 +84,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {(userData.first_name || "Test") + (` ${userData.last_name}` || " ")}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {(userData.email || " ")}
           </Typography>
         </Box>
 

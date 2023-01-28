@@ -24,8 +24,18 @@ function NewcreateCandidate() {
   const [isLoading, setIsLoading] = useState(false)
   const [AddCandidate, AddCandidateInfo] = useAddCandidateMutation()
   const [value, setValue] = React.useState(dayjs('2014-08-18T21:11:54'));
-  const handleChange = (newValue) => {
+  const [birthvalue, setbirthValue] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [admissionvalue, setadmissionValue] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const [graduationvalue, setgraduationValue] = React.useState(dayjs('2014-08-18T21:11:54'));
+  const handleChangeBirth = (newValue) => {
     setValue(newValue);
+  };
+  const handleChangeAdmission = (newValue) => {
+    setadmissionValue(newValue);
+    console.log("changed admission")
+  };
+  const handleChangeGraduation = (newValue) => {
+    setgraduationValue(newValue);
   };
 
 
@@ -116,6 +126,8 @@ function NewcreateCandidate() {
     exp_years: 0,
     marital_status: "",
     institute: "",
+    admission_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
+    graduation_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
     // resume: "",
   })
   const handleChangeFormData = (name, value) => {
@@ -239,7 +251,7 @@ function NewcreateCandidate() {
                   inputFormat="YYYY-MM-DD"
                   value={value}
                   onChange={e => {
-                    handleChange(e)
+                    handleChangeBirth(e)
                     const date = dayjs(e)
                     handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
                   }}
@@ -380,6 +392,7 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Institute"
                 variant="standard"
+                name="institute"
               // {...getFieldProps("institute")}
               />
               <TextField
@@ -430,18 +443,30 @@ function NewcreateCandidate() {
                 >
                   <DesktopDatePicker
                     label="From"
-                    views={['year', 'month']}
-                    inputFormat="MM/YYYY"
-                    value={value}
-                    onChange={handleChange}
-                    renderInput={(params) => <TextField {...params} />}
+                    views={['year', 'month','day']}
+                    inputFormat="DD/MM/YYYY"
+                    value={admissionvalue}
+                    name="admission_date"
+                    id="admission"
+                    onChange={e => {
+                      handleChangeAdmission(e)
+                      const dateadmission = dayjs(e)
+                      handleChangeFormData("admission_date", `${dateadmission.get("year")}-${String(dateadmission.get("month") + 1).padStart(2, 0)}`)
+                    }}                                  
+                    renderInput={(params) => 
+                    <TextField {...params} />}
                   />
                   <DesktopDatePicker
                     label="To"
-                    inputFormat="MM/YYYY"
-                    views={['year', 'month']}
-                    value={value}
-                    onChange={handleChange}
+                    inputFormat="DD/MM/YYYY"
+                    views={['year', 'month','day']}
+                    value={graduationvalue}
+                    id="graduation"
+                    onChange={e => {
+                      handleChangeGraduation(e)
+                      const dategraduation = dayjs(e)
+                      handleChangeFormData("graduation_date", `${dategraduation.get("year")}-${String(dategraduation.get("month") + 1).padStart(2, 0)}`)
+                    }}                                  name="graduation_date"
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </Stack>

@@ -68,6 +68,7 @@ import CareerSiteDescription from './pages/SubDomain/CareerSiteDescription';
 import InstitueAddress from './pages/settings/institute/InstitueAddress';
 import SingleJobView from './pages/SubDomain/SingleJobView';
 import JobApplication from './pages/SubDomain/JobApplication';
+import ApplyClient from './pages/settings/client/ApplyClient';
 
 
 
@@ -138,7 +139,7 @@ export default function Router() {
         { path: '/dashboard/bills', element: <Billing /> },
 
         //  {New Institute Settings page(combined)}
-        { path: '/dashboard/InstituteSettings/DDD', element: <NewIS /> },
+        { path: '/dashboard/InstituteSettings/settings', element: <NewIS /> },
         { path: '/dashboard/InstituteSettings/address', element: <InstitueAddress /> },
         { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
         { path: '/dashboard/createEmail', element: <CreateEmail /> },
@@ -189,6 +190,7 @@ export default function Router() {
         { path: '/dashboard/Institute-Description', element: <CareerSiteDescription />},
         { path: '/dashboard/Institute-Description/Individual-Job', element: <SingleJobView />},
         { path: '/dashboard/Institute-Description/Individual-Job/Application', element: <JobApplication />},
+        { path: '/dashboard/Apply', element: <ApplyClient />},
 
 
 

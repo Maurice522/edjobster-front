@@ -241,13 +241,14 @@ const CareerSite = () => {
               </Grid>
               <Grid item xs={12}  md={7}>
                 <TextField
-
+                  multiline
+                  rows={4}
                   autoFocus
                   margin="dense"
                   variant="outlined"
                   fullWidth
                   value={companyData.description}
-                  label="description"
+                  label="About the Institute"
                   name="description"
                   onChange={onInputChangeHandler}
                 />
