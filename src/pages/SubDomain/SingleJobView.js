@@ -15,9 +15,14 @@ import {
     DialogContent,
     Box,
 } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
 
 function SingleJobView() {
+    const {id}=useParams()
+    const { data, isLoading, refetch } = useGetJobeDetailsQuery(1);
+    console.log(data)
     return (
         <div style={{ backgroundColor: "#ffffff", height: "100%" }}>
             <div classNameName='applicationTop'>
