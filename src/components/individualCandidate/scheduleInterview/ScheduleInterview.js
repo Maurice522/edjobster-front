@@ -14,7 +14,7 @@ import SelectArrow from '../../../assets/images/selectarrow.svg';
 const ScheduleInterview = () => {
   const baseUrl= "http://127.0.0.1:8000";
   const navigate= useNavigate()
-
+  const [AddCandidate, AddCandidateInfo] = useAddCandidateMutation()
   
   const navigatecancel = () =>{
     navigate('/dashboard/interviews')
@@ -43,6 +43,7 @@ const ScheduleInterview = () => {
       date: "",
       time: "",
       // duration: "",
+      candidate:"",
       location: "",
       emai_template: "",
       job: "",
@@ -64,6 +65,7 @@ const ScheduleInterview = () => {
       subject,
       body,
       interviewer,
+      candidate
       } = values;
     
       const res = await fetch(`${baseUrl}/interview/schedule/`,{
@@ -81,7 +83,8 @@ const ScheduleInterview = () => {
           job,
           subject,
           body,
-          interviewer
+          interviewer,
+          candidate
         })
       });
   
@@ -117,7 +120,7 @@ const ScheduleInterview = () => {
           <p className="tt-back-create">Schedule an Interview</p>
         </div>
       </div>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.onSubmit}>
         <div className="sched-inter-content-main">
           <div className="sched-inter-content">
             <div className="sched-inter-content-left">
