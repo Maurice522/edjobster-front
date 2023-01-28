@@ -14,7 +14,7 @@ import SelectArrow from '../../../assets/images/selectarrow.svg';
 const ScheduleInterview = () => {
   const baseUrl= "http://127.0.0.1:8000";
   const navigate= useNavigate()
-  const [AddCandidate, AddCandidateInfo] = useAddCandidateMutation()
+  // const [AddCandidate, AddCandidateInfo] = useAddCandidateMutation()
   
   const navigatecancel = () =>{
     navigate('/dashboard/interviews')

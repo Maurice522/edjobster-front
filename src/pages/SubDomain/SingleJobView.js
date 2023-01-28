@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Card,
     Stack,
@@ -16,7 +16,6 @@ import {
     DialogContent,
     Box,
 } from '@mui/material';
-import { useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
 
