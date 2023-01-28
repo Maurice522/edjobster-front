@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import {
     Card,
     Stack,
@@ -23,6 +24,7 @@ function SingleJobView() {
     const {id}=useParams()
     const { data, isLoading, refetch } = useGetJobeDetailsQuery(1);
     console.log(data)
+    const navigate=useNavigate()
     return (
         <div style={{ backgroundColor: "#ffffff", height: "100%" }}>
             <div classNameName='applicationTop'>
@@ -139,6 +141,7 @@ function SingleJobView() {
                     justifyContent: "center"
                  }}
                     variant="contained"
+                    onClick={navigate('/dashboard/Institute-Description/Individual-Job/Application')}
                 >
                     Apply
                 </Button>
