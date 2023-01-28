@@ -212,7 +212,7 @@ const Templates = () => {
           >
             Create Template
           </Button>
-          {/* <Button
+          <Button
             variant="contained"
             component={RouterLink}
             to="#"
@@ -220,7 +220,7 @@ const Templates = () => {
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             Create Template
-          </Button> */}
+          </Button>
         </Stack>
 
         <Card>

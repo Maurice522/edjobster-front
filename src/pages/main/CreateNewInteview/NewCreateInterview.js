@@ -200,6 +200,7 @@ function NewCreateInterview() {
                   <DesktopDatePicker
                     label="Date"
                     required
+                    disablePast
                     inputFormat="YYYY-MM-DD"
                     name="date"
                     minDate={today}
@@ -220,6 +221,7 @@ function NewCreateInterview() {
                 <Stack spacing={3} direction="row" alignItems="center" justifyContent="flex-start">
                   <TimePicker
                     required
+                    disablePast
                     label="Start Time"
                     value={startTime}
                     onChange={e => {

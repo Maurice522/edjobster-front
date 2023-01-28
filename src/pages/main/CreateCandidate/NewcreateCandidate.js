@@ -87,7 +87,8 @@ function NewcreateCandidate() {
     mobile: "",
     email: "",
     gender: "Male",
-    date_of_birth: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
+    date_of_birth: '',
+    // date_of_birth: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
     pincode: "",
     street: "",
     ity: "",
@@ -97,8 +98,8 @@ function NewcreateCandidate() {
     exp_years: 0,
     marital_status: "",
     institute: "",
-    admission_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
-    graduation_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
+    admission_date: '',
+    graduation_date: ''
     // resume: "",
   })
   const handleChangeFormData = (name, value) => {
@@ -221,10 +222,12 @@ function NewcreateCandidate() {
                   label="Date of Birth"
                   inputFormat="YYYY-MM-DD"
                   value={value}
+                  disableFuture
+                  format='YYYY-MM-DD'
                   onChange={e => {
                     handleChangeBirth(e)
                     const date = dayjs(e)
-                    handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
+                    // handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
                   }}
                   renderInput={(params) =>
                     <TextField

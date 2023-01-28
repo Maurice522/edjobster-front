@@ -14,12 +14,12 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
-    linkTo: '/dashboard',
+    linkTo: '/dashboard/app',
   },
   {
     label: 'Settings',
     icon: 'eva:person-fill',
-    linkTo: 'dashboard/InstituteSettings/settings',
+    linkTo: '/dashboard/InstituteSettings/settings',
   },
   {
     label: 'Billing',
@@ -44,6 +44,10 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  const handleLogOut =() =>{
+    localStorage.removeItem("globalUser")
+  }
 
   return (
     <>
