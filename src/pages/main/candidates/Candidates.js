@@ -82,18 +82,6 @@ const [candidateId,setCandidateId]=useState();
   };
 
 
-  const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45, status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36  ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In"},
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 ,status: 'Applied', phone:'9382398329', sourcedFrom: "Linked In" },
-  ];
-
   const columns = [
     {
       name: 'first_name',
@@ -230,9 +218,9 @@ const [candidateId,setCandidateId]=useState();
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <h1>
             Candidates
-          </Typography>
+          </h1>
           <Button 
             variant="contained"
             component={RouterLink}
@@ -247,7 +235,7 @@ const [candidateId,setCandidateId]=useState();
         </Card>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} />
         <Card>
-        <MUIDataTable title={'candidate List'} data={data?.list} columns={columns} options={options} />
+        <MUIDataTable title={'Candidate List'} data={data?.list} columns={columns} options={options} />
         </Card>    
       </Container>
       <CandidatesModel open={modelOpen} handleClose={handleClose} candidateId={candidateId}/>

@@ -312,9 +312,6 @@ const CreateAssessment = () => {
                     onChange={onAssesmentCategoryChangeHandler}
                     label="Assesment"
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
                     {assesmentCategoryData &&
                       assesmentCategoryData?.data?.map((item) => (
                         <MenuItem key={item.id} value={item.id}>
