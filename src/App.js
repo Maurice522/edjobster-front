@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import Login from './pages/Login';
+import Register from './pages/Register';
 // routes
 import Router from './routes';
 // theme
@@ -20,13 +22,21 @@ export default function App() {
   console.log(auth)
   useEffect(() => {
     // if(!auth && !auth.access) {
-    //   navigate("/login")
-    // }
+    if (!auth) {
+      <Routes>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        {/* { this.state.authenticated && 
+        <Route exact path="/Welcome" component={Welcome} />
+      } */}
+      </Routes>
+    }
     // else {
     //   navigate("/dashboard/app")
     // }
     //  navigate("/login") 
   }, [navigate]);
+  console.log("this is the auth: ", auth)
 
   return (
     <ThemeProvider>
