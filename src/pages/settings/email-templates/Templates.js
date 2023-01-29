@@ -43,6 +43,7 @@ const Templates = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetEmailTamplateQuery();
+  console.log(data)
   const { data: categoryData, isLoading: isCategoryLoading } = useGetEmailCategoryQuery();
   const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery();
   const [DeleteEmailTemplate, DeleteEmailTemplateInfo] = useDeleteEmailTemplateMutation();
@@ -63,6 +64,7 @@ const Templates = () => {
     const sortresult = sortedDataFn(data.data);
     return sortresult;
   });
+  console.log("This is sorted data", sortData)
 
   const addNewTemplatesHandler = () => {
     setModalOpen(true);

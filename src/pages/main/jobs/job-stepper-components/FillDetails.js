@@ -463,12 +463,12 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Address (name)</InputLabel>
+                <InputLabel id="demo-simple-select-standard-label">Address</InputLabel>
                 <Select
                   margin="dense"
                   variant="standard"
                   fullWidth
-                  name="address"
+                  name="location"
                   value={textValue.location}
                   label="Address (name)"
                   onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}

@@ -104,10 +104,10 @@ function CareerSiteDescription() {
                 <TabPanel value="1" sx={{ displya: "flex", justifyContent: "center" }}>
                     <Card sx={{ width: "80%", marginLeft: "auto", marginRight: "auto" }}>
                         <div className='InstitutePhotoAddress'>
-                            {/* <img src={AboutData?.institute_logo} alt="InstitutePhoto"
-                            /> */}
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
-                                    e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto" />
+                            <img src={AboutData?.institute_logo} alt="InstitutePhoto"
+                            />
+                            {/* <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
+                                        e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto" /> */}
                             <div className='InstituteAddress'>
                                 {AboutData?.institute_address}
                                 <p>
@@ -141,7 +141,7 @@ function CareerSiteDescription() {
                                     }}>
                                         <div className='JobCardImgDiv'>
                                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
-                                    e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
+                                                        e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
                                             />
                                         </div>
                                         <div>
@@ -171,7 +171,9 @@ function CareerSiteDescription() {
                                     <Typography variant="body1" gutterBottom sx={{ marginTop: "2%" }}>
                                         {item?.description}
                                     </Typography>
-                                    <Button onClick={navigate('/dashboard/Institute-Description/Individual-Job')}>
+                                    <Button 
+                                    onClick={()=>navigate('/dashboard/Institute-Description/Individual-Job')}
+                                    >
                                         Apply
                                     </Button>
                                 </div>

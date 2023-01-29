@@ -70,21 +70,6 @@ const Addresses = () => {
     }
   }, [PostAddressInfo, UpdateAddressInfo,refetch])
 
-
-  // const sortedData = useMemo(() => {
-  //   const result = sortedDataFn(data.data);
-  //   console.log("result", result);
-  //   const dataNewArr = [];
-  //   result.forEach((value) => {
-  //     dataNewArr.push({
-  //       ...value,
-  //       completeAddress: `${value.address},${value.city_name} - ${value.pincode},${value.state_name},${value.country_name}`,
-
-  //     })
-  //   })
-  //   return dataNewArr;
-  // }, [data])
-
   console.log("arry data", data?.data)
 
 
