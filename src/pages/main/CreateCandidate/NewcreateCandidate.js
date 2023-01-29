@@ -291,7 +291,7 @@ function NewcreateCandidate() {
                   width: '50%',
                 }}
                 required
-                // select
+                select
                 id="standard-required"
                 label="State"
                 variant="standard"
@@ -302,7 +302,7 @@ function NewcreateCandidate() {
                   native: true,
                 }}
                 >
-                  {stateData && stateData?.countries?.map((e, i) => (
+                  {stateData && stateData?.map((e, i) => (
                   <MenuItem key={i} value={e.id}>
                     {e.name}
                   </MenuItem>
@@ -317,13 +317,20 @@ function NewcreateCandidate() {
                 required
                 id="standard-required"
                 label="City"
+                select
                 variant="standard"
                 name="city"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
                 SelectProps={{
                   native: true,
                 }}
-              />
+               >
+                {cityData && cityData?.map((e, i) => (
+                  <MenuItem key={i} value={e.id}>
+                    {e.name}
+                  </MenuItem>
+                ))}
+               </TextField>
               <TextField
                 sx={{
                   width: '20%',
@@ -351,7 +358,6 @@ function NewcreateCandidate() {
                 label="Institute"
                 variant="standard"
                 name="institute"
-              // {...getFieldProps("institute")}
               />
               <TextField
                 sx={{
@@ -398,7 +404,7 @@ function NewcreateCandidate() {
                   mb={5}
                   ml={0}
                   mr={0}
-                >
+                 >
                   <DesktopDatePicker
                     label="From"
                     views={['year', 'month','day']}
