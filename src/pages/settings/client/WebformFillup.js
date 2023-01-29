@@ -44,7 +44,8 @@ const WebformFillup = () => {
           </TextField>
         }
         if(item.type === 'file'){
-          return (<Button
+          return (
+          <Button
             variant="contained"
             component="label"
             key={index} name={item.value} 

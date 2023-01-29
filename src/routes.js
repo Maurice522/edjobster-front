@@ -69,6 +69,7 @@ import InstitueAddress from './pages/settings/institute/InstitueAddress';
 import SingleJobView from './pages/SubDomain/SingleJobView';
 import JobApplication from './pages/SubDomain/JobApplication';
 import ApplyClient from './pages/settings/client/ApplyClient';
+import WebformFillup from './pages/settings/client/WebformFillup';
 
 
 
@@ -191,6 +192,7 @@ export default function Router() {
         { path: '/dashboard/Institute-Description/Individual-Job', element: <SingleJobView />},
         { path: '/dashboard/Institute-Description/Individual-Job/Application', element: <JobApplication />},
         { path: '/dashboard/Apply', element: <ApplyClient />},
+        { path: '/dashboard/wf', element: <WebformFillup />},
 
 
 

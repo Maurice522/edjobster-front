@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
@@ -31,6 +31,7 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const navigate = useNavigate()
   const userData = JSON.parse(localStorage.getItem("globalUser")).account
 
   const anchorRef = useRef(null);
@@ -47,6 +48,8 @@ export default function AccountPopover() {
 
   const handleLogOut =() =>{
     localStorage.removeItem("globalUser")
+    sessionStorage.removeItem("globalUser")
+    navigate('/login')
   }
 
   return (
@@ -107,7 +110,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogOut} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>
