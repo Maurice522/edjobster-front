@@ -104,7 +104,7 @@ const CreateJob = () => {
     setCompleted(newCompleted);
     handleNext();
     if (isValidateUpdateJob()) {
-      await addJobData({...job, education: [1]});
+      await addJobData({...job, education: 1});
     }
   };
   useEffect(() => {
