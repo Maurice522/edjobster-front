@@ -191,6 +191,7 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
                 <Select
+
                   margin="dense"
                   variant="standard"
                   fullWidth

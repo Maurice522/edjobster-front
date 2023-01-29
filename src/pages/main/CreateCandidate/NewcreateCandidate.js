@@ -1,8 +1,7 @@
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Stack, Button, TextField, Container, CircularProgress } from '@mui/material';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select } from '@mui/material';
 import dayjs from 'dayjs';
 import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,6 +19,7 @@ import {
 import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 import Back from '../../../assets/images/back.svg';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 function NewcreateCandidate() {
   const navigate = useNavigate();
@@ -55,14 +55,43 @@ function NewcreateCandidate() {
     pincode: Yup.string().matches(/^[1-9][0-9]{5}$/, 'Pincode is invalid').required('Pincode is required'),
     street: Yup.string().required('Address is required').min(10, 'Too Short!'),
     city: Yup.string().required('City is required'),
-    State: Yup.string().required('State is required'),
-    Country: Yup.string().required('Country is required'),
+    state: Yup.string().required('State is required'),
+    country: Yup.string().required('Country is required'),
     exp_months: Yup.number().required("Experience Months is required"),
     exp_years: Yup.number().required("Experience Years is required"),
     marital_status: Yup.string().matches(/^((u|U)n)?(m|M)arried$/, 'Marital Status format invalid').required('Marital Status is required'),
     institute: Yup.string().required("Institute is required")
   });
 
+
+  // const formData = useForm({
+  //   initialValues: {
+  //     job_id: 1,
+  //     first_name: '',
+  //     last_name: "",
+  //     mobile: "",
+  //     email: "",
+  //     gender: "",
+  //     date_of_birth: value,
+  //     pincode: "",
+  //     street: "",
+  //     city: "",
+  //     state: "",
+  //     country: "",
+  //     exp_months: 0,
+  //     exp_years: 0,
+  //     marital_status: "",
+  //     institute: ""
+  //   },
+  //   validationSchema: NewCandidateSchema,
+  //   onSubmit: async (values) => {
+  //     console.log({ ...values, date_of_birth: value })
+  //     await AddCandidate({ ...values, date_of_birth: value });
+  //   },
+  //   validateOnChange: (value) => {
+  //     NewCandidateSchema.validateSync(value)
+  //   }
+  // })
 
   useEffect(() => {
     if (AddCandidateInfo.isError) {
@@ -80,14 +109,9 @@ function NewcreateCandidate() {
   const handleChangeAssessment = (e) => setAssessment(e.target.value);
   const [UploadedFileName,setUploadedFileName]=useState("")
   const [Uploaded,setUploaded]= useState(false);
-  const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery();
-  const { data: countryData, refetch: countryDataRefetch } = useGetCountryQuery()
-  const { data: cityData, refetch: cityDataRefetch } = useGetCityQuery()
-  const { data: stateData, refetch: stateDataRefetch } = useGetStateQuery()
 
-  
-  
-  const [job,setJob] = useState(0);
+  const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery();
+  const [job, setJob] = useState(0);
   const handleChangeJob = (e) => setJob(e.target.value);
 
   const [formData, setFormData] = useState({
@@ -101,26 +125,58 @@ function NewcreateCandidate() {
     pincode: "",
     street: "",
     city: "",
-    State: "",
-    Country: "",
+    state: "",
+    country: "",
+    state: "",
+    country: "",
     exp_months: 0,
     exp_years: 0,
     marital_status: "",
-    institute: "",
-    admission_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
-    graduation_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
-    // resume: "",
+    institute: ""
   })
+  const [countryId,setCountryId]= useState(skipToken)
+  const [stateId,setStateId]= useState(skipToken)
+  // const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery();
+  const { data: countryData, refetch: countryDataRefetch } = useGetCountryQuery()
+  const { data: cityData, refetch: cityDataRefetch } = useGetCityQuery(stateId)
+  const { data: stateData, refetch: stateDataRefetch } = useGetStateQuery(countryId)
+
+  
+  
+  // const [job,setJob] = useState(0);
+  // const handleChangeJob = (e) => setJob(e.target.value);
+
+
+
+  useEffect(( )=>{
+    stateDataRefetch()
+  },[countryId])
+
+  useEffect(( )=>{
+    cityDataRefetch()
+  },[stateId])
+
+  // useEffect(()=>{
+  //   console?.log("hii")
+  //   stateDataRefetch()
+  // },[formData?.country])
+  useEffect(()=>{
+    countryDataRefetch()
+    },[])
+
   const handleChangeFormData = (name, value) => {
+    if(name==="country"){
+      setCountryId(value)
+    }if(name==="state"){
+      setStateId(value)
+    }
     setFormData(prev => {
       prev[name] = value
       return prev
     })
     console.log(formData)
   }
-  console.log(countryData)
-  console.log(stateData)
-  console.log(cityData)
+
   const handleSubmit = async () => {
     console.log(formData)
     await AddCandidate(formData)
@@ -233,12 +289,10 @@ function NewcreateCandidate() {
                   label="Date of Birth"
                   inputFormat="YYYY-MM-DD"
                   value={value}
-                  disableFuture
-                  format='YYYY-MM-DD'
                   onChange={e => {
-                    handleChangeBirth(e)
+                    // handleChange(e)
                     const date = dayjs(e)
-                    // handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
+                    handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
                   }}
                   renderInput={(params) =>
                     <TextField
@@ -263,14 +317,14 @@ function NewcreateCandidate() {
               // error={Boolean(errors.street && touched.street)}
               // helperText={errors.street && touched.street}
               />
-              <TextField
-                sx={{
+              {/* <TextField */}
+                {/* sx={{
                   width: '60%',
                 }}
                 required
                 id="standard-select-currency-native"
+                // select
                 label="Country"
-                select
                 SelectProps={{
                   native: true,
                 }}
@@ -278,60 +332,151 @@ function NewcreateCandidate() {
                 variant="standard"
                 name="Country"
                 onChange={(e) => handleChangeFormData(e.target.id, +e.target.value)}
-              >
-                {countryData && countryData?.countries?.map((e, i) => (
-                  <MenuItem key={i} value={e.id}>
-                    {e.name}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Stack>
+              > */}
+                {/* { countryData?.countries?.map((e) => (
+                  <MenuItem key={e.id} value={e.id}>
+                    {/* {e.name} */}
+                    {/* <ListItem key={e.id} value={e.id} /> */}
+                  {/* </MenuItem> */}
+                {/* ))} } */}
+              {/* </TextField> */}
+                  {/* */} 
+
+              {/* <Grid item xs={6}> */}
+              <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
+              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-standard-label">Country</InputLabel>
+                <Select
+                  margin="dense"
+                  variant="standard"
+                  fullWidth
+                  name="country"
+                  // value={textValue.country}
+                  label="country"
+                  onChange={(e)=> handleChangeFormData(e?.target?.name, e?.target?.value)}
+                >
+                  {countryData &&
+                    countryData?.countries?.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+              </Stack>
+            {/* </Grid>  */}
+            {/* <Grid item xs={6}> */}
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
-              <TextField
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
+                    <InputLabel id="select-state">State</InputLabel>
+                    <Select
+                      labelId="select-state"
+                      id="state"
+                      // value={fieldValue.state}
+                      onChange={(e)=> handleChangeFormData(e?.target?.name, e?.target?.value)}
+                      label="State"
+                      name="state"
+                    >
+                      {stateData ? stateData?.states?.map((state) => <MenuItem key={state.id} value={state.id}>{state.name}</MenuItem>) : <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>}
+                    </Select>
+                  </FormControl>
+                {/* </Grid> */}
+            </Stack>
+              <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
+                  <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
+                    <InputLabel id="select-city">select City</InputLabel>
+                    <Select
+                      labelId="select-city"
+                      id="city"
+                      name="city"
+                      // value={fieldValue.city}
+                      onChange={(e)=> handleChangeFormData(e?.target?.name, e?.target?.value)}
+                      label="Select City"
+                    >
+                      {cityData ? cityData?.cities?.map((city) => <MenuItem key={city.id} value={city.id}>{city.name}</MenuItem>) : <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>}
+                    </Select>
+                  </FormControl>
+                {/* </Grid> */}
+              {/* </Stack>
+                name="country"
+                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+              // onChange={handleChangeCountry}
+              // value={country}
+              // {...getFieldProps("country")}
+              // error={Boolean(errors.country && touched.country)}
+              />
+            </Stack> */}
+            <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
+              {/* <TextField
                 sx={{
                   width: '50%',
                 }}
                 required
-                select
+                // select
                 id="standard-required"
                 label="State"
                 variant="standard"
-                name="State"
+                name="state"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-
+                // value={currentState}
+                // onChange={handleChangeState}
                 SelectProps={{
                   native: true,
                 }}
+              // {...getFieldProps("state")}
+              // error={Boolean(errors.state && touched.state)}
+              />
+              {/* <option
+                  value={0}
+                  style={{
+                    fontStyle: 'italic',
+                  }}
                 >
-                  {stateData && stateData?.map((e, i) => (
-                  <MenuItem key={i} value={e.id}>
+                  State
+                </option>
+                {stateData.states && stateData.states.map((e, i) => (
+                  <option key={i} value={e.id}>
                     {e.name}
-                  </MenuItem>
+                  </option>
                 ))}
-                </TextField>
-              
-
-              <TextField
+              </TextField> */} 
+              {/* <TextField
                 sx={{
                   width: '15%',
                 }}
                 required
                 id="standard-required"
+                // select
                 label="City"
-                select
                 variant="standard"
                 name="city"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                // onChange={handleChangeCity}
                 SelectProps={{
                   native: true,
                 }}
-               >
-                {cityData && cityData?.map((e, i) => (
-                  <MenuItem key={i} value={e.id}>
+              // value={city}
+              // {...getFieldProps("city")}
+              // error={Boolean(errors.city && touched.city)}
+              />
+              {/* <option
+                  value={0}
+                  style={{
+                    fontStyle: 'italic',
+                  }}
+                >
+                  City
+                </option>
+                {cityData.cities && cityData.cities.map((e, i) => (
+                  <option key={i} value={e.id}>
                     {e.name}
-                  </MenuItem>
+                  </option>
                 ))}
-               </TextField>
+               </TextField> */}
               <TextField
                 sx={{
                   width: '20%',
@@ -358,7 +503,7 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Institute"
                 variant="standard"
-                name="institute"
+              // {...getFieldProps("institute")}
               />
               <TextField
                 sx={{
@@ -405,33 +550,21 @@ function NewcreateCandidate() {
                   mb={5}
                   ml={0}
                   mr={0}
-                 >
+                >
                   <DesktopDatePicker
                     label="From"
-                    views={['year', 'month','day']}
-                    inputFormat="YYYY-MM-DD"
-                    value={admissionvalue}
-                    name="admission_date"
-                    id="admission"
-                    onChange={e => {
-                      handleChangeAdmission(e)
-                      const dateadmission = dayjs(e)
-                      handleChangeFormData("admission_date", `${dateadmission.get("year")}-${String(dateadmission.get("month") + 1).padStart(2, 0)}`)
-                    }}                                  
-                    renderInput={(params) => 
-                    <TextField {...params} />}
+                    views={['year', 'month']}
+                    inputFormat="MM/YYYY"
+                    value={value}
+                    // onChange={handleChange}
+                    renderInput={(params) => <TextField {...params} />}
                   />
                   <DesktopDatePicker
                     label="To"
-                    inputFormat="YYYY-MM-DD"
-                    views={['year', 'month','day']}
-                    value={graduationvalue}
-                    id="graduation"
-                    onChange={e => {
-                      handleChangeGraduation(e)
-                      const dategraduation = dayjs(e)
-                      handleChangeFormData("graduation_date", `${dategraduation.get("year")}-${String(dategraduation.get("month") + 1).padStart(2, 0)}`)
-                    }}                                  name="graduation_date"
+                    inputFormat="MM/YYYY"
+                    views={['year', 'month']}
+                    value={value}
+                    // onChange={handleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </Stack>
@@ -469,10 +602,18 @@ function NewcreateCandidate() {
                   handleChangeFormData(e.target.name, +e.target.value)
                 }}
               >
+                <option
+                  value={0}
+                  style={{
+                    fontStyle: 'italic',
+                  }}
+                >
+                  Job
+                </option>
                 {jobData && jobData?.map((e, i) => (
-                  <MenuItem key={i} value={e.id}>
+                  <option key={i} value={e.id}>
                     {e.title}
-                  </MenuItem>
+                  </option>
                 ))}
               </TextField>
             </Stack>
@@ -500,47 +641,41 @@ function NewcreateCandidate() {
                   native: true,
                 }}
               >
-                <MenuItem
+                <option
                   value={0}
                   style={{
                     fontStyle: 'italic',
                   }}
                 >
                   Assessment Question
-                </MenuItem>
+                </option>
                 {assessmentData && assessmentData.data?.map((e, i) => (
-                  <MenuItem key={i} value={e.id}>
+                  <option key={i} value={e.id}>
                     {e.name}
-                  </MenuItem>
+                  </option>
                 ))}
               </TextField>
             </Stack>
-            <Stack>
-              {/* <Button
+            {/* <Stack>
+              <Button
                 sx={{
                   width:"40%"
                 }}
                 variant="contained"
                 component="label"
               >
-                {Uploaded ? UploadedFileName : "Upload Resume" }
-                {/* Upload Resume */}
-                {/* <input
+                Upload Resume
+                <input
                   type="file"
                   hidden
-                  name='resume'
-                  accept='application/pdf'
-                  onChange={(e)=>  setUploaded(true) &
-                  setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
-                  handleChangeFormData(e?.target?.name, e?.target.files[0])
-                }
                 />
-              </Button> */}
-
-            </Stack>
+              </Button>
+            </Stack> */}
+          </Stack>
           </Stack>
         </Stack>
       </Stack>
+    </Stack>
     </div>
   );
 }
