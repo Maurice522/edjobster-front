@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Stack, Button, TextField, Container, CircularProgress } from '@mui/material';
 import dayjs from 'dayjs';
+import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -27,6 +28,8 @@ function NewcreateCandidate() {
   const [birthvalue, setbirthValue] = React.useState(dayjs('2014-08-18T21:11:54'));
   const [admissionvalue, setadmissionValue] = React.useState(dayjs('2016-08-18T21:11:54'));
   const [graduationvalue, setgraduationValue] = React.useState(dayjs('2020-08-18T21:11:54'));
+  
+  
   const handleChangeBirth = (newValue) => {
     setValue(newValue);
   };
@@ -77,6 +80,12 @@ function NewcreateCandidate() {
   const [UploadedFileName,setUploadedFileName]=useState("")
   const [Uploaded,setUploaded]= useState(false);
   const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery();
+  const { data: countryData, refetch: countryDataRefetch } = useGetCountryQuery()
+  const { data: cityData, refetch: cityDataRefetch } = useGetCityQuery()
+  const { data: stateData, refetch: stateDataRefetch } = useGetStateQuery()
+
+  
+  
   const [job,setJob] = useState(0);
   const handleChangeJob = (e) => setJob(e.target.value);
 
@@ -108,7 +117,9 @@ function NewcreateCandidate() {
     })
     console.log(formData)
   }
-
+  console.log(countryData)
+  console.log(stateData)
+  console.log(cityData)
   const handleSubmit = async () => {
     console.log(formData)
     await AddCandidate(formData)
@@ -257,17 +268,22 @@ function NewcreateCandidate() {
                 }}
                 required
                 id="standard-select-currency-native"
-                // select
                 label="Country"
+                select
                 SelectProps={{
                   native: true,
                 }}
                 // // helperText="Please select your country"
                 variant="standard"
                 name="Country"
-                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-
-              />
+                onChange={(e) => handleChangeFormData(e.target.id, +e.target.value)}
+              >
+                {countryData && countryData?.countries?.map((e, i) => (
+                  <MenuItem key={i} value={e.id}>
+                    {e.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
               <TextField
@@ -285,8 +301,14 @@ function NewcreateCandidate() {
                 SelectProps={{
                   native: true,
                 }}
-
-              />
+                >
+                  {stateData && stateData?.countries?.map((e, i) => (
+                  <MenuItem key={i} value={e.id}>
+                    {e.name}
+                  </MenuItem>
+                ))}
+                </TextField>
+              
 
               <TextField
                 sx={{
@@ -440,18 +462,10 @@ function NewcreateCandidate() {
                   handleChangeFormData(e.target.name, +e.target.value)
                 }}
               >
-                <option
-                  value={0}
-                  style={{
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Job
-                </option>
                 {jobData && jobData?.map((e, i) => (
-                  <option key={i} value={e.id}>
+                  <MenuItem key={i} value={e.id}>
                     {e.title}
-                  </option>
+                  </MenuItem>
                 ))}
               </TextField>
             </Stack>
@@ -479,18 +493,18 @@ function NewcreateCandidate() {
                   native: true,
                 }}
               >
-                <option
+                <MenuItem
                   value={0}
                   style={{
                     fontStyle: 'italic',
                   }}
                 >
                   Assessment Question
-                </option>
+                </MenuItem>
                 {assessmentData && assessmentData.data?.map((e, i) => (
-                  <option key={i} value={e.id}>
+                  <MenuItem key={i} value={e.id}>
                     {e.name}
-                  </option>
+                  </MenuItem>
                 ))}
               </TextField>
             </Stack>
