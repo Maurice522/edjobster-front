@@ -1,11 +1,12 @@
-.dialogueTitle{
+.dialogueTitle {
     font-size: 35px;
     fill: solid rgba(42, 114, 222, 0.75);
     color: #2A72DE;
     font-size: SemiBold;
     line-height: 53px;
 }
-.dialogueTitle2{
+
+.dialogueTitle2 {
     font-size: 35px;
     fill: solid rgba(42, 114, 222, 0.75);
     color: #2A72DE;
@@ -21,24 +22,28 @@
     flex-direction: column;
 
 }
-.stackrow{
-    display:"flex";
-    flex-direction:"row";
-    justify-content:"center";
-    gap:"10%";
+
+.stackrow {
+    display: "flex";
+    flex-direction: "row";
+    justify-content: "center";
+    gap: "10%";
 }
-.proceedbutton{
+
+.proceedbutton {
     color: #2A72DE;
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: 80px;
 
 }
+
 .listitems {
     color: #4a77ff;
     font-size: 15px;
     line-height: 175%;
 }
-.formtext{
+
+.formtext {
     width: 330px;
     height: 35px;
     text-align: center;
@@ -46,16 +51,19 @@
     background-color: #94D2FF;
     border: #BFBFBF;
 }
+
 textarea {
     resize: none;
 }
+
 label {
     text-align: center;
     align-items: center;
     justify-content: center;
     color: #4a77ff;
 }
-.passwordbar{
+
+.passwordbar {
     margin-top: 3%;
     width: 330px;
     height: 35px;
@@ -65,7 +73,8 @@ label {
     border: #BFBFBF;
     margin-right: 2%;
 }
-.passwordbar2{
+
+.passwordbar2 {
     margin-top: 3%;
     width: 330px;
     height: 35px;
@@ -75,33 +84,36 @@ label {
     border: #BFBFBF;
     margin-right: 5%;
 }
-.registerbutton1{
+
+.registerbutton1 {
     color: #2A72DE;
     background-color: rgba(42, 114, 222, 0.15);
     border-radius: 80px;
     cursor: pointer;
-    width:400px;
-    height:50px;
+    width: 400px;
+    height: 50px;
     border-color: transparent;
-    font-size:24px;
+    font-size: 24px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 5%;
 }
-.registerbutton{
+
+.registerbutton {
     color: #2A72DE;
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: 80px;
 
-    color:#2A72DE;
-    margin-top:5%;
-    width:300px;
-    height:50px;
-    border-radius:80px;
-    font-size:24px;
+    color: #2A72DE;
+    margin-top: 5%;
+    width: 300px;
+    height: 50px;
+    border-radius: 80px;
+    font-size: 24px;
     margin-left: auto;
     margin-right: auto;
 }
+
 .divrow {
     margin-top: 2%;
     display: flex;
@@ -110,7 +122,8 @@ label {
     gap: 10%;
     text-align: center;
 }
-.passwordrow{
+
+.passwordrow {
     display: flex;
     margin-top: 3%;
     flex-direction: row;
@@ -118,6 +131,7 @@ label {
     gap: 10%;
     text-align: center;
 }
+
 .divrowcb {
     margin-top: 2%;
     display: flex;
@@ -126,7 +140,7 @@ label {
     text-align: center;
 }
 
-.inutbar{
+.inutbar {
     width: 250px;
     color: #2A72DE;
     background-color: #94D2FF;
@@ -137,7 +151,8 @@ label {
     text-align: center;
     font-size: larger;
 }
-.userpasswordbar{
+
+.userpasswordbar {
     font-size: larger;
 
     width: 330px;
@@ -148,7 +163,8 @@ label {
     border: #BFBFBF;
     margin-right: 2%;
 }
-.userpasswordbar2{
+
+.userpasswordbar2 {
     font-size: larger;
     width: 330px;
     height: 35px;
@@ -158,7 +174,8 @@ label {
     border: #BFBFBF;
     margin-right: 2%;
 }
-.inutbarcb{
+
+.inutbarcb {
     width: 25px;
     color: #2A72DE;
     background-color: #94D2FF;
@@ -168,14 +185,17 @@ label {
     text-align: center;
     font-size: larger;
 }
-.cblabel{
+
+.cblabel {
     margin-top: 0.5%;
     margin-left: 1%;
 }
-.emailphone{
+
+.emailphone {
     margin-left: 2%;
 }
-.phonenumber{
+
+.phonenumber {
     margin-left: 2%;
     width: 250px;
     color: #2A72DE;
@@ -187,28 +207,33 @@ label {
     text-align: center;
     font-size: larger;
 }
-.carddiv{
+
+.carddiv {
     padding: 5%;
     align-items: center;
-    text-align: center; 
+    text-align: center;
 }
-.backbutton{
+
+.backbutton {
     margin: 2%;
 }
-.backbutton2{
+
+.backbutton2 {
     margin: 2%;
     margin-bottom: 0;
     padding-bottom: 0;
 }
-.billbriefs{
+
+.billbriefs {
     margin-top: 10%;
 }
 
-.rowstack{
+.rowstack {
     display: flex;
     flex-direction: row;
 }
-.sidebar-search-input{
+
+.sidebar-search-input {
     width: 90%;
     border-radius: 4px;
     margin: 0 auto 15px auto;
@@ -217,27 +242,32 @@ label {
     outline: none;
     font-size: x-large;
 }
-.divrowmid{
+
+.divrowmid {
     /* text-align: center; */
     font-size: 20px;
     display: flex;
     justify-content: center;
     gap: 2%;
 }
-.midrow{
+
+.midrow {
     display: flex;
     justify-content: center;
     gap: 25%;
     margin-top: 3%;
 }
-.variables{
+
+.variables {
     text-align: center;
 }
-.variablediv{
+
+.variablediv {
     display: flex;
     flex-direction: row;
 }
-.variableComponents{
+
+.variableComponents {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -245,61 +275,70 @@ label {
     margin-bottom: 2%;
 }
 
-.variabledivlabel{
+.variabledivlabel {
     margin-right: 2%;
 }
-.fileup{
+
+.fileup {
     margin-top: 5%;
 }
-.emailinutbar{
+
+.emailinutbar {
     border-radius: 20px;
     width: 330px;
     height: 35px;
-    border:1px solid gray;
+    border: 1px solid gray;
     text-align: center;
 }
-.emailinutbar2{
+
+.emailinutbar2 {
     border-radius: 20px;
     width: 206px;
     height: 35px;
-    border:1px solid gray;
+    border: 1px solid gray;
     text-align: center;
 }
-.divstack{
+
+.divstack {
     display: flex;
     margin-top: 5%;
     justify-content: flex-end;
     gap: 2%;
 }
-.accordianheadings{
+
+.accordianheadings {
     color: #2A72DE;
     margin-bottom: 0%;
     padding-bottom: 0%;
 }
-.ulistBlock{
+
+.ulistBlock {
     align-items: center;
     justify-content: center;
     width: 50%;
 }
-.emailsubmit{
-   background-color: #4A77FF;
-   border-radius: 20px;
-   width: 101px;
-   height: 44px;
-   color: #ffffff;
-   border: transparent;
-   cursor: pointer;
+
+.emailsubmit {
+    background-color: #4A77FF;
+    border-radius: 20px;
+    width: 101px;
+    height: 44px;
+    color: #ffffff;
+    border: transparent;
+    cursor: pointer;
 }
-.emailcancel{
-   background-color: #9B9B9B;
-   border-radius: 20px;
-   width: 101px;
-   height: 44px;
-   color: #ffffff;
-   border: transparent;
-   cursor: pointer;
+
+.emailcancel {
+    background-color: #9B9B9B;
+    border-radius: 20px;
+    width: 101px;
+    height: 44px;
+    color: #ffffff;
+    border: transparent;
+    cursor: pointer;
 }
-.btns{
+
+.btns {
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -307,10 +346,17 @@ label {
     justify-content: center;
     margin-top: 5%;
 }
-.filldetailspage{
+
+.filldetailspage {
     align-items: center;
     width: 60%;
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.editor {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
 }
