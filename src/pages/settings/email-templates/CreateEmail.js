@@ -156,7 +156,7 @@ function CreateEmail() {
                         />
                     </div>
                     <div className='btns'>
-                        <button className='emailcancel'>
+                        <button className='emailcancel' onclicke={navigate(-1)}>
                             Cancel
                         </button>
                         <button className='emailsubmit' type='submit'>
