@@ -71,7 +71,7 @@ function JobApplication() {
 
 
     return (
-        <div>
+        <div >
             <Stack sx={{
                 display: "flex",
                 flexDirection: "row",
@@ -81,7 +81,7 @@ function JobApplication() {
                 <h1>Job Title</h1>
             </Stack>
             <Card>
-                <div style={{width:"80%", marginLeft:"auto", marginRight:"auto",marginTop:"2%"}}>
+                <div style={{width:"60%", marginLeft:"auto", marginRight:"auto",marginTop:"2%"}}>
                     <Stepper activeStep={activeStep} sx={{ fontSize: "xx-large" }}>
                         {steps.map((label, index) => {
                             const stepProps = {};

@@ -66,5 +66,10 @@
     justify-content: center;
     margin-top: 4%;
 }
+.changebodycolor{
+    margin: 0%;
+    background-color: #ffffff;
+  min-height: 100vh;
+}
 
 
