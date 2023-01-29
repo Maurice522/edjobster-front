@@ -1,22 +1,20 @@
 import React from 'react'
-import { useFormik } from "formik";
+import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
-import {
-    Button,
-    Card, Stack
-  } from '@mui/material';
+import { Stack, TextField, IconButton, InputAdornment, Divider, Select, MenuItem, Card, Button } from '@mui/material';
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const modules = {
     toolbar: [
-      [{ 'font': [] }],
-      [{ 'size': ['small', false, 'large', 'huge'] }],
-      ['bold', 'italic', 'underline'],
-      [{'list': 'ordered'}, {'list': 'bullet'}],
-      [{ 'align': [] }],
-      [{ 'color': [] }, { 'background': [] }],
-      ['clean']
+        [{ 'font': [] }],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'align': [] }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['clean']
     ]
 };
 
@@ -27,9 +25,9 @@ const formats = [
     'list', 'bullet',
     'align',
     'color', 'background'
-  ];
+];
 
-  const state = {
+const state = {
     comments: ''
 }
 
@@ -43,17 +41,19 @@ function CreateEmail() {
 
 
     const formik = useFormik({
-        inititalValues:{
-            from:"",
-            email_template:"",
-            client_name:"",
-            subject:"",
-            attachment:"",
+        inititalValues: {
+            from: "",
+            email_template: "",
+            client_name: "",
+            subject: "",
+            attachment: "",
         },
     })
-  return (
-    <div>
-        {/* <Card sx={{
+    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setSubmitting } = formik;
+
+    return (
+        <div>
+            {/* <Card sx={{
             position:"relative",
             marginLeft:"auto",
             marginRight:"auto",
@@ -62,80 +62,63 @@ function CreateEmail() {
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}> */}
-              <div className="backbutton tt-back">
+            <div className="backbutton tt-back">
                 <ArrowBackIosIcon onClick={navigatecancel} sx={{
-                  cursor:"pointer"
-                }}/>
-              </div>
+                    cursor: "pointer"
+                }} />
+            </div>
 
             <div>
                 <form>
                     <div className='divrowmid'>
-                        <label className="" htmlFor='Status'>From                 
-                            {formik.touched.from && formik.errors.from ? <div>{formik.errors.role}</div> : null}
-                        </label>
-                        <input 
-                            className="emailinutbar"
-                            id="from"
-                            name="from"
-                            type="email"
-                        />
+                        {/* <TextField
+                            fullWidth
+                            label="From"
+                            {...getFieldProps('first_name')}
+                            error={Boolean(touched.firstName && errors.firstName)}
+                            helperText={touched.firstName && errors.firstName}
+                        /> */}
                     </div>
                     <div className='midrow'>
-                        <Stack sx={{marginRight:"0"}}>
+                        <Stack sx={{ marginRight: "0" }}>
                             <div className='divstack'>
-                                <label className="" htmlFor='Status'>Email Template          
-                                    {formik.touched.email_template && formik.errors.email_template ? <div>{formik.errors.role}</div> : null}
-                                </label>
-                                <input 
-                                    className="emailinutbar2"
-                                    id="email_template"
-                                    name="email_template"
-                                    type="email"
+                                <TextField
+                                    fullWidth
+                                    label="Template Name"
+                                    error={Boolean(touched.template_name && errors.template_name)}
+                                    helperText={touched.template_name && errors.template_name}
                                 />
                             </div>
                             <div className='divstack'>
-                                <label className="" htmlFor='Status'>Client Name              
-                                    {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
-                                </label>
-                                <input 
-                                    className="emailinutbar2"
-                                    id="client_name"
-                                    name="client_name"
-                                    type="text"
-                                />
-                            </div>
-                            <div className='divstack'>
-                                <label className="" htmlFor='Status'>Subject            
-                                    {formik.touched.subject && formik.errors.subject ? <div>{formik.errors.role}</div> : null}
-                                </label>
-                                <input 
-                                    className="emailinutbar2"
-                                    id="subject"
-                                    name="subject"
-                                    type="subject"
+                                <TextField
+                                    fullWidth
+                                    label="Subject"
+                                    error={Boolean(touched.subject && errors.subject)}
+                                    helperText={touched.subject && errors.subject}
                                 />
                             </div>
                         </Stack>
                         <div className='fileup'>
-                            <label className="" htmlFor='Status'>Add Attachment           
-                                {formik.touched.attachment && formik.errors.attachment ? <div>{formik.errors.role}</div> : null}
-                            </label>
-                            <input 
-                                className=""
-                                id="attachment"
-                                name="attachment"
-                                type="file"
-                            />
+                            <p>Add attachment</p>
+                            <Button
+                                variant="contained"
+                                component="label"
+                            >
+                                Upload File
+                                <input
+                                    type="file"
+                                    hidden
+                                />
+                            </Button>
                         </div>
                     </div>
-                    <h3 className='variables'>Variables</h3>
+                    {/* <h3 className='variables'>Variables</h3>
                     <div className='variableComponents'>
                         <div className='variablediv'>
-                            <label className="variabledivlabel" htmlFor='Status'>Available Merge Fields            
+                            <label className="variabledivlabel" htmlFor='Status'>Available Merge Fields
                                 {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
                             </label>
-                            <input 
+                            <input
                                 className="emailinutbar2"
                                 id="client_name"
                                 name="client_name"
@@ -143,10 +126,10 @@ function CreateEmail() {
                             />
                         </div>
                         <div className='variablediv'>
-                            <label className="variabledivlabel" htmlFor='Status'>Select Field          
+                            <label className="variabledivlabel" htmlFor='Status'>Select Field
                                 {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
                             </label>
-                            <input 
+                            <input
                                 className="emailinutbar2"
                                 id="client_name"
                                 name="client_name"
@@ -154,26 +137,26 @@ function CreateEmail() {
                             />
                         </div>
                         <div className='variablediv'>
-                            <label className="variabledivlabel" htmlFor='Status'>Copy Merge Field Value            
+                            <label className="variabledivlabel" htmlFor='Status'>Copy Merge Field Value
                                 {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
                             </label>
-                            <input 
+                            <input
                                 className="emailinutbar2"
                                 id="client_name"
                                 name="client_name"
                                 type="text"
                             />
                         </div>
-                    </div>
-                    <h4>Body</h4>
+                    </div> */}
+                    <h4 style={{marginLeft:"20%",marginTop:"5%",marginBottom:"2%"}}>Body</h4>
                     <div className='editor'>
-                    <ReactQuill sx={{outerWidth:"80vw"}}theme="snow" 
-                    modules={modules}
-                        formats={formats} value={state.comments || ''}
+                        <ReactQuill sx={{ outerWidth: "80vw" }} theme="snow"
+                            modules={modules}
+                            formats={formats} value={state.comments || ''}
                         />
                     </div>
                     <div className='btns'>
-                        <button className='emailcancel'>
+                        <button className='emailcancel' onclicke={navigate(-1)}>
                             Cancel
                         </button>
                         <button className='emailsubmit' type='submit'>
@@ -182,9 +165,9 @@ function CreateEmail() {
                     </div>
                 </form>
             </div>
-        {/* </Card> */}
-    </div>
-  )
+            {/* </Card> */}
+        </div>
+    )
 }
 
 export default CreateEmail
