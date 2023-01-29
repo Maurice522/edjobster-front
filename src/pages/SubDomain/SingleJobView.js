@@ -140,7 +140,7 @@ function SingleJobView() {
                     justifyContent: "center"
                  }}
                     variant="contained"
-                    onClick={navigate('/dashboard/Institute-Description/Individual-Job/Application')}
+                    onClick={()=>navigate('/dashboard/Institute-Description/Individual-Job/Application')}
                 >
                     Apply
                 </Button>

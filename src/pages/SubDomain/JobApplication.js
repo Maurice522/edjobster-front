@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import {
     Card,
     Stack,
@@ -39,7 +40,7 @@ function getStepContent(step) {
 
 
 function JobApplication() {
-
+    const navigate = useNavigate()
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
 
@@ -76,7 +77,7 @@ function JobApplication() {
                 flexDirection: "row",
 
             }}>
-                <ArrowBackIcon color="secondary" />
+                <ArrowBackIcon color="secondary" onClick={navigate('/dashboard/Institute-Description/Individual-Job')}  sx={{cursor:"pointer"}}/>
                 <h1>Job Title</h1>
             </Stack>
             <Card>

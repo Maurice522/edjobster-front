@@ -418,7 +418,7 @@ const CreateAssessment = () => {
                 item.type === 'T' ? (
                   <Grid key={`text-${index}`} item xs={12} style={{ margin: 15 }}>
                     <Grid display="flex" item xs={12}>
-                      <Grid item xs={11}>
+                      <Grid item xs={11} style={{ margin: 15 }}>
                         <Typography variant="h5" gutterBottom>
                           Question {index + 1} : Text Question
                         </Typography>
