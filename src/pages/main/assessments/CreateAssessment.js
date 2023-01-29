@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import PreviewAssesment from './PreviewAssesment';
 import { showToast } from '../../../utils/toast';
 
+// import {useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice'
 import { useAddAssesmentMutation } from '../../../redux/services/main/AssesmentService';
 import {
   useGetAssesmentQuestionsQuery,
@@ -19,8 +20,13 @@ import {
   useDeleteAssesmentQuestionsMutation,
 } from '../../../redux/services/main/AssesmentQuestionsService';
 import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice';
+import Iconify from '../../../components/Iconify';
+import CandidateSettingModal from "../../settings/candidate-settings/CandidateSettingsModal";
+
 
 const CreateAssessment = () => {
+  const [btnLoader, setBtnLoader] = useState(false);
+
   const [modalOpen, setModalOpen] = useState(false);
   const { assessmentEditId } = useParams();
   const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
@@ -47,6 +53,20 @@ const CreateAssessment = () => {
   const [questions, setQuestions] = useState(
     assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.questions : []
   );
+    const [modal2Open, setModal2Open] = useState(false);
+      const [modal2Name, setModal2Name] = useState('add');
+      // const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssesmentCategoryMutation();
+
+//  const addClickHandler = async () => {
+//     setBtnLoader(true);
+//     if (modal2Name === 'Add') {
+//       console.log(" addValue : ",addValue);
+//       await addAssessmentCategories(addValue);
+//       modalHandleClose(false);
+//     } else {
+//       console.log(modal2Name);  
+//     }
+//   };
   const onPreviewModalOpen = () => {
     setModalOpen(true);
   };
@@ -81,44 +101,8 @@ const CreateAssessment = () => {
     questions[questionIndex].answer = parseInt(e.target.value, 10);
     setQuestions([...questions]);
   };
-  // const isValidateAddQuestion = (questionObj) => {
-  //   let status = true;
-  //   if (questionObj.type === 'T') {
-  //     if (questionObj.question === '' && questionObj.marks === null) {
-  //       status = false;
-  //       showToast('error', 'Question Name and Marks are required fields.');
-  //     } else if (questionObj.question === '') {
-  //       showToast('error', 'Enter Question');
-  //       status = false;
-  //     } else if (questionObj.marks === null) {
-  //       showToast('error', 'Enter Marks');
-  //       status = false;
-  //     }
-  //   } else if (questionObj.type === 'S' || questionObj.type === 'C' || questionObj.type === 'R') {
-  //     if (questionObj.question === '' && questionObj.marks === null) {
-  //       status = false;
-  //       showToast('error', 'Question Name and Marks are required fields.');
-  //     } else if (questionObj.question === '') {
-  //       showToast('error', 'Enter Question');
-  //       status = false;
-  //     } else if (questionObj.marks === null) {
-  //       showToast('error', 'Enter Marks');
-  //       status = false;
-  //     } else if (questionObj.type === 'S' || questionObj.type === 'R' && questionObj.answer === null) {
-  //       showToast('error', 'Enter Answer');
-  //       status = false;
-  //     }
-  //   }
-  //   return status;
-  // };
+
   const onQuestionDoneClicked = async (questionIndex) => {
-    // if (isValidateAddQuestion(questions[questionIndex])) {
-    //   // if (!assesmentId) {
-    //   //   // await addAssesment({
-    //   //   //   category: selectedAssesmentCategory,
-    //   //   //   name: assesmentName,
-    //   //   // });
-    //   // }
     if (assesmentId) {
       if (questions[questionIndex].assesment) {
         await addAssesmentQuestions(questions[questionIndex]);
@@ -149,7 +133,10 @@ const CreateAssessment = () => {
     const newSelected = questions.filter((item) => item !== questions[questionIndex]);
     setQuestions(newSelected);
   };
-
+  const addNewCategoryHandler = () => {
+    setModal2Open(true);
+    setModal2Name('Add');
+  };
   const onSelectedQuestionTypeClicked = (type) => {
     setCurrentSelectedType(type);
     switch (type) {
@@ -157,48 +144,50 @@ const CreateAssessment = () => {
         // setQuestions([
         //   ...questions,
         //   {
-            // assesment: assesmentId,
-            // type: 'S',
-            // question: '',
-            // options: ['Option 1', 'Option 2'],
-            // marks: null,
-            // answer: null,
+        // assesment: assesmentId,
+        // type: 'S',
+        // question: '',
+        // options: ['Option 1', 'Option 2'],
+        // marks: null,
+        // answer: null,
         //   },
         // ]);
-        setQuestions((prev)=> [...prev, {
+        setQuestions((prev) => [...prev, {
           assesment: assesmentId,
-            type: 'S',
-            question: '',
-            options: ['Option 1', 'Option 2'],
-            marks: null,
-            answer: null,
+          type: 'S',
+          question: '',
+          options: ['Option 1', 'Option 2'],
+          marks: null,
+          answer: null,
         }])
         break;
       case 'T':
-        setQuestions((prev)=>[...prev,
-          {assesment: assesmentId,
+        setQuestions((prev) => [...prev,
+        {
+          assesment: assesmentId,
           type: 'T',
           question: '',
-          marks: null,}
+          marks: null,
+        }
         ])
         break;
       case 'C':
         // setQuestions([
         //   ...questions,
         //   {
-            // assesment: assesmentId,
-            // type: 'C',
-            // question: '',
-            // options: ['Option 1', 'Option 2'],
-            // marks: null,
+        // assesment: assesmentId,
+        // type: 'C',
+        // question: '',
+        // options: ['Option 1', 'Option 2'],
+        // marks: null,
         //   },
         // ]);
-        setQuestions((prev)=>[...prev,{
+        setQuestions((prev) => [...prev, {
           assesment: assesmentId,
-            type: 'C',
-            question: '',
-            options: ['Option 1', 'Option 2'],
-            marks: null,
+          type: 'C',
+          question: '',
+          options: ['Option 1', 'Option 2'],
+          marks: null,
         }])
 
         break;
@@ -206,21 +195,21 @@ const CreateAssessment = () => {
         // setQuestions([
         //   ...questions,
         //   {
-            // assesment: assesmentId,
-            // type: 'R',
-            // question: '',
-            // options: ['Option 1', 'Option 2'],
-            // marks: null,
-            // answer: null,
+        // assesment: assesmentId,
+        // type: 'R',
+        // question: '',
+        // options: ['Option 1', 'Option 2'],
+        // marks: null,
+        // answer: null,
         //   },
         // ]);
-        setQuestions((prev)=>[...prev,{
-   assesment: assesmentId,
-            type: 'R',
-            question: '',
-            options: ['Option 1', 'Option 2'],
-            marks: null,
-            answer: null,
+        setQuestions((prev) => [...prev, {
+          assesment: assesmentId,
+          type: 'R',
+          question: '',
+          options: ['Option 1', 'Option 2'],
+          marks: null,
+          answer: null,
         }])
         break;
 
@@ -321,10 +310,14 @@ const CreateAssessment = () => {
         <Grid container spacing={2} component="form">
           <Grid item xs={6}>
             <Card variant="outlined" style={{ padding: 20 }}>
-              <Grid item xs={12} style={{ marginBottom: 20 }}>
-                <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+              <Grid item xs={12} style={{ marginBottom: 20 }} sx={{
+                display:"flex",
+                flexDirection:"row",
+                justifyContent: "space-between"
+               }}>
+                <FormControl variant="standard" sx={{ mt: 1, width:"100%", }}>
                   <InputLabel id="demo-simple-select-standard-label">Assesment Category</InputLabel>
-                  <Select
+                  <Select 
                     required
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
@@ -340,6 +333,14 @@ const CreateAssessment = () => {
                       ))}
                   </Select>
                 </FormControl>
+                {/* <Button
+                  variant="contained"
+                  component={RouterLink}
+                  to="#"
+                  onClick={addNewCategoryHandler}
+                >
+                  New
+                </Button> */}
               </Grid>
               <Grid item xs={12} display="flex" style={{ margin: 20 }}>
                 <Grid item xs={12} style={{ justifyContent: 'right' }}>
@@ -385,7 +386,7 @@ const CreateAssessment = () => {
               </Grid>
 
               <Grid item display={'flex'} xs={12} alignItems="center">
-                <Grid item xs={8}  style={{ margin: '10px' }}>
+                <Grid item xs={8} style={{ margin: '10px' }}>
                   <Typography className={currentSelectedType === 'T' ? 'highligth' : ''}>Text Paragraph</Typography>
                 </Grid>
                 <Grid item xs={4} style={{ margin: '10px' }}>
@@ -458,7 +459,7 @@ const CreateAssessment = () => {
                         type="number"
                       />
                     </Grid>
-                    <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
+                    {/* <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
                       <Button
                         variant="contained"
                         component={RouterLink}
@@ -467,13 +468,13 @@ const CreateAssessment = () => {
                       >
                         DONE
                       </Button>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 ) : (
                   <div>
                     {(item.type === 'S') ||
-                    (item.type === 'C') ||
-                    (item.type === 'R') ? (
+                      (item.type === 'C') ||
+                      (item.type === 'R') ? (
                       <div key={`multiple-${index}`}>
                         <Grid item xs={12} style={{ margin: 15 }}>
                           <Grid display="flex" item xs={12}>
@@ -569,7 +570,7 @@ const CreateAssessment = () => {
                             )}
                           </Grid>
                         </Grid>
-                        <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
+                        {/* <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
                           <Button
                             variant="contained"
                             component={RouterLink}
@@ -578,7 +579,7 @@ const CreateAssessment = () => {
                           >
                             DONE
                           </Button>
-                        </Grid>
+                        </Grid> */}
                       </div>
                     ) : (
                       ''
@@ -590,6 +591,19 @@ const CreateAssessment = () => {
           </Grid>
         </Grid>
       </Container>
+      {/* <CandidateSettingModal
+        open={modalOpen}
+        handleClose={modalHandleClose}
+        label="Email Category Name"
+        type="Add"
+        textboxlabel="Add Assessment Categories"
+        id="categoryName"
+        name="Add"
+        onChange={addChangeHandler}
+        buttonlabel="Add Email category"
+        addClickHandler={addClickHandler}
+        loadingbtn={btnLoader}
+      /> */}
       {modalOpen && (
         <PreviewAssesment
           open={modalOpen}
@@ -604,8 +618,8 @@ const CreateAssessment = () => {
           name="name"
           // onChange={addChangeHandler}
           buttonlabel="Add Email category"
-          // addclickhandler={addClickHandler}
-          // loadingbtn={btnLoader}
+        // addclickhandler={addClickHandler}
+        // loadingbtn={btnLoader}
         />
       )}
     </>

@@ -462,7 +462,7 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Address (name)</InputLabel>
+                <InputLabel id="demo-simple-select-standard-label">Address</InputLabel>
                 <Select
                   margin="dense"
                   variant="standard"
