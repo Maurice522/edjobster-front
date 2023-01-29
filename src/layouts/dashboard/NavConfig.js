@@ -17,7 +17,7 @@ const newNavBar = [
     path: '/dashboard/InstituteSettings',
     icon: getIcon('eva:pie-chart-2-fill'),
     children: [
-      {title: 'Institute',path:'/dashboard/InstituteSettings/DDD'},
+      {title: 'Settings',path:'/dashboard/InstituteSettings/settings'},
       {title: 'Addresses',path:'/dashboard/InstituteSettings/address'},
     ]
   },

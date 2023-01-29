@@ -105,7 +105,8 @@ const AvailableJobsModel = (props) => {
 
                 <Grid container sx={{ mt: 1, pl: 2, pr: 2, mb: 1 }} spacing={2} style={{ display: "flex", alignItems: "center" }}>
                     <Grid item md={9}>
-                        <Typography variant='h4'> Available Jobs ({jobData?.list.length})</Typography>
+                 
+                        <Typography variant='h4'> Available Jobs ()</Typography>
                     </Grid>
                     <Grid item md={3} style={{ display: "flex", justifyContent: "end" }}>
                         <FormControl sx={{ m: 1, minWidth: 300 }}>
@@ -131,7 +132,7 @@ const AvailableJobsModel = (props) => {
                 <Divider variant="middle" />
                 <Grid container sx={{ mt: 3, pl: 3, pr: 3 }} style={{ overflow: "auto" }}>
                     <Grid item md={12}>
-                        {jobData?.list.map((item)=>(
+                        {jobData?.map((item)=>(
                         <Card style={{ backgroundColor: "#f9f9f9" }} key={item}>
                             <CardContent>
                                 <Grid container style={{ display: "flex", alignItems: "center" }}>

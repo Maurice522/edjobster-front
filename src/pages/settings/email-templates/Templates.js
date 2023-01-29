@@ -206,6 +206,15 @@ const Templates = () => {
           <Button
             variant="contained"
             component={RouterLink}
+            to='/dashboard/createEmail'
+            // onClick={addNewTemplatesHandler}
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
+            Create Template
+          </Button>
+          <Button
+            variant="contained"
+            component={RouterLink}
             to="#"
             onClick={addNewTemplatesHandler}
             startIcon={<Iconify icon="eva:plus-fill" />}

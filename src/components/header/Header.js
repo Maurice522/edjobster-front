@@ -21,7 +21,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-job"
               }
-            >
+             >
               Jobs
             </NavLink>
           </div>
@@ -31,7 +31,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
-            >
+             >
               Candidates
             </NavLink>
             <NavLink
@@ -39,7 +39,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
-            >
+             >
               Interviews
             </NavLink>
             <NavLink
@@ -55,29 +55,13 @@ const Header = () => {
               Assessments
             </NavLink>
             <NavLink
-              to="/dashboard/InstituteSettings"
+              to="/dashboard/InstituteSettings/settings"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
             >
               Settings
             </NavLink>
-            {/* <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive ? "header-job-active" : "header-menu"
-              }
-            >
-              Login
-            </NavLink>
-            <NavLink
-              to="/register"
-              className={({ isActive }) =>
-                isActive ? "header-job-active" : "header-menu"
-              }
-            >
-              Register
-            </NavLink> */}
           </div>
           <div className="Header-lower-bar">
             <div className="header-search">
@@ -87,8 +71,7 @@ const Header = () => {
                 className="header-search-input"
                 placeholder="Search…"
               />
-            </div>
-          
+            </div>          
             <div>
               <img src={Notification} alt="" />
             </div>

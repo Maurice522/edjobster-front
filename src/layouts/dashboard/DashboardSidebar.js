@@ -20,6 +20,7 @@ import { newNavBar, mainSideBarData, settingsSideBarData } from './NavConfig';
 const DRAWER_WIDTH = 280;
 
 const RootStyle = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.white,
   top:`calc(50%-0vh)`,
   marginTop: "80px",
   [theme.breakpoints.up('lg')]: {
@@ -35,7 +36,7 @@ const AccountStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.grey[500_12],
+  backgroundColor: theme.palette.white,
 }));
 
 // ----------------------------------------------------------------------
@@ -61,46 +62,19 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       sx={{
         height: 1,
         marginTop:"20%",
+        backgroundColor:"#ffffff",
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
       </Box>
-      {/* <input
-        type="text"
-        className="sidebar-search-input"
-        placeholder="Search…"
-      /> */}
-      
-      {/* Edited by kundan agrawal for update nav bar section */}
-      <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-          New NavBar
-        </Typography>
-      </Box>
       <NavSection navConfig={newNavBar} />
-      {/* Edited above by kundan agrawal for update nav bar section */}
-
-      {/* <Box sx={{ mb: 1.5, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-          Main
-        </Typography>
-      </Box>
-      <NavSection navConfig={mainSideBarData} /> */}
-
-      {/* <Box sx={{ mb: 1.5, mt: 3, pb: 1.5, px: 1.5, mx: 1.5 }} style={{ borderBottom: `2px solid #0000001c` }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-          Settings
-        </Typography>
-      </Box>
-
-      <NavSection navConfig={settingsSideBarData} /> */}
     </Scrollbar>
   );
 
   return (
-    <RootStyle>
+    <RootStyle sx={{backgroundColor:"#ffffff"}}>
       {!isDesktop && (
         <Drawer
           open={isOpenSidebar}

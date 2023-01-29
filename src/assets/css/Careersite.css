@@ -32,5 +32,39 @@
     flex-direction: row;
     padding-top: 2%;
 }
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    background-color: #ffffff;
+    padding: 10px;
+  }
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    text-align: center;
+  }
+.next_btn{
+    margin-left: auto;
+    padding: 0 16px; 
+    padding-top:1rem;
+    padding-bottom: 1rem;
+    display: flex; 
+    align-items: center; 
+    justify-content: end; 
+    font-family: Poppins; /* Body */
+    font-size: 16px; 
+    line-height: 26px; 
+    color: #FFFFFFFF; /* white */
+    background: #535CE8FF; /* primary-500 */
+    opacity: 1; 
+    border: none; 
+    border-radius: 6px; /* border-m */
+}
+.ApplicationSteps{
+    display: flex;
+    justify-content: center;
+    margin-top: 4%;
+}
 
 

@@ -51,7 +51,7 @@ const ApplyClient = (props) => {
   // const { assessmentEditId } = useParams();
 
   const { data: webFormDataById, isError, isLoading, refetch } = useGetWebformDetailsQuery(8);
-  const { data: assesmentQuestionsData } = useGetAssesmentQuestionsQuery(94);
+  const { data: assesmentQuestionsData } = useGetAssesmentQuestionsQuery();
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -191,7 +191,7 @@ const ApplyClient = (props) => {
                                           placeholder={item.name}
                                           margin="dense"
                                           variant="outlined"
-                                          
+
                                           fullWidth
                                         />
                                       </Item>
@@ -222,47 +222,47 @@ const ApplyClient = (props) => {
                         <>
                           <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
                             <Grid item md={8}>
-                              {assesmentQuestionsData?.questions.map((item,index) => {
+                              {assesmentQuestionsData?.questions.map((item, index) => {
                                 return (
-<>
-                    {/* <Grid display="flex" item xs={12}>
+                                  <>
+                                    {/* <Grid display="flex" item xs={12}>
                       <Grid item xs={11}>
                         <Typography variant="h5" gutterBottom>
                           Question {index + 1} : Text Question
                         </Typography>
                       </Grid>
                     </Grid> */}
-                    <Grid item xs={11}>
-                    <TextField
-                      required
-                      margin="dense"
-                      variant="standard"
-                      fullWidth
-                       inputProps={{
-                    readOnly: true,
-                  }}
-                      name="question"
-                      value={item.question}
-                    />
-                  </Grid>
-                  {item.options.map((opt, optIndex) => (
-                            <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
-                              <Grid item xs={11}>
-                                <TextField
-                                  required
-                                  autoFocus
-                                  margin="dense"
-                                  variant="standard"
-                                  placeholder={`Enter Option ${optIndex + 1}`}
-                                  fullWidth
-                                  name={opt}
-                                  value={opt}
-                                  label={`Option ${optIndex + 1}`}
-                                />
-                              </Grid>
-                            </Grid>
-                          ))}
-                  </>
+                                    <Grid item xs={11}>
+                                      <TextField
+                                        required
+                                        margin="dense"
+                                        variant="standard"
+                                        fullWidth
+                                        inputProps={{
+                                          readOnly: true,
+                                        }}
+                                        name="question"
+                                        value={item.question}
+                                      />
+                                    </Grid>
+                                    {item.options.map((opt, optIndex) => (
+                                      <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
+                                        <Grid item xs={11}>
+                                          <TextField
+                                            required
+                                            autoFocus
+                                            margin="dense"
+                                            variant="standard"
+                                            placeholder={`Enter Option ${optIndex + 1}`}
+                                            fullWidth
+                                            name={opt}
+                                            value={opt}
+                                            label={`Option ${optIndex + 1}`}
+                                          />
+                                        </Grid>
+                                      </Grid>
+                                    ))}
+                                  </>
 
                                 );
                               })}
@@ -272,7 +272,7 @@ const ApplyClient = (props) => {
                             <Grid item md={8}>
                               <Card>
                                 <CardContent>
-                                  
+
 
                                   <Button
                                     variant="contained"

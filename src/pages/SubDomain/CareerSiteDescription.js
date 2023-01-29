@@ -171,8 +171,7 @@ function CareerSiteDescription() {
                                     <Typography variant="body1" gutterBottom sx={{ marginTop: "2%" }}>
                                         {item?.description}
                                     </Typography>
-                                    {/* <Button onClick={navigate('/dashboard/Institute-Description/Individual-Job')}> */}
-                                    <Button>
+                                    <Button onClick={navigate('/dashboard/Institute-Description/Individual-Job')}>
                                         Apply
                                     </Button>
                                 </div>

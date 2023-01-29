@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
@@ -14,23 +14,26 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
-    linkTo: '/dashboard',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-    linkTo: '#',
+    linkTo: '/dashboard/app',
   },
   {
     label: 'Settings',
+    icon: 'eva:person-fill',
+    linkTo: '/dashboard/InstituteSettings/settings',
+  },
+  {
+    label: 'Billing',
     icon: 'eva:settings-2-fill',
-    linkTo: '#',
+    linkTo: '/dashboard/bills',
   },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const navigate = useNavigate()
+  const userData = JSON.parse(localStorage.getItem("globalUser")).account
+
   const anchorRef = useRef(null);
 
   const [open, setOpen] = useState(null);
@@ -42,6 +45,12 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+  const handleLogOut =() =>{
+    localStorage.removeItem("globalUser")
+    sessionStorage.removeItem("globalUser")
+    navigate('/login')
+  }
 
   return (
     <>
@@ -82,10 +91,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {(userData.first_name || "Test") + (` ${userData.last_name}` || " ")}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {(userData.email || " ")}
           </Typography>
         </Box>
 
@@ -101,7 +110,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogOut} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>

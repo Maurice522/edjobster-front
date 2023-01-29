@@ -154,54 +154,74 @@ const CreateAssessment = () => {
     setCurrentSelectedType(type);
     switch (type) {
       case 'S':
-        setQuestions([
-          ...questions,
-          {
-            assesment: assesmentId,
+        // setQuestions([
+        //   ...questions,
+        //   {
+            // assesment: assesmentId,
+            // type: 'S',
+            // question: '',
+            // options: ['Option 1', 'Option 2'],
+            // marks: null,
+            // answer: null,
+        //   },
+        // ]);
+        setQuestions((prev)=> [...prev, {
+          assesment: assesmentId,
             type: 'S',
             question: '',
             options: ['Option 1', 'Option 2'],
             marks: null,
             answer: null,
-          },
-        ]);
+        }])
         break;
       case 'T':
-        setQuestions([
-          ...questions,
-          {
-            assesment: assesmentId,
-            type: 'T',
-            question: '',
-
-            marks: null,
-          },
-        ]);
+        setQuestions((prev)=>[...prev,
+          {assesment: assesmentId,
+          type: 'T',
+          question: '',
+          marks: null,}
+        ])
         break;
       case 'C':
-        setQuestions([
-          ...questions,
-          {
-            assesment: assesmentId,
+        // setQuestions([
+        //   ...questions,
+        //   {
+            // assesment: assesmentId,
+            // type: 'C',
+            // question: '',
+            // options: ['Option 1', 'Option 2'],
+            // marks: null,
+        //   },
+        // ]);
+        setQuestions((prev)=>[...prev,{
+          assesment: assesmentId,
             type: 'C',
             question: '',
             options: ['Option 1', 'Option 2'],
             marks: null,
-          },
-        ]);
+        }])
+
         break;
       case 'R':
-        setQuestions([
-          ...questions,
-          {
-            assesment: assesmentId,
+        // setQuestions([
+        //   ...questions,
+        //   {
+            // assesment: assesmentId,
+            // type: 'R',
+            // question: '',
+            // options: ['Option 1', 'Option 2'],
+            // marks: null,
+            // answer: null,
+        //   },
+        // ]);
+        setQuestions((prev)=>[...prev,{
+   assesment: assesmentId,
             type: 'R',
             question: '',
             options: ['Option 1', 'Option 2'],
             marks: null,
             answer: null,
-          },
-        ]);
+        }])
         break;
 
       default:
@@ -312,9 +332,6 @@ const CreateAssessment = () => {
                     onChange={onAssesmentCategoryChangeHandler}
                     label="Assesment"
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
                     {assesmentCategoryData &&
                       assesmentCategoryData?.data?.map((item) => (
                         <MenuItem key={item.id} value={item.id}>
@@ -397,7 +414,7 @@ const CreateAssessment = () => {
                 />
               </Grid>
               {questions.map((item, index) =>
-                currentSelectedType === 'T' && item.type === 'T' ? (
+                item.type === 'T' ? (
                   <Grid key={`text-${index}`} item xs={12} style={{ margin: 15 }}>
                     <Grid display="flex" item xs={12}>
                       <Grid item xs={11}>
@@ -454,9 +471,9 @@ const CreateAssessment = () => {
                   </Grid>
                 ) : (
                   <div>
-                    {(currentSelectedType === 'S' && item.type === 'S') ||
-                    (currentSelectedType === 'C' && item.type === 'C') ||
-                    (currentSelectedType === 'R' && item.type === 'R') ? (
+                    {(item.type === 'S') ||
+                    (item.type === 'C') ||
+                    (item.type === 'R') ? (
                       <div key={`multiple-${index}`}>
                         <Grid item xs={12} style={{ margin: 15 }}>
                           <Grid display="flex" item xs={12}>

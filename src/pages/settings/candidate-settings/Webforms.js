@@ -160,7 +160,16 @@ const Webforms = () => {
             to="/dashboard/candidate-settings/webforms/new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Webform
+            New Webform 1
+          </Button>
+          <Button
+            variant="contained"
+            component={RouterLink}
+            to="#"
+            onClick={addNewWebformHandler}
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
+            New Webform 2
           </Button>
         </Stack>
         <Card>

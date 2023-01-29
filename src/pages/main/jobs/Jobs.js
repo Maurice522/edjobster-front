@@ -41,7 +41,7 @@ const Jobs = () => {
   const [modelOpen, setModelOpen] = useState(false);
 
   const [detailsId, setDetailsId] = useState();
-  const { data = [], refetch } = useGetJobQuery();
+  const { data, refetch } = useGetJobQuery();
   console.log(data)
   const { editJobId } = useParams();
 
@@ -59,7 +59,7 @@ const Jobs = () => {
   };
 
   const sortData = useMemo(() => {
-    const sortresult = sortedDataFn(data.list);
+    const sortresult = sortedDataFn(data);
     return sortresult;
   }, [data]);
 
@@ -133,7 +133,7 @@ const Jobs = () => {
             <Button
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
-              onClick={() => onJobViewModel(data.list[dataIndex].id)}
+              onClick={() => onJobViewModel(data?.[dataIndex].id)}
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
@@ -144,7 +144,7 @@ const Jobs = () => {
               style={{ minWidth: 0 }}
               variant="contained"
               component={RouterLink}
-              to={`/dashboard/jobs/edit-job/${data.list[dataIndex].id}`}
+              to={`/dashboard/jobs/edit-job/${data?.[dataIndex].id}`}
             // onClick={() => onEditModalHandler(dataIndex)}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
@@ -155,7 +155,7 @@ const Jobs = () => {
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"
               color="error"
-              onClick={() => onDeletJobeHandler(data.list[dataIndex].id)}
+              onClick={() => onDeletJobeHandler(data?.[dataIndex].id)}
             // onClick={() => onDeleteHandler(dataIndex)}
             // loading={dataIndex === currentIndex ? useDeleteAssessmentListMutation.isLoading : false}
             >
@@ -201,9 +201,12 @@ const Jobs = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom backgroundColor="#f9fafb">
+          <h1>
             Jobs
-          </Typography>
+          </h1>
+          {/* <Typography variant="h4" gutterBottom backgroundColor="#f9fafb">
+            Jobs
+          </Typography> */}
           <Button
             variant="contained"
             component={RouterLink}
@@ -373,7 +376,7 @@ const Jobs = () => {
         <Card>
           <MUIDataTable
             title={'Job List'}
-            data={data?.list}
+            data={data}
             columns={columns}
             options={options}
             components={{ Toolbar: GridToolbar }} />
