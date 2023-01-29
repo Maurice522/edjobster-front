@@ -38,8 +38,8 @@ function CreateEmail() {
     const navigatecancel = () => {
         navigate('#')
     }
-    const [UploadedFileName,setUploadedFileName]=useState("")
-    const [Uploaded,setUploaded]= useState(false);
+    const [UploadedFileName, setUploadedFileName] = useState("")
+    const [Uploaded, setUploaded] = useState(false);
 
     const formik = useFormik({
         inititalValues: {
@@ -98,6 +98,21 @@ function CreateEmail() {
                                     helperText={touched.subject && errors.subject}
                                 />
                             </div>
+                            <div className='divstack'>
+                                <TextField
+                                    fullWidth
+                                    label="Email Category"
+                                    error={Boolean(touched.email_category && errors.email_category)}
+                                    helperText={touched.email_category && errors.email_category}
+                                    select
+                                >
+                                    {jobData && jobData?.map((e, i) => (
+                                        <MenuItem key={i} value={e.id}>
+                                            {e.title}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
                         </Stack>
                         <div className='fileup'>
                             <p>Add attachment</p>
@@ -110,10 +125,10 @@ function CreateEmail() {
                                     type="file"
                                     hidden
                                     name="attachment"
-                                    // onChange={(e) => setUploaded(true) &
-                                    //     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
-                                    //     handleChangeFormData(e?.target?.name, e?.target.files[0])
-                                    // }
+                                // onChange={(e) => setUploaded(true) &
+                                //     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
+                                //     handleChangeFormData(e?.target?.name, e?.target.files[0])
+                                // }
                                 />
                             </Button>
                         </div>
