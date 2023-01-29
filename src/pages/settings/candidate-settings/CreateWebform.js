@@ -9,6 +9,7 @@ import {
 import Modal from "src/components/modal/Modal";
 import { showToast } from '../../../utils/toast';
 import Editable from "../../../components/webform/WebformEditable"
+import EditableSection from "../../../components/webform/WebformEditableSection"
 import { useAddWebformFieldsMutation } from '../../../redux/services/settings/FieldServices';
 
 const dataTypes = [
@@ -24,13 +25,15 @@ const dataTypes = [
 export default function CreateWebform() {
     const navigate = useNavigate()
     const [addWebfromFields, addWebformFieldsInfo] = useAddWebformFieldsMutation();
-    const [sectionFieldsModal, setSectionFieldsModal] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
+    const [sectionFieldsModalOpen, setSectionFieldsModalOpen] = useState(false)
+    const [addByTypeModalOpen, setAddByTypeModalOpen] = useState(false)
     const [modalData, setModalData] = useState({})
     const handleChangeModalData = (name, value) => setModalData(prev => {
         prev[name] = value
         return prev
     })
+    const [currentSection, setCurrentSection] = useState(0)
     const [formTitle, setFormTitle] = useState("New Form");
     const handleChangeFormTitle = (e) => setFormTitle(e.target.value.trim())
     const initialValues = [{
@@ -84,13 +87,13 @@ export default function CreateWebform() {
         }
     }
     const deleteSection = (sectionName) => {
-        if(sections.indexOf(sectionName)) {
+        if(sections.includes(sectionName)) {
             if(sections.length === 1) {
-                showToast("error", "Atleast 1 section is required.")
+                showToast("error", "Atleast one section is required.")
                 return
             }
             setFormData(prev => {
-                prev.splice(prev.indexOf(sectionName))
+                prev.splice(sections.indexOf(sectionName), 1)
                 setSections(prev.map(e => e.name))
                 return prev
             })
@@ -111,9 +114,10 @@ export default function CreateWebform() {
         }
         if(addWebformFieldsInfo.isSuccess) {
             showToast("success", "Successfully added weform")
+            resetForm()
             navigate("/dashboard/candidate-settings/webforms", {replace: true})
         }
-    })
+    }, [addWebformFieldsInfo, navigate])
 
     return (
         <Container sx={{gap: "1rem", display: "flex", flexDirection: "column"}}>
@@ -138,7 +142,7 @@ export default function CreateWebform() {
                     <Button variant="contained" onClick={handleSubmit}>Submit</Button>
                 </Container>
             </Container>
-            <Container sx={{
+            {/* <Container sx={{
                 gap: "1rem", 
                 display: "flex", 
                 flexDirection: "column", 
@@ -152,7 +156,7 @@ export default function CreateWebform() {
                 <Container sx={{gap: "1rem", display: "flex", flexDirection: "row"}}>
                     {dataTypes.map((e, i) => <Chip key={i} label={e} />)}
                 </Container>
-            </Container>
+            </Container> */}
             <Container sx={{gap: "1rem", display: "flex", flexDirection: "column"}}>
                 <Container sx={{gap: "1rem", display: "flex", flexDirection: "row"}}>
                     <Editable
@@ -180,76 +184,221 @@ export default function CreateWebform() {
                             name="name"
                             handleChange={(event) => updateSectionFields(e.name, event.target.name, event.target.value)}
                             placeholder="Edit Section Name"
-                            deletable
+                            deletable={sections.length > 1}
                             handleDelete={() => deleteSection(e.name)}
+                            fullWidth
                         >
                             <Typography variant="h4">{e.name}</Typography>
                         </Editable>
                         <Container sx={{display: "flex", borderRadius: "1rem", flexDirection: "column", gap: "2rem"}}>
                             {e.fields.map((elem, j) => (
-                                <Container key={j} sx={{display: "flex", flexDirection: "column", gap: "1   rem"}}>
-                                    <Editable 
-                                        value={e.fields[j].name}
-                                        placeholder={e.fields[j].name}
+                                <Container key={j} sx={{display: "flex", flexDirection: "column", gap: "1rem"}}>
+                                    <EditableSection 
+                                        value={elem.name}
+                                        placeholder={elem.name}
                                         handleChange={(event) => {
                                             // eslint-disable-next-line prefer-const
                                             let { fields, name } = e
                                             fields[j].name = event.target.value.trim()
-                                            updateSectionFields(name, e.fields[j].name, fields)
+                                            updateSectionFields(name, elem.name, fields)
                                         }}
                                         deletable
-                                        deleteChange={() => console.log("something")}
+                                        handleDelete={() => {
+                                            // eslint-disable-next-line prefer-const
+                                            let { fields, name } = e
+                                            fields.splice(j, 1)
+                                            updateSectionFields(name, "fields", fields)
+                                        }}
+                                        types={dataTypes}
+                                        currentType={elem.type}
+                                        handleChangeType={(event) => {
+                                            // eslint-disable-next-line prefer-const
+                                            let { fields, name } = e
+                                            fields[j].type = event.target.value
+                                            updateSectionFields(name, "fields", fields)
+                                        }}
                                     >
                                         <TextField
-                                            type={`${e.fields[j].type.toLowerCase()}`}
-                                            placeholder={e.fields[j].name}
+                                            placeholder={elem.name}
                                             variant="filled"
-                                            label={e.fields[j].type}
+                                            label={elem.name}
                                             disabled
                                         />
-                                    </Editable>
+                                        <TextField
+                                            placeholder={elem.name}
+                                            variant="filled"
+                                            label={elem.type}
+                                            disabled
+                                        />
+                                    </EditableSection>
                                 </Container>
                             ))}
                         </Container>
-                        {/* <Button */}
+                        <Button
+                            variant="text"
+                            onClick={() => {setSectionFieldsModalOpen(true); setModalData({}); setCurrentSection(i)}}
+                        >
+                            Add Field
+                        </Button>
                     </Container>
                 ))}
             </Container>
             <Modal
-                handleClose={() => setModalOpen(false)}
+                handleClose={() => {setModalOpen(false); setModalData({})}}
                 open={modalOpen}
-                handleSubmit={() => {addSection(modalData.name, []); setModalData({}); setModalOpen(false)}}
+                handleSubmit={() => {addSection(modalData.name, modalData.fields); setModalData({}); setModalOpen(false)}}
             >
-                <Typography variant="h4">Create Section</Typography>
+                <Container 
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "5rem"
+                    }}
+                >
+                    <Typography variant="h4">Create Section</Typography>
+                    <Button 
+                        variant="contained"
+                        onClick={() => {
+                            console.log(!Object.keys(modalData).includes("fields"))
+                            if(!Object.keys(modalData).includes("fields")) {
+                                handleChangeModalData("fields", [])
+                                console.log(modalData)
+                            }
+                            setModalData(prev => ({...prev, fields: [...prev.fields, {
+                                name: "",
+                                type: ""
+                            }]}))
+                        }}
+                    >
+                        Add Field
+                    </Button>
+                </Container>
                 <TextField 
                     name="name"
                     onChange={(e) => {handleChangeModalData(e.target.name, e.target.value); console.log(modalData)}}
                     label="Section Name"
                     placeholder="Section Name"
-                    fullWidth
                 />
+                {modalData.fields && modalData.fields.length && <Divider flexItem>Fields</Divider>}
+                <Container
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "2rem"
+                    }}
+                >
+                    {modalData.fields?.map((e, i) => (
+                        <Container 
+                            key={i}
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                gap: "2rem"
+                            }}
+                        >
+                            <TextField 
+                                name="fields"
+                                onChange={(event) => {
+                                    // eslint-disable-next-line prefer-const
+                                    let { fields } = modalData
+                                    fields[i].name = event.target.value.trim()
+                                    setModalData(prev => ({...prev, fields}))
+                                }}
+                                label="Field Name"
+                                placeholder="Field Name"
+                            />
+                            <TextField 
+                                name="fields"
+                                onChange={(event) => {
+                                    // eslint-disable-next-line prefer-const
+                                    let { fields } = modalData
+                                    fields[i].type = event.target.value
+                                    setModalData(prev => ({...prev, fields}))
+                                }}
+                                label="Field Type"
+                                placeholder="Field Type"
+                                select
+                                SelectProps={{
+                                    native: true,
+                                    defaultValue: ""
+                                }}
+                            >
+                                {dataTypes.map(e => <option key={e} value={e}>{e}</option>)}
+                            </TextField>
+                        </Container>
+                    ))}
+                </Container>
             </Modal>
             <Modal
-                handleClose={() => setSectionFieldsModal(false)}
-                open={sectionFieldsModal}
-                handleSubmit={() => updateSectionFields()}
+                handleClose={() => {setSectionFieldsModalOpen(false); setModalData({})}}
+                open={sectionFieldsModalOpen}
+                handleSubmit={() => {
+                    if(!Object.keys(modalData).includes("fields")) {
+                        showToast("error", "Select a field type.")
+                        return
+                    }
+                    updateSectionFields(sections[currentSection], "fields", [...formData[currentSection].fields, modalData])
+                    setSectionFieldsModalOpen(false)
+                    setModalData({})
+                }}
             >
-                <Typography variant="h4">Create Section</Typography>
+                <Typography variant="h4">Add Field</Typography>
                 <TextField 
                     name="name"
                     onChange={(e) => {handleChangeModalData(e.target.name, e.target.value); console.log(modalData)}}
-                    label="Section Name"
-                    placeholder="Section Name"
+                    label="Name"
+                    placeholder="Field Name"
                     fullWidth
                 />
                 <TextField 
-                    name="fields"
+                    name="type"
+                    onChange={(e) => {handleChangeModalData(e.target.name, e.target.value); console.log(modalData)}}
+                    label="Type"
+                    placeholder="Type"
+                    fullWidth
+                    select
+                    SelectProps={{
+                        native: true,
+                        defaultValue: dataTypes[0]
+                    }}
+                >
+                    <option key={-1} style={{
+                        fontStyle: "italic"
+                    }}>Type</option>
+                    {dataTypes.map(e => <option key={e} value={e} id={e}>{e}</option>)}
+                </TextField>
+            </Modal>
+            {/* <Modal
+                handleClose={() => {addByTypeModalOpen(false); setModalData({})}}
+                open={addByTypeModalOpen}
+                handleSubmit={() => {
+                    addSection()
+                    addByTypeModalOpen(false)
+                    setModalData({})
+                }}
+            >
+                <Typography variant="h4">Add Field</Typography>
+                <TextField 
+                    name="name"
+                    onChange={(e) => {handleChangeModalData(e.target.name, e.target.value); console.log(modalData)}}
+                    label="Field Name"
+                    placeholder="Field Name"
+                    fullWidth
+                />
+                <TextField 
+                    name="type"
                     onChange={(e) => {handleChangeModalData(e.target.name, e.target.value); console.log(modalData)}}
                     label="Section Name"
                     placeholder="Section Name"
                     fullWidth
-                />
-            </Modal>
+                    select
+                    SelectProps={{
+                        native: true
+                    }}
+                >
+                    {dataTypes.map(e => <option key={e} value={e} id={e}>{e}</option>)}
+                </TextField>
+            </Modal> */}
         </Container>
     )
 }

@@ -244,7 +244,6 @@ const WebFormsModal = (props) => {
             </Box>
           </DialogActions>
         </Container>
-        {/* </div> */}
       </Dialog>
     </>
   );
