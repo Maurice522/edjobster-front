@@ -27,6 +27,7 @@ const Header = () => {
           </div>
           <div className="header-menu-list">
             <NavLink
+            
               to="/dashboard/candidates"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
