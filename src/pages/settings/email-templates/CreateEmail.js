@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
@@ -38,7 +38,8 @@ function CreateEmail() {
     const navigatecancel = () => {
         navigate('#')
     }
-
+    const [UploadedFileName,setUploadedFileName]=useState("")
+    const [Uploaded,setUploaded]= useState(false);
 
     const formik = useFormik({
         inititalValues: {
@@ -62,7 +63,7 @@ function CreateEmail() {
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}> */}
-            <div className="backbutton tt-back" style={{width:"10%"}} >
+            <div className="backbutton tt-back" style={{ width: "10%" }} >
                 <ArrowBackIosIcon onClick={navigatecancel} sx={{
                     cursor: "pointer"
                 }} />
@@ -108,6 +109,11 @@ function CreateEmail() {
                                 <input
                                     type="file"
                                     hidden
+                                    name="attachment"
+                                    // onChange={(e) => setUploaded(true) &
+                                    //     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
+                                    //     handleChangeFormData(e?.target?.name, e?.target.files[0])
+                                    // }
                                 />
                             </Button>
                         </div>
@@ -148,7 +154,7 @@ function CreateEmail() {
                             />
                         </div>
                     </div> */}
-                    <h4 style={{marginLeft:"20%",marginTop:"5%",marginBottom:"2%"}}>Body</h4>
+                    <h4 style={{ marginLeft: "20%", marginTop: "5%", marginBottom: "2%" }}>Body</h4>
                     <div className='editor'>
                         <ReactQuill sx={{ outerWidth: "80vw" }} theme="snow"
                             modules={modules}
