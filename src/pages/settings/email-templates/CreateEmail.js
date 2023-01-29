@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import ReactQuill from 'react-quill';
-import { Stack, TextField, IconButton, InputAdornment, Divider, Select, MenuItem, Card, Button, Typography, Container } from '@mui/material';
-
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Button, Container, MenuItem, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-unresolved
+import { showToast } from 'src/utils/toast';
+import { useGetEmailCategoryQuery } from "../../../redux/services/settings/EmailCategoryService";
+import { useAddEmailTemplateMutation } from "../../../redux/services/settings/EmailTamplateService";
+
+
 
 const modules = {
     toolbar: [
@@ -34,20 +38,45 @@ const state = {
 
 function CreateEmail() {
     const navigate = useNavigate()
-
-    const navigatecancel = () => {
-        navigate('-1')
+    const {data: emailCategoryData, refetch} = useGetEmailCategoryQuery()
+    const [addEmailTemplate, addEmailTemplateInfo] = useAddEmailTemplateMutation()
+    console.log(emailCategoryData)
+    const navigateCancel = () => {
+        navigate("/dashboard/email-templates/templates")
     }
-    const [UploadedFileName,setUploadedFileName]=useState("")
-    const [Uploaded,setUploaded]= useState(false);
+    const [UploadedFileName, setUploadedFileName] = useState("")
+    const [Uploaded, setUploaded] = useState(false);
 
     const initialValues = {
-        from: "",
-        email_template: "",
-        client_name: "",
+        // from: "",
+        // client_name: "",
+        name: "",
         subject: "",
         attachment: "",
+        category: 0,
+        message: "",
+        type: ""
     }
+    const [formData, setFormData] = useState(initialValues)
+    const handleChangeFormData = (name, value) => {
+        setFormData(prev => ({...prev, [name]: value}))
+        console.log(formData)
+    }
+    const handleSubmit = async () => {
+        console.log(formData)
+        await addEmailTemplate(formData)
+    }
+    useEffect(() => {
+        if(addEmailTemplateInfo.isError) {
+            console.log(addEmailTemplateInfo.error)
+            showToast("error", "Error occurred while adding email template.")
+        }
+        if(addEmailTemplateInfo.isSuccess) {
+            showToast("success", "Successfully added email template.")
+            setFormData(initialValues)
+            navigate("/dashboard/email-templates/templates", {replace: true})
+        }
+    }, [addEmailTemplateInfo, navigate])
 
 
     return (
@@ -69,7 +98,7 @@ function CreateEmail() {
                 }}
             >
                 <div className="backbutton tt-back" style={{width:"10%", display: "flex"}} >
-                    <ArrowBackIosIcon onClick={navigatecancel} sx={{
+                    <ArrowBackIosIcon onClick={navigateCancel} sx={{
                         cursor: "pointer"
                     }} />
                 </div>
@@ -78,108 +107,146 @@ function CreateEmail() {
                 </h1>
             </Container>
             <div>
-                <form>
-                    <div className='divrowmid'>
-                        {/* <TextField
-                            fullWidth
-                            label="From"
-                            {...getFieldProps('first_name')}
-                            error={Boolean(touched.firstName && errors.firstName)}
-                            helperText={touched.firstName && errors.firstName}
-                        /> */}
-                    </div>
-                    <div className='midrow' style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center"
-                    }}>
-                        <Container>
-                            <div className='divstack'>
-                                <TextField
-                                    fullWidth
-                                    label="Template Name"
-                                />
-                            </div>
-                            <div className='divstack'>
-                                <TextField
-                                    fullWidth
-                                    label="Subject"
-                                />
-                            </div>
-                        </Container>
-                        <Container className='fileup' style={{
-                            padding: "2rem"
-                        }}>
-                            <p>Add attachment</p>
-                            <Button
-                                variant="contained"
-                                component="label"
+                <div className='divrowmid'>
+                    {/* <TextField
+                        fullWidth
+                        label="From"
+                        {...getFieldProps('first_name')}
+                        error={Boolean(touched.firstName && errors.firstName)}
+                        helperText={touched.firstName && errors.firstName}
+                    /> */}
+                </div>
+                <div className='midrow' style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center"
+                }}>
+                    <Container>
+                        <div className='divstack'>
+                            <TextField
+                                fullWidth
+                                label="Template Name"
+                                name="name"
+                                value={formData.name}
+                                onChange={(event) => handleChangeFormData(event.target.name, event.target.value)}
+                            />
+                        </div>
+                        <div className='divstack'>
+                            <TextField
+                                fullWidth
+                                label="Subject"
+                                name="subject"
+                                value={formData.subject}
+                                onChange={(event) => handleChangeFormData(event.target.name, event.target.value)}
+                            />
+                        </div>
+                        <div className='divstack'>
+                            <TextField
+                                name="category"
+                                fullWidth
+                                label="Email Category"
+                                select
+                                onChange={(event) => handleChangeFormData(event.target.name, +event.target.value)}
+                                value={formData.category}
                             >
-                                Upload File
-                                <input
-                                    type="file"
-                                    hidden
-                                    name="attachment"
-                                    // onChange={(e) => setUploaded(true) &
-                                    //     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
-                                    //     handleChangeFormData(e?.target?.name, e?.target.files[0])
-                                    // }
-                                />
-                            </Button>
-                        </Container>
-                    </div>
-                    {/* <h3 className='variables'>Variables</h3>
-                    <div className='variableComponents'>
-                        <div className='variablediv'>
-                            <label className="variabledivlabel" htmlFor='Status'>Available Merge Fields
-                                {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
-                            </label>
-                            <input
-                                className="emailinutbar2"
-                                id="client_name"
-                                name="client_name"
-                                type="text"
-                            />
+                                {emailCategoryData && emailCategoryData?.data?.map((e, i) => (
+                                    <MenuItem key={i} value={e.id}>
+                                        {e.name}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                         </div>
-                        <div className='variablediv'>
-                            <label className="variabledivlabel" htmlFor='Status'>Select Field
-                                {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
-                            </label>
-                            <input
-                                className="emailinutbar2"
-                                id="client_name"
-                                name="client_name"
-                                type="text"
-                            />
+                        <div className='divstack'>
+                            <TextField
+                                name="type"
+                                fullWidth
+                                label="Template Type"
+                                select
+                                onChange={(event) => handleChangeFormData(event.target.name, event.target.value)}
+                                value={formData.type}
+                            >
+                                {["Internal", "Candidate"].map((e, i) => (
+                                    <MenuItem key={i} value={e[0]}>
+                                        {e}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                         </div>
-                        <div className='variablediv'>
-                            <label className="variabledivlabel" htmlFor='Status'>Copy Merge Field Value
-                                {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
-                            </label>
+                    </Container>
+                    <Container className='fileup' style={{
+                        padding: "2rem"
+                    }}>
+                        <p>Add attachment</p>
+                        <Button
+                            variant="contained"
+                            component="label"
+                        >
+                            Upload File
                             <input
-                                className="emailinutbar2"
-                                id="client_name"
-                                name="client_name"
-                                type="text"
+                                type="file"
+                                hidden
+                                name="attachment"
+                            // onChange={(e) => setUploaded(true) &
+                            //     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
+                            //     handleChangeFormData(e?.target?.name, e?.target.files[0])
+                            // }
                             />
-                        </div>
-                    </div> */}
-                    <h4 style={{ marginLeft: "20%", marginTop: "5%", marginBottom: "2%" }}>Body</h4>
-                    <div className='editor'>
-                        <ReactQuill sx={{ outerWidth: "80vw" }} theme="snow"
-                            modules={modules}
-                            formats={formats} value={state.comments || ''}
+                        </Button>
+                    </Container>
+                </div>
+                {/* <h3 className='variables'>Variables</h3>
+                <div className='variableComponents'>
+                    <div className='variablediv'>
+                        <label className="variabledivlabel" htmlFor='Status'>Available Merge Fields
+                            {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
+                        </label>
+                        <input
+                            className="emailinutbar2"
+                            id="client_name"
+                            name="client_name"
+                            type="text"
                         />
                     </div>
-                    <div className='btns'>
-                        <Button className='emailcancel' onClick={navigatecancel}>
-                            Cancel
-                        </Button>
-                        <Button className='emailsubmit' type='submit'>
-                            Submit
-                        </Button>
+                    <div className='variablediv'>
+                        <label className="variabledivlabel" htmlFor='Status'>Select Field
+                            {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
+                        </label>
+                        <input
+                            className="emailinutbar2"
+                            id="client_name"
+                            name="client_name"
+                            type="text"
+                        />
                     </div>
-                </form>
+                    <div className='variablediv'>
+                        <label className="variabledivlabel" htmlFor='Status'>Copy Merge Field Value
+                            {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
+                        </label>
+                        <input
+                            className="emailinutbar2"
+                            id="client_name"
+                            name="client_name"
+                            type="text"
+                        />
+                    </div>
+                </div> */}
+                <h4 style={{ marginLeft: "20%", marginTop: "5%", marginBottom: "2%" }}>Body</h4>
+                <div className='editor'>
+                    <ReactQuill sx={{ outerWidth: "80vw" }} theme="snow"
+                        modules={modules}
+                        formats={formats} 
+                        value={formData.message || ''}
+                        onChange={(e) => handleChangeFormData("message", e)}
+                    />
+                </div>
+                <div className='btns'>
+                    <Button className='emailcancel' onClick={navigateCancel}>
+                        Cancel
+                    </Button>
+                    <Button className='emailsubmit' type='submit' onClick={handleSubmit}>
+                        Submit
+                    </Button>
+                </div>
             </div>
             {/* </Card> */}
         </Container>
