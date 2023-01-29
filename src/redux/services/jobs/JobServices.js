@@ -13,7 +13,7 @@ const extendedApi = apiBasePath.injectEndpoints({
     }),
     getJobeDetails: build.query({
       query: (id) => ({
-        url: `${apiUrl.jobs}job-details/?id=${id}`,
+        url: `${apiUrl.jobs}job-details/${id}`,
         headers: {
           'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
         }

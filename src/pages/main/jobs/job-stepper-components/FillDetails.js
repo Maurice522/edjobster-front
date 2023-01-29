@@ -122,7 +122,6 @@ const FillDetails = () => {
     dispatch(jobAction({ ...myObj }));
   };
   const renderMultiSelectValues = (selected) => {
-    console.log('selected', selected);
     let allNames = '';
     for (let index = 0; index < selected.length; index += 1) {
       const element = selected[index];
@@ -192,6 +191,7 @@ const FillDetails = () => {
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-standard-label">owner</InputLabel>
                 <Select
+
                   margin="dense"
                   variant="standard"
                   fullWidth
@@ -231,6 +231,7 @@ const FillDetails = () => {
                       </MenuItem>
                     ))}
                 </TextField> */}
+                {console.log(jobGetuserData,"Hh",textValue?.member_names)}
                 <InputLabel id="demo-multiple-checkbox-label">Team Member</InputLabel>
                 <Select
                   labelId="team-members"
@@ -242,12 +243,12 @@ const FillDetails = () => {
                   onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                   renderValue={renderMultiSelectValues}
                   MenuProps={MenuProps}
+                  
                 >
                   {jobGetuserData &&
                     jobGetuserData?.list?.map((item) => (
                       <MenuItem key={item} value={item}>
-                        <Checkbox checked={textValue?.member_ids?.find((x) => x === item.account_id) !== undefined} />
-
+                        {/* <Checkbox checked={textValue?.member_ids?.find((x) => x === item?.account_id) !== undefined} /> */}
                         <ListItemText primary={`${item.first_name} ${item.last_name}`} />
                       </MenuItem>
                     ))}
@@ -299,10 +300,10 @@ const FillDetails = () => {
                   label="Choose Degree"
                   name="education"
                 >
-                  <MenuItem value={"High School"}>High School</MenuItem>
-                  <MenuItem value={"Junior College"}>Junior College</MenuItem>
-                  <MenuItem value={"Bachelors"}>Bachelors</MenuItem>
-                  <MenuItem value={"Masters"}>Masters</MenuItem>
+                  <MenuItem value={1}>High School</MenuItem>
+                  <MenuItem value={2}>Junior College</MenuItem>
+                  <MenuItem value={3}>Bachelors</MenuItem>
+                  <MenuItem value={4}>Masters</MenuItem>
                 </Select>
                 {/* <TextField
                   autoFocus
@@ -468,7 +469,7 @@ const FillDetails = () => {
                   variant="standard"
                   fullWidth
                   name="address"
-                  value={textValue.address}
+                  value={textValue.location}
                   label="Address (name)"
                   onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                 >

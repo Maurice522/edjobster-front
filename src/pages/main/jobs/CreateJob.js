@@ -108,42 +108,44 @@ const CreateJob = () => {
     }
   };
   useEffect(() => {
-    if (jobData?.data) {
-      console.log('Edit Job data recieved from server', jobData?.data);
+    console.log(jobData)
+    if (jobData) {
+      console.log('Edit Job data recieved from server', jobData);
       const textValue1 = {
         id: editJobId,
-        title: jobData?.data?.title,
-        vacancies: jobData?.data?.vacancies,
-        department: jobData?.data?.department?.id,
-        owner: jobData?.data?.owner?.account_id,
-        assesment: jobData?.data?.assesment?.id,
-        webform:jobData?.data?.webform?.id,
-        webform_name:jobData?.data?.webform?.name,
-        member_ids: jobData?.data?.members?.map((x) => x.account_id),
-        member_names: jobData?.data?.members,
-        type: jobData?.data?.type,
-        nature: jobData?.data?.nature,
-        education: jobData?.data?.educations,
-        speciality: jobData?.data?.speciality,
-        exp_min: jobData?.data?.exp_min,
-        exp_max: jobData?.data?.exp_max,
-        salary_min: jobData?.data?.salary_min,
-        salary_max: jobData?.data?.salary_max,
-        currency: jobData?.data?.currency,
-        salary_type: jobData?.data?.salary_type,
-        state: jobData?.data?.state?.id,
-        state_name: jobData?.data?.state?.name,
-        city: jobData?.data?.city,
-        description: jobData?.data?.description,
-        job_boards: jobData?.data?.job_boards,
-        pipeline: jobData?.data?.pipeline?.id,
-        active: jobData?.data?.active,
-        assesment_name: jobData?.data?.assesment?.name,
-        education_names: jobData?.data?.educations?.map((x) => x.name),
-        pipeline_name: jobData?.data?.pipeline?.name,
-        owner_name: `${jobData?.data?.owner?.first_name} ${jobData?.data?.owner?.last_name}`,
-        city_name: jobData?.data?.city?.city_name,
-        department_name: jobData?.data?.department?.department_name,
+        title: jobData?.title,
+        vacancies: jobData?.vacancies,
+        department: jobData?.department,
+        owner: jobData?.owner,
+        assesment: jobData?.assesment,
+        webform:jobData?.webform,
+        webform_name:jobData?.webform?.name,
+        member_ids: jobData?.members?.[0],
+        member_names: jobData?.members,
+        type: jobData?.type,
+        nature: jobData?.nature,
+        education: jobData?.educations,
+        speciality: jobData?.speciality,
+        exp_min: jobData?.exp_min,
+        exp_max: jobData?.exp_max,
+        salary_min: jobData?.salary_min,
+        salary_max: jobData?.salary_max,
+        currency: jobData?.currency,
+        salary_type: jobData?.salary_type,
+        state: jobData?.state?.id,
+        state_name: jobData?.state?.name,
+        city: jobData?.city,
+        description: jobData?.description,
+        job_boards: jobData?.job_boards,
+        pipeline: jobData?.pipeline,
+        active: jobData?.active,
+        assesment_name: jobData?.assesment?.name,
+        education_names: jobData?.educations,
+        pipeline_name: jobData?.pipeline?.name,
+        owner_name: jobData?.owner,
+        city_name: jobData?.city?.city_name,
+        department_name: jobData?.department?.department_name,
+        location: jobData?.location,
       };
       console.log('Edit Job data recieved', textValue1);
       dispatch(jobAction(textValue1));
@@ -305,7 +307,7 @@ const CreateJob = () => {
       status = false;
       showToast('error', 'fill the salary_type');
     }
-    if(job.address ===null || job.address === '' || job.address === undefined) {
+    if(job.location ===null || job.location === '' || job.location === undefined) {
       status = false;
       showToast('error', 'fill the Address state');
     }
