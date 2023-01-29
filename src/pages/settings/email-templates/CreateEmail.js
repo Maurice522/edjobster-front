@@ -2,7 +2,7 @@ import React from 'react'
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
-import { Stack, TextField, IconButton, InputAdornment, Divider, Select, MenuItem, Card, Button } from '@mui/material';
+import { Stack, TextField, IconButton, InputAdornment, Divider, Select, MenuItem, Card, Button, Typography, Container } from '@mui/material';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -36,7 +36,7 @@ function CreateEmail() {
     const navigate = useNavigate()
 
     const navigatecancel = () => {
-        navigate('#')
+        navigate('-1')
     }
 
 
@@ -52,7 +52,7 @@ function CreateEmail() {
     const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setSubmitting } = formik;
 
     return (
-        <div>
+        <Container>
             {/* <Card sx={{
             position:"relative",
             marginLeft:"auto",
@@ -62,12 +62,22 @@ function CreateEmail() {
             boxShadow: '0px 3px 1px -2px rgb(145 158 171 / 20%), 0px 2px 2px 0px rgb(145 158 171 / 14%), 0px 1px 5px 0px rgb(145 158 171 / 12%)',
             borderRadius:'16px',
             }}> */}
-            <div className="backbutton tt-back" style={{width:"10%"}} >
-                <ArrowBackIosIcon onClick={navigatecancel} sx={{
-                    cursor: "pointer"
-                }} />
-            </div>
-
+            <Container
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center"
+                }}
+            >
+                <div className="backbutton tt-back" style={{width:"10%", display: "flex"}} >
+                    <ArrowBackIosIcon onClick={navigatecancel} sx={{
+                        cursor: "pointer"
+                    }} />
+                </div>
+                <h1>
+                    Create Email Template
+                </h1>
+            </Container>
             <div>
                 <form>
                     <div className='divrowmid'>
@@ -79,8 +89,12 @@ function CreateEmail() {
                             helperText={touched.firstName && errors.firstName}
                         /> */}
                     </div>
-                    <div className='midrow'>
-                        <Stack sx={{ marginRight: "0" }}>
+                    <div className='midrow' style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center"
+                    }}>
+                        <Container>
                             <div className='divstack'>
                                 <TextField
                                     fullWidth
@@ -97,8 +111,10 @@ function CreateEmail() {
                                     helperText={touched.subject && errors.subject}
                                 />
                             </div>
-                        </Stack>
-                        <div className='fileup'>
+                        </Container>
+                        <Container className='fileup' style={{
+                            padding: "2rem"
+                        }}>
                             <p>Add attachment</p>
                             <Button
                                 variant="contained"
@@ -110,7 +126,7 @@ function CreateEmail() {
                                     hidden
                                 />
                             </Button>
-                        </div>
+                        </Container>
                     </div>
                     {/* <h3 className='variables'>Variables</h3>
                     <div className='variableComponents'>
@@ -156,17 +172,17 @@ function CreateEmail() {
                         />
                     </div>
                     <div className='btns'>
-                        <button className='emailcancel' onclicke={navigate(-1)}>
+                        <Button className='emailcancel' onClick={navigatecancel}>
                             Cancel
-                        </button>
-                        <button className='emailsubmit' type='submit'>
+                        </Button>
+                        <Button className='emailsubmit' type='submit'>
                             Submit
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>
             {/* </Card> */}
-        </div>
+        </Container>
     )
 }
 

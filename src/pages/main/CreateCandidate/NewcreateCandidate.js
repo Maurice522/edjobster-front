@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select } from '@mui/material';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 import dayjs from 'dayjs';
 import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -19,7 +20,6 @@ import {
 import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 import Back from '../../../assets/images/back.svg';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 function NewcreateCandidate() {
   const navigate = useNavigate();
