@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
@@ -38,18 +38,17 @@ function CreateEmail() {
     const navigatecancel = () => {
         navigate('-1')
     }
+    const [UploadedFileName,setUploadedFileName]=useState("")
+    const [Uploaded,setUploaded]= useState(false);
 
+    const initialValues = {
+        from: "",
+        email_template: "",
+        client_name: "",
+        subject: "",
+        attachment: "",
+    }
 
-    const formik = useFormik({
-        inititalValues: {
-            from: "",
-            email_template: "",
-            client_name: "",
-            subject: "",
-            attachment: "",
-        },
-    })
-    const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setSubmitting } = formik;
 
     return (
         <Container>
@@ -99,16 +98,12 @@ function CreateEmail() {
                                 <TextField
                                     fullWidth
                                     label="Template Name"
-                                    error={Boolean(touched.template_name && errors.template_name)}
-                                    helperText={touched.template_name && errors.template_name}
                                 />
                             </div>
                             <div className='divstack'>
                                 <TextField
                                     fullWidth
                                     label="Subject"
-                                    error={Boolean(touched.subject && errors.subject)}
-                                    helperText={touched.subject && errors.subject}
                                 />
                             </div>
                         </Container>
@@ -124,6 +119,11 @@ function CreateEmail() {
                                 <input
                                     type="file"
                                     hidden
+                                    name="attachment"
+                                    // onChange={(e) => setUploaded(true) &
+                                    //     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
+                                    //     handleChangeFormData(e?.target?.name, e?.target.files[0])
+                                    // }
                                 />
                             </Button>
                         </Container>
@@ -164,7 +164,7 @@ function CreateEmail() {
                             />
                         </div>
                     </div> */}
-                    <h4 style={{marginLeft:"20%",marginTop:"5%",marginBottom:"2%"}}>Body</h4>
+                    <h4 style={{ marginLeft: "20%", marginTop: "5%", marginBottom: "2%" }}>Body</h4>
                     <div className='editor'>
                         <ReactQuill sx={{ outerWidth: "80vw" }} theme="snow"
                             modules={modules}

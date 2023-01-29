@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select } from '@mui/material';
+import { Stack, Button, TextField, Container, CircularProgress } from '@mui/material';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import dayjs from 'dayjs';
 import MenuItem from '@mui/material/MenuItem';
@@ -80,6 +80,16 @@ function NewcreateCandidate() {
   const handleChangeAssessment = (e) => setAssessment(e.target.value);
   const [UploadedFileName,setUploadedFileName]=useState("")
   const [Uploaded,setUploaded]= useState(false);
+  const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery();
+  const { data: countryData, refetch: countryDataRefetch } = useGetCountryQuery()
+  const { data: cityData, refetch: cityDataRefetch } = useGetCityQuery()
+  const { data: stateData, refetch: stateDataRefetch } = useGetStateQuery()
+
+  
+  
+  const [job,setJob] = useState(0);
+  const handleChangeJob = (e) => setJob(e.target.value);
+
   const [formData, setFormData] = useState({
     job_id: 1,
     first_name: "",
@@ -91,8 +101,8 @@ function NewcreateCandidate() {
     pincode: "",
     street: "",
     city: "",
-    state: "",
-    country: "",
+    State: "",
+    Country: "",
     exp_months: 0,
     exp_years: 0,
     marital_status: "",
@@ -101,42 +111,7 @@ function NewcreateCandidate() {
     graduation_date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}`,
     // resume: "",
   })
-  const [countryId,setCountryId]= useState(skipToken)
-  const [stateId,setStateId]= useState(skipToken)
-  const { data: jobData, refetch: jobDataRefetch } = useGetJobListQuery();
-  const { data: countryData, refetch: countryDataRefetch } = useGetCountryQuery()
-  const { data: cityData, refetch: cityDataRefetch } = useGetCityQuery(stateId)
-  const { data: stateData, refetch: stateDataRefetch } = useGetStateQuery(countryId)
-
-  
-  
-  const [job,setJob] = useState(0);
-  const handleChangeJob = (e) => setJob(e.target.value);
-
-
-
-  useEffect(( )=>{
-    stateDataRefetch()
-  },[countryId])
-
-  useEffect(( )=>{
-    cityDataRefetch()
-  },[stateId])
-
-  // useEffect(()=>{
-  //   console?.log("hii")
-  //   stateDataRefetch()
-  // },[formData?.country])
-  useEffect(()=>{
-    countryDataRefetch()
-    },[])
-
   const handleChangeFormData = (name, value) => {
-    if(name==="country"){
-      setCountryId(value)
-    }if(name==="state"){
-      setStateId(value)
-    }
     setFormData(prev => {
       prev[name] = value
       return prev
@@ -288,8 +263,8 @@ function NewcreateCandidate() {
               // error={Boolean(errors.street && touched.street)}
               // helperText={errors.street && touched.street}
               />
-              {/* <TextField */}
-                {/* sx={{
+              <TextField
+                sx={{
                   width: '60%',
                 }}
                 required
@@ -303,79 +278,16 @@ function NewcreateCandidate() {
                 variant="standard"
                 name="Country"
                 onChange={(e) => handleChangeFormData(e.target.id, +e.target.value)}
-              > */}
-                {/* { countryData?.countries?.map((e) => (
-                  <MenuItem key={e.id} value={e.id}>
-                    {/* {e.name} */}
-                    {/* <ListItem key={e.id} value={e.id} /> */}
-                  {/* </MenuItem> */}
-                {/* ))} } */}
-              {/* </TextField> */}
-                  {/* */} 
-
-              {/* <Grid item xs={6}> */}
-              <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">Country</InputLabel>
-                <Select
-                  margin="dense"
-                  variant="standard"
-                  fullWidth
-                  name="country"
-                  // value={textValue.country}
-                  label="country"
-                  onChange={(e)=> handleChangeFormData(e?.target?.name, e?.target?.value)}
-                >
-                  {countryData &&
-                    countryData?.countries?.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item?.name}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
-              </Stack>
-            {/* </Grid>  */}
-            {/* <Grid item xs={6}> */}
-            <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="select-state">State</InputLabel>
-                    <Select
-                      labelId="select-state"
-                      id="state"
-                      // value={fieldValue.state}
-                      onChange={(e)=> handleChangeFormData(e?.target?.name, e?.target?.value)}
-                      label="State"
-                      name="state"
-                    >
-                      {stateData ? stateData?.states?.map((state) => <MenuItem key={state.id} value={state.id}>{state.name}</MenuItem>) : <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>}
-                    </Select>
-                  </FormControl>
-                {/* </Grid> */}
-            </Stack>
-              <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                    <InputLabel id="select-city">select City</InputLabel>
-                    <Select
-                      labelId="select-city"
-                      id="city"
-                      name="city"
-                      // value={fieldValue.city}
-                      onChange={(e)=> handleChangeFormData(e?.target?.name, e?.target?.value)}
-                      label="Select City"
-                    >
-                      {cityData ? cityData?.cities?.map((city) => <MenuItem key={city.id} value={city.id}>{city.name}</MenuItem>) : <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>}
-                    </Select>
-                  </FormControl>
-                {/* </Grid> */}
-              </Stack>
+              >
+                {countryData && countryData?.countries?.map((e, i) => (
+                  <MenuItem key={i} value={e.id}>
+                    {e.name}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
-              {/* <TextField
+              <TextField
                 sx={{
                   width: '50%',
                 }}
@@ -396,10 +308,10 @@ function NewcreateCandidate() {
                     {e.name}
                   </MenuItem>
                 ))}
-                </TextField> */}
+                </TextField>
               
 
-              {/* <TextField
+              <TextField
                 sx={{
                   width: '15%',
                 }}
@@ -419,7 +331,7 @@ function NewcreateCandidate() {
                     {e.name}
                   </MenuItem>
                 ))}
-               </TextField> */}
+               </TextField>
               <TextField
                 sx={{
                   width: '20%',
