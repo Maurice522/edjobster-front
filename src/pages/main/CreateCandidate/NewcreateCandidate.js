@@ -90,7 +90,7 @@ function NewcreateCandidate() {
     date_of_birth: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
     pincode: "",
     street: "",
-    ity: "",
+    city: "",
     State: "",
     Country: "",
     exp_months: 0,
