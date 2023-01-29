@@ -51,7 +51,7 @@ const ApplyClient = (props) => {
   // const { assessmentEditId } = useParams();
 
   const { data: webFormDataById, isError, isLoading, refetch } = useGetWebformDetailsQuery(8);
-  const { data: assesmentQuestionsData } = useGetAssesmentQuestionsQuery();
+  const { data: assesmentQuestionsData } = useGetAssesmentQuestionsQuery(35);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -125,7 +125,7 @@ const ApplyClient = (props) => {
 
   return (
     <>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog fullScreen open onClose={handleClose} TransitionComponent={Transition}>
         <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#fff' }}>
           <Toolbar>
             <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
@@ -222,16 +222,15 @@ const ApplyClient = (props) => {
                         <>
                           <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
                             <Grid item md={8}>
-                              {assesmentQuestionsData?.questions.map((item, index) => {
-                                return (
+                              {assesmentQuestionsData?.questions?.map((item, index) => (
                                   <>
                                     {/* <Grid display="flex" item xs={12}>
-                      <Grid item xs={11}>
-                        <Typography variant="h5" gutterBottom>
-                          Question {index + 1} : Text Question
-                        </Typography>
-                      </Grid>
-                    </Grid> */}
+                                        <Grid item xs={11}>
+                                          <Typography variant="h5" gutterBottom>
+                                            Question {index + 1} : Text Question
+                                          </Typography>
+                                        </Grid>
+                                      </Grid> */}
                                     <Grid item xs={11}>
                                       <TextField
                                         required
@@ -263,9 +262,7 @@ const ApplyClient = (props) => {
                                       </Grid>
                                     ))}
                                   </>
-
-                                );
-                              })}
+                                ))}
                             </Grid>
                           </Grid>
                           <Grid container sx={{ mt: 5 }} style={{ display: 'flex', justifyContent: 'center' }}>
