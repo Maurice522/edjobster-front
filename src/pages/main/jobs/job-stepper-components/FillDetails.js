@@ -467,7 +467,7 @@ const FillDetails = () => {
                   margin="dense"
                   variant="standard"
                   fullWidth
-                  name="address"
+                  name="location"
                   value={textValue.location}
                   label="Address (name)"
                   onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}

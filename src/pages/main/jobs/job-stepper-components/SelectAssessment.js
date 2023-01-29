@@ -17,14 +17,16 @@ const SelectAssessment = () => {
   const dispatch = useDispatch();
   const job = useSelector((state) => state.job.job);
   const { data: selectAssesmentData } = useGetAssesmentQuery();
+  console.log("assesment", selectAssesmentData)
   const { data: selectWebFormData } = useGetWebformQuery();
   const [assesmentOptions, setAssesmentOptions] = useState([]);
-  console.log(selectAssesmentData)
+  console.log(assesmentOptions)
 
   const [textValue, setTextValue] = useState({
     assesment: job.assesment,
     webform: job.webform
   });
+  console.log(textValue)
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -48,16 +50,11 @@ const SelectAssessment = () => {
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
+    if(e.target.name === "assesment") {
+      myObj[e.target.name] = [...myObj.assesment, e.target.value];
+    }
     myObj[e.target.name] = e.target.value;
     setTextValue({ ...myObj });
-  };
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setAssesmentOptions(
-      typeof value === 'string' ? value.split(',') : value,
-    );
   };
 
   useEffect(
@@ -78,11 +75,10 @@ const SelectAssessment = () => {
                 id="demo-simple-select-standard"
                 multiple
                 value={textValue.assesment}
-                // onChange={onInputChangeHandler}
-                onChange={handleChange}
+                onChange={onInputChangeHandler}
                 label="Select Assessment"
                 name="assesment"
-                renderValue={renderMultiSelectValues}
+                // renderValue={renderMultiSelectValues}
                 MenuProps={MenuProps}
 
               >
