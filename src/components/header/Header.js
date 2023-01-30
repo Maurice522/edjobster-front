@@ -1,11 +1,13 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import AccountPopover from "../../layouts/dashboard/AccountPopover";
 import Notification from "../../assets/images/notification.svg";
 import User from "../../assets/images/user.svg";
 import Search from "../../assets/images/search.svg";
 
 const Header = () => {
+  const navigate = useNavigate()
   const userData = JSON.parse(localStorage.getItem("globalUser")).account
   console.log(userData)
   return (
@@ -13,56 +15,58 @@ const Header = () => {
       <div className="common-width">
         <div className="header-content">
           <div className="header-logo-job">
-            <NavLink to="/" className="header-logo">
+            <NavLink sx={{textDecoration:"none"}} to="/" className="header-logo">
               <img src='../../assets/images/test-image.svg' alt="logo"/>
-            </NavLink>
-            <NavLink
+            </NavLink >
+            <NavLink sx={{textDecoration:"none"}}
               to="/dashboard/jobs"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-job"
               }
              >
               Jobs
-            </NavLink>
+            </NavLink >
           </div>
           <div className="header-menu-list">
-            <NavLink
-            
-              to="/dashboard/candidates"
-              className={({ isActive }) =>
-                isActive ? "header-job-active" : "header-menu"
-              }
-             >
-              Candidates
-            </NavLink>
-            <NavLink
+            <PeopleOutlineIcon onClick={()=>navigate('/dashboard/candidates')}className={({ isActive }) =>
+                isActive ? "header-job-active" : "header-menu"}
+                sx={{
+                  color:"black",
+                  fontSize: 40,
+                  cursor: "pointer",
+                  "&:isactive":{
+                    color:"#0066ff;",
+                  }
+                }}
+               />
+            <NavLink sx={{textDecoration:"none"}}
               to="/dashboard/interviews"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
              >
               Interviews
-            </NavLink>
-            <NavLink
+            </NavLink >
+            <NavLink sx={{textDecoration:"none", color:"red"}}
               to="/dashboard/institute-description"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
             >
               Institute-SubDomian
-            </NavLink>
-            <NavLink to="/dashboard/assessments" 
+            </NavLink >
+            <NavLink sx={{textDecoration:"none"}} to="/dashboard/assessments" 
           className="header-menu">
               Assessments
-            </NavLink>
-            <NavLink
+            </NavLink >
+            <NavLink sx={{textDecoration:"none"}}
               to="/dashboard/InstituteSettings/settings"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
             >
               Settings
-            </NavLink>
+            </NavLink >
           </div>
           <div className="Header-lower-bar">
             <div className="header-search">

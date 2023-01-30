@@ -12,7 +12,7 @@ function SingleJobView() {
     const navigate=useNavigate()
     return (
         <div style={{ backgroundColor: "#ffffff", height: "100%" }}>
-            <div classNameName='applicationTop'>
+            <div className='applicationTop'>
                 <ArrowBackIcon color="secondary" />
                 <div style={{
                     width: "142px",

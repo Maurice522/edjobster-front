@@ -19,7 +19,11 @@ import {
 function CompleteAssesment() {
   return (
     <div className='ApplicationSteps'>
-            CompleteAssesment
+           <Container>
+            <Card>
+              Assesment Number
+            </Card>
+           </Container>
     </div>
   )
 }
