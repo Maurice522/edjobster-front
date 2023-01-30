@@ -4,8 +4,8 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetAddressesQuery } from 'src/redux/services/settings/AddressesService';
-import { useGetAddresseDetailsQuery } from '../../redux/services/jobs/JobServices';
+import { useGetAddresseDetailsQuery } from 'src/redux/services/settings/AddressesService';
+import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
 
 function SingleJobView() {
     const {id}=useParams()
