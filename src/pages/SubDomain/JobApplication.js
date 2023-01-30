@@ -112,19 +112,19 @@ function JobApplication() {
                             </div>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, marginBottom: '10px', marginLeft: '5px' }}>
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                    <button
+                                    <Button
                                         className="next_btn"
                                         disabled={activeStep === 0}
                                         onClick={handleBack}
                                     >
                                         Back
-                                    </button>
+                                    </Button>
                                 </div>
                                 <Box sx={{ flex: '1 1 auto' }} />
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                    <button onClick={handleNext} className="next_btn">
+                                    <Button onClick={handleNext} className="next_btn">
                                         {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                    </button>
+                                    </Button>
                                 </div>
                             </Box>
 

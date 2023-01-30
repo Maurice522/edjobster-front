@@ -31,6 +31,7 @@ import { useGetCompanyInfoQuery } from '../../redux/services/settings/CareerSite
 function CareerSiteDescription() {
     const navigate = useNavigate()
     const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+    console.log(data)
     const { data: jobList } = useGetJobListQuery();
 
     const [AboutData, setAboutData] = useState({
