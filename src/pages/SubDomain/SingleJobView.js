@@ -1,16 +1,41 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
-    Button, Card
+    Button, Card, CircularProgress
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
 
 function SingleJobView() {
     const {id}=useParams()
     const { data, isLoading, refetch } = useGetJobeDetailsQuery(1);
+    const [jobType,setJobType]=useState()
     console.log(data)
     const navigate=useNavigate()
+
+
+    const mappingEducation ={
+        1:"High School",
+        2:"Junior College",
+        3:"Bachelors",
+        4:"Masters"
+    }
+
+    useEffect(()=>{
+        refetch()
+    },[id])
+
+    useEffect(()=>{
+        if(data?.type==="F"){
+            setJobType("Full Time")
+        }else {
+            setJobType("Part Time")
+        }
+    },[data])
+
     return (
+        <>
+        {isLoading && <CircularProgress/>}
         <div style={{ backgroundColor: "#ffffff", height: "100%" }}>
             <div className='applicationTop'>
                 <ArrowBackIcon color="secondary" />
@@ -37,7 +62,8 @@ function SingleJobView() {
                     display: "flex",
                     justifyContent: "center"
                 }}>
-                    Job Position-Title- Department Name
+                    {/* Job Position-Title- Department Name */}
+                    {data?.title}-{data?.department}
                 </h2>
                 <div className="grid-container">
                     <div className="grid-item">
@@ -45,7 +71,8 @@ function SingleJobView() {
                             Department
                         </h3>
                         <div>
-                            Mechanical Engineering
+                            {data?.department}
+                            {/* Mechanical Engineering */}
                         </div>
                     </div>
                     <div className="grid-item">
@@ -53,7 +80,7 @@ function SingleJobView() {
                             Type
                         </h3>
                         <div>
-                            Full Timw
+                        {jobType}
                         </div>
                     </div>
                     <div className="grid-item">
@@ -61,7 +88,7 @@ function SingleJobView() {
                             Education
                         </h3>
                         <div>
-                            M tech
+                            {mappingEducation[data?.educations]}
                         </div>
                     </div>
                     <div className="grid-item">
@@ -69,7 +96,8 @@ function SingleJobView() {
                             Major/Speciality
                         </h3>
                         <div>
-                            Mechanical
+                            {/* Mechanical */}
+                            {data?.speciality}
                         </div>
                     </div>
                     <div className="grid-item">
@@ -77,7 +105,8 @@ function SingleJobView() {
                             Work Expirience
                         </h3>
                         <div>
-                            5-8 Years
+                            {/* 5-8 Years */}
+                            {data?.exp_min}-{data?.exp_max} Years
                         </div>
                     </div>
                     <div className="grid-item">
@@ -85,7 +114,8 @@ function SingleJobView() {
                             Salary Offered
                         </h3>
                         <div>
-                            INR 50-100
+                            {/* INR 50-100 */}
+                            {data?.salary_min}-{data?.salary_max}
                         </div>
                     </div>
                     <div className="grid-item">
@@ -93,7 +123,8 @@ function SingleJobView() {
                             Country
                         </h3>
                         <div>
-                            India
+                            {/* India */}
+                            {data?.country}
                         </div>
                     </div>
                     <div className="grid-item">
@@ -116,7 +147,8 @@ function SingleJobView() {
                     border: "3px solid ##4A77FF",
                     height: "100px"
                 }}>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    {data?.description}
+                    {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. */}
                 </Card>
                 <div style={{display:"flex",justifyContent:"center",marginTop:"2%"}}>
                 <Button 
@@ -134,6 +166,7 @@ function SingleJobView() {
                 </div>
             </Card>
         </div>
+        </>
     )
 }
 
