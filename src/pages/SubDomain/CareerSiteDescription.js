@@ -125,62 +125,59 @@ function CareerSiteDescription() {
                 <TabPanel value="2" sx={{
                     marginLeft: "20%"
                 }}>
-                    {jobList?.map((item) => {
-
-                        return (
-                            <Card sx={{
-                                borderRadius: "14px",
-                                boxSizing: "border-box 1px solid #eaf1f5",
-                                width: "60%",
-                                marginBottom: "2%",
-                            }}>
-                                <div className='JobInnerCard'>
-                                    <Stack sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        gap: "2%",
-                                    }}>
-                                        <div className='JobCardImgDiv'>
-                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
-                                                        e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
-                                            />
-                                        </div>
-                                        <div>
-                                            <h2>{item?.title}</h2>
-                                            <h4>{item?.institute_name}</h4>
-                                        </div>
-                                    </Stack>
-                                    <Stack sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        gap: "4%",
-                                        marginTop: "2%",
-                                    }}>
-                                        <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
-                                            <WorkIcon color='disabled' />
-                                            <p>{item?.exp_min}-{item?.exp_max}</p>
-                                        </div>
-                                        <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
-                                            <CurrencyRupeeIcon color='disabled' sx={{ marginTop: "2%", paddingTop: "2%" }} />
-                                            <p>{item?.salary_min}-{item?.salary_max}</p>
-                                        </div>
-                                        <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
-                                            <LocationOnIcon color='disabled' />
-                                            <p>{item?.country},{item?.state},{item?.city}</p>
-                                        </div>
-                                    </Stack>
-                                    <Typography variant="body1" gutterBottom sx={{ marginTop: "2%" }}>
-                                        {item?.description}
-                                    </Typography>
-                                    <Button 
-                                    onClick={()=>navigate('/dashboard/Institute-Description/Individual-Job')}
-                                    >
-                                        Apply
-                                    </Button>
-                                </div>
-                            </Card>
-                        )
-                    })}
+                    {jobList?.map((item) => (
+                        <Card key={item} sx={{
+                            borderRadius: "14px",
+                            boxSizing: "border-box 1px solid #eaf1f5",
+                            width: "60%",
+                            marginBottom: "2%",
+                        }}>
+                            <div className='JobInnerCard'>
+                                <Stack sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: "2%",
+                                }}>
+                                    <div className='JobCardImgDiv'>
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRvPseQ_eXBy0JHhwi0Os_KRiq9mASdmH6EGWF_
+                                                    e34FegX6NUDtfWh_f-jUq7Cjt5gHVE&usqp=CAU" alt="InstitutePhoto"
+                                        />
+                                    </div>
+                                    <div>
+                                        <h2>{item?.title}</h2>
+                                        <h4>{item?.institute_name}</h4>
+                                    </div>
+                                </Stack>
+                                <Stack sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: "4%",
+                                    marginTop: "2%",
+                                }}>
+                                    <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
+                                        <WorkIcon color='disabled' />
+                                        <p>{item?.exp_min}-{item?.exp_max}</p>
+                                    </div>
+                                    <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
+                                        <CurrencyRupeeIcon color='disabled' sx={{ marginTop: "2%", paddingTop: "2%" }} />
+                                        <p>{item?.salary_min}-{item?.salary_max}</p>
+                                    </div>
+                                    <div style={{ alignItems: "center", display: "flex", flexDirection: "row" }}>
+                                        <LocationOnIcon color='disabled' />
+                                        <p>{item?.country},{item?.state},{item?.city}</p>
+                                    </div>
+                                </Stack>
+                                <Typography variant="body1" gutterBottom sx={{ marginTop: "2%" }}>
+                                    {item?.description}
+                                </Typography>
+                                <Button 
+                                onClick={()=>navigate('/dashboard/Institute-Description/Individual-Job')}
+                                >
+                                    Apply
+                                </Button>
+                            </div>
+                        </Card>
+                    ))}
                 </TabPanel>
             </TabContext>
         </div>
