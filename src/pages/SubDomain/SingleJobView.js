@@ -4,9 +4,9 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import ReactQuill from 'react-quill';
 import { useGetAddresseDetailsQuery } from '../../redux/services/settings/AddressesService';
 import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
-import ReactQuill from 'react-quill';
 
 function SingleJobView() {
     const {id}=useParams()

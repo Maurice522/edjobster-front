@@ -24,10 +24,10 @@ import WorkIcon from '@mui/icons-material/Work';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import FileUpload from 'react-material-file-upload';
+import ReactQuill from 'react-quill';
 import { useGetJobListQuery } from '../../redux/services/jobs/JobListService';
 import { showToast } from '../../utils/toast';
 import { useGetCompanyInfoQuery } from '../../redux/services/settings/CareerSiteService';
-import ReactQuill from 'react-quill';
 
 function CareerSiteDescription() {
     const navigate = useNavigate()

@@ -64,35 +64,6 @@ function NewcreateCandidate() {
   });
 
 
-  // const formData = useForm({
-  //   initialValues: {
-  //     job_id: 1,
-  //     first_name: '',
-  //     last_name: "",
-  //     mobile: "",
-  //     email: "",
-  //     gender: "",
-  //     date_of_birth: value,
-  //     pincode: "",
-  //     street: "",
-  //     city: "",
-  //     state: "",
-  //     country: "",
-  //     exp_months: 0,
-  //     exp_years: 0,
-  //     marital_status: "",
-  //     institute: ""
-  //   },
-  //   validationSchema: NewCandidateSchema,
-  //   onSubmit: async (values) => {
-  //     console.log({ ...values, date_of_birth: value })
-  //     await AddCandidate({ ...values, date_of_birth: value });
-  //   },
-  //   validateOnChange: (value) => {
-  //     NewCandidateSchema.validateSync(value)
-  //   }
-  // })
-
   useEffect(() => {
     if (AddCandidateInfo.isError) {
       console.log(AddCandidateInfo.error)
@@ -393,7 +364,9 @@ function NewcreateCandidate() {
                     onChange={(e) => handleChangeFormData(e?.target?.name, e?.target?.value)}
                     label="Select City"
                   >
-                    {cityData ? cityData?.cities?.map((city) => <MenuItem key={city.id} value={city.id}>{city.name}</MenuItem>) : <MenuItem value="">
+                    {cityData ? cityData?.cities?.map((city) =>
+                      <MenuItem key={city.id} value={city.id}>{city.name}
+                      </MenuItem>) : <MenuItem value="">
                       <em>None</em>
                     </MenuItem>}
                   </Select>
