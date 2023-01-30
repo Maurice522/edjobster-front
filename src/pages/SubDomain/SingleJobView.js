@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetAddresseDetailsQuery } from '../../redux/services/settings/AddressesService';
 import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
+import ReactQuill from 'react-quill';
 
 function SingleJobView() {
     const {id}=useParams()
-    const { data, isLoading, refetch } = useGetJobeDetailsQuery(1);
+    const { data, isLoading, refetch } = useGetJobeDetailsQuery(id);
     const {data: addressData, isLoading: addressIsLoading, refetch: addressRefetch} = useGetAddresseDetailsQuery(data?.location);
     const [jobType,setJobType]=useState()
     const navigate=useNavigate()
@@ -37,6 +38,7 @@ function SingleJobView() {
     return (
         <>
         {isLoading && <CircularProgress/>}
+        {!isLoading && 
         <div style={{ backgroundColor: "#ffffff", height: "100%" }}>
             <div className='applicationTop'>
                 <ArrowBackIcon color="secondary" />
@@ -147,9 +149,11 @@ function SingleJobView() {
                 <Card sx={{
                     padding: "2%",
                     border: "3px solid ##4A77FF",
-                    height: "100px"
+                    height: "15em"
                 }}>
-                    {data?.description}
+                <ReactQuill value={`${data?.description}`}  theme={"snow"} readOnly formats={[]} modules={{toolbar: false}} style={{height:"10em", overflow:"none", border:"none"}} bounds={"none"}/>
+
+                    {/* {data?.description} */}
                     {/* Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. */}
                 </Card>
                 <div style={{display:"flex",justifyContent:"center",marginTop:"2%"}}>
@@ -168,6 +172,7 @@ function SingleJobView() {
                 </div>
             </Card>
         </div>
+        }
         </>
     )
 }

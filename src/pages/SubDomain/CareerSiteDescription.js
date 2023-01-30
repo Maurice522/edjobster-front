@@ -27,6 +27,7 @@ import FileUpload from 'react-material-file-upload';
 import { useGetJobListQuery } from '../../redux/services/jobs/JobListService';
 import { showToast } from '../../utils/toast';
 import { useGetCompanyInfoQuery } from '../../redux/services/settings/CareerSiteService';
+import ReactQuill from 'react-quill';
 
 function CareerSiteDescription() {
     const navigate = useNavigate()
@@ -170,10 +171,10 @@ function CareerSiteDescription() {
                                         </div>
                                     </Stack>
                                     <Typography variant="body1" gutterBottom sx={{ marginTop: "2%" }}>
-                                        {item?.description}
+                                    <ReactQuill value={`${item?.description}`}  theme={"snow"} readOnly formats={[]} modules={{toolbar: false}} style={{height: "3em", overflow:"hidden"}}/>
                                     </Typography>
                                     <Button 
-                                    onClick={()=>navigate('/dashboard/Institute-Description/Individual-Job')}
+                                    onClick={()=>navigate(`/dashboard/Institute-Description/Individual-Job/${item?.id}`)}
                                     >
                                         Apply
                                     </Button>
