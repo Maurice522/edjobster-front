@@ -108,7 +108,6 @@ const FillDetails = () => {
       name === 'exp_max'
     ) {
 
-     console.log(Number.isNaN(value),value,"vacn")
       if(Number.isNaN(value) || value===""){
         myObj[name] = value;
       }
@@ -468,8 +467,8 @@ const FillDetails = () => {
                   margin="dense"
                   variant="standard"
                   fullWidth
-                  name="location_id"
-                  value={textValue.location}
+                  name="address"
+                  value={textValue?.address}
                   label="Address (name)"
                   onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
                 >
