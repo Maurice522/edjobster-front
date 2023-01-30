@@ -189,7 +189,7 @@ export default function Router() {
         { path: '/dashboard/NewInterview', element: <NewCreateInterview /> },
         { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
         { path: '/dashboard/Institute-Description', element: <CareerSiteDescription />},
-        { path: '/dashboard/Institute-Description/Individual-Job', element: <SingleJobView />},
+        { path: '/dashboard/Institute-Description/Individual-Job/:id', element: <SingleJobView />},
         { path: '/dashboard/Institute-Description/Individual-Job/Application/:webform', element: <JobApplication />},
         { path: '/dashboard/Apply', element: <ApplyClient />},
         { path: '/dashboard/wf', element: <WebformFillup />},

@@ -20,9 +20,17 @@ function CompleteAssesment() {
   return (
     <div className='ApplicationSteps'>
            <Container>
-            <Card>
-              Assesment Number
+            <Card sx={{
+              width:"60%",
+              marginLeft:"auto",
+              marginRight:"auto",
+              height: "220px"
+            }}>
+              Assesment question and use ansers with checkbox
             </Card>
+            <Button>
+              Submit
+            </Button>
            </Container>
     </div>
   )

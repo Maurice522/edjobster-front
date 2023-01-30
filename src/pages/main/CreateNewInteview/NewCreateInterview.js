@@ -58,6 +58,7 @@ function NewCreateInterview() {
     ]
   };
 
+
   const formats = [
     'font',
     'size',
@@ -78,8 +79,8 @@ function NewCreateInterview() {
   const { data: interviewerData, refetch: interviewerDataRefetch } = useGetUsersApiQuery()
 
   const [formData, setFormData] = useState({
-    candidate_id: 0,
-    job_id: 0,
+    candidate_id: 1,
+    job_id: 1,
     date: `${value.get("year")}-${String(value.get("month") + 1).padStart(2, 0)}-${String(value.get("date")).padStart(2, 0)}`,
     time_start: `${startTime.get("hour")}:${startTime.get("minutes")}`,
     time_end: `${endTime.get("hour")}:${endTime.get("minutes")}`,
@@ -92,6 +93,7 @@ function NewCreateInterview() {
     title: "",
   })
   const handleChangeFormData = (name, value) => {
+    console.log(name, value)
     setFormData(prev => {
       prev[name] = value
       return prev
@@ -114,7 +116,9 @@ function NewCreateInterview() {
       console.log(addInterviewInfo.error)
     }
   }, [addInterviewInfo, navigate])
-
+  console.log(interviewerData)
+  console.log(jobData)
+  console.log(locationData)
   return (
     <div>
       {/* <FormikProvider>
@@ -145,26 +149,30 @@ function NewCreateInterview() {
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "60%"
-              }}
-                required
-                select
-                id="standard-required"
-                label="Candidate"
-                variant="standard"
-                name="candidate_id"
-                SelectProps={{
-                  native: true
+              <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
+                <InputLabel id="select-city">Select Candidate</InputLabel>
+                <Select sx={{
+                  width: "60%"
                 }}
-                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
-              >
-                {candidateData && candidateData?.list?.map((e) => (
-                  <option id={e.id} key={e.id} value={e.id}>
-                    {e.first_name}
-                  </option>
-                ))}
-              </TextField>
+                  required
+                  select
+                  id="standard-required"
+                  label="Candidate"
+                  // variant="standard"
+                  name="candidate_id"
+                  SelectProps={{
+                    native: true
+                  }}
+                  onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                >
+                  {candidateData ? candidateData?.list?.map((e) =>
+                    <MenuItem key={e.id} value={e.id}>
+                      {e.first_name}
+                    </MenuItem>) : <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>}
+                </Select>
+              </FormControl>
             </Stack>
             <FormLabel sx={{ textAlign: "left" }}>Interview Type</FormLabel>
             <RadioGroup
@@ -242,7 +250,7 @@ function NewCreateInterview() {
                     label="End Time"
                     value={endTime}
                     onChange={e => {
-                      handleChangeStartTime(e)
+                      handleChangeEndTime(e)
                       const date = dayjs(e)
                       handleChangeFormData("time_end", `${date.get("hour")}:${date.get("minutes")}:00`)
                     }}
@@ -252,26 +260,30 @@ function NewCreateInterview() {
               </LocalizationProvider>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "60%"
-              }}
-                required
-                select
-                id="standard-required"
-                label="Loaction"
-                variant="standard"
-                name="location_id"
-                SelectProps={{
-                  native: true
+              <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
+                <InputLabel id="select-city">Select Location</InputLabel>
+                <Select sx={{
+                  width: "60%"
                 }}
-                onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
-              >
-                {locationData && locationData?.data?.map((e) => (
-                  <option id={e.id} key={e.id} value={e.id}>
-                    {e.name}
-                  </option>
-                ))}
-              </TextField>
+                  required
+                  select
+                  id="standard-required"
+                  label="Loaction"
+                  variant="standard"
+                  name="location_id"
+                  SelectProps={{
+                    native: true
+                  }}
+                  onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                >
+                  {locationData ? locationData?.list?.map((e) =>
+                    <MenuItem id={e.id} key={e.id} value={e.id}>
+                      {e.name}
+                    </MenuItem>) : <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>}
+                </Select>
+              </FormControl>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
               <TextField sx={{

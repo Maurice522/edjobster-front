@@ -30,8 +30,14 @@ const extendedApi = apiBasePath.injectEndpoints({
                 method: "DELETE",
             })
         }),
-
+        getAddresseDetails: build.query({
+            query: (id) => ({
+                url: `${apiUrl.address}${id}`,
+            }),
+        }),
     }),
     overrideExisting: false,
 });
-export const { useGetAddressesQuery, useDeleteAddressesMutation, useAddAddressesMutation, useUpdateAddressesMutation } = extendedApi;
+export const { useGetAddressesQuery, useDeleteAddressesMutation, useAddAddressesMutation, useUpdateAddressesMutation,
+    useGetAddresseDetailsQuery
+} = extendedApi;

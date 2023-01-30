@@ -77,7 +77,9 @@ function JobApplication() {
                 flexDirection: "row",
 
             }}>
-                <ArrowBackIcon color="secondary" onClick={navigate('/dashboard/Institute-Description/Individual-Job')}  sx={{cursor:"pointer"}}/>
+                <ArrowBackIcon color="secondary" 
+                // onClick={navigate('/dashboard/Institute-Description/Individual-Job')}  
+                sx={{cursor:"pointer"}}/>
                 <h1>Job Title</h1>
             </Stack>
             <Card>
@@ -112,19 +114,22 @@ function JobApplication() {
                             </div>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, marginBottom: '10px', marginLeft: '5px' }}>
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                    <Button
-                                        className="next_btn"
+                                    <button
+                                        // className="next_btn"
                                         disabled={activeStep === 0}
                                         onClick={handleBack}
                                     >
                                         Back
-                                    </Button>
+                                    </button>
                                 </div>
                                 <Box sx={{ flex: '1 1 auto' }} />
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                    <Button onClick={handleNext} className="next_btn">
+                                    <button 
+                                     onClick={handleNext} 
+                                    //  className="next_btn"
+                                     >
                                         {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                    </Button>
+                                    </button>
                                 </div>
                             </Box>
 
