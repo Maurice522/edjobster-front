@@ -4,13 +4,14 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetJobeDetailsQuery } from '../../redux/services/jobs/JobServices';
+import { useGetAddressesQuery } from 'src/redux/services/settings/AddressesService';
+import { useGetAddresseDetailsQuery } from '../../redux/services/jobs/JobServices';
 
 function SingleJobView() {
     const {id}=useParams()
     const { data, isLoading, refetch } = useGetJobeDetailsQuery(1);
+    const {data: addressData, isLoading: addressIsLoading, refetch: addressRefetch} = useGetAddresseDetailsQuery(data?.location);
     const [jobType,setJobType]=useState()
-    console.log(data)
     const navigate=useNavigate()
 
 
@@ -124,7 +125,7 @@ function SingleJobView() {
                         </h3>
                         <div>
                             {/* India */}
-                            {data?.country}
+                            {addressData?.country_name}
                         </div>
                     </div>
                     <div className="grid-item">
@@ -132,7 +133,8 @@ function SingleJobView() {
                             City
                         </h3>
                         <div>
-                            Pune
+                            {/* Pune */}
+                            {addressData?.city_name}
                         </div>
                     </div>
                 </div>
