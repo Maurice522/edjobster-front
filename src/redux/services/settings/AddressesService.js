@@ -32,7 +32,7 @@ const extendedApi = apiBasePath.injectEndpoints({
         }),
         getAddresseDetails: build.query({
             query: (id) => ({
-                url: `${apiUrl.address}id`,
+                url: `${apiUrl.address}${id}`,
             }),
         }),
     }),
