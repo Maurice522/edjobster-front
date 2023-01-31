@@ -15,8 +15,11 @@ import {
     DialogContent,
     Box,
 } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 function CompleteAssesment() {
+  const {assesment} = useParams();
+
   return (
     <div className='ApplicationSteps'>
            <Container>
