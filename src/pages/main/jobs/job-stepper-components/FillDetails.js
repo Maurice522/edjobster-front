@@ -60,7 +60,6 @@ const FillDetails = () => {
         ['clean']
       ]
   };
-
   const formats = [
       'font',
       'size',
@@ -136,6 +135,8 @@ const FillDetails = () => {
   }, []);
 
   console.log(textValue);
+  console.log("thisis",jobAddressData)
+
 
   return (
     <Card sx={{ p: 4, m: 2 }} variant="outlined">
@@ -211,27 +212,6 @@ const FillDetails = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                {/* <InputLabel id="demo-simple-select-standard-label">Team Member</InputLabel> */}
-                {/* <TextField
-                  select
-                  margin="dense"
-                  variant="standard"
-                  fullWidth
-                  name="member_ids"
-                  value={textValue.member_ids}
-                  onChange={onInputChangeHandler}
-                  SelectProps={{
-                    multiple:true,
-                  }}
-                >
-                  {jobGetuserData &&
-                    jobGetuserData?.list?.map((item) => (
-                      <MenuItem key={item.id} value={item.account_id}>
-                        {item?.first_name}
-                      </MenuItem>
-                    ))}
-                </TextField> */}
-                {console.log(jobGetuserData,"Hh",textValue?.member_names)}
                 <InputLabel id="demo-multiple-checkbox-label">Team Member</InputLabel>
                 <Select
                   labelId="team-members"
@@ -305,49 +285,10 @@ const FillDetails = () => {
                   <MenuItem value={3}>Bachelors</MenuItem>
                   <MenuItem value={4}>Masters</MenuItem>
                 </Select>
-                {/* <TextField
-                  autoFocus
-                  margin="dense"
-                  variant="standard"
-                  fullWidth
-                  name="education"
-                  value={textValue.education}
-                  label="Education"
-                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
-                  select
-                >
-                  <option>Education</option>
-                  <option>Education</option>
-                  <option>Education</option>
-                  <option>Education</option>
-                  <option>Education</option>
-                </TextField> */}
               </FormControl>
             </Grid>
             <Grid item xs={6}>
               <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                {/* <InputLabel id="demo-simple-select-standard-label">Major/Speciality</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={textValue.speciality}
-                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
-                  label="Major/Speciality"
-                  name="speciality"
-                >
-                  {jobGetDesignationData &&
-                    jobGetDesignationData?.data?.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item?.name}
-                      </MenuItem>
-                    ))}
-                  {/* <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem> */}
-                {/* </Select> */}
                 <TextField
                 autoFocus
                 margin="dense"
@@ -376,9 +317,6 @@ const FillDetails = () => {
                       {item}
                     </MenuItem>
                   ))}
-
-                  {/* <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
               </FormControl>
             </Grid>
@@ -502,51 +440,6 @@ const FillDetails = () => {
                 </Select>
               </FormControl>
             </Grid>
-            {/* <Grid item xs={6}>
-              <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-standard-label">City</InputLabel>
-                <Select
-                  margin="dense"
-                  variant="standard"
-                  fullWidth
-                  name="city"
-                  value={textValue.city}
-                  label="City"
-                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
-                >
-                  {jobCityData &&
-                    jobCityData?.cities?.map((item) => (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item?.name}
-                      </MenuItem>
-                    ))}
-                </Select>
-              </FormControl>
-            </Grid> */}
-            {/* <Grid item xs={12}>
-              <h3 
-                style={{
-                  padding: "0.2rem",
-                }}
-              >
-                Job Description
-              </h3>
-              <div className='editor2'>
-                <ReactQuill 
-                  sx={{
-                    outerWidth:"80vw",
-                    marginBottom:"20px"
-                  }}
-                  theme="snow" 
-                  modules={modules}
-                  formats={formats} 
-                  value={textValue.description || ''}
-                  name="comments"
-                  onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)e) => onInputChangeHandler({target: {name: "description", value: e}})}
-                  // onChange={(e)=> onInputChangeHandler(e?.target?.name, e?.target?.value)}
-                />
-              </div>
-            </Grid> */}
             <Grid item xs={12}>
             <InputLabel id="demo-simple-select-standard-label">Job Description</InputLabel>
               <ReactQuill 
