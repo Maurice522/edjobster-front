@@ -66,6 +66,7 @@ body {
   font-size: 14px;
   line-height: 130%;
   color: #0066ff;
+  text-decoration: none;
 }
 
 .header-menu-list {
@@ -786,3 +787,8 @@ select {
 }
 
 /* Assign job end */
+
+.candidateBlueCard{
+  background-color: #c4cdf8
+  ;
+}

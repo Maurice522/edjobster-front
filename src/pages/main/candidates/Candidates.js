@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import { Card, Stack, Button, Container, Typography, ListItemIcon } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
@@ -25,6 +25,7 @@ import { useGetJobQuery } from '../../../redux/services/jobs/JobServices';
 // mock
 
 const Candidates = () => {
+  const navigate = useNavigate();
   const [modelOpen, setModelOpen] = useState(false);
 const [candidateId,setCandidateId]=useState();
   const [salectedJobId, setSalectedJobId] = useState('');
@@ -136,13 +137,24 @@ const [candidateId,setCandidateId]=useState();
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
               // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
-              onClick={() => onCandidateModelView(data.list[dataIndex].id)}
+              onClick={() =>navigate('/dashboard/candidate/perticularCandidate') }
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="carbon:view-filled" width={24} height={24} />
               </ListItemIcon>
             </Button>
+            {/* <Button
+              style={{ minWidth: 0, marginRight: '5px' }}
+              variant="contained"
+              // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
+              onClick={() => onCandidateModelView(data.list[dataIndex].id)}
+              color="info"
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="carbon:view-filled" width={24} height={24} />
+              </ListItemIcon>
+            </Button> */}
           </>
         ),
       },
@@ -225,7 +237,10 @@ const [candidateId,setCandidateId]=useState();
             variant="contained"
             component={RouterLink}
             to="/dashboard/candidates/newcreate"
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            startIcon={<Iconify icon="eva:plus-fill"
+            sx={{
+              height:"35px"
+            }} />}
           >
             New candidate
           </Button>

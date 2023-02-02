@@ -70,6 +70,8 @@ import SingleJobView from './pages/SubDomain/SingleJobView';
 import JobApplication from './pages/SubDomain/JobApplication';
 import ApplyClient from './pages/settings/client/ApplyClient';
 import WebformFillup from './pages/settings/client/WebformFillup';
+import PerticularCandidate from './pages/main/candidates/PerticularCandidate';
+import CompleteAssesment from './pages/SubDomain/Steps/CompleteAssesment';
 
 
 
@@ -193,6 +195,8 @@ export default function Router() {
         { path: '/dashboard/Institute-Description/Individual-Job/Application/:webform/:assesment', element: <JobApplication />},
         { path: '/dashboard/Apply', element: <ApplyClient />},
         { path: '/dashboard/wf', element: <WebformFillup />},
+        { path: '/dashboard/candidate/perticularCandidate', element: <PerticularCandidate />},
+        { path: '/dashboard/assesment123', element: <CompleteAssesment />},
 
 
 

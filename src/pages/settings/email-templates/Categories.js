@@ -192,9 +192,9 @@ const Categories = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <h1>
             Categories
-          </Typography>
+          </h1>
           <Button
             variant="contained"
             component={RouterLink}

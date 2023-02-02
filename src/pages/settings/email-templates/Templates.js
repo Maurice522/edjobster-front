@@ -202,24 +202,17 @@ const Templates = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <h1>
             Templates
-          </Typography>
+          </h1>
           <Button
             variant="contained"
             component={RouterLink}
             to='/dashboard/createEmail'
             // onClick={addNewTemplatesHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            Create Template
-          </Button>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewTemplatesHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            startIcon={<Iconify icon="eva:plus-fill" sx={{
+              height:"35px"
+            }}/>}
           >
             Create Template
           </Button>
