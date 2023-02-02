@@ -789,6 +789,18 @@ select {
 /* Assign job end */
 
 .candidateBlueCard{
-  background-color: #c4cdf8
-  ;
+  background-color: #c4cdf8;
+  box-shadow: rgba(58, 87, 232, 0.3);
+  border-radius: 10px;
+  padding: 2%;
+}
+.quickaccess{
+  text-decoration: none;
+  color: #000000;
+  display: block;
+  margin-top: 4%;
+}
+.canhead{
+  color: #557fff;
+  text-align: center;
 }

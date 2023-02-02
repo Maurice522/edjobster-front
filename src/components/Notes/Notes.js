@@ -92,9 +92,10 @@ const Notes = (props) => {
   }, [candidateNotesData]);
   return (
     <>
+    <h4 id='education' className='canhead'>Notes</h4>
       <Grid container style={{}}>
         <Box width="100px"  >
-          <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
+          <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>            
             <TextField autoFocus={false} variant="outlined"
               size="small" classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
               {candidateNoteType &&
@@ -134,9 +135,9 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
+          <h4>
             Notes
-          </Typography>
+          </h4>
           {notes.map((item) => {
             const date = new Date(item.created);
             const formattedDate = date.toLocaleDateString('en-GB', {
@@ -174,9 +175,9 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
+          <h4>
             Interview
-          </Typography>
+          </h4>
           {interviewNotes.map((item) => {
             const date = new Date(item.created);
             const formattedDate = date.toLocaleDateString('en-GB', {
@@ -213,9 +214,9 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
+          <h4>
             Email
-          </Typography>
+          </h4>
           {emailNotes.map((item) => {
             const date = new Date(item.created);
             const formattedDate = date.toLocaleDateString('en-GB', {

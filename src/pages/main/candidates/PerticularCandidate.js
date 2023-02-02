@@ -20,8 +20,11 @@ import {
   Tooltip,
   Accordion,
   AccordionDetails,
+  Container,
   AccordionSummary,
   Avatar,
+  Stack,
+  TextField,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PersonAdd from '@mui/icons-material/PersonAdd';
@@ -32,7 +35,8 @@ import SendEmailModel from '../../../components/Mains/SendEmailModel';
 import Notes from '../../../components/Notes/Notes';
 import Iconify from '../../../components/Iconify';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
-import { useGetCandidateNotesListQuery ,useGetNotesTypesQuery} from '../../../redux/services/notes/NotesServices';
+import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../redux/services/notes/NotesServices';
+
 
 
 
@@ -41,7 +45,7 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const PerticularCandidate = (props) => {
-  console.log("recived candidateid as props",props.candidateId);
+  console.log("recived candidateid as props", props.candidateId);
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [expanded, setExpanded] = useState(false);
@@ -87,176 +91,286 @@ const PerticularCandidate = (props) => {
   }
 
   return (
-  
-      <div>
-        <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#fff' }}>
-          <Toolbar>
-            <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
-              <CloseIcon />
-            </IconButton>
-            <Grid container spacing={3}>
-              <Grid item md={2}>
-                <Typography sx={{ ml: 2 }} variant="h6" component="div" style={{ color: '#000' }}>
-                  Abhineet Sabharwal
-                </Typography>
-              </Grid>
-              <Grid item md={8} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="body1" style={{ color: '#000' }}>
-                  M.Tech. (Structure) + 91-7030205067
-                </Typography>
-              </Grid>
-              <Grid item md={2} style={{ textAlign: 'end',}}>
-                <Box sx={{ display: 'flex', justifyContent:"flex-end" }}>
-                  {/* <Typography style={{ minWidth: 100 }}>Contact</Typography>
-                  <Typography style={{ minWidth: 100 }}>Profile</Typography> */}
-                  <Tooltip title="Account settings">
-                    <IconButton
-                      onClick={handleClick}
-                      size="small"
-                      sx={{ ml: 2 }}
-                      aria-controls={open ? 'account-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? 'true' : undefined}
-                    >
-                      <Iconify icon="entypo:dots-three-vertical" width={24} height={24} />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Menu
-                  anchorEl={anchorEl}
-                  id="account-menu"
-                  open={openMenu}
-                  onClose={handleCloseMenu}
-                  onClick={handleCloseMenu}
-                  PaperProps={{
-                    elevation: 0,
-                    sx: {
-                      overflow: 'visible',
-                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                      mt: 1.5,
-                      '& .MuiAvatar-root': {
-                        width: 32,
-                        height: 32,
-                        ml: -0.5,
-                        mr: 1,
-                      },
-                      '&:before': {
-                        content: '""',
-                        display: 'block',
-                        position: 'absolute',
-                        top: 0,
-                        right: 14,
-                        width: 10,
-                        height: 10,
-                        bgcolor: 'background.paper',
-                        transform: 'translateY(-50%) rotate(45deg)',
-                        zIndex: 0,
-                      },
-                    },
-                  }}
-                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                >
-                  <MenuItem>
-                    <ListItemIcon>
-                      <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    <Typography> Edit Candidate</Typography>
-                  </MenuItem>
-                  <MenuItem onClick={sendEmailhandler}>
-                    <ListItemIcon>
-                      <AttachEmailIcon fontSize="small" />
-                    </ListItemIcon>
-                    <Typography>Send Email</Typography>
-                  </MenuItem>
-                  <MenuItem>
-                    <ListItemIcon>
-                      <VisibilityIcon fontSize="small" />
-                    </ListItemIcon>
-                    <Typography> View Past Application</Typography>
-                  </MenuItem>
-                  <MenuItem>
-                    <ListItemIcon>
-                      <DeleteForeverIcon fontSize="small" />
-                    </ListItemIcon>
-                    <Typography>Delete Candidate</Typography>
-                  </MenuItem>
-                </Menu>
-              </Grid>
+
+    <div>
+      <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#fff' }}>
+        <Toolbar>
+          <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
+            <CloseIcon />
+          </IconButton>
+          <Grid container spacing={3}>
+            <Grid item md={2}>
+              <Typography sx={{ ml: 2 }} variant="h6" component="div" style={{ color: '#000' }}>
+                Abhineet Sabharwal
+              </Typography>
             </Grid>
-          </Toolbar>
-        </AppBar>
-        <Grid container sx={{ mt: 2, pl: 2, pr: 2, mb: 4 }} spacing={3}>
-          <Grid item md={8}>
-            <Grid container>
-              <Grid item md={4}>
-                <h3>Last Job Applied</h3>
-                <p>
-                  HOD,Civil
-                </p>
-              </Grid>
-              <Grid item md={4}>
-                <h3>Last Job Applied</h3>
-                <p>
-                  Shortlisted
-                </p>
-              </Grid>
-              <Grid item md={4}>
-                <h3>Last Job Applied</h3>
-                <p>
-                  View
-                </p>
-              </Grid>
+            <Grid item md={8} style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography variant="body1" style={{ color: '#000' }}>
+                M.Tech. (Structure) + 91-7030205067
+              </Typography>
+            </Grid>
+            <Grid item md={2} style={{ textAlign: 'end', }}>
+              <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
+                {/* <Typography style={{ minWidth: 100 }}>Contact</Typography>
+                  <Typography style={{ minWidth: 100 }}>Profile</Typography> */}
+                <Tooltip title="Account settings">
+                  <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                  >
+                    <Iconify icon="entypo:dots-three-vertical" width={24} height={24} />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Menu
+                anchorEl={anchorEl}
+                id="account-menu"
+                open={openMenu}
+                onClose={handleCloseMenu}
+                onClick={handleCloseMenu}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    '&:before': {
+                      content: '""',
+                      display: 'block',
+                      position: 'absolute',
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: 'background.paper',
+                      transform: 'translateY(-50%) rotate(45deg)',
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                <MenuItem>
+                  <ListItemIcon>
+                    <PersonAdd fontSize="small" />
+                  </ListItemIcon>
+                  <Typography> Edit Candidate</Typography>
+                </MenuItem>
+                <MenuItem onClick={sendEmailhandler}>
+                  <ListItemIcon>
+                    <AttachEmailIcon fontSize="small" />
+                  </ListItemIcon>
+                  <Typography>Send Email</Typography>
+                </MenuItem>
+                <MenuItem>
+                  <ListItemIcon>
+                    <VisibilityIcon fontSize="small" />
+                  </ListItemIcon>
+                  <Typography> View Past Application</Typography>
+                </MenuItem>
+                <MenuItem>
+                  <ListItemIcon>
+                    <DeleteForeverIcon fontSize="small" />
+                  </ListItemIcon>
+                  <Typography>Delete Candidate</Typography>
+                </MenuItem>
+              </Menu>
             </Grid>
           </Grid>
-          <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Button variant="contained" style={{ textTransform: 'capitalize' }}>
-              Schedule Interview
-            </Button>
-            <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={assignJobModel}>
-              Assign to a job
-            </Button>
-            <Box sx={{ flexGrow: 0 }}>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={handleOpenUserMenu}
-                style={{ textTransform: 'capitalize' }}
-              >
-                Hiring Status
-              </Button>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
+        </Toolbar>
+      </AppBar>
+      <Grid container sx={{ mt: 2, pl: 2, pr: 2, mb: 4 }} spacing={3}>
+        <Grid item md={8}>
+          <Grid container>
+            <Grid item md={4}>
+              <h3>Last Job Applied</h3>
+              <p>
+                HOD,Civil
+              </p>
+            </Grid>
+            <Grid item md={4}>
+              <h3>Last Job Applied</h3>
+              <p>
+                Shortlisted
+              </p>
+            </Grid>
+            <Grid item md={4}>
+              <h3>Last Job Applied</h3>
+              <p>
+                View
+              </p>
+            </Grid>
           </Grid>
         </Grid>
-        <Divider variant="middle" />
-        <Grid container sx={{ mt: 1 }} spacing={2}>
+        <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Button variant="contained" style={{ textTransform: 'capitalize' }}>
+            Schedule Interview
+          </Button>
+          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={assignJobModel}>
+            Assign to a job
+          </Button>
+          <Box sx={{ flexGrow: 0 }}>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleOpenUserMenu}
+              style={{ textTransform: 'capitalize' }}
+            >
+              Hiring Status
+            </Button>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Grid>
+      </Grid>
+      <Divider variant="middle" />
+      <Stack sx={{
+        display:"flex",
+        flexDirection:"row"
+      }}>
+      <Card sx={{
+        width: "200px",
+        height: "216px",
+        padding: "1%",
+        paddingLeft: "2%",
+        marginTop:"10%",
+        boxShadow:"rgba(0, 0, 0, 0.25)"
+      }}>
+        <h3>Quick Access</h3>
+        <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
+        <a className='quickaccess' href='#work'>Work Experiance</a>
+        <a className='quickaccess' href='#education'>Education Details</a>
+        <a className='quickaccess' href='#notes'>Notes</a>
+
+      </Card>
+      <Container sx={{
+        width: "80%",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}>
+        <Stack sx={{
+          marginTop: "10%"
+        }}>
+
+          <Stack sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            gap: "20%"
+
+          }}>
+            <Stack>
+              <TextField
+                sx={{
+                  margin: "4%"
+                }}
+                required
+                fullWidth
+                id="standard-required"
+                label="Phone"
+                name="phone"
+              />
+              <TextField
+                sx={{
+                  margin: "4%"
+                }}
+                required
+                id="standard-required"
+                label="E-mail"
+                name="email"
+                fullWidth
+              />
+              <TextField
+                sx={{
+                  margin: "4%"
+                }}
+                required
+                id="standard-required"
+                label="Address"
+                fullWidth
+                name="address"
+              />
+            </Stack>
+            <Stack>
+              <TextField
+                sx={{
+                  margin: "4%"
+                }}
+                required
+                fullWidth
+                id="standard-required"
+                label="Gender"
+                name="Gender"
+              />
+              <TextField
+                sx={{
+                  margin: "4%"
+                }}
+                required
+                fullWidth
+                id="standard-required"
+                label="D.O.B"
+                name="dob"
+              />
+              <TextField
+                sx={{
+                  margin: "4%"
+                }}
+                required
+                fullWidth
+                id="standard-required"
+                label="Nationality"
+                name="nationality"
+              />
+
+              <TextField
+                sx={{
+                  margin: "4%"
+                }}
+                required
+                fullWidth
+                id="standard-required"
+                label="Marital Status"
+                name="marital"
+              />
+            </Stack>
+          </Stack>
+        </Stack>
+        <Grid container sx={{ mt: 1, justifyContent: "center" }} spacing={2}>
           <Grid item md={8} sx={{ ml: 3 }}>
-            <Grid container style={{ display: 'flex', alignItems: 'center' }}>
-              <Grid item md={12}>
-                <h3>Candidate Profile</h3>
-              </Grid>
+            <Grid item md={12}>
+              <h3 id='candidateprofile' className='canhead'>Candidate Profile</h3>
             </Grid>
             <Grid container sx={{ mt: 4, pr: 2 }} spacing={2}>
               <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
@@ -283,7 +397,7 @@ const PerticularCandidate = (props) => {
                 <h4>Total Experiance</h4>
               </Grid>
               <Grid item md={8}>
-                <p className='candidateBlueCard'>12 Years</p>
+                <p className='candidateBlueCard' style={{width:"20%"}}>12 Years</p>
               </Grid>
               <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
                 <h4>Skills</h4>
@@ -297,7 +411,7 @@ const PerticularCandidate = (props) => {
             </Grid>
             <Grid container sx={{ mt: 4 }}>
               <Grid item md={12}>
-                <h4>Work Experiance</h4>
+                <h4 id='work'className='canhead'>Work Experiance</h4>
               </Grid>
               <Grid item md={12} sx={{ mt: 2, pr: 2 }}>
                 <Card>
@@ -368,7 +482,7 @@ const PerticularCandidate = (props) => {
             </Grid>
             <Grid container sx={{ mt: 4, mb: 4 }}>
               <Grid item md={12}>
-                <h4>Education Details</h4>
+                <h4 id='education' className='canhead'>Education Details</h4>
               </Grid>
               <Grid item md={12} sx={{ mt: 2, pr: 2 }}>
                 <Card>
@@ -439,13 +553,16 @@ const PerticularCandidate = (props) => {
             </Grid>
           </Grid>
           {/* <Divider orientation="vertical" flexItem /> */}
-          <Grid item md={3}>
-            <Notes candidateId={props.candidateId} />
-          </Grid>
+
         </Grid>
-        <AssignJobModel open={modelOpen} handleClose={assignJobModelClosed} />
-        <SendEmailModel open={emailModelOpen} handleClose={assignJobModelClosed} />
-      </div>
+        <Grid item md={3} id='notes'>
+          <Notes candidateId={props.candidateId} />
+        </Grid>
+      </Container>
+      </Stack>
+      <AssignJobModel open={modelOpen} handleClose={assignJobModelClosed} />
+      <SendEmailModel open={emailModelOpen} handleClose={assignJobModelClosed} />
+    </div>
 
   );
 };
