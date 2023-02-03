@@ -190,7 +190,7 @@ export default function Router() {
         { path: '/dashboard/candidates/candidate', element: <IndCanCandidates /> },
         { path: '/dashboard/Institute-Description', element: <CareerSiteDescription />},
         { path: '/dashboard/Institute-Description/Individual-Job/:id', element: <SingleJobView />},
-        { path: '/dashboard/Institute-Description/Individual-Job/Application/:webform/:assesment', element: <JobApplication />},
+        { path: '/dashboard/Institute-Description/Individual-Job/Application/:webform', element: <JobApplication />},
         { path: '/dashboard/Apply', element: <ApplyClient />},
         { path: '/dashboard/wf', element: <WebformFillup />},
 

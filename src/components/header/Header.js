@@ -10,7 +10,7 @@ import Search from "../../assets/images/search.svg";
 
 const Header = () => {
   const navigate = useNavigate()
-  const userData = JSON.parse(localStorage.getItem("globalUser")).account
+  const userData = JSON.parse(localStorage.getItem("globalUser"))?.account
   console.log(userData)
   return (
     <div className="header">
@@ -87,8 +87,8 @@ const Header = () => {
             <AccountPopover />
             <div className="header-user">
               <div>
-                <p className="header-name">{(userData.first_name || "Test") + (` ${userData.last_name}` || " ")}</p>
-                <p className="header-role">{(userData.designation || "Admin")}</p>
+                <p className="header-name">{(userData?.first_name || "Test") + (` ${userData?.last_name}` || " ")}</p>
+                <p className="header-role">{(userData?.designation || "Admin")}</p>
               </div>
             </div>
           </div>

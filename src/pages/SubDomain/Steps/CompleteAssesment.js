@@ -18,8 +18,8 @@ import {
 import { useParams } from 'react-router-dom';
 
 function CompleteAssesment() {
-  const {assesment} = useParams();
-
+  const assesment = localStorage.getItem("assesment")
+  console.log(assesment)
   return (
     <div className='ApplicationSteps'>
            <Container>
