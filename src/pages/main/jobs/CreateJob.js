@@ -108,9 +108,7 @@ const CreateJob = () => {
     }
   };
   useEffect(() => {
-    console.log(jobData)
     if (jobData) {
-      console.log('Edit Job data recieved from server', jobData);
       const textValue1 = {
         id: editJobId,
         title: jobData?.title,

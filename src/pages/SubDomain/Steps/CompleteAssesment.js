@@ -24,7 +24,9 @@ import ReactQuill from 'react-quill';
 import { useParams } from 'react-router-dom';
 
 function CompleteAssesment() {
-  const { assesment } = useParams();
+  const assesment = localStorage.getItem("assesment")
+  console.log(assesment)
+  // const { assesment } = useParams();
 
   return (
     <div className='ApplicationSteps'>

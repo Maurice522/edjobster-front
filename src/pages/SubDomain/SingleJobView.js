@@ -33,6 +33,7 @@ function SingleJobView() {
         }else {
             setJobType("Part Time")
         }
+        localStorage.setItem("assesment", data?.assesment)
     },[data])
 
     return (
@@ -165,7 +166,7 @@ function SingleJobView() {
                         justifyContent: "center"
                     }}
                     variant="contained"
-                    onClick={() => navigate(`/dashboard/Institute-Description/Individual-Job/Application/${data.webform}/${data?.assesment}`)}
+                    onClick={() => navigate(`/dashboard/Institute-Description/Individual-Job/Application/${data.webform}`)}
                 >
                     Apply
                 </Button>
