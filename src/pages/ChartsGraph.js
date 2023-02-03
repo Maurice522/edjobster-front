@@ -61,7 +61,7 @@ export default function ChartsGraph() {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="hrs" fill="#4a77ff" />
+      <Bar dataKey="hrs" barSize={40} fill="#4a77ff" />
     </BarChart>
     </>
   );
