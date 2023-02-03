@@ -116,7 +116,7 @@ function NewCreateInterview() {
       console.log(addInterviewInfo.error)
     }
   }, [addInterviewInfo, navigate])
-  
+
   return (
     <div>
       {/* <FormikProvider>
@@ -179,25 +179,41 @@ function NewCreateInterview() {
               name="type"
               onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
             >
-              <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={5} mb={5} ml={0} mr={0}>
+              <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} mb={5} ml={0} mr={0}>
                 <FormControlLabel
+                  sx={{
+                    backgroundColor: "#f9fafb",
+                    marginRight: "0",
+                    "&.MuiTypography-root": {
+                      backgroundColor: '#f9fafb'
+                    },
+                    "&.MuiFormControlLabel-label": {
+                      backgroundColor: '#f9fafb'
+                    }
+                  }}
                   value="IP"
                   control={<Radio />}
-                  label="In Person"
                   labelPlacement="end"
                 />
+                <p style={{ marginLeft: "0.5%" }}>In person</p>
                 <FormControlLabel
+                  sx={{
+                    marginLeft: "1%"
+                  }}
                   value="PC"
                   control={<Radio />}
-                  label="Telephonic"
                   labelPlacement="end"
                 />
+                <p style={{ marginLeft: "0.5%" }}>Telephonic</p>
                 <FormControlLabel
+                  sx={{
+                    marginLeft: "1%"
+                  }}
                   value="VC"
                   control={<Radio />}
-                  label="Video"
                   labelPlacement="end"
                 />
+                <p style={{ marginLeft: "0.5%" }}>Video</p>
               </Stack>
             </RadioGroup>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>

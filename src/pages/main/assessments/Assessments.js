@@ -213,7 +213,10 @@ useEffect(() => {
             variant="contained"
             component={RouterLink}
             to="/dashboard/assessments/create-assessment"
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            
+            startIcon={<Iconify icon="eva:plus-fill" sx={{
+              height:"35px"
+            }}/>}
           >
             New Assessment
           </Button>

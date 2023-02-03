@@ -25,7 +25,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-job"
               }
-            >
+             >
               Jobs
             </NavLink >
           </div>
@@ -48,7 +48,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
-            >
+             >
               Interviews
             </NavLink >
             <NavLink sx={{ textDecoration: "none", color: "red" }}
@@ -70,7 +70,23 @@ const Header = () => {
               }
             >
               Settings
-            </NavLink >
+            </NavLink>
+            {/* <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? "header-job-active" : "header-menu"
+              }
+            >
+              Login
+            </NavLink>
+            <NavLink
+              to="/register"
+              className={({ isActive }) =>
+                isActive ? "header-job-active" : "header-menu"
+              }
+            >
+              Register
+            </NavLink> */}
           </div>
           <div className="Header-lower-bar">
             <div className="header-search">

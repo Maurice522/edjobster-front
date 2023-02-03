@@ -89,7 +89,7 @@ const Interviews = () => {
   const columns = [
     {
       name: 'id',
-      label: 'Candidate',
+      label: 'Candidate Id',
       options: {
         filter: true,
         sort: true,

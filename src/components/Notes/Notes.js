@@ -4,7 +4,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
 import {
-  CardContent, 
+  CardContent,
   Card,
   Grid,
   Divider,
@@ -92,17 +92,18 @@ const Notes = (props) => {
   }, [candidateNotesData]);
   return (
     <>
-      <Grid container style={{ }}>
+    <h4 id='education' className='canhead'>Notes</h4>
+      <Grid container style={{}}>
         <Box width="100px"  >
-          <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>
-            <TextField    autoFocus={false}           variant="outlined"
- size="small"   classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
+          <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>            
+            <TextField autoFocus={false} variant="outlined"
+              size="small" classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
               {candidateNoteType &&
                 candidateNoteType?.types &&
                 candidateNoteType.types.map((item) => {
-                  
+
                   return (
-                    <MenuItem  key={item.id} value={item.id}>
+                    <MenuItem key={item.id} value={item.id}>
                       {item.name}
                     </MenuItem>
                   );
@@ -134,9 +135,9 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
+          <h4>
             Notes
-          </Typography>
+          </h4>
           {notes.map((item) => {
             const date = new Date(item.created);
             const formattedDate = date.toLocaleDateString('en-GB', {
@@ -174,16 +175,16 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
+          <h4>
             Interview
-          </Typography>
+          </h4>
           {interviewNotes.map((item) => {
-             const date = new Date(item.created);
-             const formattedDate = date.toLocaleDateString('en-GB', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric',
-             })
+            const date = new Date(item.created);
+            const formattedDate = date.toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })
             return (
               <>
                 <Card style={{ backgroundColor: '#5656561f' }}>
@@ -213,16 +214,16 @@ const Notes = (props) => {
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
-          <Typography variant="subtitle2" sx={{ mb: 1, ml: 1 }}>
+          <h4>
             Email
-          </Typography>
+          </h4>
           {emailNotes.map((item) => {
-             const date = new Date(item.created);
-             const formattedDate = date.toLocaleDateString('en-GB', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric',
-             })
+            const date = new Date(item.created);
+            const formattedDate = date.toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })
             return (
               <>
                 <Card style={{ backgroundColor: '#5656561f' }}>

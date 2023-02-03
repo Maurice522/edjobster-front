@@ -119,9 +119,9 @@ const CareerSite = () => {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4" gutterBottom>
+        <h1>
           Career Site
-        </Typography>
+        </h1>
       </Stack>
       <DialogContent>
         <Card sx={{ minWidth: 275, p: 4 }} variant="outlined">
@@ -139,50 +139,68 @@ const CareerSite = () => {
                   onChange={onInputChangeHandler}
                 />
               </Grid>
-              <Grid item xs={12} md={7}>
+              <Grid item xs={12} md={7} sx={{
+                display:"flex",
+                flexDirection:"row",
+                justifyContent:"space-between",
+              }}>
                 {/* <FileUpload value={files} onChange={setFiles} /> */}
-                <ImagePreview
-                  logo={companyData.logo}
-                  onFileSelectSuccess={(file) => companyLogoChangeHandler(file)}
-                  onFileSelectError={({ error }) => showToast("error", error)}
-                />
+                <Stack>
+                  <ImagePreview
+                    logo={companyData.logo}
+                    onFileSelectSuccess={(file) => companyLogoChangeHandler(file)}
+                    onFileSelectError={({ error }) => showToast("error", error)}
+                  />
+                </Stack>
+                <Stack sx={{}}>
+                  <Grid item xs={12} md={7} sx={{width:"300px",marginBottom:"4%"}}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      name="website"
+                      value={companyData.website}
+                      label="Institute Website"
+                      onChange={onInputChangeHandler}
+                      sx={{
+                        width:"300px"
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={7} sx={{width:"300px",marginBottom:"4%"}}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      name="address"
+                      value={companyData.address}
+                      label="Institute Address"
+                      onChange={onInputChangeHandler}
+                      sx={{
+                        width:"300px"
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={7}>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      variant="outlined"
+                      fullWidth
+                      value={companyData.landmark}
+                      label="Address Landmark"
+                      name="landmark"
+                      onChange={onInputChangeHandler}
+                      sx={{
+                        width:"300px"
+                      }}
+                    />
+                  </Grid>
+                </Stack>
               </Grid>
-              <Grid item xs={12} md={7}>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  variant="outlined"
-                  fullWidth
-                  name="website"
-                  value={companyData.website}
-                  label="Institute Website"
-                  onChange={onInputChangeHandler}
-                />
-              </Grid>
-              <Grid item xs={12} md={7}>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  variant="outlined"
-                  fullWidth
-                  name="address"
-                  value={companyData.address}
-                  label="Institute Address"
-                  onChange={onInputChangeHandler}
-                />
-              </Grid>
-              <Grid item xs={12} md={7}>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  variant="outlined"
-                  fullWidth
-                  value={companyData.landmark}
-                  label="Address Landmark"
-                  name="landmark"
-                  onChange={onInputChangeHandler}
-                />
-              </Grid>
+
 
               <Grid item xs={12} md={7}>
                 <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
@@ -209,7 +227,7 @@ const CareerSite = () => {
                     //   onChange={handleChange}
                     label="Select State"
                   >
-                    
+
                     {stateData && stateData?.states?.map((state) => <MenuItem key={state?.id} value={state?.id}>{state?.name}</MenuItem>)}
                   </Select>
                 </FormControl>
@@ -239,7 +257,7 @@ const CareerSite = () => {
                   onChange={onInputChangeHandler}
                 />
               </Grid>
-              <Grid item xs={12}  md={7}>
+              <Grid item xs={12} md={7}>
                 <TextField
                   multiline
                   rows={4}
