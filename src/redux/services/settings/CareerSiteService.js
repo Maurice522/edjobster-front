@@ -7,7 +7,7 @@ const extendedApi = apiBasePath.injectEndpoints({
     endpoints: (build) => ({
         getCompanyInfo: build.query({
             query: () => ({
-                url: `${apiUrl.companyInfo}`,
+                url: `${apiUrl.companyInfo}`
             }),
         }),
         updateCompanyInfo: build.mutation({
