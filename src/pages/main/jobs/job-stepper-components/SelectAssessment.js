@@ -73,13 +73,13 @@ const SelectAssessment = () => {
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                multiple
+                //  multiple
                 value={textValue.assesment}
                 onChange={onInputChangeHandler}
                 label="Select Assessment"
                 name="assesment"
                 // renderValue={renderMultiSelectValues}
-                MenuProps={MenuProps}
+                //  MenuProps={MenuProps}
 
               >
                 {selectAssesmentData &&
