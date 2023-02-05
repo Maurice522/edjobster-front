@@ -27,7 +27,6 @@ import {
 const CreateCandidate = () => {
   const [modelOpen, setModelOpen] = useState(false);
   const {data: countryData} = useGetCountryQuery();
-  console.log(countryData)
 
   // const {data: stateData} = useGetStateQuery();
   // const {data: cityData} = useGetCityQuery();

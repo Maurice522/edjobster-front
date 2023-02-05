@@ -91,7 +91,6 @@ const PerticularCandidate = (props) => {
   }
 
   return (
-
     <div>
       <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#fff' }}>
         <Toolbar>
