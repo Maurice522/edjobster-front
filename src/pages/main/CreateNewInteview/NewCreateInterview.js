@@ -25,8 +25,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useGetJobListQuery } from "../../../redux/services/jobs/JobListService";
-import { useGetEmailTamplateQuery } from '../../../redux/services/settings/EmailTamplateService';
+import { useGetEmailTamplateQuery, useGetEmailTemplateByIdQuery } from '../../../redux/services/settings/EmailTamplateService';
 import { useGetUsersApiQuery } from '../../../redux/services/settings/UserService';
 import { useGetLocationQuery } from "../../../redux/services/settings/LocationService";
 import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
@@ -77,6 +78,8 @@ function NewCreateInterview() {
   const { data: candidateData, refetch: candidateDataRefetch } = useGetCandidateListQuery()
   const { data: locationData, refetch: locationDataRefetch } = useGetLocationQuery()
   const { data: interviewerData, refetch: interviewerDataRefetch } = useGetUsersApiQuery()
+  const [emailTemplateId,setEmailTemplateId] = useState(skipToken)
+  const {data: emailTemplateDetails, refetch: emailTemplateDetailsRefetch} = useGetEmailTemplateByIdQuery(emailTemplateId)
 
   const [formData, setFormData] = useState({
     candidate_id: 1,
@@ -93,6 +96,9 @@ function NewCreateInterview() {
     title: "",
   })
   const handleChangeFormData = (name, value) => {
+    if(name === "email_temp_id"){
+      setEmailTemplateId(value)
+    }
     console.log(name, value)
     setFormData(prev => {
       prev[name] = value
@@ -107,6 +113,15 @@ function NewCreateInterview() {
   }
 
   useEffect(() => {
+    emailTemplateDetailsRefetch()
+    setFormData(prev => {
+      prev.email_sub = emailTemplateDetails?.subject
+      prev.email_msg = emailTemplateDetails?.message
+      return prev
+    })
+  },[emailTemplateId])
+
+  useEffect(() => {
     if (addInterviewInfo.isSuccess) {
       showToast("success", "Interview added successfully")
 
@@ -116,6 +131,12 @@ function NewCreateInterview() {
       console.log(addInterviewInfo.error)
     }
   }, [addInterviewInfo, navigate])
+
+  useEffect(() => {
+    jobDataRefetch()
+    emailTemplateDataRefetch()
+    candidateDataRefetch()
+  },[])
 
   return (
     <div>
@@ -352,12 +373,10 @@ function NewCreateInterview() {
                   }}
                   onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
                 >
-                  {emailTemplateData ? emailTemplateData?.data?.map((e) =>
+                  {emailTemplateData?.data?.map((e) =>
                     <MenuItem key={e.id} value={e.id}>
                       {e.subject}
-                    </MenuItem>) : <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>}
+                    </MenuItem>)}
                 </Select>
               </FormControl>
             </Stack>
@@ -391,20 +410,23 @@ function NewCreateInterview() {
               <TextField sx={{
                 width: "100%"
               }}
+                
+                // value={formData?.email_sub}
                 required
                 id="standard-required"
                 label="Subject"
                 variant="standard"
                 name="email_sub"
-                onChange={e => handleChangeFormData(e.target.name, e.target.value.trim())}
+                onChange={e => handleChangeFormData(e.target.name, e.target.value)}
               />
             </Stack>
             <p>Email Body</p>
+            
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
               <ReactQuill
                 theme="snow"
                 modules={modules}
-                formats={formats} value={state.comments || ''}
+                formats={formats} value={emailTemplateDetails?.message}
                 name="email_msg"
                 onChange={e => {
                   handleChangeFormData("email_msg", e)
