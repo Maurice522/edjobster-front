@@ -198,9 +198,9 @@ const Approvals = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <h1>
             Approvals
-          </Typography>
+          </h1>
         </Stack>
         <Card>
           <MUIDataTable title={'Approval List'} data={data} columns={columns} options={options} />

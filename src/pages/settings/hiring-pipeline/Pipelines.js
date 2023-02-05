@@ -58,6 +58,7 @@ const Pipelines = () => {
     setEditModalOpen(false);
   };
 
+  console.log("this is pipeline", AddPipelineApiInfo)
   const sortData = useMemo(() => {
     const sortresult = sortedDataFn(data.data);
     return sortresult;

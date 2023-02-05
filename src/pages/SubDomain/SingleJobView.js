@@ -33,6 +33,7 @@ function SingleJobView() {
         }else {
             setJobType("Part Time")
         }
+        localStorage.setItem("assesment", data?.assesment)
     },[data])
 
     return (

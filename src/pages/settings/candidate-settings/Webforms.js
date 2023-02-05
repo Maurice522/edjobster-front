@@ -151,9 +151,9 @@ const Webforms = () => {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
+          <h1>
             Webforms
-          </Typography>
+          </h1>
           <Button
             variant="contained"
             component={RouterLink}
@@ -161,15 +161,6 @@ const Webforms = () => {
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Webform 1
-          </Button>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            onClick={addNewWebformHandler}
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Webform 2
           </Button>
         </Stack>
         <Card>

@@ -20,6 +20,7 @@ import {
   useDeleteAssesmentQuestionsMutation,
 } from '../../../redux/services/main/AssesmentQuestionsService';
 import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice';
+import {useGetCompanyInfoQuery} from "../../../redux/services/settings/CareerSiteService"
 import Iconify from '../../../components/Iconify';
 import CandidateSettingModal from "../../settings/candidate-settings/CandidateSettingsModal";
 
@@ -57,6 +58,7 @@ const CreateAssessment = () => {
       const [modal2Name, setModal2Name] = useState('add');
       // const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssesmentCategoryMutation();
 
+  const {data: companyInfo}= useGetCompanyInfoQuery()
 //  const addClickHandler = async () => {
 //     setBtnLoader(true);
 //     if (modal2Name === 'Add') {
@@ -235,6 +237,8 @@ const CreateAssessment = () => {
       await addAssesment({
         category: selectedAssesmentCategory,
         name: assesmentName,
+        company: companyInfo?.company?.id,
+        form: questions
       });
     }
   };

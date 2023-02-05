@@ -89,7 +89,7 @@ const Interviews = () => {
   const columns = [
     {
       name: 'id',
-      label: 'Candidate',
+      label: 'Candidate Id',
       options: {
         filter: true,
         sort: true,
@@ -150,6 +150,7 @@ const Interviews = () => {
                 <Iconify icon="ep:edit" width={24} height={24} />
               </ListItemIcon>
             </Button>
+
             <LoadingButton
               style={{ minWidth: 0, margin: '0px 5px' }}
               variant="contained"

@@ -116,9 +116,7 @@ function NewCreateInterview() {
       console.log(addInterviewInfo.error)
     }
   }, [addInterviewInfo, navigate])
-  console.log(interviewerData)
-  console.log(jobData)
-  console.log(locationData)
+
   return (
     <div>
       {/* <FormikProvider>
@@ -150,7 +148,7 @@ function NewCreateInterview() {
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
               <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                <InputLabel id="select-city">Select Candidate</InputLabel>
+                <InputLabel id="select-candidate">Select Candidate</InputLabel>
                 <Select sx={{
                   width: "60%"
                 }}
@@ -181,25 +179,41 @@ function NewCreateInterview() {
               name="type"
               onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
             >
-              <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={5} mb={5} ml={0} mr={0}>
+              <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} mb={5} ml={0} mr={0}>
                 <FormControlLabel
+                  sx={{
+                    backgroundColor: "#f9fafb",
+                    marginRight: "0",
+                    "&.MuiTypography-root": {
+                      backgroundColor: '#f9fafb'
+                    },
+                    "&.MuiFormControlLabel-label": {
+                      backgroundColor: '#f9fafb'
+                    }
+                  }}
                   value="IP"
                   control={<Radio />}
-                  label="In Person"
                   labelPlacement="end"
                 />
+                <p style={{ marginLeft: "0.5%" }}>In person</p>
                 <FormControlLabel
+                  sx={{
+                    marginLeft: "1%"
+                  }}
                   value="PC"
                   control={<Radio />}
-                  label="Telephonic"
                   labelPlacement="end"
                 />
+                <p style={{ marginLeft: "0.5%" }}>Telephonic</p>
                 <FormControlLabel
+                  sx={{
+                    marginLeft: "1%"
+                  }}
                   value="VC"
                   control={<Radio />}
-                  label="Video"
                   labelPlacement="end"
                 />
+                <p style={{ marginLeft: "0.5%" }}>Video</p>
               </Stack>
             </RadioGroup>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
@@ -276,7 +290,7 @@ function NewCreateInterview() {
                   }}
                   onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
                 >
-                  {locationData ? locationData?.list?.map((e) =>
+                  {locationData ? locationData?.data?.map((e) =>
                     <MenuItem id={e.id} key={e.id} value={e.id}>
                       {e.name}
                     </MenuItem>) : <MenuItem value="">
@@ -286,78 +300,92 @@ function NewCreateInterview() {
               </FormControl>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "60%"
-              }}
-                required
-                id="standard-required"
-                select
-                name="interviewers"
-                label="Interviewrs"
-                variant="standard"
-                SelectProps={{
-                  native: true
+              <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
+                <InputLabel id="select-city">Select Interviewr</InputLabel>
+                <Select sx={{
+                  width: "60%"
                 }}
-                onChange={(e) => !formData[e.target.name].includes(e.target.value) ?
-                  handleChangeFormData(e.target.name, [...formData[e.target.name], e.target.value]) :
-                  handleChangeFormData(e.target.name, formData[e.target.name])
-                }
-              // onChange={(e) => handleChangeFormData()}
-              >
-                {interviewerData && interviewerData?.list?.map((e) => (
-                  <option id={e.id} key={e.account_id} value={e.account_id}>
-                    {e.first_name}
-                  </option>
-                ))}
-              </TextField>
+                  required
+                  id="standard-required"
+                  select
+                  name="interviewers"
+                  label="Interviewrs"
+                  variant="standard"
+                  SelectProps={{
+                    native: true
+                  }}
+                  onChange={(e) => !formData[e.target.name].includes(e.target.value) ?
+                    handleChangeFormData(e.target.name, [...formData[e.target.name], e.target.value]) :
+                    handleChangeFormData(e.target.name, formData[e.target.name])
+                  }
+                // onChange={(e) => handleChangeFormData()}
+                >
+                  {interviewerData ? interviewerData?.list?.map((e) =>
+                    <MenuItem key={e.account_id} value={e.account_id}>
+                      {e.first_name}
+                    </MenuItem>) : <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>}
+
+                </Select>
+              </FormControl>
             </Stack>
           </Stack>
         </Stack>
         <Stack ml={5}>
           <Stack mt={7}>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "100%"
-              }}
-                required
-                select
-                id="standard-required"
-                label="Select Email Template"
-                variant="standard"
-                name="email_temp_id"
-                SelectProps={{
-                  native: true
+              <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
+                <InputLabel id="select-candidate">Select Email Template</InputLabel>
+
+                <Select sx={{
+                  width: "100%"
                 }}
-                onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
-              >
-                {emailTemplateData && emailTemplateData?.data?.map((e) => (
-                  <option id={e.id} key={e.id} value={e.id}>
-                    {e.subject}
-                  </option>
-                ))}
-              </TextField>
+                  required
+                  select
+                  id="standard-required"
+                  label="Select Email Template"
+                  variant="standard"
+                  name="email_temp_id"
+                  SelectProps={{
+                    native: true
+                  }}
+                  onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                >
+                  {emailTemplateData ? emailTemplateData?.data?.map((e) =>
+                    <MenuItem key={e.id} value={e.id}>
+                      {e.subject}
+                    </MenuItem>) : <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>}
+                </Select>
+              </FormControl>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
-              <TextField sx={{
-                width: "100%"
-              }}
-                required
-                select
-                id="standard-required"
-                label="Job"
-                variant="standard"
-                name="job_id"
-                SelectProps={{
-                  native: true
+              <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
+                <InputLabel id="select-candidate">Select Job</InputLabel>
+                <Select sx={{
+                  width: "100%"
                 }}
-                onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
-              >
-                {jobData && jobData?.map((e) => (
-                  <option id={e.id} key={e.id} value={e.id}>
-                    {e.title}
-                  </option>
-                ))}
-              </TextField>
+                  required
+                  select
+                  id="standard-required"
+                  label="Job"
+                  variant="standard"
+                  name="job_id"
+                  SelectProps={{
+                    native: true
+                  }}
+                  onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                >
+                  {jobData ? jobData?.map((e) =>
+                    <MenuItem key={e.id} value={e.id}>
+                      {e.title}
+                    </MenuItem>) : <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>}
+                </Select>
+              </FormControl>
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mb={5} ml={0} mr={0}>
               <TextField sx={{

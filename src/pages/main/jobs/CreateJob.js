@@ -108,9 +108,7 @@ const CreateJob = () => {
     }
   };
   useEffect(() => {
-    console.log(jobData)
     if (jobData) {
-      console.log('Edit Job data recieved from server', jobData);
       const textValue1 = {
         id: editJobId,
         title: jobData?.title,
@@ -145,7 +143,7 @@ const CreateJob = () => {
         owner_name: jobData?.owner,
         city_name: jobData?.city?.city_name,
         department_name: jobData?.department?.department_name,
-        location: jobData?.location,
+        address: jobData?.address,
       };
       console.log('Edit Job data recieved', textValue1);
       dispatch(jobAction(textValue1));
@@ -224,7 +222,7 @@ const CreateJob = () => {
         state: null,
         city: '',
         description: '',
-        
+        address:'',
         job_boards: ['Linedin-id'],
         pipeline: null,
         active: 1,
@@ -307,7 +305,7 @@ const CreateJob = () => {
       status = false;
       showToast('error', 'fill the salary_type');
     }
-    if(job.location ===null || job.location === '' || job.location === undefined) {
+    if(job.address ===null || job.address === '' || job.address === undefined) {
       status = false;
       showToast('error', 'fill the Address state');
     }

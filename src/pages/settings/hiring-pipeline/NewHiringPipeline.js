@@ -179,7 +179,10 @@ function NewHiringPipeline() {
     <div>
       <Page title="Pipeline">
         <Container>
-          <Stack direction="row" alignItems="center" justifyContent="flex-end" mb={5} sx={{marginTop:"0"}}>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} sx={{marginTop:"0"}}>
+            <h1>
+              Pipelines
+            </h1>
             <AddCircleRoundedIcon onClick={addNewPipelineHandler}
               sx={{
                 marginTop:"0",
