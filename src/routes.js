@@ -72,6 +72,7 @@ import ApplyClient from './pages/settings/client/ApplyClient';
 import WebformFillup from './pages/settings/client/WebformFillup';
 import PerticularCandidate from './pages/main/candidates/PerticularCandidate';
 import CompleteAssesment from './pages/SubDomain/Steps/CompleteAssesment';
+import PerticularJob from './pages/main/jobs/PerticularJob';
 
 
 
@@ -196,6 +197,7 @@ export default function Router() {
         { path: '/dashboard/Apply', element: <ApplyClient />},
         { path: '/dashboard/wf', element: <WebformFillup />},
         { path: '/dashboard/candidate/perticularCandidate', element: <PerticularCandidate />},
+        { path: '/dashboard/candidate/perticularJob', element: <PerticularJob />},
         { path: '/dashboard/assesment123', element: <CompleteAssesment />},
 
 

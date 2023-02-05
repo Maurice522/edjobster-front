@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { sentenceCase } from 'change-case';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -38,6 +38,7 @@ import { useGetJobQuery, useAddJobMutation, useDeleteJobMutation } from '../../.
 // mock
 
 const Jobs = () => {
+  const navigate = useNavigate();
   const [modelOpen, setModelOpen] = useState(false);
 
   const [detailsId, setDetailsId] = useState();
@@ -133,7 +134,8 @@ const Jobs = () => {
             <Button
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
-              onClick={() => onJobViewModel(data?.[dataIndex].id)}
+              // onClick={() => onJobViewModel(data?.[dataIndex].id)}
+              onClick={() => navigate('/dashboard/candidate/perticularJob')}
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
