@@ -124,7 +124,7 @@ const PerticularCandidate = (props) => {
       <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#f9fafb' }}>
         <Toolbar>
           <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
-            <CloseIcon />
+            <CloseIcon onClick={()=>(navigate(-1))}/>
           </IconButton>
           <Grid container spacing={3} >
             <Grid item md={2}>
