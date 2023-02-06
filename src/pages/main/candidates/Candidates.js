@@ -138,8 +138,8 @@ const [candidateId,setCandidateId]=useState();
               variant="contained"
               // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
               onClick={() => { 
-                console.log(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`); 
-                navigate(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`)
+                console.log(`/dashboard/candidate/jobDetails/${data?.list[dataIndex]?.id}`); 
+                navigate(`/dashboard/candidate/jobDetails/${data?.list[dataIndex]?.id}`)
               }}
               color="info"
             >
