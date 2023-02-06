@@ -102,7 +102,7 @@ const Notes = (props) => {
             <TextField
               id="outlined-basic"
               label="Type Somthing"
-              placeholder="TypeSomthing..."
+              placeholder="Type Somthing..."
               fullWidth
               variant="outlined"
               size="small"
@@ -135,12 +135,14 @@ const Notes = (props) => {
               <>
                 <Card style={{ backgroundColor: '#5656561f' }}>
                   <CardContent>
-                    <Typography variant="body2">{item.note}</Typography>
+                    <p style={{
+                      backgroundColor: '#e5e6e7'
+                    }}>{item.note}</p>
                   </CardContent>
                 </Card>
                 <Grid container sx={{ mt: 1, ml: 1 }}>
                   <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button variant="contained" onClick={() => onDeleteHandler(item.id)}>
+                    <Button style={{marginBottom:"10%" }} variant="contained" onClick={() => onDeleteHandler(item.id)}>
                       Delete
                     </Button>
                   </Grid>
