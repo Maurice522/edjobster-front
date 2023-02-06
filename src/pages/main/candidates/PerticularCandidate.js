@@ -31,6 +31,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
+import { useParams } from 'react-router-dom';
 import SendEmailModel from '../../../components/Mains/SendEmailModel';
 import Notes from '../../../components/Notes/Notes';
 import Iconify from '../../../components/Iconify';
@@ -45,7 +46,7 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const PerticularCandidate = (props) => {
-  console.log("recived candidateid as props", props.candidateId);
+  const { id: candidateId } = useParams();
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [expanded, setExpanded] = useState(false);
@@ -555,7 +556,7 @@ const PerticularCandidate = (props) => {
 
         </Grid>
         <Grid item md={3} id='notes'>
-          <Notes candidateId={props.candidateId} />
+          <Notes candidateId={candidateId} />
         </Grid>
       </Container>
       </Stack>
