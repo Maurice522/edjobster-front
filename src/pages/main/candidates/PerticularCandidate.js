@@ -121,21 +121,28 @@ const PerticularCandidate = (props) => {
 
   return (
     <div>
-      <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#fff' }}>
+      <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#f9fafb' }}>
         <Toolbar>
           <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
             <CloseIcon />
           </IconButton>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} >
             <Grid item md={2}>
-              <Typography sx={{ ml: 2 }} variant="h6" component="div" style={{ color: '#000' }}>
+              <h2 style={{
+                color:"black",
+                width:"400px",
+                marginRight:"50px"
+              }}>
                 Abhineet Sabharwal
-              </Typography>
+              </h2>
             </Grid>
             <Grid item md={8} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="body1" style={{ color: '#000' }}>
+              <h4 style={{
+                color:"black",
+                marginLeft:"10%"
+              }}>
                 M.Tech. (Structure) + 91-7030205067
-              </Typography>
+              </h4>
             </Grid>
             <Grid item md={2} style={{ textAlign: 'end', }}>
               <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
