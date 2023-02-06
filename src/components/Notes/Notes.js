@@ -30,7 +30,9 @@ import {
 import { showToast } from '../../utils/toast';
 
 const Notes = (props) => {
+  console.log("candidate id: ", props.candidateId)
   const { data: candidateNotesData, refetch } = useGetCandidateNotesListQuery(props.candidateId);
+  console.log("notes data", candidateNotesData)
   const { data: candidateNoteType } = useGetNotesTypesQuery();
   // const [addNotesData] = useAddCandidateNotesMutation();
   const [addCandidateNotes, addCandidateNotesInfo] = useAddCandidateNotesMutation();
@@ -56,8 +58,8 @@ const Notes = (props) => {
     setNoteText(e.target.value);
     //  console.log(notes)
   };
-  const addNotesHandler = () => {
-    addCandidateNotes({
+  const addNotesHandler = async () => {
+    await addCandidateNotes({
       candidate: props.candidateId,
       type: selectedNoteType,
       note: noteText,
@@ -82,14 +84,14 @@ const Notes = (props) => {
       refetch();
     }
   }, [addCandidateNotesInfo, deleteCandidateNoteinfo]);
-  useEffect(() => {
-    if (candidateNotesData) {
-      setNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Note'));
-      setEmailNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Email'));
-      setInterviewNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Interview'));
-      setCallNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Call'));
-    }
-  }, [candidateNotesData]);
+  // useEffect(() => {
+  //   if (candidateNotesData) {
+  //     setNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Note'));
+  //     setEmailNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Email'));
+  //     setInterviewNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Interview'));
+  //     setCallNotes(candidateNotesData.notes.filter((x) => x.type.name === 'Call'));
+  //   }
+  // }, [candidateNotesData]);
   return (
     <>
     <h4 id='education' className='canhead'>Notes</h4>
@@ -100,14 +102,11 @@ const Notes = (props) => {
               size="small" classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
               {candidateNoteType &&
                 candidateNoteType?.types &&
-                candidateNoteType.types.map((item) => {
-
-                  return (
+                candidateNoteType.types.map((item) => (
                     <MenuItem key={item.id} value={item.id}>
                       {item.name}
                     </MenuItem>
-                  );
-                })}
+                  ))}
             </TextField>
           </FormControl>
         </Box>
@@ -138,7 +137,7 @@ const Notes = (props) => {
           <h4>
             Notes
           </h4>
-          {notes.map((item) => {
+          {candidateNotesData?.notes?.map((item) => {
             const date = new Date(item.created);
             const formattedDate = date.toLocaleDateString('en-GB', {
               day: 'numeric',
@@ -154,11 +153,11 @@ const Notes = (props) => {
                 </Card>
 
                 <Grid container sx={{ mt: 1, ml: 1 }}>
-                  <Grid item md={8}>
+                  {/* <Grid item md={8}>
                     <Typography color="silver" style={{ fontSize: '12px' }}>
                       By: {item.added_by.first_name} {formattedDate}
                     </Typography>
-                  </Grid>
+                  </Grid> */}
                   <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography color="silver" style={{ fontSize: '12px' }}>
                       Edit

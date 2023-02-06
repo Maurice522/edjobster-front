@@ -137,7 +137,10 @@ const [candidateId,setCandidateId]=useState();
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
               // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
-              onClick={() =>navigate('/dashboard/candidate/perticularCandidate') }
+              onClick={() => { 
+                console.log(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`); 
+                navigate(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`)
+              }}
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
