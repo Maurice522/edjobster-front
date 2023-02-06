@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -6,10 +6,11 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
+import ReactQuill from 'react-quill';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import { makeStyles } from '@mui/styles';
-import { CardContent, Card, Grid, Divider, TextField, Box, Menu, MenuItem } from '@mui/material';
+import { CardContent, Card, Grid, Divider, TextField, Box, Menu, MenuItem, InputLabel } from '@mui/material';
 import Notes from '../../../components/Notes/Notes';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import ViewAllCandidatesModel from '../../../components/Mains/ViewAllCandidatesModel';
@@ -31,42 +32,43 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const PerticularJob = (props) => {
-  const { data: jobData } = useGetJobeDetailsQuery(props.detailsId);
-  console.log('Edit Job data recieved from server', jobData?.data);
+  const {id}= useParams()
+  const { data: jobData , refetch} = useGetJobeDetailsQuery(id);
+  console.log('Edit Job data recieved from server', jobData);
   const [textValue, setTextValue] = useState({
-    id: props.detailsId,
-    title: jobData?.data?.title,
-    vacancies: jobData?.data?.vacancies,
-    department: jobData?.data?.department?.id,
-    owner: jobData?.data?.owner?.account_id,
-    assesment: jobData?.data?.assesment?.id,
-    webform:jobData?.data?.webform?.id,
-    webform_name:jobData?.data?.webform?.name,
-    member_ids: jobData?.data?.members?.map((x) => x.account_id),
-    member_names: jobData?.data?.members?.map((x) => x.first_name),
-    type: jobData?.data?.type,
-    nature: jobData?.data?.nature,
-    education: jobData?.data?.educations?.map((x) => x.id),
-    speciality: jobData?.data?.speciality,
-    exp_min: jobData?.data?.exp_min,
-    exp_max: jobData?.data?.exp_max,
-    salary_min: jobData?.data?.salary_min,
-    salary_max: jobData?.data?.salary_max,
-    currency: jobData?.data?.currency,
-    salary_type: jobData?.data?.salary_type,
-    state: jobData?.data?.state?.id,
-    state_name: jobData?.data?.state?.name,
-    city: jobData?.data?.city,
-    description: jobData?.data?.description,
-    job_boards: jobData?.data?.job_boards,
-    pipeline: jobData?.data?.pipeline?.id,
-    active: jobData?.data?.active,
-    assesment_name: jobData?.data?.assesment?.name,
-    education_names: jobData?.data?.educations?.map((x) => x.name),
-    pipeline_name: jobData?.data?.pipeline?.name,
-    owner_name: `${jobData?.data?.owner?.first_name} ${jobData?.data?.owner?.last_name}`,
-    department_name: jobData?.data?.department?.name,
-    city_name: jobData?.data?.city?.name,
+    id,
+    title: jobData?.title,
+    vacancies: jobData?.vacancies,
+    department: jobData?.department,
+    owner: jobData?.owner,
+    assesment: jobData?.assesment?.id,
+    webform:jobData?.webform?.id,
+    webform_name:jobData?.webform?.name,
+    member_ids: jobData?.members?.map((x) => x),
+    member_names: jobData?.members?.map((x) => x),
+    type: jobData?.type,
+    nature: jobData?.nature,
+    education: jobData?.educations,
+    speciality: jobData?.speciality,
+    exp_min: jobData?.exp_min,
+    exp_max: jobData?.exp_max,
+    salary_min: jobData?.salary_min,
+    salary_max: jobData?.salary_max,
+    currency: jobData?.currency,
+    salary_type: jobData?.salary_type,
+    state: jobData?.state?.id,
+    state_name: jobData?.state?.name,
+    city: jobData?.city,
+    description: jobData?.description,
+    job_boards: jobData?.job_boards,
+    pipeline: jobData?.pipeline?.id,
+    active: jobData?.active,
+    assesment_name: jobData?.assesment?.name,
+    education_names: jobData?.educations,
+    pipeline_name: jobData?.pipeline?.name,
+    owner_name: `${jobData?.owner}`,
+    department_name: jobData?.department?.name,
+    city_name: jobData?.city?.name,
   });
   console.log('Edit Job data recieved', textValue);
   const classes = useStyles();
@@ -96,6 +98,11 @@ const PerticularJob = (props) => {
   const viewAllCandisateshandler = () => {
     setCandidatesModel(true);
   };
+
+
+  useEffect(()=>{
+    refetch()
+  },[id])
 
   return (
       <div>
@@ -230,7 +237,7 @@ const PerticularJob = (props) => {
               <Grid item md={2} style={{ textAlign: 'center' }}>
                 <Button
                   component={RouterLink}
-                  to={`/dashboard/jobs/edit-job/${props.detailsId}`}
+                  to={`/dashboard/jobs/edit-job/${id}`}
                   variant="contained"
                   style={{ textTransform: 'capitalize' }}
                 >
@@ -266,7 +273,7 @@ const PerticularJob = (props) => {
               <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="Department"
-                  value={textValue.department_name}
+                  value={textValue.department}
                   inputProps={{
                     readOnly: true,
                   }}
@@ -417,7 +424,7 @@ const PerticularJob = (props) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item md={5} sx={{ mb: 2 }}>
+              {/* <Grid item md={5} sx={{ mb: 2 }}>
                 <TextField
                   label="State"
                   value={textValue.state_name}
@@ -441,9 +448,9 @@ const PerticularJob = (props) => {
                   size="small"
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
               <Grid item md={5} sx={{ mb: 2 }}>
-                <TextField
+                {/* <TextField
                   margin="dense"
                   variant="standard"
                   label="Job description"
@@ -453,7 +460,9 @@ const PerticularJob = (props) => {
                   }}
                   size="small"
                   fullWidth
-                />
+                /> */}
+                <InputLabel title='Job Description'>Job Description</InputLabel>
+                <ReactQuill value={`${textValue?.description}`}  theme={"snow"} readOnly formats={[]} modules={{toolbar: false}}/>
               </Grid>
             </Grid>
           </Grid>

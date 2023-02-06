@@ -19,7 +19,7 @@ const apiUrl = {
   deleteUser: `${baseUrl}account/members/`,
   userRole: `${baseUrl}account/member-role/`,
   stage: `${baseUrl}settings/pipeline-stage/`,
-  status: `${baseUrl}settings/pipeline-details/`,
+  status: `${baseUrl}settings/pipeline-detalis/`,
   pipeline: `${baseUrl}settings/pipeline/`,
   emailCategory: `${baseUrl}settings/email-category/`,
   emailtamplate: `${baseUrl}settings/email-template/`,

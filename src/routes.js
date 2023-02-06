@@ -196,7 +196,8 @@ export default function Router() {
         { path: '/dashboard/Institute-Description/Individual-Job/Application/:webform', element: <JobApplication />},
         { path: '/dashboard/Apply', element: <ApplyClient />},
         { path: '/dashboard/wf', element: <WebformFillup />},
-        { path: '/dashboard/candidate/perticularCandidate/:id', element: <PerticularCandidate />},
+        { path: '/dashboard/candidate/perticularCandidate', element: <PerticularCandidate />},
+        { path: '/dashboard/candidate/jobDetails/:id', element: <PerticularJob />},
         { path: '/dashboard/assesment123', element: <CompleteAssesment />},
 
 

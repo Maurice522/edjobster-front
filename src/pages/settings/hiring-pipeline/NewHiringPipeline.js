@@ -67,6 +67,7 @@ function NewHiringPipeline() {
             textDecoration: "none",
             color: "black"
           }} 
+          onClick={(e)=> localStorage.setItem("pipelineStages",JSON.stringify(data?.data[dataIndex])) }
           href={`/dashboard/hiring-pipeline/stages/${data.data[dataIndex].id}`}> 
             {data.data[dataIndex].name}
           </Link>

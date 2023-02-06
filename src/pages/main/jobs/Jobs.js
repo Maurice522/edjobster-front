@@ -135,11 +135,11 @@ const Jobs = () => {
               style={{ minWidth: 0, marginRight: '5px' }}
               variant="contained"
               // onClick={() => onJobViewModel(data?.[dataIndex].id)}
-              onClick={() => navigate('/dashboard/candidate/perticularJob')}
+              onClick={() => navigate(`/dashboard/candidate/jobDetails/${data?.[dataIndex]?.id}`) }
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="carbon:view-filled" width={15} height={15} />
+                <Iconify icon="carbon:view-filled" width={15} height={15}/>
               </ListItemIcon>
             </Button>
             <Button
@@ -384,7 +384,7 @@ const Jobs = () => {
             components={{ Toolbar: GridToolbar }} />
         </Card>
       </Container>
-      {modelOpen && detailsId && <JobModel open={modelOpen} handleClose={handleClose} detailsId={detailsId} />}
+      {modelOpen && detailsId && <JobModel open={modelOpen} handleClose={handleClose} />}
     </Page>
   );
 };

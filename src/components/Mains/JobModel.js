@@ -31,7 +31,9 @@ const Transition = React.forwardRef((props, ref) => {
 });
 
 const JobModel = (props) => {
-  const { data: jobData } = useGetJobeDetailsQuery(props.detailsId);
+  const {id} = useParams();
+  console.log(id)
+  const { data: jobData } = useGetJobeDetailsQuery(id);
   console.log('Edit Job data recieved from server', jobData?.data);
   const [textValue, setTextValue] = useState({
     id: props.detailsId,

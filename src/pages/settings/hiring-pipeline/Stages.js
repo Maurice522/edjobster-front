@@ -40,7 +40,7 @@ const Stages = () => {
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const [viewModelOpen, setViewModelOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const { data = [], refetch } = useGetStagesQuery();
+  const { data, refetch } = useGetStatusApiQuery(id);
   const { statusData = [], isError, isLoading } = useGetStatusApiQuery();
   const [DeleteStageApi, DeleteStageApiInfo] = useDeleteStageApiMutation();
   const [AddStage, AddStageInfo] = useAddStageApiMutation();
@@ -76,14 +76,15 @@ const Stages = () => {
     setModalName('Add');
   };
 
-  const sortData = useMemo(() => {
-    const sortresult = sortedDataFn(data.data);
-    return sortresult;
-  }, [data]);
+  // const data?.stages = useMemo(() => {
+  //   console.log(data)
+  //   const sortresult = sortedDataFn(data?.stages);
+  //   return sortresult;
+  // }, [data]);
 
   const onEditModalHandler = (dataIndex) => {
     setEditModalOpen(true);
-    const dataArr = sortData;
+    const dataArr = data?.stages;
     const currentDataObj = dataArr[dataIndex];
     setEditValue(currentDataObj);
     setModalName('Edit');
@@ -91,7 +92,7 @@ const Stages = () => {
 
   const onViewStatusHandler = (dataIndex) => {
     setViewModelOpen(true);
-    const dataArr = sortData;
+    const dataArr = data?.stages;
     const currentDataObj = dataArr[dataIndex];
     const statusDataApi = currentDataObj.id;
     const statusData = statusDataApi;
@@ -105,7 +106,7 @@ const Stages = () => {
 
   const onDeleteHandler = async (dataIndex) => {
     setCurrentIndex(dataIndex);
-    const dataArr = sortData;
+    const dataArr = data?.stages;
     const currentDataObj = dataArr[dataIndex];
     await DeleteStageApi(currentDataObj.id);
   };
@@ -331,11 +332,11 @@ const Stages = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={'Stage List'} data={sortData} columns={columns} options={options} />
+          <MUIDataTable title={'Stage List'} data={data?.stages} columns={columns} options={options} />
         </Card>
         {/* <div style={{ height: 400, width: '100%' }}>
           <DataGrid
-            rows={sortData}
+            rows={data?.stages}
             columns={column}
             options={options}
             sx={{
