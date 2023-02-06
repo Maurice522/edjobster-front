@@ -67,6 +67,12 @@ import NewCreateInterview from './pages/main/CreateNewInteview/NewCreateIntervie
 import CareerSiteDescription from './pages/SubDomain/CareerSiteDescription';
 import InstitueAddress from './pages/settings/institute/InstitueAddress';
 import SingleJobView from './pages/SubDomain/SingleJobView';
+import JobApplication from './pages/SubDomain/JobApplication';
+import ApplyClient from './pages/settings/client/ApplyClient';
+import WebformFillup from './pages/settings/client/WebformFillup';
+import PerticularCandidate from './pages/main/candidates/PerticularCandidate';
+import CompleteAssesment from './pages/SubDomain/Steps/CompleteAssesment';
+import PerticularJob from './pages/main/jobs/PerticularJob';
 
 
 
@@ -137,7 +143,7 @@ export default function Router() {
         { path: '/dashboard/bills', element: <Billing /> },
 
         //  {New Institute Settings page(combined)}
-        { path: '/dashboard/InstituteSettings/DDD', element: <NewIS /> },
+        { path: '/dashboard/InstituteSettings/settings', element: <NewIS /> },
         { path: '/dashboard/InstituteSettings/address', element: <InstitueAddress /> },
         { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
         { path: '/dashboard/createEmail', element: <CreateEmail /> },
