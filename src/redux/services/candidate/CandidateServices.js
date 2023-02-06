@@ -13,7 +13,7 @@ const extendedApi = apiBasePath.injectEndpoints({
     }),
     getCandidateDetails: build.query({
       query: (id) => ({
-        url: `${apiUrl.candidate}applications/?id=${id}`,
+        url: `${apiUrl.candidate}details/?id=${id}`,
         headers: {
           'Authorization': `Token ${localStorage.getItem("globalUser").access}`
         }
@@ -87,6 +87,16 @@ const extendedApi = apiBasePath.injectEndpoints({
           'Authorization': `Token ${localStorage.getItem("globalUser").access}`
         }
       })
+    }),
+    assignJob: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.candidate}assign-job/`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+        }
+      })
     })
   }),
   overrideExisting: false,
@@ -102,4 +112,5 @@ export const {
   useDeleteCandidateMutation,
   useAddCandidateMutation,
   useAddCandidateWithResumeMutation,
+  useAssignJobMutation
 } = extendedApi;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -32,28 +32,44 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import { useParams } from 'react-router-dom';
+// eslint-disable-next-line import/no-unresolved
+import { showToast } from 'src/utils/toast';
 import SendEmailModel from '../../../components/Mains/SendEmailModel';
 import Notes from '../../../components/Notes/Notes';
 import Iconify from '../../../components/Iconify';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../redux/services/notes/NotesServices';
+import { useGetCandidateDetailsQuery, useAssignJobMutation } from '../../../redux/services/candidate/CandidateServices';
+import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 
 
 
 
-const Transition = React.forwardRef((props, ref) => {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 const PerticularCandidate = (props) => {
   const { id: candidateId } = useParams();
+
+  const [assignJob, assignJobInfo] = useAssignJobMutation()
+  const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
+  console.log(candidateData)
+  const { data: jobListData } = useGetJobListQuery();
+  const [selectedJob, setSelectedJob] = useState(candidateData?.job?.id);
+  const handleChangeSelectedJob = (e) => setSelectedJob(+e.target.value)
+  const handleUpdateSelectedJob = async () => {
+    await assignJob({
+      candidate: +candidateId,
+      job: selectedJob
+    })
+    refetch()
+  }
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [emailModelOpen, setEmailModelOpen] = useState(false);
   const { open, handleClose } = props;
-
+  
   const openMenu = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -62,12 +78,12 @@ const PerticularCandidate = (props) => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
-
+  
+  
   const settings = ['Edit Candidates', 'Send Email', 'View Past Application', 'Logout'];
-
+  
   //   const [open, setOpen] = React.useState(false);
-
+  
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -78,7 +94,7 @@ const PerticularCandidate = (props) => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
+  
   const assignJobModel = () => {
     setModelOpen(true);
   }
@@ -86,10 +102,21 @@ const PerticularCandidate = (props) => {
     setModelOpen(false);
     setEmailModelOpen(false);
   };
-
+  
   const sendEmailhandler = () => {
     setEmailModelOpen(true);
   }
+  useEffect(() => {
+    if(assignJobInfo.isError) {
+      showToast("error", "Error while assigning the job")
+      console.log(assignJobInfo.error)
+      assignJobModelClosed()
+    }
+    if(assignJobInfo.isSuccess) {
+      showToast("success", "Assigned the job to the candidate")
+      assignJobModelClosed()
+    }
+  }, [assignJobInfo])
 
   return (
     <div>
@@ -560,7 +587,14 @@ const PerticularCandidate = (props) => {
         </Grid>
       </Container>
       </Stack>
-      <AssignJobModel open={modelOpen} handleClose={assignJobModelClosed} />
+      <AssignJobModel 
+        open={modelOpen} 
+        handleClose={assignJobModelClosed} 
+        jobs={jobListData} 
+        value={selectedJob}
+        handleChange={handleChangeSelectedJob}
+        handleSubmit={handleUpdateSelectedJob}
+      />
       <SendEmailModel open={emailModelOpen} handleClose={assignJobModelClosed} />
     </div>
 

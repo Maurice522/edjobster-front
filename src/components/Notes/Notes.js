@@ -78,6 +78,7 @@ const Notes = (props) => {
     if (deleteCandidateNoteinfo.isSuccess) {
       showToast('success', deleteCandidateNoteinfo.data.msg);
       refetch();
+      setNoteText()
     }
     if (deleteCandidateNoteinfo.isError) {
       showToast('error', deleteCandidateNoteinfo.error.data.msg);
