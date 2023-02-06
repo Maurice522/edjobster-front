@@ -25,6 +25,7 @@ import ChartsGraph from './ChartsGraph';
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+  const userData = JSON.parse(localStorage.getItem("globalUser"))?.account
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,9 +40,9 @@ export default function DashboardApp() {
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
-        </Typography>
+        <h1>
+          Hi {(userData?.first_name || "")}!, Welcome back
+        </h1>
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
