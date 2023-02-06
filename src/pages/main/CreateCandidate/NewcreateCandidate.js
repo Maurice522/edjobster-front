@@ -211,10 +211,7 @@ function NewcreateCandidate() {
                 required
                 id="standard-required"
                 label="Last Name"
-                // {...getFieldProps("last_name")}
                 variant="standard"
-                // error={Boolean(errors.last_name && touched.last_name)}
-                // helperText={errors.last_name && touched.last_name}
                 name="last_name"
                 onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
               />
@@ -353,7 +350,6 @@ function NewcreateCandidate() {
                 id="standard-required"
                 label="Institute"
                 variant="standard"
-              // {...getFieldProps("institute")}
               />
               <TextField
                 sx={{
@@ -406,7 +402,6 @@ function NewcreateCandidate() {
                     views={['year', 'month']}
                     inputFormat="MM/YYYY"
                     value={value}
-                    // onChange={handleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
                   <DesktopDatePicker
@@ -414,7 +409,6 @@ function NewcreateCandidate() {
                     inputFormat="MM/YYYY"
                     views={['year', 'month']}
                     value={value}
-                    // onChange={handleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </Stack>
@@ -504,6 +498,22 @@ function NewcreateCandidate() {
                 </option>
               ))}
             </TextField>
+          </Stack>
+          <Stack>
+          <Button
+                sx={{
+                  width:"40%"
+                }}
+                variant="contained"
+                component="label"
+                name
+               >
+                Upload Resume
+                <input
+                  type="file"
+                  hidden
+                />
+              </Button>
           </Stack>
         </Stack>
       </Stack>

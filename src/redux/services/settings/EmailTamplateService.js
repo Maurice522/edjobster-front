@@ -13,6 +13,11 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.emailVariables}`,
       }),
     }),
+    getEmailTemplateById: build.query({
+      query: (id) => ({
+        url: `${apiUrl.emailtamplate}${id}`,
+      }),
+    }),
     updateEmailTemplate: build.mutation({
       query: (data) => ({
         url: `${apiUrl.emailtamplate}`,
@@ -46,6 +51,7 @@ const extendedApi = apiBasePath.injectEndpoints({
 export const {
   useGetEmailTamplateQuery,
   useGetEmailVariableTamplateQuery,
+  useGetEmailTemplateByIdQuery,
   useUpdateEmailTemplateMutation,
   useAddEmailTemplateMutation,
   useDeleteEmailTemplateMutation,

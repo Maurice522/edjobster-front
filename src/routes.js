@@ -72,6 +72,7 @@ import ApplyClient from './pages/settings/client/ApplyClient';
 import WebformFillup from './pages/settings/client/WebformFillup';
 import PerticularCandidate from './pages/main/candidates/PerticularCandidate';
 import CompleteAssesment from './pages/SubDomain/Steps/CompleteAssesment';
+import PerticularJob from './pages/main/jobs/PerticularJob';
 
 
 

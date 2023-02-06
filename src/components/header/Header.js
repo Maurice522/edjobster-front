@@ -30,19 +30,14 @@ const Header = () => {
             </NavLink >
           </div>
           <div className="header-menu-list">
-            <IconButton sx={{
-              ":active": { color: "blue" },
-            }}>
-              <PeopleOutlineIcon onClick={() => navigate('/dashboard/candidates')}
-                sx={{
-                  color: "black",
-                  fontSize: 40,
-                  cursor: "pointer",
-                  ":active": { color: "blue" },
-                }}
-              />
-            </IconButton>
-
+            <NavLink sx={{ textDecoration: "none" }}
+              to="/dashboard/candidates"
+              className={({ isActive }) =>
+                isActive ? "header-job-active" : "header-menu"
+              }
+             >
+              Candidate
+            </NavLink >
             <NavLink sx={{ textDecoration: "none" }}
               to="/dashboard/interviews"
               className={({ isActive }) =>
