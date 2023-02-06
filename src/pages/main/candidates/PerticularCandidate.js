@@ -53,7 +53,7 @@ const PerticularCandidate = (props) => {
   const [assignJob, assignJobInfo] = useAssignJobMutation()
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
   const { data: applicantData } = useGetApplicantsQuery(candidateId)
-  console.log(applicantData)
+  console.log(candidateData)
   const { data: jobListData } = useGetJobListQuery();
   const [selectedJob, setSelectedJob] = useState(candidateData?.job?.id);
   const handleChangeSelectedJob = (e) => setSelectedJob(+e.target.value)
@@ -133,7 +133,7 @@ const PerticularCandidate = (props) => {
                 width:"400px",
                 marginRight:"50px"
               }}>
-                Abhineet Sabharwal
+                {`${candidateData?.data.first_name} ${candidateData?.data.last_name}`}
               </h2>
             </Grid>
             <Grid item md={8} style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -141,7 +141,7 @@ const PerticularCandidate = (props) => {
                 color:"black",
                 marginLeft:"10%"
               }}>
-                M.Tech. (Structure) + 91-7030205067
+                {candidateData?.data.qualification} +91-{candidateData?.data.mobile}
               </h4>
             </Grid>
             <Grid item md={2} style={{ textAlign: 'end', }}>
@@ -281,9 +281,11 @@ const PerticularCandidate = (props) => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
+                <>
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
+                </>
               ))}
             </Menu>
           </Box>
@@ -327,77 +329,83 @@ const PerticularCandidate = (props) => {
           }}>
             <Stack>
               <TextField
-                sx={{
-                  margin: "4%"
-                }}
-                required
-                fullWidth
-                id="standard-required"
+                disabled
+                id="filled-disabled"
                 label="Phone"
-                name="phone"
-              />
-              <TextField
+                defaultValue={`+91-${candidateData?.data.mobile}`}
+                variant="filled"
                 sx={{
                   margin: "4%"
                 }}
-                required
-                id="standard-required"
-                label="E-mail"
+                name="mobile"
+              />
+              <TextField
+                disabled
+                id="filled-disabled"
+                label="Email"
+                defaultValue={candidateData?.data.email}
+                variant="filled"
+                sx={{
+                  margin: "4%"
+                }}
                 name="email"
-                fullWidth
               />
               <TextField
+                disabled
+                id="filled-disabled"
+                label="Pincode"
+                defaultValue={candidateData?.data.pincode}
+                variant="filled"
                 sx={{
                   margin: "4%"
                 }}
-                required
-                id="standard-required"
-                label="Address"
-                fullWidth
-                name="address"
+                name="pincode"
               />
             </Stack>
             <Stack>
-              <TextField
-                sx={{
-                  margin: "4%"
-                }}
-                required
-                fullWidth
-                id="standard-required"
+            <TextField
+                disabled
+                id="filled-disabled"
                 label="Gender"
-                name="Gender"
-              />
-              <TextField
+                defaultValue={candidateData?.data.gender}
+                variant="filled"
                 sx={{
                   margin: "4%"
                 }}
-                required
-                fullWidth
-                id="standard-required"
-                label="D.O.B"
-                name="dob"
+                name="gender"
               />
               <TextField
+                disabled
+                id="filled-disabled"
+                label="Date of Birth"
+                defaultValue={candidateData?.data.date_of_birth}
+                variant="filled"
                 sx={{
                   margin: "4%"
                 }}
-                required
-                fullWidth
-                id="standard-required"
+                name="date_of_birth"
+              />
+              <TextField
+                disabled
+                id="filled-disabled"
                 label="Nationality"
+                defaultValue="Indian"
+                variant="filled"
+                sx={{
+                  margin: "4%"
+                }}
                 name="nationality"
               />
-
               <TextField
+                disabled
+                id="filled-disabled"
+                label="Marital Status"
+                defaultValue="Unmarried"
+                variant="filled"
                 sx={{
                   margin: "4%"
                 }}
-                required
-                fullWidth
-                id="standard-required"
-                label="Marital Status"
-                name="marital"
+                name="marital_status"
               />
             </Stack>
           </Stack>
@@ -432,7 +440,7 @@ const PerticularCandidate = (props) => {
                 <h4>Total Experiance</h4>
               </Grid>
               <Grid item md={8}>
-                <p className='candidateBlueCard' style={{width:"20%"}}>12 Years</p>
+                <p className='candidateBlueCard' style={{width:"25%"}}>{`${candidateData?.data.exp_years*12+candidateData?.data.exp_months} months`}</p>
               </Grid>
               <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
                 <h4>Skills</h4>
