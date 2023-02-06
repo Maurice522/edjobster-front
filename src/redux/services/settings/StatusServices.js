@@ -5,8 +5,8 @@ const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
     getStatusApi: build.query({
       query: (id) => ({
-        url: `${apiUrl.status}?id=${id}`,
-        mathod: 'GET',
+        url: `${apiUrl.status}${id}/`,
+        method: 'GET',
       }),
     }),
     addStatusApi: build.mutation({

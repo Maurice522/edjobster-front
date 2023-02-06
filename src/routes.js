@@ -197,7 +197,7 @@ export default function Router() {
         { path: '/dashboard/Apply', element: <ApplyClient />},
         { path: '/dashboard/wf', element: <WebformFillup />},
         { path: '/dashboard/candidate/perticularCandidate', element: <PerticularCandidate />},
-        { path: '/dashboard/candidate/perticularJob', element: <PerticularJob />},
+        { path: '/dashboard/candidate/jobDetails/:id', element: <PerticularJob />},
         { path: '/dashboard/assesment123', element: <CompleteAssesment />},
 
 
