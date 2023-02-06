@@ -39,7 +39,7 @@ import Notes from '../../../components/Notes/Notes';
 import Iconify from '../../../components/Iconify';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../redux/services/notes/NotesServices';
-import { useGetCandidateDetailsQuery, useAssignJobMutation } from '../../../redux/services/candidate/CandidateServices';
+import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 
 
@@ -52,7 +52,8 @@ const PerticularCandidate = (props) => {
 
   const [assignJob, assignJobInfo] = useAssignJobMutation()
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
-  console.log(candidateData)
+  const { data: applicantData } = useGetApplicantsQuery(candidateId)
+  console.log(applicantData)
   const { data: jobListData } = useGetJobListQuery();
   const [selectedJob, setSelectedJob] = useState(candidateData?.job?.id);
   const handleChangeSelectedJob = (e) => setSelectedJob(+e.target.value)
@@ -594,6 +595,7 @@ const PerticularCandidate = (props) => {
         value={selectedJob}
         handleChange={handleChangeSelectedJob}
         handleSubmit={handleUpdateSelectedJob}
+        name="Job"
       />
       <SendEmailModel open={emailModelOpen} handleClose={assignJobModelClosed} />
     </div>
