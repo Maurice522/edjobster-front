@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -31,7 +32,6 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
-import { useParams } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import { showToast } from 'src/utils/toast';
 import SendEmailModel from '../../../components/Mains/SendEmailModel';
@@ -49,7 +49,7 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={r
 
 const PerticularCandidate = (props) => {
   const { id: candidateId } = useParams();
-
+  const navigate = useNavigate()
   const [assignJob, assignJobInfo] = useAssignJobMutation()
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
   const { data: applicantData } = useGetApplicantsQuery(candidateId)
@@ -121,21 +121,28 @@ const PerticularCandidate = (props) => {
 
   return (
     <div>
-      <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#fff' }}>
+      <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#f9fafb' }}>
         <Toolbar>
           <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
-            <CloseIcon />
+            <CloseIcon onClick={()=>(navigate(-1))}/>
           </IconButton>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} >
             <Grid item md={2}>
-              <Typography sx={{ ml: 2 }} variant="h6" component="div" style={{ color: '#000' }}>
+              <h2 style={{
+                color:"black",
+                width:"400px",
+                marginRight:"50px"
+              }}>
                 {`${candidateData?.data.first_name} ${candidateData?.data.last_name}`}
-              </Typography>
+              </h2>
             </Grid>
             <Grid item md={8} style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="body1" style={{ color: '#000' }}>
+              <h4 style={{
+                color:"black",
+                marginLeft:"10%"
+              }}>
                 {candidateData?.data.qualification} +91-{candidateData?.data.mobile}
-              </Typography>
+              </h4>
             </Grid>
             <Grid item md={2} style={{ textAlign: 'end', }}>
               <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
@@ -242,7 +249,7 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Grid>
         <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Button variant="contained" style={{ textTransform: 'capitalize' }}>
+          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={()=>navigate('/dashboard/NewInterview')}>
             Schedule Interview
           </Button>
           <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={assignJobModel}>

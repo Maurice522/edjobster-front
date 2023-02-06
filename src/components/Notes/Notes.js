@@ -95,22 +95,8 @@ const Notes = (props) => {
   // }, [candidateNotesData]);
   return (
     <>
-    <h4 id='education' className='canhead'>Notes</h4>
+      <h4 id='education' className='canhead'>Notes</h4>
       <Grid container style={{}}>
-        <Box width="100px"  >
-          <FormControl variant="standard" sx={{ mt: 1, minWidth: '100%' }}>            
-            <TextField autoFocus={false} variant="outlined"
-              size="small" classes={{}} select value={selectedNoteType} fullWidth onChange={handleChange} label="select">
-              {candidateNoteType &&
-                candidateNoteType?.types &&
-                candidateNoteType.types.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-            </TextField>
-          </FormControl>
-        </Box>
         <Grid container spacing={1} sx={{ mt: 2 }}>
           <Grid item md={10}>
             <TextField
@@ -152,20 +138,11 @@ const Notes = (props) => {
                     <Typography variant="body2">{item.note}</Typography>
                   </CardContent>
                 </Card>
-
                 <Grid container sx={{ mt: 1, ml: 1 }}>
-                  {/* <Grid item md={8}>
-                    <Typography color="silver" style={{ fontSize: '12px' }}>
-                      By: {item.added_by.first_name} {formattedDate}
-                    </Typography>
-                  </Grid> */}
                   <Grid item md={3} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography color="silver" style={{ fontSize: '12px' }}>
-                      Edit
-                    </Typography>
-                    <Typography onClick={() => onDeleteHandler(item.id)} color="silver" style={{ fontSize: '12px' }}>
+                    <Button variant="contained" onClick={() => onDeleteHandler(item.id)}>
                       Delete
-                    </Typography>
+                    </Button>
                   </Grid>
                 </Grid>
               </>
@@ -173,7 +150,7 @@ const Notes = (props) => {
           })}
         </Grid>
       </Grid>
-      <Grid container sx={{ mt: 4 }}>
+      {/* <Grid container sx={{ mt: 4 }}>
         <Grid item md={12}>
           <h4>
             Interview
@@ -251,7 +228,7 @@ const Notes = (props) => {
             );
           })}
         </Grid>
-      </Grid>
+      </Grid> */}
     </>
   );
 };
