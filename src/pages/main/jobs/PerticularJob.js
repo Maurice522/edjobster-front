@@ -45,7 +45,7 @@ const PerticularJob = (props) => {
     assesment: jobData?.assesment?.id,
     webform: jobData?.webform?.id,
     webform_name: jobData?.webform?.name,
-    member_ids: jobData?.members?.map((x) => x),
+    member_ids: jobData?.members?.map((x) => x.first_name),
     member_names: jobData?.members?.map((x) => x),
     type: jobData?.type,
     nature: jobData?.nature,
@@ -304,7 +304,7 @@ const PerticularJob = (props) => {
             <Grid item md={5} sx={{ mb: 2 }}>
               <TextField
                 label="Team member involed"
-                value={textValue.member_names}
+                value={textValue.member_ids}
                 inputProps={{
                   readOnly: true,
                 }}
