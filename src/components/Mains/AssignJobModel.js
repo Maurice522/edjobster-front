@@ -6,7 +6,7 @@ import Iconify from '../Iconify';
 
 
 const AssignJobModel = (props) => {
-    const { open, handleClose, jobs, handleChange, value, handleSubmit } = props;
+    const { open, handleClose, jobs, handleChange, value, handleSubmit, name } = props;
 
     console.log(jobs)
     return (
@@ -27,7 +27,7 @@ const AssignJobModel = (props) => {
                         value={value}
                         onChange={handleChange}
                     >
-                        <option value={-1}>Select a job</option>
+                        <option value={-1}>Select a {name}</option>
                         {jobs?.map(e => (
                             <option value={e.id} key={e.id}>
                                 {e.title}

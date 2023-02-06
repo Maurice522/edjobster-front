@@ -473,7 +473,11 @@ const PerticularJob = (props) => {
             <Notes candidateId={candidateId} />
           </Grid>
         </Grid>
-        <AssignJobModel open={modelOpen} handleClose={assignJobModelClosed} />
+        <AssignJobModel 
+          open={modelOpen} 
+          handleClose={assignJobModelClosed} 
+          
+        />
         <ViewAllCandidatesModel open={candidatesModel} handleClose={assignJobModelClosed} />
       </div>
   );
