@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -31,7 +32,6 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
-import { useParams } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import { showToast } from 'src/utils/toast';
 import SendEmailModel from '../../../components/Mains/SendEmailModel';
@@ -49,7 +49,7 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={r
 
 const PerticularCandidate = (props) => {
   const { id: candidateId } = useParams();
-
+  const navigate = useNavigate()
   const [assignJob, assignJobInfo] = useAssignJobMutation()
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
   console.log(candidateData)
@@ -241,7 +241,7 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Grid>
         <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Button variant="contained" style={{ textTransform: 'capitalize' }}>
+          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={()=>navigate('/dashboard/NewInterview')}>
             Schedule Interview
           </Button>
           <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={assignJobModel}>

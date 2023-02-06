@@ -72,6 +72,8 @@ const PerticularJob = (props) => {
   });
   console.log('Edit Job data recieved', textValue);
   const classes = useStyles();
+  const { id: candidateId } = useParams();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [modelOpen, setModelOpen] = useState(false);
@@ -79,7 +81,7 @@ const PerticularJob = (props) => {
 
   const { open, handleClose } = props;
 
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+  const settings = ['In Progress', 'Filled', 'On Hold', 'Closed'];
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -153,14 +155,14 @@ const PerticularJob = (props) => {
                 <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={viewAllCandisateshandler}>
                   View all candidates
                 </Button>
-                <Button
+                {/* <Button
                   variant="contained"
                   color="success"
                   style={{ textTransform: 'capitalize' }}
                   onClick={assignJobModel}
                 >
                   Assign a candidates
-                </Button>
+                </Button> */}
               </Grid>
             </Grid>
           </Toolbar>
@@ -468,7 +470,7 @@ const PerticularJob = (props) => {
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid item md={3}>
-            <Notes candidateId={props.detailsId} />
+            <Notes candidateId={candidateId} />
           </Grid>
         </Grid>
         <AssignJobModel open={modelOpen} handleClose={assignJobModelClosed} />
