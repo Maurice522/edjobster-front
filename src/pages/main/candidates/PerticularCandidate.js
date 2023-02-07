@@ -293,8 +293,8 @@ const PerticularCandidate = (props) => {
       <Stack sx={{
         display: "flex",
         flexDirection: "row"
-       }}>
-        <Card sx={{
+      }}>
+        {/* <Card sx={{
           width: "200px",
           height: "216px",
           padding: "1%",
@@ -303,14 +303,14 @@ const PerticularCandidate = (props) => {
           marginTop: "10%",
           // marginLeft:"5%",
           boxShadow: "rgba(0, 0, 0, 0.25)"
-         }}>
+        }}>
           <h3>Quick Access</h3>
           <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
           <a className='quickaccess' href='#work'>Work Experiance</a>
           <a className='quickaccess' href='#education'>Education Details</a>
           <a className='quickaccess' href='#notes'>Notes</a>
 
-        </Card>
+        </Card> */}
         <Container sx={{
           width: "80%",
           marginLeft: "auto",
@@ -327,6 +327,23 @@ const PerticularCandidate = (props) => {
               gap: "20%"
 
             }}>
+              <Card sx={{
+                width: "200px",
+                height: "216px",
+                padding: "1%",
+                paddingLeft: "2%",
+                marginRight: "0",
+                marginTop: "10%",
+                // marginLeft:"5%",
+                boxShadow: "rgba(0, 0, 0, 0.25)"
+              }}>
+                <h3>Quick Access</h3>
+                <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
+                <a className='quickaccess' href='#work'>Work Experiance</a>
+                <a className='quickaccess' href='#education'>Education Details</a>
+                <a className='quickaccess' href='#notes'>Notes</a>
+
+              </Card>
               <Stack>
                 <TextField
                   disabled
