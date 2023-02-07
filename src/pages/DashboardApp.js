@@ -180,11 +180,11 @@ export default function DashboardApp() {
               list={[...Array(5)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: [
-                  '1983, orders, $4220',
-                  '12 Invoices have been paid',
-                  'Order #37745 from September',
-                  'New order placed #XF-2356',
-                  'New order placed #XF-2346',
+                  'New Job Posted',
+                  '12 Candidates applied',
+                  'Application closed',
+                  '5 Shortlisted',
+                  '1 candidate hired',
                 ][index],
                 type: `order${index + 1}`,
                 time: faker.date.past(),
