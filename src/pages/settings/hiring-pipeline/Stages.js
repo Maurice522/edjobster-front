@@ -29,7 +29,7 @@ import {
   useDeleteStageApiMutation,
   useAddStageApiMutation,
   useUpdateStageApiMutation
-} from '../../../redux/services/settings/StageService';
+ } from '../../../redux/services/settings/StageService';
 
  import { useGetStatusApiQuery } from '../../../redux/services/settings/StatusServices';
 
@@ -75,12 +75,6 @@ const Stages = () => {
     setModalOpen(true);
     setModalName('Add');
   };
-
-  // const data?.stages = useMemo(() => {
-  //   console.log(data)
-  //   const sortresult = sortedDataFn(data?.stages);
-  //   return sortresult;
-  // }, [data]);
 
   const onEditModalHandler = (dataIndex) => {
     setEditModalOpen(true);
@@ -227,97 +221,7 @@ const Stages = () => {
       },
     },
   ];
-  const column = [
-    {
-      field: 'id',
-      headerName: 'Id',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      field: 'name',
-      headerName: 'Name',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      rendercell: (dataIndex) => {
-        return (
-          <div>
-            <Button style={{ minWidth: 0 }} variant="outlined" onClick={() => onViewStatusHandler(dataIndex)}>
-              View Status
-            </Button>
-          </div>
-        );
-      },
-    },
-    {
-      field: 'edit',
-      headerName: 'Edit',
-      rendercell: (dataIndex) => {
-        return (
-          <div>
-            <EditIcon 
-              sx={{
-                padding: '0px',
-                minWidth: '0',
-                cursor: "pointer",
-                color: "grey",
-              }} />
-            {/* <Button style={{ minWidth: 0 }} variant="contained" onClick={() => onEditModalHandler(dataIndex)}>
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
-              </ListItemIcon>
-            </Button> */}
-          </div>
-        );
-      }
-    },
-    {
-      field: 'delete',
-      headerName: 'Delete',
-      rendercell: (dataIndex) => {
-        return (
-          <div>
-            <LoadingButton
-              style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
-              color="error"
-              onClick={() => onDeleteHandler(dataIndex)}
-              loading={dataIndex === currentIndex ? DeleteStageApiInfo.isLoading : false}
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-              </ListItemIcon>
-            </LoadingButton>
-          </div>
-        );
-      }
-    },
-    {
-      field: 'test',
-      headerName: 'test',
-      rendercell: (dataIndex) => {
-        return (
-          <div>
-            <EditIcon />
-          </div>
-        );
-      }
-    },
-  ];
-  // const labelStatus = (
-  //   <Label variant="ghost" color={'success'}>
-  //     {sentenceCase('active')}
-  //   </Label>
-  // );
-
+ 
   const options = {
     filterType: 'dropdown',
   };
@@ -334,20 +238,6 @@ const Stages = () => {
         <Card>
           <MUIDataTable title={'Stage List'} data={data?.stages} columns={columns} options={options} />
         </Card>
-        {/* <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={data?.stages}
-            columns={column}
-            options={options}
-            sx={{
-              backgroundColor: "#f9fafb"
-            }}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-            disableSelectionOnClick
-          />
-        </div> */}
       </Container>
       <SettingsModal
         open={editmodalOpen}
