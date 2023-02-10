@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography, Stack } from '@mui/material';
+import { Grid, Container, Typography, Stack, Card } from '@mui/material';
+import ToDoApp from '../components/homePage/ToDoApp';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -21,6 +22,8 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 import ChartsGraph from './ChartsGraph';
+import LatestInterview from '../components/homePage/InterviewStats/LatestInterview';
+
 
 // ----------------------------------------------------------------------
 
@@ -43,52 +46,40 @@ export default function DashboardApp() {
         <h1>
           Hi {(userData?.first_name || "")}!, Welcome back
         </h1>
-        {/* <Stack sx={{
-          display:"flex",
-          flexDirection:"row",
-          gap:"10%"
-        }}>
-            <AppWidgetSummary title="Screening" total={714000} icon={'ant-design:android-filled'} />
-            <AppWidgetSummary title="Applied" total={1352831} color="info" icon={'ant-design:apple-filled'} />
-            <AppWidgetSummary title="Shortlisted" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
-            <AppWidgetSummary title="Interviews" total={234} color="error" icon={'ant-design:bug-filled'} />
-            <AppWidgetSummary title="Offered" total={234} icon={'ant-design:android-filled'} />
-            <AppWidgetSummary title="Hired" total={234} color="warning" icon={'ant-design:windows-filled'} />
-            <AppWidgetSummary title="On Boarded" total={234} color="info" icon={'ant-design:apple-filled'} />
-        </Stack> */}
-
+        <div className="container">
+          <h1>Stats</h1>
+          <div className="row">
+            <div className="card">
+              <AppWidgetSummary title="Screening" total={714000} icon={'ant-design:android-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Applied" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Shortlisted" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Interviews" total={234} color="error" icon={'ant-design:bug-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Offered" total={234} icon={'ant-design:android-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Hired" total={234} color="warning" icon={'ant-design:windows-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="On Boarded" total={234} color="info" icon={'ant-design:apple-filled'} />
+            </div>
+          </div>
+        </div>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Screening" total={714000} icon={'ant-design:android-filled'} />
+          <Grid item xs={12} md={6} lg={8} mt={5}>
+            <Card>
+              <ChartsGraph />
+            </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Applied" total={1352831} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Shortlisted" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Interviews" total={234} color="error" icon={'ant-design:bug-filled'} />
-          </Grid>
-          {/* <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Offered" total={234} icon={'ant-design:android-filled'} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Hired" total={234} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="On Boarded" total={234} color="info" icon={'ant-design:apple-filled'} />
-          </Grid> */}
-
-
-          <Grid item xs={12} md={6} lg={8}>
-            <ChartsGraph />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={4} mt={5}>
             <AppCurrentVisits
               title="Current Visits"
               chartData={[
@@ -125,7 +116,7 @@ export default function DashboardApp() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={4} s>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -196,18 +187,19 @@ export default function DashboardApp() {
               ]}
             />
           </Grid>
-
           <Grid item xs={12} md={6} lg={8}>
-            <AppTasks
-              title="Tasks"
-              list={[
-                { id: '1', label: 'Create FireStone Logo' },
-                { id: '2', label: 'Add SCSS and JS files if required' },
-                { id: '3', label: 'Stakeholder Meeting' },
-                { id: '4', label: 'Scoping & Estimations' },
-                { id: '5', label: 'Sprint Showcase' },
-              ]}
-            />
+            <Card sx={{
+              minHeight:"100%",
+            }}>
+              <ToDoApp />
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6} lg={8}>
+            <Card sx={{
+              minHeight:"100%",
+            }}>
+              <LatestInterview />
+            </Card>
           </Grid>
         </Grid>
       </Container>

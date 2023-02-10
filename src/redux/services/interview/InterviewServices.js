@@ -65,6 +65,14 @@ const extendedApi = apiBasePath.injectEndpoints({
         }
       }),
     }),
+    getInterviewLatest: build.query({
+      query: (id) => ({
+          url: `${apiUrl.interview_latest}`,
+          headers: {
+              'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          }
+      }),
+  }),
   }),
   overrideExisting: false,
 });
@@ -77,4 +85,6 @@ export const {
   useAddInterviewMutation,
   useUpdateInterviewMutation,
   useDeleteInterviewMutation,
+  useGetInterviewLatestQuery,
+
 } = extendedApi;

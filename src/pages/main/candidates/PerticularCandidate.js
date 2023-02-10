@@ -41,6 +41,7 @@ import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../redux/services/notes/NotesServices';
 import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
+import ToDoApp from '../../../components/homePage/ToDoApp';
 
 
 
@@ -617,6 +618,7 @@ const PerticularCandidate = (props) => {
           </Grid>
           <Grid item md={3} id='notes'>
             <Notes candidateId={candidateId} />
+            <ToDoApp />
           </Grid>
         </Container>
       </Stack>

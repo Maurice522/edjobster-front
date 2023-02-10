@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import Button from '@mui/material/Button';
 import DialogContent from '@mui/material/DialogContent';
-import TextField from '@mui/material/TextField';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
+import { Card, Box, Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select } from '@mui/material';
 import FileUpload from 'react-material-file-upload';
 import { LoadingButton } from '@mui/lab';
 // eslint-disable-next-line import/no-unresolved
@@ -140,9 +131,9 @@ const CareerSite = () => {
                 />
               </Grid>
               <Grid item xs={12} md={7} sx={{
-                display:"flex",
-                flexDirection:"row",
-                justifyContent:"space-between",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
               }}>
                 {/* <FileUpload value={files} onChange={setFiles} /> */}
                 <Stack>
@@ -153,7 +144,7 @@ const CareerSite = () => {
                   />
                 </Stack>
                 <Stack sx={{}}>
-                  <Grid item xs={12} md={7} sx={{width:"300px",marginBottom:"4%"}}>
+                  <Grid item xs={12} md={7} sx={{ width: "300px", marginBottom: "4%" }}>
                     <TextField
                       autoFocus
                       margin="dense"
@@ -164,11 +155,11 @@ const CareerSite = () => {
                       label="Institute Website"
                       onChange={onInputChangeHandler}
                       sx={{
-                        width:"300px"
+                        width: "300px"
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12} md={7} sx={{width:"300px",marginBottom:"4%"}}>
+                  <Grid item xs={12} md={7} sx={{ width: "300px", marginBottom: "4%" }}>
                     <TextField
                       autoFocus
                       margin="dense"
@@ -179,7 +170,7 @@ const CareerSite = () => {
                       label="Institute Address"
                       onChange={onInputChangeHandler}
                       sx={{
-                        width:"300px"
+                        width: "300px"
                       }}
                     />
                   </Grid>
@@ -194,13 +185,26 @@ const CareerSite = () => {
                       name="landmark"
                       onChange={onInputChangeHandler}
                       sx={{
-                        width:"300px"
+                        width: "300px"
                       }}
                     />
                   </Grid>
                 </Stack>
               </Grid>
-
+              <Grid item xs={12} md={7}>
+                <Select sx={{
+                  width: "100%"
+                }}
+                  margin="dense"
+                  fullWidth
+                  id="tags"
+                  label="Tags"
+                >
+                  <MenuItem value={10}>Remote</MenuItem>
+                  <MenuItem value={20}>Physical</MenuItem>
+                  <MenuItem value={30}>Technical</MenuItem>
+                </Select>
+              </Grid>
 
               <Grid item xs={12} md={7}>
                 <FormControl variant="outlined" sx={{ minWidth: '100%' }}>

@@ -804,3 +804,113 @@ select {
   color: #557fff;
   text-align: center;
 }
+.scrolling-wrapper-flexbox {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+
+}
+.scrolling-wrapper-flexbox > .card {
+  flex: 0 0 auto;
+}
+.row{
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.card {
+  /*float: left;*/
+  max-width: 25.333%;
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 0;
+  flex-basis: 33.333%;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.card > img {
+  margin-bottom: .75rem;
+  width: 100%;
+}
+
+.card-text {
+  font-size: 85%;
+}
+
+
+/* TO do */
+.app-wrapper {
+  background-color: #12343b;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.task-input{
+  outline: none;
+  padding: 15px;
+  margin-right: 25px;
+  font-size: 20px;
+  color: #ccc;
+  background-color: #000000;
+  border: 1px solid #c89666;
+  border-radius: 10px;
+}
+.button-add{
+  width: 70px;
+  padding: 15px 15px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: 0;
+  background-color: #f1af71;
+  cursor: pointer;
+}
+.list-item {
+  display: flex;
+  width: 50%;
+  margin: 20px 0 10px 5%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  /* height: 30px; */
+}
+.button-complete, .button-delete{
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 28px;
+  border-radius: 50%;
+}
+.button-complete{
+  color: #ff6c6c;
+  margin-right: 10px;
+}
+.button-delete{
+  color: lightseagreen;
+}
+.complete{
+  text-decoration-style: solid;
+  text-decoration-line: line-through;
+  text-decoration-color: blue;
+  opacity: 0.6;
+}
+.list{
+  width: 220px;
+  border: none;
+  color: #000000;
+  font-size: 20px;
+  padding-left: 10px;
+  margin-right: 15px;
+}
+input:focus,
+button:focus{
+  outline: none;
+}
+.btnstodo{
+  margin-left: 20%;
+}
