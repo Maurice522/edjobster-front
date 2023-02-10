@@ -15,6 +15,7 @@ import Notes from '../../../components/Notes/Notes';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import ViewAllCandidatesModel from '../../../components/Mains/ViewAllCandidatesModel';
 import { useAddJobMutation, useGetJobeDetailsQuery } from '../../../redux/services/jobs/JobServices';
+import ToDoApp from '../../../components/homePage/ToDoApp';
 
 const useStyles = makeStyles({
   card_heading: {
@@ -476,6 +477,7 @@ const PerticularJob = (props) => {
         <Divider orientation="vertical" flexItem />
         <Grid item md={3}>
           <Notes candidateId={candidateId} />
+          <ToDoApp />
         </Grid>
       </Grid>
       <AssignJobModel

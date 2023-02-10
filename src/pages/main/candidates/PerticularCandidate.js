@@ -41,6 +41,7 @@ import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../redux/services/notes/NotesServices';
 import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
+import ToDoApp from '../../../components/homePage/ToDoApp';
 
 
 
@@ -70,7 +71,7 @@ const PerticularCandidate = (props) => {
   const [modelOpen, setModelOpen] = useState(false);
   const [emailModelOpen, setEmailModelOpen] = useState(false);
   const { open, handleClose } = props;
-  
+
   const openMenu = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -79,12 +80,12 @@ const PerticularCandidate = (props) => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-  
-  
+
+
   const settings = ['Edit Candidates', 'Send Email', 'View Past Application', 'Logout'];
-  
+
   //   const [open, setOpen] = React.useState(false);
-  
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -95,7 +96,7 @@ const PerticularCandidate = (props) => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  
+
   const assignJobModel = () => {
     setModelOpen(true);
   }
@@ -103,17 +104,17 @@ const PerticularCandidate = (props) => {
     setModelOpen(false);
     setEmailModelOpen(false);
   };
-  
+
   const sendEmailhandler = () => {
     setEmailModelOpen(true);
   }
   useEffect(() => {
-    if(assignJobInfo.isError) {
+    if (assignJobInfo.isError) {
       showToast("error", "Error while assigning the job")
       console.log(assignJobInfo.error)
       assignJobModelClosed()
     }
-    if(assignJobInfo.isSuccess) {
+    if (assignJobInfo.isSuccess) {
       showToast("success", "Assigned the job to the candidate")
       assignJobModelClosed()
     }
@@ -124,30 +125,28 @@ const PerticularCandidate = (props) => {
       <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#f9fafb' }}>
         <Toolbar>
           <IconButton edge="start" color="secondary" onClick={handleClose} aria-label="close">
-            <CloseIcon onClick={()=>(navigate(-1))}/>
+            <CloseIcon onClick={() => (navigate(-1))} />
           </IconButton>
           <Grid container spacing={3} >
             <Grid item md={2}>
               <h2 style={{
-                color:"black",
-                width:"400px",
-                marginRight:"50px"
+                color: "black",
+                width: "400px",
+                marginRight: "50px"
               }}>
                 {`${candidateData?.data.first_name} ${candidateData?.data.last_name}`}
               </h2>
             </Grid>
             <Grid item md={8} style={{ display: 'flex', justifyContent: 'space-between' }}>
               <h4 style={{
-                color:"black",
-                marginLeft:"10%"
+                color: "black",
+                marginLeft: "10%"
               }}>
                 {candidateData?.data.qualification} +91-{candidateData?.data.mobile}
               </h4>
             </Grid>
             <Grid item md={2} style={{ textAlign: 'end', }}>
               <Box sx={{ display: 'flex', justifyContent: "flex-end" }}>
-                {/* <Typography style={{ minWidth: 100 }}>Contact</Typography>
-                  <Typography style={{ minWidth: 100 }}>Profile</Typography> */}
                 <Tooltip title="Account settings">
                   <IconButton
                     onClick={handleClick}
@@ -249,7 +248,7 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Grid>
         <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={()=>navigate('/dashboard/NewInterview')}>
+          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => navigate('/dashboard/NewInterview')}>
             Schedule Interview
           </Button>
           <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={assignJobModel}>
@@ -282,9 +281,9 @@ const PerticularCandidate = (props) => {
             >
               {settings.map((setting) => (
                 <>
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
                 </>
               ))}
             </Menu>
@@ -293,320 +292,340 @@ const PerticularCandidate = (props) => {
       </Grid>
       <Divider variant="middle" />
       <Stack sx={{
-        display:"flex",
-        flexDirection:"row"
+        display: "flex",
+        flexDirection: "row"
       }}>
-      <Card sx={{
-        width: "200px",
-        height: "216px",
-        padding: "1%",
-        paddingLeft: "2%",
-        marginTop:"10%",
-        boxShadow:"rgba(0, 0, 0, 0.25)"
-      }}>
-        <h3>Quick Access</h3>
-        <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
-        <a className='quickaccess' href='#work'>Work Experiance</a>
-        <a className='quickaccess' href='#education'>Education Details</a>
-        <a className='quickaccess' href='#notes'>Notes</a>
-
-      </Card>
-      <Container sx={{
-        width: "80%",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}>
-        <Stack sx={{
-          marginTop: "10%"
+        {/* <Card sx={{
+          width: "200px",
+          height: "216px",
+          padding: "1%",
+          paddingLeft: "2%",
+          marginRight: "0",
+          marginTop: "10%",
+          // marginLeft:"5%",
+          boxShadow: "rgba(0, 0, 0, 0.25)"
         }}>
+          <h3>Quick Access</h3>
+          <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
+          <a className='quickaccess' href='#work'>Work Experiance</a>
+          <a className='quickaccess' href='#education'>Education Details</a>
+          <a className='quickaccess' href='#notes'>Notes</a>
 
+        </Card> */}
+        <Container sx={{
+          width: "80%",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}>
           <Stack sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            gap: "20%"
-
+            marginTop: "2%"
           }}>
-            <Stack>
-              <TextField
-                disabled
-                id="filled-disabled"
-                label="Phone"
-                defaultValue={`+91-${candidateData?.data.mobile}`}
-                variant="filled"
-                sx={{
-                  margin: "4%"
-                }}
-                name="mobile"
-              />
-              <TextField
-                disabled
-                id="filled-disabled"
-                label="Email"
-                defaultValue={candidateData?.data.email}
-                variant="filled"
-                sx={{
-                  margin: "4%"
-                }}
-                name="email"
-              />
-              <TextField
-                disabled
-                id="filled-disabled"
-                label="Pincode"
-                defaultValue={candidateData?.data.pincode}
-                variant="filled"
-                sx={{
-                  margin: "4%"
-                }}
-                name="pincode"
-              />
-            </Stack>
-            <Stack>
-            <TextField
-                disabled
-                id="filled-disabled"
-                label="Gender"
-                defaultValue={candidateData?.data.gender}
-                variant="filled"
-                sx={{
-                  margin: "4%"
-                }}
-                name="gender"
-              />
-              <TextField
-                disabled
-                id="filled-disabled"
-                label="Date of Birth"
-                defaultValue={candidateData?.data.date_of_birth}
-                variant="filled"
-                sx={{
-                  margin: "4%"
-                }}
-                name="date_of_birth"
-              />
-              <TextField
-                disabled
-                id="filled-disabled"
-                label="Nationality"
-                defaultValue="Indian"
-                variant="filled"
-                sx={{
-                  margin: "4%"
-                }}
-                name="nationality"
-              />
-              <TextField
-                disabled
-                id="filled-disabled"
-                label="Marital Status"
-                defaultValue="Unmarried"
-                variant="filled"
-                sx={{
-                  margin: "4%"
-                }}
-                name="marital_status"
-              />
+
+            <Stack sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: "20%"
+
+            }}>
+              <Card sx={{
+                width: "200px",
+                height: "216px",
+                padding: "1%",
+                paddingLeft: "2%",
+                marginRight: "0",
+                marginTop: "10%",
+                // marginLeft:"5%",
+                boxShadow: "rgba(0, 0, 0, 0.25)"
+              }}>
+                <h3>Quick Access</h3>
+                <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
+                <a className='quickaccess' href='#work'>Work Experiance</a>
+                <a className='quickaccess' href='#education'>Education Details</a>
+                <a className='quickaccess' href='#notes'>Notes</a>
+
+              </Card>
+              <Stack>
+                <TextField
+                  disabled
+                  id="filled-disabled"
+                  label="Phone"
+                  defaultValue={`+91-${candidateData?.data.mobile}`}
+                  variant="filled"
+                  sx={{
+                    margin: "4%"
+                  }}
+                  name="mobile"
+                />
+                <TextField
+                  disabled
+                  id="filled-disabled"
+                  label="Email"
+                  defaultValue={candidateData?.data.email}
+                  variant="filled"
+                  sx={{
+                    margin: "4%"
+                  }}
+                  name="email"
+                />
+                <TextField
+                  disabled
+                  id="filled-disabled"
+                  label="Pincode"
+                  defaultValue={candidateData?.data.pincode}
+                  variant="filled"
+                  sx={{
+                    margin: "4%"
+                  }}
+                  name="pincode"
+                />
+              </Stack>
+              <Stack>
+                <TextField
+                  disabled
+                  id="filled-disabled"
+                  label="Gender"
+                  defaultValue={candidateData?.data.gender}
+                  variant="filled"
+                  sx={{
+                    margin: "4%"
+                  }}
+                  name="gender"
+                />
+                <TextField
+                  disabled
+                  id="filled-disabled"
+                  label="Date of Birth"
+                  defaultValue={candidateData?.data.date_of_birth}
+                  variant="filled"
+                  sx={{
+                    margin: "4%"
+                  }}
+                  name="date_of_birth"
+                />
+                <TextField
+                  disabled
+                  id="filled-disabled"
+                  label="Nationality"
+                  defaultValue="Indian"
+                  variant="filled"
+                  sx={{
+                    margin: "4%"
+                  }}
+                  name="nationality"
+                />
+                <TextField
+                  disabled
+                  id="filled-disabled"
+                  label="Marital Status"
+                  defaultValue="Unmarried"
+                  variant="filled"
+                  sx={{
+                    margin: "4%"
+                  }}
+                  name="marital_status"
+                />
+              </Stack>
             </Stack>
           </Stack>
-        </Stack>
-        <Grid container sx={{ mt: 1, justifyContent: "center" }} spacing={2}>
-          <Grid item md={8} sx={{ ml: 3 }}>
-            <Grid item md={12}>
-              <h3 id='candidateprofile' className='canhead'>Candidate Profile</h3>
-            </Grid>
-            <Grid container sx={{ mt: 4, pr: 2 }} spacing={2}>
-              <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
-                <h4>Headline</h4>
-              </Grid>
-              <Grid item md={8}>
-                <p className='candidateBlueCard'>
-                  ypesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
-                  Letraset sheets containing Lorem Ipsum passages,
-                </p>
-              </Grid>
-              <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
-                <h4>Summary</h4>
-              </Grid>
-              <Grid item md={8}>
-                <p className='candidateBlueCard'>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                  industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                  scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
-                  into electronic
-                </p>
-              </Grid>
-              <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
-                <h4>Total Experiance</h4>
-              </Grid>
-              <Grid item md={8}>
-                <p className='candidateBlueCard' style={{width:"25%"}}>{`${candidateData?.data.exp_years*12+candidateData?.data.exp_months} months`}</p>
-              </Grid>
-              <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
-                <h4>Skills</h4>
-              </Grid>
-              <Grid item md={8}>
-                <p className='candidateBlueCard'>
-                  Technical skills are the specialized knowledge and expertise required to perform specific tasks and
-                  use specific tools and programs in real world situations.
-                </p>
-              </Grid>
-            </Grid>
-            <Grid container sx={{ mt: 4 }}>
+          <Grid container sx={{ mt: 1, justifyContent: "center", marginLeft: "0" }} spacing={2}>
+            <Container sx={{ width: "100%" }}>
               <Grid item md={12}>
-                <h4 id='work'className='canhead'>Work Experiance</h4>
+                <h3 id='candidateprofile' className='canhead'>Candidate Profile</h3>
               </Grid>
-              <Grid item md={12} sx={{ mt: 2, pr: 2 }}>
-                <Card>
-                  <CardContent>
-                    <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                      >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
-                          May 2019 - Present
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }} variant="body1">
-                          Assisstent Professor Professional UniverSity
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est,
-                          id dignissim quam.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                    <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2bh-content"
-                        id="panel2bh-header"
-                      >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
-                          June 2016 - Apr 2019
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                          Assisstent Professor at Amity UniverSity
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar diam
-                          eros in elit. Pellentesque convallis laoreet laoreet.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                    <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel3bh-content"
-                        id="panel3bh-header"
-                      >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
-                          Dec 2009 - Apr 2016
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                          Assisstent Professor at Pune UniverSity
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae
-                          egestas augue. Duis vel est augue.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  </CardContent>
-                </Card>
+              <Grid container sx={{ mt: 4, pr: 2 }} spacing={2}>
+                <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
+                  <h4>Headline</h4>
+                </Grid>
+                <Grid item md={8}>
+                  <p className='candidateBlueCard'>
+                    ypesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
+                    Letraset sheets containing Lorem Ipsum passages,
+                  </p>
+                </Grid>
+                <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
+                  <h4>Summary</h4>
+                </Grid>
+                <Grid item md={8}>
+                  <p className='candidateBlueCard'>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                    scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
+                    into electronic
+                  </p>
+                </Grid>
+                <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
+                  <h4>Total Experiance</h4>
+                </Grid>
+                <Grid item md={8}>
+                  <p className='candidateBlueCard' style={{ width: "25%" }}>{`${candidateData?.data.exp_years * 12 + candidateData?.data.exp_months} months`}</p>
+                </Grid>
+                <Grid item md={3} style={{ display: 'flex', alignItems: 'center' }}>
+                  <h4>Skills</h4>
+                </Grid>
+                <Grid item md={8}>
+                  <p className='candidateBlueCard'>
+                    Technical skills are the specialized knowledge and expertise required to perform specific tasks and
+                    use specific tools and programs in real world situations.
+                  </p>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container sx={{ mt: 4, mb: 4 }}>
-              <Grid item md={12}>
-                <h4 id='education' className='canhead'>Education Details</h4>
+              <Grid container sx={{ mt: 4 }}>
+                <Grid item md={12}>
+                  <h4 id='work' className='canhead'>Work Experiance</h4>
+                </Grid>
+                <Grid item md={12} sx={{ mt: 2, pr: 2 }}>
+                  <Card>
+                    <CardContent>
+                      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1bh-content"
+                          id="panel1bh-header"
+                        >
+                          <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
+                            May 2019 - Present
+                          </Typography>
+                          <Typography sx={{ color: 'text.secondary' }} variant="body1">
+                            Assisstent Professor Professional UniverSity
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est,
+                            id dignissim quam.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel2bh-content"
+                          id="panel2bh-header"
+                        >
+                          <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
+                            June 2016 - Apr 2019
+                          </Typography>
+                          <Typography sx={{ color: 'text.secondary' }}>
+                            Assisstent Professor at Amity UniverSity
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar diam
+                            eros in elit. Pellentesque convallis laoreet laoreet.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel3bh-content"
+                          id="panel3bh-header"
+                        >
+                          <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
+                            Dec 2009 - Apr 2016
+                          </Typography>
+                          <Typography sx={{ color: 'text.secondary' }}>
+                            Assisstent Professor at Pune UniverSity
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae
+                            egestas augue. Duis vel est augue.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </CardContent>
+                  </Card>
+                </Grid>
               </Grid>
-              <Grid item md={12} sx={{ mt: 2, pr: 2 }}>
-                <Card>
-                  <CardContent>
-                    <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                      >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
-                          May 2007 - Mar 2009
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }} variant="body1">
-                          M.Tech (Structure) from Mumbai University
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est,
-                          id dignissim quam.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                    <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2bh-content"
-                        id="panel2bh-header"
-                      >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
-                          June 2007 - Apr 2009
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                          B.E Civil Engineering From Mumbai UniverSity
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar diam
-                          eros in elit. Pellentesque convallis laoreet laoreet.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                    <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel3bh-content"
-                        id="panel3bh-header"
-                      >
-                        <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
-                          Dec 2009 - Apr 2016
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>
-                          Assisstent Professor at Pune UniverSity
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography>
-                          Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae
-                          egestas augue. Duis vel est augue.
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  </CardContent>
-                </Card>
+              <Grid container sx={{ mt: 4, mb: 4 }}>
+                <Grid item md={12}>
+                  <h4 id='education' className='canhead'>Education Details</h4>
+                </Grid>
+                <Grid item md={12} sx={{ mt: 2, pr: 2 }}>
+                  <Card>
+                    <CardContent>
+                      <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1bh-content"
+                          id="panel1bh-header"
+                        >
+                          <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
+                            May 2007 - Mar 2009
+                          </Typography>
+                          <Typography sx={{ color: 'text.secondary' }} variant="body1">
+                            M.Tech (Structure) from Mumbai University
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est,
+                            id dignissim quam.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel2bh-content"
+                          id="panel2bh-header"
+                        >
+                          <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
+                            June 2007 - Apr 2009
+                          </Typography>
+                          <Typography sx={{ color: 'text.secondary' }}>
+                            B.E Civil Engineering From Mumbai UniverSity
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar diam
+                            eros in elit. Pellentesque convallis laoreet laoreet.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                      <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel3bh-content"
+                          id="panel3bh-header"
+                        >
+                          <Typography sx={{ width: '33%', flexShrink: 0 }} variant="subtitle1">
+                            Dec 2009 - Apr 2016
+                          </Typography>
+                          <Typography sx={{ color: 'text.secondary' }}>
+                            Assisstent Professor at Pune UniverSity
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography>
+                            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros, vitae
+                            egestas augue. Duis vel est augue.
+                          </Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </CardContent>
+                  </Card>
+                </Grid>
               </Grid>
-            </Grid>
-          </Grid>
-          {/* <Divider orientation="vertical" flexItem /> */}
+            </Container>
+            {/* <Divider orientation="vertical" flexItem /> */}
 
-        </Grid>
-        <Grid item md={3} id='notes'>
-          <Notes candidateId={candidateId} />
-        </Grid>
-      </Container>
+          </Grid>
+          <Grid item md={3} id='notes'>
+            <Notes candidateId={candidateId} />
+            <ToDoApp />
+          </Grid>
+        </Container>
       </Stack>
-      <AssignJobModel 
-        open={modelOpen} 
-        handleClose={assignJobModelClosed} 
-        jobs={jobListData} 
+      <AssignJobModel
+        open={modelOpen}
+        handleClose={assignJobModelClosed}
+        jobs={jobListData}
         value={selectedJob}
         handleChange={handleChangeSelectedJob}
         handleSubmit={handleUpdateSelectedJob}

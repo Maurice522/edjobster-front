@@ -194,42 +194,6 @@ function CreateEmail() {
                         </Button>
                     </Container>
                 </div>
-                {/* <h3 className='variables'>Variables</h3>
-                <div className='variableComponents'>
-                    <div className='variablediv'>
-                        <label className="variabledivlabel" htmlFor='Status'>Available Merge Fields
-                            {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
-                        </label>
-                        <input
-                            className="emailinutbar2"
-                            id="client_name"
-                            name="client_name"
-                            type="text"
-                        />
-                    </div>
-                    <div className='variablediv'>
-                        <label className="variabledivlabel" htmlFor='Status'>Select Field
-                            {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
-                        </label>
-                        <input
-                            className="emailinutbar2"
-                            id="client_name"
-                            name="client_name"
-                            type="text"
-                        />
-                    </div>
-                    <div className='variablediv'>
-                        <label className="variabledivlabel" htmlFor='Status'>Copy Merge Field Value
-                            {formik.touched.client_name && formik.errors.client_name ? <div>{formik.errors.role}</div> : null}
-                        </label>
-                        <input
-                            className="emailinutbar2"
-                            id="client_name"
-                            name="client_name"
-                            type="text"
-                        />
-                    </div>
-                </div> */}
                 <h4 style={{ marginLeft: "20%", marginTop: "5%", marginBottom: "2%" }}>Body</h4>
                 <div className='editor'>
                     <ReactQuill sx={{ outerWidth: "80vw" }} theme="snow"

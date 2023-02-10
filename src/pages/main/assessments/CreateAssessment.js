@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom';
 import './create-assesment.css';
 
 import Grid from '@mui/material/Grid';
@@ -20,14 +20,14 @@ import {
   useDeleteAssesmentQuestionsMutation,
 } from '../../../redux/services/main/AssesmentQuestionsService';
 import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice';
-import {useGetCompanyInfoQuery} from "../../../redux/services/settings/CareerSiteService"
+import { useGetCompanyInfoQuery } from "../../../redux/services/settings/CareerSiteService"
 import Iconify from '../../../components/Iconify';
 import CandidateSettingModal from "../../settings/candidate-settings/CandidateSettingsModal";
 
 
 const CreateAssessment = () => {
   const [btnLoader, setBtnLoader] = useState(false);
-
+  const navigate = useNavigate()
   const [modalOpen, setModalOpen] = useState(false);
   const { assessmentEditId } = useParams();
   const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
@@ -54,21 +54,21 @@ const CreateAssessment = () => {
   const [questions, setQuestions] = useState(
     assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.questions : []
   );
-    const [modal2Open, setModal2Open] = useState(false);
-      const [modal2Name, setModal2Name] = useState('add');
-      // const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssesmentCategoryMutation();
+  const [modal2Open, setModal2Open] = useState(false);
+  const [modal2Name, setModal2Name] = useState('add');
+  // const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssesmentCategoryMutation();
 
-  const {data: companyInfo}= useGetCompanyInfoQuery()
-//  const addClickHandler = async () => {
-//     setBtnLoader(true);
-//     if (modal2Name === 'Add') {
-//       console.log(" addValue : ",addValue);
-//       await addAssessmentCategories(addValue);
-//       modalHandleClose(false);
-//     } else {
-//       console.log(modal2Name);  
-//     }
-//   };
+  const { data: companyInfo } = useGetCompanyInfoQuery()
+  //  const addClickHandler = async () => {
+  //     setBtnLoader(true);
+  //     if (modal2Name === 'Add') {
+  //       console.log(" addValue : ",addValue);
+  //       await addAssessmentCategories(addValue);
+  //       modalHandleClose(false);
+  //     } else {
+  //       console.log(modal2Name);  
+  //     }
+  //   };
   const onPreviewModalOpen = () => {
     setModalOpen(true);
   };
@@ -315,13 +315,13 @@ const CreateAssessment = () => {
           <Grid item xs={6}>
             <Card variant="outlined" style={{ padding: 20 }}>
               <Grid item xs={12} style={{ marginBottom: 20 }} sx={{
-                display:"flex",
-                flexDirection:"row",
+                display: "flex",
+                flexDirection: "row",
                 justifyContent: "space-between"
-               }}>
-                <FormControl variant="standard" sx={{ mt: 1, width:"100%", }}>
+              }}>
+                <FormControl variant="standard" sx={{ mt: 1, width: "60%", }}>
                   <InputLabel id="demo-simple-select-standard-label">Assesment Category</InputLabel>
-                  <Select 
+                  <Select
                     required
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
@@ -337,14 +337,16 @@ const CreateAssessment = () => {
                       ))}
                   </Select>
                 </FormControl>
-                {/* <Button
+                <Button sx={{
+                  height:"20%",
+                  marginTop:"5%"
+                }}
                   variant="contained"
-                  component={RouterLink}
-                  to="#"
-                  onClick={addNewCategoryHandler}
-                >
-                  New
-                </Button> */}
+                  onClick={()=> navigate('/dashboard/candidate-settings/assessment-categories')}
+                  startIcon={<Iconify icon="eva:plus-fill" />}
+                 >
+                 Category
+                </Button>
               </Grid>
               <Grid item xs={12} display="flex" style={{ margin: 20 }}>
                 <Grid item xs={12} style={{ justifyContent: 'right' }}>

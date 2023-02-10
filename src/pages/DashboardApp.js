@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, Stack, Card } from '@mui/material';
+import ToDoApp from '../components/homePage/ToDoApp';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
@@ -21,6 +22,8 @@ import {
   AppConversionRates,
 } from '../sections/@dashboard/app';
 import ChartsGraph from './ChartsGraph';
+import LatestInterview from '../components/homePage/InterviewStats/LatestInterview';
+
 
 // ----------------------------------------------------------------------
 
@@ -43,75 +46,40 @@ export default function DashboardApp() {
         <h1>
           Hi {(userData?.first_name || "")}!, Welcome back
         </h1>
-
+        <div className="container">
+          <h1>Stats</h1>
+          <div className="row">
+            <div className="card">
+              <AppWidgetSummary title="Screening" total={714000} icon={'ant-design:android-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Applied" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Shortlisted" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Interviews" total={234} color="error" icon={'ant-design:bug-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Offered" total={234} icon={'ant-design:android-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="Hired" total={234} color="warning" icon={'ant-design:windows-filled'} />
+            </div>
+            <div className="card">
+              <AppWidgetSummary title="On Boarded" total={234} color="info" icon={'ant-design:apple-filled'} />
+            </div>
+          </div>
+        </div>
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Screening" total={714000} icon={'ant-design:android-filled'} />
+          <Grid item xs={12} md={6} lg={8} mt={5}>
+            <Card>
+              <ChartsGraph />
+            </Card>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Applied" total={1352831} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Shortlisted" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Interviews" total={234} color="error" icon={'ant-design:bug-filled'} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Offered" total={234} icon={'ant-design:android-filled'} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Hired" total={234} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="On Boarded" total={234} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            {/* <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than last year"
-              chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ]}
-              chartData={[
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ]}
-            /> */}
-            <ChartsGraph />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={4} mt={5}>
             <AppCurrentVisits
               title="Current Visits"
               chartData={[
@@ -148,7 +116,7 @@ export default function DashboardApp() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={4} s>
             <AppCurrentSubject
               title="Current Subject"
               chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
@@ -180,11 +148,11 @@ export default function DashboardApp() {
               list={[...Array(5)].map((_, index) => ({
                 id: faker.datatype.uuid(),
                 title: [
-                  '1983, orders, $4220',
-                  '12 Invoices have been paid',
-                  'Order #37745 from September',
-                  'New order placed #XF-2356',
-                  'New order placed #XF-2346',
+                  'New Job Posted',
+                  '12 Candidates applied',
+                  'Application closed',
+                  '5 Shortlisted',
+                  '1 candidate hired',
                 ][index],
                 type: `order${index + 1}`,
                 time: faker.date.past(),
@@ -219,18 +187,19 @@ export default function DashboardApp() {
               ]}
             />
           </Grid>
-
           <Grid item xs={12} md={6} lg={8}>
-            <AppTasks
-              title="Tasks"
-              list={[
-                { id: '1', label: 'Create FireStone Logo' },
-                { id: '2', label: 'Add SCSS and JS files if required' },
-                { id: '3', label: 'Stakeholder Meeting' },
-                { id: '4', label: 'Scoping & Estimations' },
-                { id: '5', label: 'Sprint Showcase' },
-              ]}
-            />
+            <Card sx={{
+              minHeight:"100%",
+            }}>
+              <ToDoApp />
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6} lg={8}>
+            <Card sx={{
+              minHeight:"100%",
+            }}>
+              <LatestInterview />
+            </Card>
           </Grid>
         </Grid>
       </Container>
