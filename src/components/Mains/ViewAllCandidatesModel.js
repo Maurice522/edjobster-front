@@ -33,7 +33,10 @@ import {
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { LoadingButton } from '@mui/lab';
 import MailIcon from '@mui/icons-material/Mail';
+import { useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+// eslint-disable-next-line import/no-unresolved
+import { useGetJobCandidatesQuery } from 'src/redux/services/jobs/JobListService';
 import Iconify from '../Iconify';
 import Label from '../Label';
 import RichTextEditer from '../Rich-text-editer/RichTextEditer';
@@ -74,6 +77,9 @@ const drawerWidth = 240;
 
 
 const ViewAllCandidatesModel = (props) => {
+    const { id } = useParams();
+    const { data: candidateData } = useGetJobCandidatesQuery(+id)
+    console.log(candidateData)
     const [personName, setPersonName] = useState([]);
 
     const theme = useTheme();
@@ -201,6 +207,9 @@ const ViewAllCandidatesModel = (props) => {
         { name: 'Bob Herm', status: labelStatus, action: editAndDeleteButton },
         { name: 'James Houston', status: labelStatus, action: editAndDeleteButton },
     ];
+
+    // const { data: }
+
     const options = {
         filterType: 'dropdown',
     };

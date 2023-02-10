@@ -501,19 +501,19 @@ function NewcreateCandidate() {
           </Stack>
           <Stack>
           <Button
-                sx={{
-                  width:"40%"
-                }}
-                variant="contained"
-                component="label"
-                name
-               >
-                Upload Resume
-                <input
-                  type="file"
-                  hidden
-                />
-              </Button>
+            sx={{
+              width:"40%"
+            }}
+            variant="contained"
+            component="label"
+            name
+          >
+            Upload Resume
+            <input
+              type="file"
+              hidden
+            />
+          </Button>
           </Stack>
         </Stack>
       </Stack>
