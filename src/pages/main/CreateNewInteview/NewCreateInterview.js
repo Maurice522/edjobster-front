@@ -33,6 +33,7 @@ import { useGetLocationQuery } from "../../../redux/services/settings/LocationSe
 import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useAddInterviewMutation } from "../../../redux/services/interview/InterviewServices"
 import Back from "../../../assets/images/back.svg"
+import { useGetInterviewerDetailsQuery } from 'src/redux/services/settings/interviewContact';
 
 
 function NewCreateInterview() {
@@ -77,7 +78,7 @@ function NewCreateInterview() {
   const { data: emailTemplateData, refetch: emailTemplateDataRefetch } = useGetEmailTamplateQuery()
   const { data: candidateData, refetch: candidateDataRefetch } = useGetCandidateListQuery()
   const { data: locationData, refetch: locationDataRefetch } = useGetLocationQuery()
-  const { data: interviewerData, refetch: interviewerDataRefetch } = useGetUsersApiQuery()
+  const { data: interviewerData, refetch: interviewerDataRefetch } = useGetInterviewerDetailsQuery()
   const [emailTemplateId,setEmailTemplateId] = useState(skipToken)
   const {data: emailTemplateDetails, refetch: emailTemplateDetailsRefetch} = useGetEmailTemplateByIdQuery(emailTemplateId)
 
@@ -322,7 +323,7 @@ function NewCreateInterview() {
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={500} gap={10} mb={5} ml={0} mr={0}>
               <FormControl variant="standard" sx={{ m: 1, minWidth: '100%' }}>
-                <InputLabel id="select-city">Select Interviewr</InputLabel>
+                <InputLabel id="select-city">Select Interviewer</InputLabel>
                 <Select sx={{
                   width: "60%"
                 }}
@@ -341,9 +342,9 @@ function NewCreateInterview() {
                   }
                 // onChange={(e) => handleChangeFormData()}
                 >
-                  {interviewerData ? interviewerData?.list?.map((e) =>
-                    <MenuItem key={e.account_id} value={e.account_id}>
-                      {e.first_name}
+                  {interviewerData ? interviewerData?.data?.data?.map((e) =>
+                    <MenuItem key={e?.id} value={e?.id}>
+                      {e?.mobile}
                     </MenuItem>) : <MenuItem value="">
                     <em>None</em>
                   </MenuItem>}

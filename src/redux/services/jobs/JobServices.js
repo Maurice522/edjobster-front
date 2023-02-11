@@ -3,6 +3,14 @@ import { apiUrl } from '../../../utils/api';
 
 const extendedApi = apiBasePath.injectEndpoints({
   endpoints: (build) => ({
+    jobStats: build.query({
+      query: (id) => ({
+        url: `${apiUrl.jobs}job-stats/?job=${id}`,
+        headers: {
+          'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+        }
+      }),
+    }),
     getJob: build.query({
       query: () => ({
         url: `${apiUrl.jobs}all-jobs?page=1`,
@@ -38,13 +46,14 @@ const extendedApi = apiBasePath.injectEndpoints({
         headers: {
           'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
         }
-      }),
+      })
     }),
   }),
   overrideExisting: false,
 });
 
 export const {
+  useJobStatsQuery,
   useGetJobQuery,
   useGetJobeDetailsQuery,
   useAddJobMutation,

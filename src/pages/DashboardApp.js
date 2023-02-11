@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography, Stack, Card } from '@mui/material';
+import { useDashStatsQuery } from '../redux/dashboard';
 import ToDoApp from '../components/homePage/ToDoApp';
 // components
 import Page from '../components/Page';
@@ -33,6 +34,9 @@ export default function DashboardApp() {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useSelector((state) => state.login.auth);
+
+  const {data,refetch}=useDashStatsQuery()
+  console.log(data?.data?.pipeline_stage_status_stats)
   useEffect(() => {
     console.log(location);
     // if (!auth) {
@@ -50,25 +54,25 @@ export default function DashboardApp() {
           <h1>Stats</h1>
           <div className="row">
             <div className="card">
-              <AppWidgetSummary title="Screening" total={714000} icon={'ant-design:android-filled'} />
+              <AppWidgetSummary title="Screening" total={data?.data?.pipeline_stage_status_stats?.screening} icon={'ant-design:android-filled'} />
             </div>
             <div className="card">
-              <AppWidgetSummary title="Applied" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+              <AppWidgetSummary title="Applied" total={data?.data?.pipeline_stage_status_stats?.applied} color="info" icon={'ant-design:apple-filled'} />
             </div>
             <div className="card">
-              <AppWidgetSummary title="Shortlisted" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+              <AppWidgetSummary title="Shortlisted" total={data?.data?.pipeline_stage_status_stats?.shortlisted} color="warning" icon={'ant-design:windows-filled'} />
             </div>
             <div className="card">
-              <AppWidgetSummary title="Interviews" total={234} color="error" icon={'ant-design:bug-filled'} />
+              <AppWidgetSummary title="Interviews" total={data?.data?.pipeline_stage_status_stats?.interview} color="error" icon={'ant-design:bug-filled'} />
             </div>
             <div className="card">
-              <AppWidgetSummary title="Offered" total={234} icon={'ant-design:android-filled'} />
+              <AppWidgetSummary title="Offered" total={data?.data?.pipeline_stage_status_stats?.offered} icon={'ant-design:android-filled'} />
             </div>
             <div className="card">
-              <AppWidgetSummary title="Hired" total={234} color="warning" icon={'ant-design:windows-filled'} />
+              <AppWidgetSummary title="Hired" total={data?.data?.pipeline_stage_status_stats?.hired} color="warning" icon={'ant-design:windows-filled'} />
             </div>
             <div className="card">
-              <AppWidgetSummary title="On Boarded" total={234} color="info" icon={'ant-design:apple-filled'} />
+              <AppWidgetSummary title="On Boarded" total={data?.data?.pipeline_stage_status_stats?.on_boarded} color="info" icon={'ant-design:apple-filled'} />
             </div>
           </div>
         </div>
