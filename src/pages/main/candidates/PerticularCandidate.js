@@ -42,6 +42,7 @@ import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../r
 import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 import ToDoApp from '../../../components/homePage/ToDoApp';
+import AssesmentModal from './AssestmentModal';
 
 
 
@@ -70,6 +71,7 @@ const PerticularCandidate = (props) => {
   const [expanded, setExpanded] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [emailModelOpen, setEmailModelOpen] = useState(false);
+  const [openAssesmentModal,setOpenAssestmentModal]=useState(false)
   const { open, handleClose } = props;
 
   const openMenu = Boolean(anchorEl);
@@ -225,7 +227,7 @@ const PerticularCandidate = (props) => {
         </Toolbar>
       </AppBar>
       <Grid container sx={{ mt: 2, pl: 2, pr: 2, mb: 4 }} spacing={3}>
-        <Grid item md={8}>
+        <Grid item md={4}>
           <Grid container>
             <Grid item md={4}>
               <h3>Last Job Applied</h3>
@@ -247,7 +249,10 @@ const PerticularCandidate = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={4} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Grid item md={7} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => setOpenAssestmentModal(true)}>
+            Assesment Response
+          </Button>
           <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => navigate('/dashboard/NewInterview')}>
             Schedule Interview
           </Button>
@@ -622,6 +627,7 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Container>
       </Stack>
+      <AssesmentModal open={openAssesmentModal} data={[]} handleClose={()=> setOpenAssestmentModal(false)}/>
       <AssignJobModel
         open={modelOpen}
         handleClose={assignJobModelClosed}
