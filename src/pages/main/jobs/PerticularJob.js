@@ -14,7 +14,7 @@ import { CardContent, Card, Grid, Divider, TextField, Box, Menu, MenuItem, Input
 import Notes from '../../../components/Notes/Notes';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import ViewAllCandidatesModel from '../../../components/Mains/ViewAllCandidatesModel';
-import { useAddJobMutation, useGetJobeDetailsQuery } from '../../../redux/services/jobs/JobServices';
+import { useAddJobMutation, useGetJobeDetailsQuery, useJobStatsQuery } from '../../../redux/services/jobs/JobServices';
 import ToDoApp from '../../../components/homePage/ToDoApp';
 
 const useStyles = makeStyles({
@@ -35,8 +35,9 @@ const Transition = React.forwardRef((props, ref) => {
 const PerticularJob = (props) => {
   const navigate = useNavigate();
   const { id } = useParams()
+  const {data:cardData,refetch: cardRefetch}=useJobStatsQuery(id);
+  console.log(cardData?.data?.pipeline_stage_status_stats)
   const { data: jobData, refetch } = useGetJobeDetailsQuery(id);
-  console.log('Edit Job data recieved from server', jobData);
   const [textValue, setTextValue] = useState({
     id,
     title: jobData?.title,
@@ -72,10 +73,8 @@ const PerticularJob = (props) => {
     department_name: jobData?.department?.name,
     city_name: jobData?.city?.name,
   });
-  console.log('Edit Job data recieved', textValue);
   const classes = useStyles();
   const { id: candidateId } = useParams();
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [modelOpen, setModelOpen] = useState(false);
@@ -106,6 +105,7 @@ const PerticularJob = (props) => {
 
   useEffect(() => {
     refetch()
+    cardRefetch()
   }, [id])
 
   return (
@@ -180,7 +180,7 @@ const PerticularJob = (props) => {
               <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center' }}>
                 Applied
               </Typography>
-              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>37</Typography>
+              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>{cardData?.data?.pipeline_stage_status_stats?.applied}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -190,7 +190,7 @@ const PerticularJob = (props) => {
               <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center' }}>
                 Shortlisted
               </Typography>
-              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>37</Typography>
+              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>{cardData?.data?.pipeline_stage_status_stats?.shortlisted}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -200,7 +200,7 @@ const PerticularJob = (props) => {
               <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center' }}>
                 In Review
               </Typography>
-              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>37</Typography>
+              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>{cardData?.data?.pipeline_stage_status_stats?.in_review}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -210,7 +210,7 @@ const PerticularJob = (props) => {
               <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center' }}>
                 Offerd
               </Typography>
-              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>37</Typography>
+              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>{cardData?.data?.pipeline_stage_status_stats?.offered}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -220,7 +220,7 @@ const PerticularJob = (props) => {
               <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center' }}>
                 Hired
               </Typography>
-              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>37</Typography>
+              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>{cardData?.data?.pipeline_stage_status_stats?.hired}</Typography>
             </CardContent>
           </Card>
         </Grid>
@@ -230,7 +230,7 @@ const PerticularJob = (props) => {
               <Typography variant="h6" style={{ display: 'flex', justifyContent: 'center' }}>
                 No of candidates
               </Typography>
-              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>37</Typography>
+              <Typography style={{ fontSize: '32px', fontWeight: '700', textAlign: 'center' }}>{cardData?.data?.pipeline_stage_status_stats?.no_of_candidates}</Typography>
             </CardContent>
           </Card>
         </Grid>
