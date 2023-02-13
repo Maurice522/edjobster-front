@@ -34,7 +34,6 @@ export default function DashboardApp() {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useSelector((state) => state.login.auth);
-
   const {data,refetch}=useDashStatsQuery()
   console.log(data?.data?.pipeline_stage_status_stats)
   useEffect(() => {

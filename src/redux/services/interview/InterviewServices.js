@@ -66,8 +66,8 @@ const extendedApi = apiBasePath.injectEndpoints({
       }),
     }),
     getInterviewLatest: build.query({
-      query: (id) => ({
-          url: `${apiUrl.interview_latest}`,
+      query: () => ({
+          url: `${apiUrl.latest_interview}`,
           headers: {
               'Authorization': `Token ${localStorage.getItem("globalUser").access}`
           }

@@ -34,7 +34,7 @@ const apiUrl = {
   createCandidate: `${baseUrl}candidate/create-candidate-web/`,
   createCandidateWithResume: `${baseUrl}candidate/create-candidate/`,
   interview:`${baseUrl}interview/schedule/`,
-  latest_interview: `${baseUrl}interview/interview-latest`,
+  latest_interview: `${baseUrl}interview/interview-latest/`,
   location:`${baseUrl}settings/location/`,  
   notes: `${baseUrl}candidate/notes/`,
   notesType:`${baseUrl}common/note-types/`,

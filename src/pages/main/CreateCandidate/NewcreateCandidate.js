@@ -114,7 +114,6 @@ function NewcreateCandidate() {
 
   // const [job,setJob] = useState(0);
   // const handleChangeJob = (e) => setJob(e.target.value);
-  console.log(countryData)
 
   useEffect(() => {
     stateDataRefetch()

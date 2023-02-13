@@ -26,6 +26,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { useGetInterviewerDetailsQuery } from '../../../redux/services/settings/interviewContact';
 import { useGetJobListQuery } from "../../../redux/services/jobs/JobListService";
 import { useGetEmailTamplateQuery, useGetEmailTemplateByIdQuery } from '../../../redux/services/settings/EmailTamplateService';
 import { useGetUsersApiQuery } from '../../../redux/services/settings/UserService';
@@ -33,7 +34,6 @@ import { useGetLocationQuery } from "../../../redux/services/settings/LocationSe
 import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useAddInterviewMutation } from "../../../redux/services/interview/InterviewServices"
 import Back from "../../../assets/images/back.svg"
-import { useGetInterviewerDetailsQuery } from 'src/redux/services/settings/interviewContact';
 
 
 function NewCreateInterview() {
