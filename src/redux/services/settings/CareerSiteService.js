@@ -24,9 +24,14 @@ const extendedApi = apiBasePath.injectEndpoints({
                 body: data,
             })
         }),
+        getCompanyTags: build.query({
+            query: () => ({
+                url: apiUrl.companyTags
+            })
+        })
     }),
     overrideExisting: false,
 
 });
 
-export const { useGetCompanyInfoQuery, useUpdateCompanyInfoMutation, useUpdateCompanyLogoMutation } = extendedApi;
+export const { useGetCompanyInfoQuery, useUpdateCompanyInfoMutation, useUpdateCompanyLogoMutation, useGetCompanyTagsQuery } = extendedApi;
