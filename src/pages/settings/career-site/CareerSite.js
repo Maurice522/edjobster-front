@@ -194,11 +194,12 @@ const CareerSite = () => {
               <Grid item xs={12} md={7}>
                 <Select sx={{
                   width: "100%"
-                }}
+                 }}
                   margin="dense"
                   fullWidth
                   id="tags"
                   label="Tags"
+                  NAME="Tags"
                 >
                   <MenuItem value={10}>Remote</MenuItem>
                   <MenuItem value={20}>Physical</MenuItem>

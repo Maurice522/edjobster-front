@@ -1,4 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { faker } from '@faker-js/faker';
+
 import {
   Container,
   Card,
@@ -17,25 +19,50 @@ function LatestInterview() {
   }, [data])
 
   console.log(data?.data[0]?.candidate_name)
-  console.log("render full array please",data?.data)
+  console.log("render full array please", data?.data)
   return (
     <div>
       <Container>
-      hi there
-      {data?.data?.map((e, i) => (
-        <Container key={i}>
-          <Container>
-            {e.data?.map((elem, j) => (
-              <Stack>
-              <h3>{elem.job_title}</h3>
-              <h3>{elem.candidate_name}</h3>
-              <h3>{elem.date}</h3>
+        <h3 sx={{margin:"5%"}}>Recent Interviews Scheduled</h3>
+        <Container sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          marginBottom:"5%"
+         }}>
+          <Stack sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+          }}>
+            <Stack sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent:"space-between",
+             }}>
+              <Stack sx={{
+                display: "flex",
+                flexDirection: "column",
+                width:"600px"
+               }}>
+                <h3>{data?.data[0]?.job_title}</h3>
+                <h4>{data?.data[0]?.candidate_name}</h4>
               </Stack>
-            ))}
-          </Container>
+              <Stack sx={{
+
+              }}>
+                <h5>{data?.data[0]?.date}</h5>
+              </Stack>
+            </Stack>
+          </Stack>
         </Container>
-      ))}
-    </Container>
+          
+        {/* {data?.data?.map((e, i) => (
+        <Container key={i}>
+          <h3>{e>.data?.candidate_name}</h3>
+        </Container>
+      ))} */}
+      </Container>
     </div>
   )
 }

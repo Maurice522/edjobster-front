@@ -283,7 +283,7 @@ const PerticularCandidate = (props) => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-            >
+             >
               {settings.map((setting) => (
                 <>
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
