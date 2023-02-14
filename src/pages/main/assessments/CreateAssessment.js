@@ -54,6 +54,7 @@ const CreateAssessment = () => {
   const [questions, setQuestions] = useState(
     assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.questions : []
   );
+  console.log(questions)
   const [modal2Open, setModal2Open] = useState(false);
   const [modal2Name, setModal2Name] = useState('add');
   // const [addAssessmentCategories, AddAssessmentCategoriesInfo] = useAddAssesmentCategoryMutation();
@@ -93,6 +94,11 @@ const CreateAssessment = () => {
     questions[questionIndex].options[optIndex] = e.target.value;
     setQuestions([...questions]);
   };
+  const onAssesmentOptionQualifyMarksInputChangeHandler = (e, optIndex, questionIndex) => {
+    e.preventDefault()
+    questions[questionIndex].answers[optIndex] = e.target.value.toString()
+    setQuestions([...questions]);
+  }
   const onAssesmentMarksInputChangeHandler = (e, questionIndex) => {
     // e.preventDefault();
     questions[questionIndex].marks = parseInt(e.target.value, 10);
@@ -160,7 +166,8 @@ const CreateAssessment = () => {
           question: '',
           options: ['Option 1', 'Option 2'],
           marks: null,
-          answer: null,
+          answers: [],
+          answer: null
         }])
         break;
       case 'T':
@@ -170,6 +177,8 @@ const CreateAssessment = () => {
           type: 'T',
           question: '',
           marks: null,
+          answers: [],
+          answer: null
         }
         ])
         break;
@@ -190,6 +199,8 @@ const CreateAssessment = () => {
           question: '',
           options: ['Option 1', 'Option 2'],
           marks: null,
+          answers: [],
+          answer: null
         }])
 
         break;
@@ -211,7 +222,8 @@ const CreateAssessment = () => {
           question: '',
           options: ['Option 1', 'Option 2'],
           marks: null,
-          answer: null,
+          answers: [],
+          answer: null
         }])
         break;
 
@@ -378,7 +390,7 @@ const CreateAssessment = () => {
                 </Grid>
               </Grid>
 
-              <Grid item display={'flex'} xs={12} alignItems="center">
+              {/* <Grid item display={'flex'} xs={12} alignItems="center">
                 <Grid item xs={8} style={{ margin: '10px' }} >
                   <Typography className={currentSelectedType === 'S' ? 'highligth' : ''}>Dropdown</Typography>
                 </Grid>
@@ -389,7 +401,7 @@ const CreateAssessment = () => {
                     Add
                   </Button>
                 </Grid>
-              </Grid>
+              </Grid> */}
 
               <Grid item display={'flex'} xs={12} alignItems="center">
                 <Grid item xs={8} style={{ margin: '10px' }}>
@@ -478,8 +490,7 @@ const CreateAssessment = () => {
                   </Grid>
                 ) : (
                   <div>
-                    {(item.type === 'S') ||
-                      (item.type === 'C') ||
+                    {(item.type === 'C') ||
                       (item.type === 'R') ? (
                       <div key={`multiple-${index}`}>
                         <Grid item xs={12} style={{ margin: 15 }}>
@@ -512,7 +523,11 @@ const CreateAssessment = () => {
 
                           {item.options.map((opt, optIndex) => (
                             <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
-                              <Grid item xs={11}>
+                              <Grid item xs={11} sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center"
+                              }}>
                                 <TextField
                                   required
                                   autoFocus
@@ -525,12 +540,16 @@ const CreateAssessment = () => {
                                   onChange={(e) => onAssesmentOptionInputChangeHandler(e, optIndex, index)}
                                   label={`Option ${optIndex + 1}`}
                                 />
-                                <TextField sx={{
-                                  width:"30%",
-                                  marginBottom:"5%"
-                                }}
+                                <TextField 
+                                  type="number"
+                                  sx={{
+                                    width:"30%",
+                                    marginBottom:"5%"
+                                  }}
+                                  value={item.answers[optIndex]}
+                                  onChange={e => onAssesmentOptionQualifyMarksInputChangeHandler(e, optIndex, index)}
                                   required
-                                  placeholder='qualifying marks'
+                                  placeholder='Qualifying marks'
                                   variant='standard'
                                    />
                               </Grid>
@@ -542,27 +561,27 @@ const CreateAssessment = () => {
                             </Grid>
                           ))}
                         </Grid>
+                          {/* <Grid item display={'flex'} xs={12}> */}
+                            {(item.type === 'C') && (
+                              <Grid item xs={5} style={{ margin: '10px' }}>
+                                <TextField
+                                  required
+                                  autoFocus
+                                  margin="dense"
+                                  variant="standard"
+                                  placeholder="Enter Marks"
+                                  fullWidth
+                                  name="Marks"
+                                  value={item.marks}
+                                  onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
+                                  label="Marks"
+                                  type="number"
+                                />
+                              </Grid>
+                            )}
 
-                        <Grid item xs={12} style={{ margin: 15 }}>
-                          <Grid item display={'flex'} xs={12}>
-                            <Grid item xs={5} style={{ margin: '10px' }}>
-                              <TextField
-                                required
-                                autoFocus
-                                margin="dense"
-                                variant="standard"
-                                placeholder="Enter Marks"
-                                fullWidth
-                                name="Marks"
-                                value={item.marks}
-                                onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
-                                label="Marks"
-                                type="number"
-                              />
-                            </Grid>
-
-                            {currentSelectedType === 'S' || currentSelectedType === 'R' ? (
-                              <>
+                            {(item.type === 'R') && (
+                              <Container sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                 <Grid item xs={5} style={{ margin: '10px' }}>
                                   <TextField
                                     required
@@ -578,12 +597,12 @@ const CreateAssessment = () => {
                                     label="Answer"
                                   />
                                 </Grid>
-                              </>
-                            ) : (
-                              ''
+                                <Container>
+                                  Total Marks: {item.answers.reduce((partialSum, a) => +partialSum + +a, 0)}
+                                </Container>
+                              </Container>
                             )}
-                          </Grid>
-                        </Grid>
+                        {/* </Grid> */}
                         {/* <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
                           <Button
                             variant="contained"

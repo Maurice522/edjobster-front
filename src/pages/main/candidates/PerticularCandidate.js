@@ -55,7 +55,7 @@ const PerticularCandidate = (props) => {
   const [assignJob, assignJobInfo] = useAssignJobMutation()
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
   const { data: applicantData } = useGetApplicantsQuery(candidateId)
-  console.log(candidateData)
+  console.log(applicantData)
   const { data: jobListData } = useGetJobListQuery();
   const [selectedJob, setSelectedJob] = useState(candidateData?.job?.id);
   const handleChangeSelectedJob = (e) => setSelectedJob(+e.target.value)
