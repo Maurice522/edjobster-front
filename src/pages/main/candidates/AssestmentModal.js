@@ -1,38 +1,88 @@
 import React, { useState, forwardRef } from 'react'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Grid, Typography, TextField, Select } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Grid, Typography, TextField, Select, Radio, FormControlLabel, Checkbox } from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Container } from '@mui/system';
+import { CheckBox } from '@mui/icons-material';
 
 
 
 const AssesmentModal = (props) => {
     const { open, handleClose, data} = props;
-
     console.log(data)
     return (
         <>
             <Dialog open={open} onClose={handleClose} >
                 <DialogTitle>Assesment Response</DialogTitle>
-                <DialogContent style={{ width: "600px", padding: "0 2rem", paddingTop: "2rem", paddingBottom: "6rem" }}>
-                    {/* <TextField 
-                        id="outlined-basic" 
-                        label="Tpye a Job title" 
-                        variant="outlined" 
-                        fullWidth 
-                        placeholder='Select a Job title...'
-                        select
-                        SelectProps={{
-                            native: true
-                        }}
-                        value={value}
-                        onChange={handleChange}
-                    >
-                        <option value={-1}>Select a {name}</option>
-                        {data?.map(e => (
-                            <option value={e.id} key={e.id}>
-                                {e.title}
-                            </option>
-                        ))}
-                    </TextField> */}
+                <DialogContent 
+                    sx={{ 
+                        width: "600px", 
+                        padding: "0 1rem", 
+                        paddingTop: "2rem", 
+                        paddingBottom: "6rem", 
+                        display: "flex", 
+                        flexDirection: "column", 
+                        gap: "2rem",
+                        // backgroundColor: "#828282"
+                    }}
+                >
+                    {data[0]?.form?.assesment?.map((e, i) => (
+                        <Container key={i}>
+                            <Container>{i+1}{") "}{e.question}</Container>
+                            {e.type === "T" && (
+                                <Container 
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        textAlign: "center",
+                                        alignItems: "center",
+                                        backgroundColor: "white"
+                                    }}
+                                >
+                                    {e.candidateAnswer}
+                                </Container>
+                            )}
+                            {e.type === "R" && (
+                                <Container
+                                    sx={{
+                                        display: "flex",
+                                        gap: "1rem"
+                                    }}
+                                >
+                                    {e.options.map((option, index) => {
+                                        console.log( +e.answer-1 === index)
+                                        return (
+                                        <FormControlLabel 
+                                            control={<Radio disabled/>} 
+                                            label={option} 
+                                            checked={e.candidateAnswer.map(e => +e-1).includes(index)}
+                                            key={index}
+                                            color={(e.answers.map(e => +e-1).includes(index) || +e.answer-1 === index) && "red"}
+                                        />
+                                    )})}
+                                </Container>
+                            )}
+                            {e.type === "C" && (
+                                <Container
+                                    sx={{
+                                        display: "flex",
+                                        gap: "1rem"
+                                    }}
+                                >
+                                    {e.options.map((option, index) => {
+                                        console.log( +e.answer-1 === index)
+                                        return (
+                                        <FormControlLabel 
+                                            control={<Checkbox disabled/>} 
+                                            label={option} 
+                                            checked={e.candidateAnswer.map(e => +e-1).includes(index)}
+                                            key={index}
+                                            color={(e.answers.map(e => +e-1).includes(index) || +e.answer-1 === index) && "red"}
+                                        />
+                                    )})}
+                                </Container>
+                            )}
+                        </Container>
+                    ))}
                 </DialogContent>
                 <DialogActions>
                     {/* <Button onClick={() => {handleSubmit(); handleClose()}} variant="outlined">Add</Button> */}

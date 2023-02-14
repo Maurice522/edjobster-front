@@ -55,7 +55,7 @@ const PerticularCandidate = (props) => {
   const [assignJob, assignJobInfo] = useAssignJobMutation()
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
   const { data: applicantData } = useGetApplicantsQuery(candidateId)
-  console.log(applicantData)
+  console.log("applicant data", applicantData)
   const { data: jobListData } = useGetJobListQuery();
   const [selectedJob, setSelectedJob] = useState(candidateData?.job?.id);
   const handleChangeSelectedJob = (e) => setSelectedJob(+e.target.value)
@@ -627,7 +627,7 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Container>
       </Stack>
-      <AssesmentModal open={openAssesmentModal} data={[]} handleClose={()=> setOpenAssestmentModal(false)}/>
+      <AssesmentModal open={openAssesmentModal} data={applicantData} handleClose={()=> setOpenAssestmentModal(false)}/>
       <AssignJobModel
         open={modelOpen}
         handleClose={assignJobModelClosed}
