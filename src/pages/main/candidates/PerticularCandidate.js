@@ -84,7 +84,7 @@ const PerticularCandidate = (props) => {
   };
 
 
-  const settings = ['Edit Candidates', 'Send Email', 'View Past Application', 'Logout'];
+  const settings = ['Associated Screening', 'Applied', 'Shortlisted', 'Interviewed', "Offered", "Hired", "Onboarded"];
 
   //   const [open, setOpen] = React.useState(false);
 
@@ -249,7 +249,7 @@ const PerticularCandidate = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={7} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Grid item md={7} style={{ display: 'flex', justifyContent: 'center', gap:"5%", alignItems: 'center' }}>
         <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => setOpenAssestmentModal(true)}>
             Assesment Response
           </Button>
