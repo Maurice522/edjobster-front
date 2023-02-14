@@ -9,7 +9,7 @@ import { LoadingButton } from '@mui/lab';
 // eslint-disable-next-line import/no-unresolved
 import ImagePreview from 'src/components/imagePreview/ImagePreview';
 // eslint-disable-next-line import/no-unresolved
-import { useGetCompanyInfoQuery, useUpdateCompanyInfoMutation, useUpdateCompanyLogoMutation } from 'src/redux/services/settings/CareerSiteService';
+import { useGetCompanyInfoQuery, useUpdateCompanyInfoMutation, useUpdateCompanyLogoMutation, useGetCompanyTagsQuery } from 'src/redux/services/settings/CareerSiteService';
 // eslint-disable-next-line import/no-unresolved
 import { useGetCountryQuery, useGetStateQuery, useGetCityQuery } from 'src/redux/services/settings/CountryStateCityService';
 import { showToast } from '../../../utils/toast';
@@ -26,6 +26,7 @@ const CareerSite = () => {
   const [stateId, setStateId] = useState(skipToken);
   const { data: stateData } = useGetStateQuery(countryId);
   const { data: cityData } = useGetCityQuery(stateId);
+  const { data: companyTagsData } = useGetCompanyTagsQuery();
   const [UpdateCompany, UpdateCompanyInfo] = useUpdateCompanyInfoMutation();
   const [UpdateCompanyLogo, UpdateCompanyLogoInfo] = useUpdateCompanyLogoMutation();
   const [companyData, setCompanyData] = useState({
@@ -39,7 +40,7 @@ const CareerSite = () => {
     city: "",
     pincode: "",
     description: "",
-    tag: "",
+    tag: -1,
   })
   console.log("UpdateCompanyLogoInfo", UpdateCompanyLogoInfo);
 
@@ -108,7 +109,9 @@ const CareerSite = () => {
   }
 
   const onInputChangeHandler = (e) => {
-    setCompanyData({ ...companyData, [e.target.name]: e.target.value })
+    console.log(typeof e.target.value)
+    setCompanyData({ ...companyData, [e.target.name]: e.target.name === "tag"?+e.target.value:e.target.value })
+    console.log(companyData)
   }
   console.log(companyData)
 
@@ -200,20 +203,21 @@ const CareerSite = () => {
                 </Stack>
               </Grid>
               <Grid item xs={12} md={7}>
-                {/* <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
+                <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
                   <InputLabel id="select-tag">Tags</InputLabel>
                   <Select
                     labelId="select-tag"
                     id="tags"
                     label="Tags"
-                    value={tag}
-                    onChange={handleTag}
+                    value={companyData.tag}
+                    name="tag"
+                    onChange={onInputChangeHandler}
                   >
-                    <MenuItem value={1}>Remote</MenuItem>
-                    <MenuItem value={2}>Physical</MenuItem>
-                    <MenuItem value={3}>Technical</MenuItem>
+                    {companyTagsData?.types?.map((e, i) => (
+                      <MenuItem value={e.id} key={i}>{e.name}</MenuItem>
+                    ))}
                   </Select>
-                </FormControl> */}
+                </FormControl>
               </Grid>
 
               <Grid item xs={12} md={7}>

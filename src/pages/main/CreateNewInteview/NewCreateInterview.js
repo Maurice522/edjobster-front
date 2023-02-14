@@ -80,6 +80,7 @@ function NewCreateInterview() {
   const { data: candidateData, refetch: candidateDataRefetch } = useGetCandidateListQuery()
   const { data: locationData, refetch: locationDataRefetch } = useGetLocationQuery()
   const { data: interviewerData, refetch: interviewerDataRefetch } = useGetInterviewerDetailsQuery()
+  console.log(interviewerData)
   const [emailTemplateId,setEmailTemplateId] = useState(skipToken)
   const {data: emailTemplateDetails, refetch: emailTemplateDetailsRefetch} = useGetEmailTemplateByIdQuery(emailTemplateId)
 
