@@ -18,6 +18,7 @@ import { showToast } from '../../../utils/toast';
 
 
 const CareerSite = () => {
+  const [tag, setTag] = useState('');
   const [files, setFiles] = React.useState([]);
   const { data, isLoading, refetch } = useGetCompanyInfoQuery();
   const { data: countryData } = useGetCountryQuery();
@@ -37,13 +38,16 @@ const CareerSite = () => {
     state_id: "",
     city: "",
     pincode: "",
-    description: ""
+    description: "",
+    tag: "",
   })
   console.log("UpdateCompanyLogoInfo", UpdateCompanyLogoInfo);
 
   useEffect(() => {
     if (data) {
+      
       const response = data?.company;
+      console.log(response)
       setCompanyData({
         company: response.name,
         logo: response.logo,
@@ -54,7 +58,8 @@ const CareerSite = () => {
         state_id: response.state_id,
         city: response.city_id,
         pincode: response.pincode,
-        description: response.description
+        description: response.description,
+        tag: response.tag
       });
       setCountryId(data?.company?.country_id);
       setStateId(data?.company?.state_id)
@@ -90,6 +95,7 @@ const CareerSite = () => {
     formData.append('pincode', companyData.pincode);
     formData.append('website', companyData.website);
     formData.append('description', companyData.description);
+    formData.append('tag', companyData.tag);
     await UpdateCompany(formData);
 
   }
@@ -106,7 +112,9 @@ const CareerSite = () => {
   }
   console.log(companyData)
 
-
+  const handleTag = (event) => {
+    setTag(event.target.value);
+  };
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -192,19 +200,20 @@ const CareerSite = () => {
                 </Stack>
               </Grid>
               <Grid item xs={12} md={7}>
-                <Select sx={{
-                  width: "100%"
-                 }}
-                  margin="dense"
-                  fullWidth
-                  id="tags"
-                  label="Tags"
-                  NAME="Tags"
-                >
-                  <MenuItem value={10}>Remote</MenuItem>
-                  <MenuItem value={20}>Physical</MenuItem>
-                  <MenuItem value={30}>Technical</MenuItem>
-                </Select>
+                <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
+                  <InputLabel id="select-tag">Tags</InputLabel>
+                  <Select
+                    labelId="select-tag"
+                    id="tags"
+                    label="Tags"
+                    value={tag}
+                    onChange={handleTag}
+                  >
+                    <MenuItem value={1}>Remote</MenuItem>
+                    <MenuItem value={2}>Physical</MenuItem>
+                    <MenuItem value={3}>Technical</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
 
               <Grid item xs={12} md={7}>
@@ -217,7 +226,7 @@ const CareerSite = () => {
                     // onChange={() => console.log("hello")}
                     // onClick={() => console.log("click")}
                     label="Select Country"
-                   >
+                  >
                     {countryData && countryData?.countries?.map((country) => <MenuItem key={country?.id} value={country?.id}>{country?.name}</MenuItem>)}
                   </Select>
                 </FormControl>
