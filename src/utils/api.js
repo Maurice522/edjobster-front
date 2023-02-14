@@ -30,7 +30,7 @@ const apiUrl = {
   assesment:`${baseUrl}jobs/assesment/`,
   assesmentQuestions: `${baseUrl}jobs/assesment-question/`,
   jobs: `${baseUrl}jobs/`,
-  jobApplicationd: `${baseUrl}jobs/job-candidates/2`,  
+  jobApplications: `${baseUrl}jobs/job-candidates/`,  
   candidate:`${baseUrl}candidate/`,
   createCandidate: `${baseUrl}candidate/create-candidate-web/`,
   createCandidateWithResume: `${baseUrl}candidate/create-candidate/`,
