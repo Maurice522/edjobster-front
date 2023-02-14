@@ -55,7 +55,7 @@ const PerticularCandidate = (props) => {
   const [assignJob, assignJobInfo] = useAssignJobMutation()
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
   const { data: applicantData } = useGetApplicantsQuery(candidateId)
-  console.log(applicantData)
+  console.log("applicant data", applicantData)
   const { data: jobListData } = useGetJobListQuery();
   const [selectedJob, setSelectedJob] = useState(candidateData?.job?.id);
   const handleChangeSelectedJob = (e) => setSelectedJob(+e.target.value)
@@ -436,6 +436,24 @@ const PerticularCandidate = (props) => {
           <Grid container sx={{ mt: 1, justifyContent: "center", marginLeft: "0" }} spacing={2}>
             <Container sx={{ width: "100%" }}>
               <Grid item md={12}>
+                <h3 id='candidateprofile' className='canhead'>Filled Webform</h3>
+              </Grid>
+              <Grid container sx={{ mt: 4, pr: 2, display: "flex", flexDirection: "column", gap: "2rem" }} spacing={2}>
+                {Object.keys(applicantData?.[0].form?.form)?.map((webformElement, i) => (
+                  <TextField
+                    key={i}
+                    label={webformElement}
+                    value={applicantData?.[0].form?.form?.[webformElement]}
+                    disabled
+                    variant="filled"
+                  />
+                ))}
+              </Grid>
+            </Container>
+          </Grid>
+          <Grid container sx={{ mt: 1, justifyContent: "center", marginLeft: "0" }} spacing={2}>
+            <Container sx={{ width: "100%" }}>
+              <Grid item md={12}>
                 <h3 id='candidateprofile' className='canhead'>Candidate Profile</h3>
               </Grid>
               <Grid container sx={{ mt: 4, pr: 2 }} spacing={2}>
@@ -627,7 +645,7 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Container>
       </Stack>
-      <AssesmentModal open={openAssesmentModal} data={[]} handleClose={()=> setOpenAssestmentModal(false)}/>
+      <AssesmentModal open={openAssesmentModal} data={applicantData} handleClose={()=> setOpenAssestmentModal(false)}/>
       <AssignJobModel
         open={modelOpen}
         handleClose={assignJobModelClosed}
