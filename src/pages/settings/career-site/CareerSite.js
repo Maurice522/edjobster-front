@@ -194,11 +194,12 @@ const CareerSite = () => {
               <Grid item xs={12} md={7}>
                 <Select sx={{
                   width: "100%"
-                }}
+                 }}
                   margin="dense"
                   fullWidth
                   id="tags"
                   label="Tags"
+                  NAME="Tags"
                 >
                   <MenuItem value={10}>Remote</MenuItem>
                   <MenuItem value={20}>Physical</MenuItem>
@@ -216,7 +217,7 @@ const CareerSite = () => {
                     // onChange={() => console.log("hello")}
                     // onClick={() => console.log("click")}
                     label="Select Country"
-                  >
+                   >
                     {countryData && countryData?.countries?.map((country) => <MenuItem key={country?.id} value={country?.id}>{country?.name}</MenuItem>)}
                   </Select>
                 </FormControl>

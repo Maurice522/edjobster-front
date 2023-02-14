@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography, Stack, Card } from '@mui/material';
+import { Grid, Container, Typography, Stack, Card, Avatar } from '@mui/material';
 import { useDashStatsQuery } from '../redux/dashboard';
 import ToDoApp from '../components/homePage/ToDoApp';
 // components
@@ -29,13 +29,13 @@ import LatestInterview from '../components/homePage/InterviewStats/LatestIntervi
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
+
   const userData = JSON.parse(localStorage.getItem("globalUser"))?.account
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useSelector((state) => state.login.auth);
-
-  const {data,refetch}=useDashStatsQuery()
+  const { data, refetch } = useDashStatsQuery()
   console.log(data?.data?.pipeline_stage_status_stats)
   useEffect(() => {
     console.log(location);
@@ -132,8 +132,14 @@ export default function DashboardApp() {
               chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
             />
           </Grid>
-
           <Grid item xs={12} md={6} lg={8}>
+            <Card sx={{
+              minHeight: "100%",
+            }}>
+              <LatestInterview />
+            </Card>
+          </Grid>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
               title="News Update"
               list={[...Array(5)].map((_, index) => ({
@@ -144,7 +150,7 @@ export default function DashboardApp() {
                 postedAt: faker.date.recent(),
               }))}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
@@ -193,14 +199,14 @@ export default function DashboardApp() {
           </Grid>
           <Grid item xs={12} md={6} lg={8}>
             <Card sx={{
-              minHeight:"100%",
+              minHeight: "100%",
             }}>
               <ToDoApp />
             </Card>
           </Grid>
           <Grid item xs={12} md={6} lg={8}>
             <Card sx={{
-              minHeight:"100%",
+              minHeight: "100%",
             }}>
               <LatestInterview />
             </Card>

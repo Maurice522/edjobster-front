@@ -1,4 +1,5 @@
 // @mui
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@mui/material';
 // utils
@@ -6,6 +7,8 @@ import { fToNow } from '../../../utils/formatTime';
 // components
 import Iconify from '../../../components/Iconify';
 import Scrollbar from '../../../components/Scrollbar';
+import { useGetInterviewLatestQuery } from '../../../redux/services/interview/InterviewServices';
+
 
 // ----------------------------------------------------------------------
 
@@ -16,6 +19,11 @@ AppNewsUpdate.propTypes = {
 };
 
 export default function AppNewsUpdate({ title, subheader, list, ...other }) {
+  const { data, refetch } = useGetInterviewLatestQuery();
+  useEffect(() => {
+    console.log(data?.data[0]?.candidate_name)
+
+  }, [data])
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
