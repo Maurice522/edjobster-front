@@ -90,7 +90,7 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
+        // { path: 'app', element: <DashboardApp /> },
         { path: 'user', element: <User /> },
         { path: '/dashboard/user/adduser', element: <AddUser /> },
         // { path: '/dashboard/user/NewaddUser', element: <NewAddUser /> },
@@ -172,7 +172,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        // { path: '/', element: <Navigate to="/dashboard/app" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
@@ -199,6 +199,8 @@ export default function Router() {
         { path: '/dashboard/candidate/perticularCandidate/:id', element: <PerticularCandidate />},
         { path: '/dashboard/candidate/jobDetails/:id', element: <PerticularJob />},
         { path: '/dashboard/assesment123', element: <CompleteAssesment />},
+        { path: '/dashboard/app', element: <DashboardApp />},
+
 
 
 

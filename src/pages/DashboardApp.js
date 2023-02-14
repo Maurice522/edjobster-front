@@ -204,13 +204,13 @@ export default function DashboardApp() {
               <ToDoApp />
             </Card>
           </Grid>
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <Card sx={{
               minHeight: "100%",
             }}>
               <LatestInterview />
             </Card>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>
