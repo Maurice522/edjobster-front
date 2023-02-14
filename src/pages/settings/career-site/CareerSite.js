@@ -200,7 +200,7 @@ const CareerSite = () => {
                 </Stack>
               </Grid>
               <Grid item xs={12} md={7}>
-                <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
+                {/* <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
                   <InputLabel id="select-tag">Tags</InputLabel>
                   <Select
                     labelId="select-tag"
@@ -213,7 +213,7 @@ const CareerSite = () => {
                     <MenuItem value={2}>Physical</MenuItem>
                     <MenuItem value={3}>Technical</MenuItem>
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </Grid>
 
               <Grid item xs={12} md={7}>
