@@ -595,7 +595,16 @@ const CreateAssessment = () => {
                                     value={item.answer}
                                     onChange={(e) => onAssesmentAnswerInputChangeHandler(e, index)}
                                     label="Answer"
-                                  />
+                                    select
+                                    SelectProps={{
+                                      native: true
+                                    }}
+                                  >
+                                    <option value={"0"} key={"0"}>Select Answer</option>
+                                    {item.options?.map((optionValue, key) => (
+                                      <option key={key} value={`${key+1}`}>{optionValue}</option>
+                                    ))}
+                                  </TextField>
                                 </Grid>
                                 <Container>
                                   Total Marks: {item.answers.reduce((partialSum, a) => +partialSum + +a, 0)}

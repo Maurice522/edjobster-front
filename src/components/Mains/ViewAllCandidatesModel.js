@@ -79,7 +79,7 @@ const drawerWidth = 240;
 const ViewAllCandidatesModel = (props) => {
     const { id } = useParams();
     const { data: candidateData } = useGetJobCandidatesQuery(+id)
-    console.log(candidateData)
+    console.log("this is candidate data", candidateData)
     const [personName, setPersonName] = useState([]);
 
     const theme = useTheme();
@@ -98,8 +98,8 @@ const ViewAllCandidatesModel = (props) => {
 
     const columns = [
         {
-            name: 'name',
-            label: 'Name',
+            name: 'first_name',
+            label: 'First Name',
             options: {
                 filter: true,
                 sort: true,
@@ -116,7 +116,15 @@ const ViewAllCandidatesModel = (props) => {
             },
         },
         {
-            name: 'status',
+            name: 'phone',
+            label: 'Phone',
+            options: {
+                filter: true,
+                sort: true,
+            },
+        },
+        {
+            name: 'pipeline_stage_Status',
             label: 'Status',
             options: {
                 filter: true,
@@ -131,14 +139,6 @@ const ViewAllCandidatesModel = (props) => {
         //         sort: true,
         //     },
         // },
-        {
-            name: 'phone',
-            label: 'Phone',
-            options: {
-                filter: true,
-                sort: true,
-            },
-        },
         // {
         //     name: 'department',
         //     label: 'Owner',
@@ -482,7 +482,7 @@ const ViewAllCandidatesModel = (props) => {
                     </Grid>
                     <Grid item md={10} sx={{ mt: 2, pr: 4 }}>
                         <Card>
-                            <MUIDataTable title={'Approval List'} data={data} columns={columns} options={options} />
+                            <MUIDataTable title={'Approval List'} data={candidateData} columns={columns} options={options} />
                         </Card>
                     </Grid>
                 </Grid>
