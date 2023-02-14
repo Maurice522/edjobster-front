@@ -32,7 +32,6 @@ const [candidateId,setCandidateId]=useState();
   const { data = [], refetch } = useGetCandidateListQuery();
   const [currentIndex, setCurrentIndex] = useState(null);
   const [deleteJob, deleteJobInfo] = useDeleteCandidateMutation();
-  const { data: jobIdData} = useGetJobQuery();
   console.log("Dataaaaa",data?.list);
   const [addApplyCandidate, addApplyCandidateInfo] = useAddApplyJobMutation();
 
@@ -138,7 +137,7 @@ const [candidateId,setCandidateId]=useState();
               variant="contained"
               // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
               onClick={() => { 
-                console.log(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`); 
+                // console.log(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`); 
                 navigate(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`)
               }}
               color="info"

@@ -25,7 +25,7 @@ const AssesmentModal = (props) => {
                         // backgroundColor: "#828282"
                     }}
                 >
-                    {data[0]?.form?.assesment?.map((e, i) => (
+                    {data?.[0]?.form?.assesment?.map((e, i) => (
                         <Container key={i}>
                             <Container>{i+1}{") "}{e.question}</Container>
                             {e.type === "T" && (
