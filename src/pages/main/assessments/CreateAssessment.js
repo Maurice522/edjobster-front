@@ -525,6 +525,14 @@ const CreateAssessment = () => {
                                   onChange={(e) => onAssesmentOptionInputChangeHandler(e, optIndex, index)}
                                   label={`Option ${optIndex + 1}`}
                                 />
+                                <TextField sx={{
+                                  width:"30%",
+                                  marginBottom:"5%"
+                                }}
+                                  required
+                                  placeholder='qualifying marks'
+                                  variant='standard'
+                                   />
                               </Grid>
                               {item.options.length === optIndex + 1 && (
                                 <Grid item xs={1}>
