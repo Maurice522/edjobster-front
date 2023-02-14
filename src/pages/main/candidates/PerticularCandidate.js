@@ -71,7 +71,7 @@ const PerticularCandidate = (props) => {
   const [expanded, setExpanded] = useState(false);
   const [modelOpen, setModelOpen] = useState(false);
   const [emailModelOpen, setEmailModelOpen] = useState(false);
-  const [openAssesmentModal,setOpenAssestmentModal]=useState(false)
+  const [openAssesmentModal, setOpenAssestmentModal] = useState(false)
   const { open, handleClose } = props;
 
   const openMenu = Boolean(anchorEl);
@@ -249,8 +249,8 @@ const PerticularCandidate = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={7} style={{ display: 'flex', justifyContent: 'center', gap:"5%", alignItems: 'center' }}>
-        <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => setOpenAssestmentModal(true)}>
+        <Grid item md={7} style={{ display: 'flex', justifyContent: 'center', gap: "5%", alignItems: 'center' }}>
+          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => setOpenAssestmentModal(true)}>
             Assesment Response
           </Button>
           <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => navigate('/dashboard/NewInterview')}>
@@ -283,7 +283,7 @@ const PerticularCandidate = (props) => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-             >
+            >
               {settings.map((setting) => (
                 <>
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
@@ -438,17 +438,21 @@ const PerticularCandidate = (props) => {
               <Grid item md={12}>
                 <h3 id='candidateprofile' className='canhead'>Filled Webform</h3>
               </Grid>
-              <Grid container sx={{ mt: 4, pr: 2, display: "flex", flexDirection: "column", gap: "2rem" }} spacing={2}>\
-                {Object.keys(applicantData?.[0].form?.form || {})?.map((webformElement, i) => (
-                  <TextField
-                    key={i}
-                    label={webformElement}
-                    value={applicantData?.[0].form?.form?.[webformElement]}
-                    disabled
-                    variant="filled"
-                  />
-                ))}
-              </Grid>
+              <Stack sx={{
+                marginLeft:"25%",
+              }}>
+                <Grid container sx={{ mt: 4, display: "flex", flexDirection: "row", gap: "2rem" }} spacing={2}>
+                  {Object.keys(applicantData?.[0].form?.form || {})?.map((webformElement, i) => (
+                    <TextField
+                      key={i}
+                      label={webformElement}
+                      value={applicantData?.[0].form?.form?.[webformElement]}
+                      disabled
+                      variant="filled"
+                    />
+                  ))}
+                </Grid>
+              </Stack>
             </Container>
           </Grid>
           <Grid container sx={{ mt: 1, justifyContent: "center", marginLeft: "0" }} spacing={2}>
@@ -645,7 +649,7 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Container>
       </Stack>
-      <AssesmentModal open={openAssesmentModal} data={applicantData} handleClose={()=> setOpenAssestmentModal(false)}/>
+      <AssesmentModal open={openAssesmentModal} data={applicantData} handleClose={() => setOpenAssestmentModal(false)} />
       <AssignJobModel
         open={modelOpen}
         handleClose={assignJobModelClosed}
