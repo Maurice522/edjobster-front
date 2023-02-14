@@ -108,7 +108,7 @@ const ViewAllCandidatesModel = (props) => {
         },
         {
             name: 'email',
-            label: 'Associated Job',
+            label: 'Email',
             options: {
                 filter: true,
                 sort: true,
@@ -116,64 +116,64 @@ const ViewAllCandidatesModel = (props) => {
             },
         },
         {
-            name: 'phone',
+            name: 'status',
             label: 'Status',
             options: {
                 filter: true,
                 sort: true,
             },
         },
+        // {
+        //     name: 'department',
+        //     label: 'Source From',
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     },
+        // },
         {
-            name: 'department',
-            label: 'Source From',
-            options: {
-                filter: true,
-                sort: true,
-            },
-        },
-        {
-            name: 'department',
+            name: 'phone',
             label: 'Phone',
             options: {
                 filter: true,
                 sort: true,
             },
         },
-        {
-            name: 'department',
-            label: 'Owner',
-            options: {
-                filter: true,
-                sort: true,
-            },
-        },
-        {
-            name: 'action',
-            label: 'Action',
-            options: {
-                filter: false,
-                sort: false,
-                customBodyRenderLite: () => (
-                    <>
-                        <Button style={{ minWidth: 0 }} variant="contained">
-                            <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                                <Iconify icon="ep:edit" width={24} height={24} />
-                            </ListItemIcon>
-                        </Button>
-                        <LoadingButton
-                            style={{ minWidth: 0, margin: '0px 5px' }}
-                            variant="contained"
-                            color="error"
+        // {
+        //     name: 'department',
+        //     label: 'Owner',
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     },
+        // },
+        // {
+        //     name: 'action',
+        //     label: 'Action',
+        //     options: {
+        //         filter: false,
+        //         sort: false,
+        //         customBodyRenderLite: () => (
+        //             <>
+        //                 <Button style={{ minWidth: 0 }} variant="contained">
+        //                     <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+        //                         <Iconify icon="ep:edit" width={24} height={24} />
+        //                     </ListItemIcon>
+        //                 </Button>
+        //                 <LoadingButton
+        //                     style={{ minWidth: 0, margin: '0px 5px' }}
+        //                     variant="contained"
+        //                     color="error"
 
-                        >
-                            <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
-                            </ListItemIcon>
-                        </LoadingButton>
-                    </>
-                ),
-            },
-        },
+        //                 >
+        //                     <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+        //                         <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+        //                     </ListItemIcon>
+        //                 </LoadingButton>
+        //             </>
+        //         ),
+        //     },
+        // },
     ];
     const labelStatus = (
         <Label variant="ghost" color={'success'}>
