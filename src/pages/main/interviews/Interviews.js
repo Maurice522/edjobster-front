@@ -145,21 +145,21 @@ const Interviews = () => {
                 <Iconify icon="carbon:view-filled" width={15} height={15} />
               </ListItemIcon>
             </Button> */}
-            <Button style={{ minWidth: 0 }} variant="contained" component={RouterLink} to={'#'}>
+            <Button style={{ minWidth: 0 }} component={RouterLink} to={'#'}>
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
+                <Iconify icon="ep:edit" width={24} height={24} color={"blue"}/>
               </ListItemIcon>
             </Button>
 
             <LoadingButton
               style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
+              // variant="contained"
               color="error"
               onClick={() => onDeletAssesmenteHandler(dataIndex)}
               loading={dataIndex === currentIndex ? useDeleteInterviewMutation.isLoading : false}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} color={"red"}/>
               </ListItemIcon>
             </LoadingButton>
           </>

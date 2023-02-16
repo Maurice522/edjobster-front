@@ -38,6 +38,7 @@ const PerticularJob = (props) => {
   const {data:cardData,refetch: cardRefetch}=useJobStatsQuery(id);
   console.log(cardData?.data?.pipeline_stage_status_stats)
   const { data: jobData, refetch } = useGetJobeDetailsQuery(id);
+  console.log(jobData)
   const [textValue, setTextValue] = useState({
     id,
     title: jobData?.title,

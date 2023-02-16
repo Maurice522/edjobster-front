@@ -497,7 +497,7 @@ const CreateAssessment = () => {
                           <Grid display="flex" item xs={12}>
                             <Grid item xs={11}>
                               <Typography variant="h6" gutterBottom>
-                                Question {index + 1} : Multiple Choice Question
+                                Question {index + 1} : {item.type === "R"? "Multiple Choice":"Multi Select"} Question
                               </Typography>
                             </Grid>
                             <Grid item xs={1}>

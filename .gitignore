@@ -28,4 +28,7 @@ yarn-error.log*
 
 .eslintcache
 
-test*.*
+test.*
+tests.*
+tests
+test

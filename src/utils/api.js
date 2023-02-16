@@ -12,6 +12,7 @@ const apiUrl = {
   state: `${baseUrl}common/states/?id=`,
   city: `${baseUrl}common/cities/?id=`,
   address: `${baseUrl}settings/location/`,
+  testimonials: `${baseUrl}settings/testimonials/`,
   user: `${baseUrl}account/members/`,
   userUpdate: `${baseUrl}account/update-account/`,
   userPhoto: `${baseUrl}account/member-photo/`,
