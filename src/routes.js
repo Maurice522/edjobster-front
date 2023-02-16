@@ -98,7 +98,7 @@ export default function Router() {
         { path: '/dashboard/user/edit-user', element: <EditUser /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: '/dashboard/jobs', element: <Jobs /> },
+        // { path: '/dashboard/jobs', element: <Jobs /> },
         { path: '/dashboard/jobs/create-job', element: <CreateJob /> },
         { path: '/dashboard/jobs/job-list/add-notes', element: <JobNotes /> },
         { path: '/dashboard/jobs/candidate-list', element: <CandidateList /> },
@@ -116,7 +116,7 @@ export default function Router() {
         
         // { path: '/dashboard/candidates/candidate-details', element: <CandidateDetails /> },
         { path: '/dashboard/interviews', element: <Interviews /> },
-        { path: '/dashboard/interviews/create-interview', element: <CreateInterview /> },
+        // { path: '/dashboard/interviews/create-interview', element: <CreateInterview /> },
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
         { path: '/dashboard/interviews/interview-details', element: <InterviewDetails /> },
         { path: '/dashboard/assessments', element: <Assessments /> },
@@ -172,7 +172,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        // { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/dashboard/app" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },
@@ -200,6 +200,8 @@ export default function Router() {
         { path: '/dashboard/candidate/jobDetails/:id', element: <PerticularJob />},
         { path: '/dashboard/assesment123', element: <CompleteAssesment />},
         { path: '/dashboard/app', element: <DashboardApp />},
+        { path: '/dashboard/jobs', element: <Jobs /> },
+        // { path: '/', element: <Navigate to="/dashboard/app" /> },
 
 
 

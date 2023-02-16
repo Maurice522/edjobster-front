@@ -17,7 +17,7 @@ const Header = () => {
       <div className="common-width">
         <div className="header-content">
           <div className="header-logo-job">
-            <NavLink sx={{ textDecoration: "none" }} to="/" className="header-logo">
+            <NavLink sx={{ textDecoration: "none" }} to="/dashboard/app" className="header-logo">
               <img src='../../assets/images/test-image.svg' alt="logo" />
             </NavLink >
             <NavLink sx={{ textDecoration: "none" }}
