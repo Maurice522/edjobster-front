@@ -32,6 +32,10 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
+import WorkIcon from '@mui/icons-material/Work';
+import StackedBarChartIcon from '@mui/icons-material/StackedBarChart';
 // eslint-disable-next-line import/no-unresolved
 import { showToast } from 'src/utils/toast';
 import SendEmailModel from '../../../components/Mains/SendEmailModel';
@@ -228,7 +232,9 @@ const PerticularCandidate = (props) => {
       </AppBar>
       <Grid container sx={{ mt: 2, pl: 2, pr: 2, mb: 4 }} spacing={3}>
         <Grid item md={4}>
-          <Grid container>
+          <Grid container
+          // style={{ display: 'flex',flexDirection:"row", gap: "5%"}}
+          > 
             <Grid item md={4}>
               <h3>Last Job Applied</h3>
               <p>
@@ -249,26 +255,15 @@ const PerticularCandidate = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={7} style={{ display: 'flex', justifyContent: 'center', gap: "5%", alignItems: 'center' }}>
-          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => setOpenAssestmentModal(true)}>
-            Assesment Response
-          </Button>
-          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={() => navigate('/dashboard/NewInterview')}>
-            Schedule Interview
-          </Button>
-          <Button variant="contained" style={{ textTransform: 'capitalize' }} onClick={assignJobModel}>
-            Assign to a job
-          </Button>
-          <Box sx={{ flexGrow: 0 }}>
-            <Button
-              variant="contained"
-              color="success"
-              onClick={handleOpenUserMenu}
-              style={{ textTransform: 'capitalize' }}
-            >
-              Hiring Status
-            </Button>
-            <Menu
+        <Grid item md={7} style={{ display: 'flex', justifyContent: 'flex-end', gap: "5%", alignItems: 'center' }}>
+          <AssignmentIcon onClick={() => setOpenAssestmentModal(true)} sx={{cursor:"pointer"}}/>
+          <PersonalVideoIcon onClick={() => navigate('/dashboard/NewInterview')} sx={{cursor:"pointer"}}/>
+          <WorkIcon onClick={assignJobModel} sx={{cursor:"pointer"}}/>
+          <StackedBarChartIcon 
+           sx={{cursor:"pointer"}}
+           onClick={handleOpenUserMenu}           
+           />
+           <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -292,7 +287,6 @@ const PerticularCandidate = (props) => {
                 </>
               ))}
             </Menu>
-          </Box>
         </Grid>
       </Grid>
       <Divider variant="middle" />
@@ -300,7 +294,7 @@ const PerticularCandidate = (props) => {
         display: "flex",
         flexDirection: "row"
       }}>
-        {/* <Card sx={{
+        <Card sx={{
           width: "200px",
           height: "216px",
           padding: "1%",
@@ -316,15 +310,15 @@ const PerticularCandidate = (props) => {
           <a className='quickaccess' href='#education'>Education Details</a>
           <a className='quickaccess' href='#notes'>Notes</a>
 
-        </Card> */}
+        </Card>
         <Container sx={{
           width: "80%",
           marginLeft: "auto",
           marginRight: "auto",
-        }}>
-          <Stack sx={{
+         }}>
+          {/* <Stack sx={{
             marginTop: "2%"
-          }}>
+           }}>
 
             <Stack sx={{
               display: "flex",
@@ -332,7 +326,7 @@ const PerticularCandidate = (props) => {
               justifyContent: "center",
               gap: "20%"
 
-            }}>
+             }}>
               <Card sx={{
                 width: "200px",
                 height: "216px",
@@ -432,13 +426,13 @@ const PerticularCandidate = (props) => {
                 />
               </Stack>
             </Stack>
-          </Stack>
+          </Stack> */}
           <Grid container sx={{ mt: 1, justifyContent: "center", marginLeft: "0" }} spacing={2}>
             <Container sx={{ width: "100%" }}>
               <Grid item md={12}>
                 <h3 id='candidateprofile' className='canhead'>Filled Webform</h3>
               </Grid>
-              <Stack sx={{
+              {/* <Stack sx={{
                 marginLeft:"25%",
               }}>
                 <Grid container sx={{ mt: 4, display: "flex", flexDirection: "row", gap: "2rem" }} spacing={2}>
@@ -452,7 +446,7 @@ const PerticularCandidate = (props) => {
                     />
                   ))}
                 </Grid>
-              </Stack>
+              </Stack> */}
             </Container>
           </Grid>
           <Grid container sx={{ mt: 1, justifyContent: "center", marginLeft: "0" }} spacing={2}>

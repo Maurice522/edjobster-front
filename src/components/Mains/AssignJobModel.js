@@ -16,7 +16,7 @@ const AssignJobModel = (props) => {
                 <DialogContent style={{ width: "600px", padding: "0 2rem", paddingTop: "2rem", paddingBottom: "6rem" }}>
                     <TextField 
                         id="outlined-basic" 
-                        label="Tpye a Job title" 
+                        label="Type a Job title" 
                         variant="outlined" 
                         fullWidth 
                         placeholder='Select a Job title...'
