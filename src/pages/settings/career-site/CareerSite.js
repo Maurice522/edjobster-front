@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import { Card, Box, Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select, Tabs, Tab } from '@mui/material';
+import { Card, Box, Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select, Tabs, Tab, Avatar } from '@mui/material';
 import FileUpload from 'react-material-file-upload';
 import { LoadingButton } from '@mui/lab';
 // eslint-disable-next-line import/no-unresolved
@@ -61,9 +61,12 @@ const CareerSite = () => {
   const { data: stateData } = useGetStateQuery(countryId);
   const { data: cityData } = useGetCityQuery(stateId);
   const { data: companyTagsData } = useGetCompanyTagsQuery();
-  console.log(companyTagsData)
   const [UpdateCompany, UpdateCompanyInfo] = useUpdateCompanyInfoMutation();
-  const { data: testimonialData } = useGetTestimonialsQuery()
+  const { data: testimonialData, refetch: testimonialDataRefetch } = useGetTestimonialsQuery()
+  useEffect(() => {
+    testimonialDataRefetch()
+  }, [testimonialData])
+  console.log(testimonialData)
   const [UpdateCompanyLogo, UpdateCompanyLogoInfo] = useUpdateCompanyLogoMutation();
   const [companyData, setCompanyData] = useState({
     company: "",
@@ -79,7 +82,7 @@ const CareerSite = () => {
     tag: [],
   })
   console.log("UpdateCompanyLogoInfo", UpdateCompanyLogoInfo);
-  console.log(data?.company?.tag)
+  console.log(data)
 
   useEffect(() => {
     if (data) {
@@ -163,6 +166,42 @@ const CareerSite = () => {
     {
       name: "name",
       label: "Name",
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRenderLite: (index) => (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignContent: "center",
+              alignItems: "center",
+              gap: "0.5rem"
+            }}
+          >
+            <Avatar 
+              src={testimonialData[index]?.Profile_picture || "http://localhost:3000/static/mock-images/avatars/avatar_default.jpg"} 
+              srcSet={[
+                testimonialData[index].Profile_picture, 
+                "http://localhost:3000/static/mock-images/avatars/avatar_default.jpg"
+              ]}
+            />
+            <Typography variant='h6'>{testimonialData[index]?.name}</Typography>
+          </div>
+        )
+      }
+    },
+    {
+      name: "email",
+      label: "Email",
+      options: {
+        filter: true,
+        sort: true
+      }
+    },
+    {
+      name: "designation",
+      label: "Designation",
       options: {
         filter: true,
         sort: true
