@@ -255,12 +255,12 @@ const PerticularCandidate = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={7} style={{ display: 'flex', justifyContent: 'flex-end', gap: "5%", alignItems: 'center', }}>
+        <Grid item md={7} style={{ display: 'flex', justifyContent: 'flex-end', gap: "5%", alignItems: 'center',                       }}>
           <AssignmentIcon onClick={() => setOpenAssestmentModal(true)} sx={{cursor:"pointer",fontSize: "50px"}}/>
-          <PersonalVideoIcon onClick={() => navigate('/dashboard/NewInterview')} sx={{cursor:"pointer",fontSize: "50px"}}/>
-          <WorkIcon onClick={assignJobModel} sx={{cursor:"pointer",fontSize: "50px"}}/>
+          <PersonalVideoIcon onClick={() => navigate('/dashboard/NewInterview')} sx={{cursor:"pointer",fontSize: "50px",}}/>
+          <WorkIcon onClick={assignJobModel} sx={{cursor:"pointer",fontSize: "50px", color:"#3C2A21"}}/>
           <StackedBarChartIcon 
-           sx={{cursor:"pointer",fontSize: "50px"}}
+           sx={{cursor:"pointer",fontSize: "50px", color:"blue"}}
            onClick={handleOpenUserMenu}           
            />
            <Menu

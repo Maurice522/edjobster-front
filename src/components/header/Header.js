@@ -20,22 +20,30 @@ const Header = () => {
             <NavLink sx={{ textDecoration: "none" }} to="/dashboard/app" className="header-logo">
               <img src='../../assets/images/test-image.svg' alt="logo" />
             </NavLink >
-            <NavLink sx={{ textDecoration: "none" }}
+            {/* <NavLink sx={{ textDecoration: "none" }}
               to="/dashboard/jobs"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-job"
               }
              >
               Jobs
-            </NavLink >
+            </NavLink > */}
           </div>
           <div className="header-menu-list">
+            <NavLink sx={{ textDecoration: "none" }}
+              to="/dashboard/jobs"
+              className={({ isActive }) =>
+                isActive ? "header-job-active" : "header-job"
+              }
+            >
+              Jobs
+            </NavLink >
             <NavLink sx={{ textDecoration: "none" }}
               to="/dashboard/candidates"
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
-             >
+            >
               Candidate
             </NavLink >
             <NavLink sx={{ textDecoration: "none" }}
@@ -43,7 +51,7 @@ const Header = () => {
               className={({ isActive }) =>
                 isActive ? "header-job-active" : "header-menu"
               }
-             >
+            >
               Interviews
             </NavLink >
             <NavLink sx={{ textDecoration: "none" }} to="/dashboard/assessments"
