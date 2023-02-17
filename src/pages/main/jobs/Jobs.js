@@ -86,9 +86,9 @@ const Jobs = () => {
     }
   }, [addJobDataInfo, deleteJobInfo]);
 
-  useEffect(()=>{
+  useEffect(() => {
     refetch();
-  },[])
+  }, [])
 
   const columns = [
     {
@@ -124,6 +124,28 @@ const Jobs = () => {
       },
     },
     {
+      name: 'view',
+      label: 'View',
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRenderLite: (dataIndex) => (
+          <>
+            <Button
+              style={{ minWidth: 0, marginRight: '5px' }}
+              // variant="contained"
+              onClick={() => navigate(`/dashboard/candidate/jobDetails/${data?.[dataIndex]?.id}`)} 
+              color="info"
+            >
+              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
+                <Iconify icon="carbon:view-filled" width={24} height={24}  color={'blue'}/>
+              </ListItemIcon>
+            </Button>
+          </>
+        ),
+      },
+    },
+    {
       name: 'action',
       label: 'Action',
       options: {
@@ -132,37 +154,26 @@ const Jobs = () => {
         customBodyRenderLite: (dataIndex) => (
           <>
             <Button
-              style={{ minWidth: 0, marginRight: '5px' }}
-              variant="contained"
-              // onClick={() => onJobViewModel(data?.[dataIndex].id)}
-              onClick={() => navigate(`/dashboard/candidate/jobDetails/${data?.[dataIndex]?.id}`) }
-              color="info"
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="carbon:view-filled" width={15} height={15}/>
-              </ListItemIcon>
-            </Button>
-            <Button
               style={{ minWidth: 0 }}
-              variant="contained"
+              // variant="contained"
               component={RouterLink}
               to={`/dashboard/jobs/edit-job/${data?.[dataIndex].id}`}
             // onClick={() => onEditModalHandler(dataIndex)}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={15} height={15} />
+                <Iconify icon="ep:edit" width={24} height={24} color={'blue'} />
               </ListItemIcon>
             </Button>
             <Button
               style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
+              // variant="contained"
               color="error"
               onClick={() => onDeletJobeHandler(data?.[dataIndex].id)}
             // onClick={() => onDeleteHandler(dataIndex)}
             // loading={dataIndex === currentIndex ? useDeleteAssessmentListMutation.isLoading : false}
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={15} height={15} />
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} color={'red'} />
               </ListItemIcon>
             </Button>
           </>
