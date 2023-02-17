@@ -134,7 +134,7 @@ const [candidateId,setCandidateId]=useState();
           <>
             <Button
               style={{ minWidth: 0, marginRight: '5px' }}
-              variant="contained"
+              // variant="contained"
               // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
               onClick={() => { 
                 // console.log(`/dashboard/candidate/perticularCandidate/${data?.list[dataIndex]?.id}`); 
@@ -143,20 +143,10 @@ const [candidateId,setCandidateId]=useState();
               color="info"
             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="carbon:view-filled" width={24} height={24} />
+                <Iconify icon="carbon:view-filled" width={24} height={24} color={'blue'} />
               </ListItemIcon>
             </Button>
-            {/* <Button
-              style={{ minWidth: 0, marginRight: '5px' }}
-              variant="contained"
-              // onClick={() => onCandidateModelView(data.list[dataIndex].id)}
-              onClick={() => onCandidateModelView(data.list[dataIndex].id)}
-              color="info"
-            >
-              <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="carbon:view-filled" width={24} height={24} />
-              </ListItemIcon>
-            </Button> */}
+
           </>
         ),
       },
@@ -173,22 +163,22 @@ const [candidateId,setCandidateId]=useState();
             
             <Button
               style={{ minWidth: 0 }}
-              variant="contained"
-            // onClick={() => onEditModalHandler(dataIndex)}
-            >
+              // variant="contained"
+             // onClick={() => onEditModalHandler(dataIndex)}
+             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="ep:edit" width={24} height={24} />
+                <Iconify icon="ep:edit" width={24} height={24} color={"blue"} />
               </ListItemIcon>
             </Button>
             <Button
               style={{ minWidth: 0, margin: '0px 5px' }}
-              variant="contained"
+              // variant="contained"
               color="error"
-            onClick={() => onDeleteHandler(dataIndex)}
-            loading={dataIndex === currentIndex ? useDeleteCandidateMutation.isLoading : false}
-            >
+              onClick={() => onDeleteHandler(dataIndex)}
+              loading={dataIndex === currentIndex ? useDeleteCandidateMutation.isLoading : false}
+             >
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
-                <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+                <Iconify icon="eva:trash-2-outline" width={24} height={24} color={"red"} />
               </ListItemIcon>
             </Button>
           </>

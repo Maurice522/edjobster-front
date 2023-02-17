@@ -1,10 +1,14 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Button, Container, MenuItem, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useForm } from "react-hook-form";
+
 import ReactQuill from 'react-quill';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import { showToast } from 'src/utils/toast';
+import FileUploadComponent from '../../../components/FileUploadComponent';
+
 import { useGetEmailCategoryQuery } from "../../../redux/services/settings/EmailCategoryService";
 import { useAddEmailTemplateMutation } from "../../../redux/services/settings/EmailTamplateService";
 
@@ -37,8 +41,9 @@ const state = {
 
 
 function CreateEmail() {
+
     const navigate = useNavigate()
-    const {data: emailCategoryData, refetch} = useGetEmailCategoryQuery()
+    const { data: emailCategoryData, refetch } = useGetEmailCategoryQuery()
     const [addEmailTemplate, addEmailTemplateInfo] = useAddEmailTemplateMutation()
     console.log(emailCategoryData)
     const navigateCancel = () => {
@@ -59,7 +64,7 @@ function CreateEmail() {
     }
     const [formData, setFormData] = useState(initialValues)
     const handleChangeFormData = (name, value) => {
-        setFormData(prev => ({...prev, [name]: value}))
+        setFormData(prev => ({ ...prev, [name]: value }))
         console.log(formData)
     }
     const handleSubmit = async () => {
@@ -67,14 +72,14 @@ function CreateEmail() {
         await addEmailTemplate(formData)
     }
     useEffect(() => {
-        if(addEmailTemplateInfo.isError) {
+        if (addEmailTemplateInfo.isError) {
             console.log(addEmailTemplateInfo.error)
             showToast("error", "Error occurred while adding email template.")
         }
-        if(addEmailTemplateInfo.isSuccess) {
+        if (addEmailTemplateInfo.isSuccess) {
             showToast("success", "Successfully added email template.")
             setFormData(initialValues)
-            navigate("/dashboard/email-templates/templates", {replace: true})
+            navigate("/dashboard/email-templates/templates", { replace: true })
         }
     }, [addEmailTemplateInfo, navigate])
 
@@ -97,7 +102,7 @@ function CreateEmail() {
                     alignItems: "center"
                 }}
             >
-                <div className="backbutton tt-back" style={{width:"10%", display: "flex"}} >
+                <div className="backbutton tt-back" style={{ width: "10%", display: "flex" }} >
                     <ArrowBackIosIcon onClick={navigateCancel} sx={{
                         cursor: "pointer"
                     }} />
@@ -172,12 +177,13 @@ function CreateEmail() {
                                 ))}
                             </TextField>
                         </div>
+
                     </Container>
                     <Container className='fileup' style={{
                         padding: "2rem"
                     }}>
                         <p>Add attachment</p>
-                        <Button
+                        {/* <Button
                             variant="contained"
                             component="label"
                         >
@@ -186,19 +192,22 @@ function CreateEmail() {
                                 type="file"
                                 hidden
                                 name="attachment"
-                            // onChange={(e) => setUploaded(true) &
-                            //     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &
-                            //     handleChangeFormData(e?.target?.name, e?.target.files[0])
-                            // }
+                                onChange={(e) => setUploaded(true) &&
+                                    setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &&
+                                    handleChangeFormData(e?.target?.name, e?.target.files[0])
+                                }
                             />
-                        </Button>
+                        </Button> */}
+                        <div>
+                            <FileUploadComponent />
+                        </div>
                     </Container>
                 </div>
                 <h4 style={{ marginLeft: "20%", marginTop: "5%", marginBottom: "2%" }}>Body</h4>
                 <div className='editor'>
                     <ReactQuill sx={{ outerWidth: "80vw" }} theme="snow"
                         modules={modules}
-                        formats={formats} 
+                        formats={formats}
                         value={formData.message || ''}
                         onChange={(e) => handleChangeFormData("message", e)}
                     />
