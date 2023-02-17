@@ -219,6 +219,7 @@ export default function Router() {
         { path: 'candidate-settings/fields', element: <Fields /> },
         { path: '/dashboard/candidate-settings/webforms', element: <Webforms /> },
         { path: '/dashboard/candidate-settings/webforms/new', element: <CreateWebform /> },
+        { path: '/dashboard/candidate-settings/webforms/update/:id', element: <CreateWebform /> },
         { path: 'candidate-settings/assessment-categories', element: <AssessmentCategories /> },
         { path: '/dashboard/job-boards', element: <JobBoards /> },
         { path: '/dashboard/billing', element: <Billing /> },

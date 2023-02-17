@@ -15,7 +15,7 @@ import { sortedDataFn } from '../../../utils/getSortedData';
 import {
   useGetWebformQuery, useDeleteWebformMutation
 } from '../../../redux/services/settings/WebformService';
-import { useGetWebformFieldsQuery } from '../../../redux/services/settings/FieldServices';
+// import { useGetWebformFieldsQuery } from '../../../redux/services/settings/FieldServices';
 import Page from '../../../components/Page';
 import Label from '../../../components/Label';
 import Iconify from '../../../components/Iconify';
@@ -35,7 +35,7 @@ const Webforms = () => {
   const [currentIndex, setCurrentIndex] = useState(null);
 
   const [modalName, setModalName] = useState('add');
-  const { data: webFormFieldsData } = useGetWebformFieldsQuery();
+  // const { data: webFormFieldsData } = useGetWebformFieldsQuery();
 
   const [editValue, setEditValue] = useState()
  
@@ -101,7 +101,7 @@ const Webforms = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0 }}  onClick={() => onEditModalHandler(dataIndex)}>
+            <Button style={{ minWidth: 0 }}  onClick={() => navigate(`/dashboard/candidate-settings/webforms/update/${sortData[dataIndex]?.id}`)}>
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} color={'blue'}/>
               </ListItemIcon>
@@ -170,7 +170,7 @@ const Webforms = () => {
           <MUIDataTable title={'Webform List'} data={sortData} columns={columns} options={options} />
         </Card>
       </Container>
-      {modalOpen && (
+      {/* {modalOpen && (
         <WebFormsModal
           open={modalOpen}
           handleClose={modalHandleClose}
@@ -196,7 +196,7 @@ const Webforms = () => {
           buttonLabel="Update Webform"
           webFormFieldsData={webFormFieldsData?.data}
         />
-      )}
+      )} */}
     </Page>
   );
 };

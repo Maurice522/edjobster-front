@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
     Card, Stack, Button, Container,
@@ -10,7 +10,7 @@ import Modal from "src/components/modal/Modal";
 import { showToast } from '../../../utils/toast';
 import Editable from "../../../components/webform/WebformEditable"
 import EditableSection from "../../../components/webform/WebformEditableSection"
-import { useAddWebformFieldsMutation } from '../../../redux/services/settings/FieldServices';
+import { useAddWebformFieldsMutation, useGetWebformDetailsQuery, useUpdateWebformFieldsMutation } from '../../../redux/services/settings/FieldServices';
 
 const dataTypes = [
     "Text",
@@ -23,19 +23,25 @@ const dataTypes = [
 ]
 
 export default function CreateWebform() {
+    const { id } = useParams()
+    const { data: webformData, refetch: webformDataRefetch } = useGetWebformDetailsQuery(id)
+    useEffect(() => {
+        webformDataRefetch()
+    }, [webformData])
+    console.log(webformData?.data)
     const navigate = useNavigate()
     const [addWebfromFields, addWebformFieldsInfo] = useAddWebformFieldsMutation();
+    const [updateWebformFields, updateWebformFieldsInfo] = useUpdateWebformFieldsMutation();
     const [modalOpen, setModalOpen] = useState(false)
     const [sectionFieldsModalOpen, setSectionFieldsModalOpen] = useState(false)
-    const [addByTypeModalOpen, setAddByTypeModalOpen] = useState(false)
     const [modalData, setModalData] = useState({})
     const handleChangeModalData = (name, value) => setModalData(prev => {
         prev[name] = value
         return prev
     })
     const [currentSection, setCurrentSection] = useState(0)
-    const [formTitle, setFormTitle] = useState("New Form");
-    const handleChangeFormTitle = (e) => setFormTitle(e.target.value.trim())
+    const [formTitle, setFormTitle] = useState(webformData?.data?.name || "New Form");
+    const handleChangeFormTitle = (e) => setFormTitle(e.target.value)
     const initialValues = [{
         name: "Personal Details",
         fields: [
@@ -61,10 +67,10 @@ export default function CreateWebform() {
             }
         ]
     }]
-    const [formData, setFormData] = useState(initialValues)
+    const [formData, setFormData] = useState(webformData?.data?.form || initialValues)
     const resetForm = () => {
-        setFormData(initialValues)
-        setFormTitle("New Form")
+        setFormData(webformData?.data?.form || initialValues)
+        setFormTitle(webformData?.data?.name || "New Form")
     }
     const [sections, setSections] = useState(formData.map(e => e.name))
     const addSection = (name, fields) => {
@@ -102,14 +108,23 @@ export default function CreateWebform() {
         showToast("error", "Section with the name does not exist.");
     }
     const handleSubmit = async () => {
-        await addWebfromFields({
-            name: formTitle,
-            form: formData
-        })
+        if(!id) {
+            await addWebfromFields({
+                name: formTitle.trim(),
+                form: formData
+            })
+        }
+        else {
+            await updateWebformFields({
+                id,
+                name: formTitle.trim(),
+                form: formData
+            })
+        }
     }
     useEffect(() => {
         if(addWebformFieldsInfo.isError) {
-            showToast("error", addWebformFieldsInfo.error.message || addWebformFieldsInfo.error.error || "Failed Adding webform");
+            showToast("error", addWebformFieldsInfo.error.message || addWebformFieldsInfo.error.error || "Failed adding webform");
             console.log(addWebformFieldsInfo.error)
         }
         if(addWebformFieldsInfo.isSuccess) {
@@ -118,6 +133,18 @@ export default function CreateWebform() {
             navigate("/dashboard/candidate-settings/webforms", {replace: true})
         }
     }, [addWebformFieldsInfo, navigate])
+
+    useEffect(() => {
+        if(updateWebformFieldsInfo.isError) {
+            showToast("error", updateWebformFieldsInfo.error.message || updateWebformFieldsInfo.error.error || "Failed updating webform");
+            console.log(updateWebformFieldsInfo.error)
+        }
+        if(updateWebformFieldsInfo.isSuccess) {
+            showToast("success", "Successfully updated weform")
+            resetForm()
+            navigate("/dashboard/candidate-settings/webforms", {replace: true})
+        }
+    }, [updateWebformFieldsInfo, navigate])
 
     return (
         <Container sx={{gap: "1rem", display: "flex", flexDirection: "column"}}>
@@ -129,7 +156,7 @@ export default function CreateWebform() {
                 }}
             >
                 <h2 variant="h3">
-                    Create Webform
+                    {id?"Update":"Create"} Webform
                 </h2>
                 <Container 
                     sx={{
@@ -138,6 +165,13 @@ export default function CreateWebform() {
                         gap: "1rem"
                     }}
                 >
+                    <Button
+                        variant="text"
+                        color="error"
+                        onClick={() => navigate("/dashboard/candidate-settings/webforms")}
+                    >
+                        Cancel
+                    </Button>
                     <Button 
                         variant="outlined" 
                         onClick={() => {
