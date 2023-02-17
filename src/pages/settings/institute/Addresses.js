@@ -172,7 +172,7 @@ const Addresses = () => {
       },
     },
     {
-      name: 'completeAddress',
+      name: 'address',
       label: 'Address',
       options: {
         filter: true,

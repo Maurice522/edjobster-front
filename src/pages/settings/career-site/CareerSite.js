@@ -61,9 +61,9 @@ const CareerSite = () => {
   const { data: stateData } = useGetStateQuery(countryId);
   const { data: cityData } = useGetCityQuery(stateId);
   const { data: companyTagsData } = useGetCompanyTagsQuery();
+  console.log(companyTagsData)
   const [UpdateCompany, UpdateCompanyInfo] = useUpdateCompanyInfoMutation();
   const { data: testimonialData } = useGetTestimonialsQuery()
-  console.log(testimonialData)
   const [UpdateCompanyLogo, UpdateCompanyLogoInfo] = useUpdateCompanyLogoMutation();
   const [companyData, setCompanyData] = useState({
     company: "",
@@ -76,9 +76,10 @@ const CareerSite = () => {
     city: "",
     pincode: "",
     description: "",
-    tag: -1,
+    tag: [],
   })
   console.log("UpdateCompanyLogoInfo", UpdateCompanyLogoInfo);
+  console.log(data?.company?.tag)
 
   useEffect(() => {
     if (data) {
@@ -96,7 +97,7 @@ const CareerSite = () => {
         city: response.city_id,
         pincode: response.pincode,
         description: response.description,
-        tag: response.tag
+        tag: [response.tag]
       });
       setCountryId(data?.company?.country_id);
       setStateId(data?.company?.state_id)
@@ -145,7 +146,7 @@ const CareerSite = () => {
   }
 
   const onInputChangeHandler = (e) => {
-    console.log(typeof e.target.value)
+    console.log(e.target.value)
     setCompanyData({ ...companyData, [e.target.name]: e.target.name === "tag"?+e.target.value:e.target.value })
     console.log(companyData)
   }
@@ -184,6 +185,25 @@ const CareerSite = () => {
     download: false,
     print: false,
   }
+
+  const [tags, setTags] = useState([
+    {
+      id: 1,
+      name: "HEllo"
+    },
+    {
+      id: 2,
+      name: "World"
+    }
+  ])
+  const [selected, setSelected] = useState([])
+
+  const handleChangeTags = (e) => {
+    setSelected(prev => {
+      console.log(prev)
+    })
+  }
+  console.log(selected)
 
 
   return (
@@ -282,11 +302,12 @@ const CareerSite = () => {
                       labelId="select-tag"
                       id="tags"
                       label="Tags"
-                      value={companyData.tag}
+                      value={selected}
                       name="tag"
-                      onChange={onInputChangeHandler}
+                      onChange={handleChangeTags}
+                      multiple
                     >
-                      {companyTagsData?.types?.map((e, i) => (
+                      {tags.map((e, i) => (
                         <MenuItem value={e.id} key={i}>{e.name}</MenuItem>
                       ))}
                     </Select>
