@@ -120,7 +120,7 @@ export default function Router() {
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
         { path: '/dashboard/interviews/interview-details', element: <InterviewDetails /> },
         { path: '/dashboard/assessments', element: <Assessments /> },
-        { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
+        // { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
         { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
         { path: '/dashboard/career-site', element: <CareerSite /> },
         { path: 'institute-setting/departments', element: <Departments /> },
@@ -201,6 +201,7 @@ export default function Router() {
         { path: '/dashboard/assesment123', element: <CompleteAssesment />},
         { path: '/dashboard/app', element: <DashboardApp />},
         { path: '/dashboard/jobs', element: <Jobs /> },
+        { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
         // { path: '/', element: <Navigate to="/dashboard/app" /> },
 
 

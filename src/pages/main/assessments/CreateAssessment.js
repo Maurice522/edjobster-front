@@ -350,14 +350,14 @@ const CreateAssessment = () => {
                   </Select>
                 </FormControl>
                 <Button sx={{
-                  height:"20%",
-                  marginTop:"5%"
+                  height: "20%",
+                  marginTop: "5%"
                 }}
                   variant="contained"
-                  onClick={()=> navigate('/dashboard/candidate-settings/assessment-categories')}
+                  onClick={() => navigate('/dashboard/candidate-settings/assessment-categories')}
                   startIcon={<Iconify icon="eva:plus-fill" />}
-                 >
-                 Category
+                >
+                  Category
                 </Button>
               </Grid>
               <Grid item xs={12} display="flex" style={{ margin: 20 }}>
@@ -389,20 +389,6 @@ const CreateAssessment = () => {
                   </Button>
                 </Grid>
               </Grid>
-
-              {/* <Grid item display={'flex'} xs={12} alignItems="center">
-                <Grid item xs={8} style={{ margin: '10px' }} >
-                  <Typography className={currentSelectedType === 'S' ? 'highligth' : ''}>Dropdown</Typography>
-                </Grid>
-
-                <Grid item xs={4} style={{ margin: '10px' }}>
-                  <Button variant="contained" value="S" onClick={() => onSelectedQuestionTypeClicked('S')}>
-                    {' '}
-                    Add
-                  </Button>
-                </Grid>
-              </Grid> */}
-
               <Grid item display={'flex'} xs={12} alignItems="center">
                 <Grid item xs={8} style={{ margin: '10px' }}>
                   <Typography className={currentSelectedType === 'T' ? 'highligth' : ''}>Text Paragraph</Typography>
@@ -477,16 +463,6 @@ const CreateAssessment = () => {
                         type="number"
                       />
                     </Grid>
-                    {/* <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
-                      <Button
-                        variant="contained"
-                        component={RouterLink}
-                        to="#"
-                        onClick={() => onQuestionDoneClicked(index)}
-                      >
-                        DONE
-                      </Button>
-                    </Grid> */}
                   </Grid>
                 ) : (
                   <div>
@@ -497,7 +473,7 @@ const CreateAssessment = () => {
                           <Grid display="flex" item xs={12}>
                             <Grid item xs={11}>
                               <Typography variant="h6" gutterBottom>
-                                Question {index + 1} : {item.type === "R"? "Multiple Choice":"Multi Select"} Question
+                                Question {index + 1} : {item.type === "R" ? "Multiple Choice" : "Multi Select"} Question
                               </Typography>
                             </Grid>
                             <Grid item xs={1}>
@@ -523,35 +499,35 @@ const CreateAssessment = () => {
 
                           {item.options.map((opt, optIndex) => (
                             <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
-                              <Grid item xs={11} sx={{
+                              <Grid item xs={11} gap={10} sx={{
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center"
-                              }}>
+                               }}>
                                 <TextField
                                   required
                                   autoFocus
                                   margin="dense"
                                   variant="standard"
                                   placeholder={`Enter Option ${optIndex + 1}`}
-                                  fullWidth
+                                  
                                   name={opt}
                                   value={opt}
                                   onChange={(e) => onAssesmentOptionInputChangeHandler(e, optIndex, index)}
                                   label={`Option ${optIndex + 1}`}
                                 />
-                                <TextField 
+                                <TextField
                                   type="number"
                                   sx={{
-                                    width:"30%",
-                                    marginBottom:"5%"
+                                    width: "30%",
+                                    marginTop:"4.5%"
                                   }}
                                   value={item.answers[optIndex]}
                                   onChange={e => onAssesmentOptionQualifyMarksInputChangeHandler(e, optIndex, index)}
                                   required
                                   placeholder='Qualifying marks'
                                   variant='standard'
-                                   />
+                                />
                               </Grid>
                               {item.options.length === optIndex + 1 && (
                                 <Grid item xs={1}>
@@ -561,67 +537,56 @@ const CreateAssessment = () => {
                             </Grid>
                           ))}
                         </Grid>
-                          {/* <Grid item display={'flex'} xs={12}> */}
-                            {(item.type === 'C') && (
-                              <Grid item xs={5} style={{ margin: '10px' }}>
-                                <TextField
-                                  required
-                                  autoFocus
-                                  margin="dense"
-                                  variant="standard"
-                                  placeholder="Enter Marks"
-                                  fullWidth
-                                  name="Marks"
-                                  value={item.marks}
-                                  onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
-                                  label="Marks"
-                                  type="number"
-                                />
-                              </Grid>
-                            )}
+                        {/* <Grid item display={'flex'} xs={12}> */}
+                        {(item.type === 'C') && (
+                          <Grid item xs={5} style={{ margin: '10px' }}>
+                            <TextField
+                              required
+                              autoFocus
+                              margin="dense"
+                              variant="standard"
+                              placeholder="Enter Qualifying Marks"
+                              fullWidth
+                              name="Marks"
+                              value={item.marks}
+                              onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
+                              label="Marks"
+                              type="number"
+                            />
+                          </Grid>
+                        )}
 
-                            {(item.type === 'R') && (
-                              <Container sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                                <Grid item xs={5} style={{ margin: '10px' }}>
-                                  <TextField
-                                    required
-                                    autoFocus
-                                    margin="dense"
-                                    variant="standard"
-                                    placeholder="Enter Answer"
-                                    fullWidth
-                                    name="Answer"
-                                    type="number"
-                                    value={item.answer}
-                                    onChange={(e) => onAssesmentAnswerInputChangeHandler(e, index)}
-                                    label="Answer"
-                                    select
-                                    SelectProps={{
-                                      native: true
-                                    }}
-                                  >
-                                    <option value={"0"} key={"0"}>Select Answer</option>
-                                    {item.options?.map((optionValue, key) => (
-                                      <option key={key} value={`${key+1}`}>{optionValue}</option>
-                                    ))}
-                                  </TextField>
-                                </Grid>
-                                <Container>
-                                  Total Marks: {item.answers.reduce((partialSum, a) => +partialSum + +a, 0)}
-                                </Container>
-                              </Container>
-                            )}
-                        {/* </Grid> */}
-                        {/* <Grid display="flex" alignItems="center" justifyContent="right" style={{ marginRight: 5 }}>
-                          <Button
-                            variant="contained"
-                            component={RouterLink}
-                            to="#"
-                            onClick={() => onQuestionDoneClicked(index)}
-                          >
-                            DONE
-                          </Button>
-                        </Grid> */}
+                        {(item.type === 'R') && (
+                          <Container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            {/* <Grid item xs={5} style={{ margin: '10px' }}>
+                              <TextField
+                                required
+                                autoFocus
+                                margin="dense"
+                                variant="standard"
+                                placeholder="Enter Answer"
+                                fullWidth
+                                name="Answer"
+                                type="number"
+                                value={item.answer}
+                                onChange={(e) => onAssesmentAnswerInputChangeHandler(e, index)}
+                                label="Answer"
+                                select
+                                SelectProps={{
+                                  native: true
+                                }}
+                              >
+                                <option value={"0"} key={"0"}>Select Answer</option>
+                                {item.options?.map((optionValue, key) => (
+                                  <option key={key} value={`${key + 1}`}>{optionValue}</option>
+                                ))}
+                              </TextField>
+                            </Grid> */}
+                            <Container>
+                              Total Marks: {item.answers.reduce((partialSum, a) => +partialSum + +a, 0)}
+                            </Container>
+                          </Container>
+                        )}
                       </div>
                     ) : (
                       ''
@@ -633,19 +598,6 @@ const CreateAssessment = () => {
           </Grid>
         </Grid>
       </Container>
-      {/* <CandidateSettingModal
-        open={modalOpen}
-        handleClose={modalHandleClose}
-        label="Email Category Name"
-        type="Add"
-        textboxlabel="Add Assessment Categories"
-        id="categoryName"
-        name="Add"
-        onChange={addChangeHandler}
-        buttonlabel="Add Email category"
-        addClickHandler={addClickHandler}
-        loadingbtn={btnLoader}
-      /> */}
       {modalOpen && (
         <PreviewAssesment
           open={modalOpen}
