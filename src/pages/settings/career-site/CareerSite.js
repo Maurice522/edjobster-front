@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import { Card, Box, Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select, Tabs, Tab } from '@mui/material';
+import { Card, Box, Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select, Tabs, Tab, Avatar } from '@mui/material';
 import FileUpload from 'react-material-file-upload';
 import { LoadingButton } from '@mui/lab';
 // eslint-disable-next-line import/no-unresolved
@@ -62,7 +62,10 @@ const CareerSite = () => {
   const { data: cityData } = useGetCityQuery(stateId);
   const { data: companyTagsData } = useGetCompanyTagsQuery();
   const [UpdateCompany, UpdateCompanyInfo] = useUpdateCompanyInfoMutation();
-  const { data: testimonialData } = useGetTestimonialsQuery()
+  const { data: testimonialData, refetch: testimonialDataRefetch } = useGetTestimonialsQuery()
+  useEffect(() => {
+    testimonialDataRefetch()
+  }, [testimonialData])
   console.log(testimonialData)
   const [UpdateCompanyLogo, UpdateCompanyLogoInfo] = useUpdateCompanyLogoMutation();
   const [companyData, setCompanyData] = useState({
@@ -76,9 +79,10 @@ const CareerSite = () => {
     city: "",
     pincode: "",
     description: "",
-    tag: -1,
+    tag: [],
   })
   console.log("UpdateCompanyLogoInfo", UpdateCompanyLogoInfo);
+  console.log(data)
 
   useEffect(() => {
     if (data) {
@@ -96,7 +100,7 @@ const CareerSite = () => {
         city: response.city_id,
         pincode: response.pincode,
         description: response.description,
-        tag: response.tag
+        tag: [response.tag]
       });
       setCountryId(data?.company?.country_id);
       setStateId(data?.company?.state_id)
@@ -145,7 +149,7 @@ const CareerSite = () => {
   }
 
   const onInputChangeHandler = (e) => {
-    console.log(typeof e.target.value)
+    console.log(e.target.value)
     setCompanyData({ ...companyData, [e.target.name]: e.target.name === "tag"?+e.target.value:e.target.value })
     console.log(companyData)
   }
@@ -162,6 +166,42 @@ const CareerSite = () => {
     {
       name: "name",
       label: "Name",
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRenderLite: (index) => (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignContent: "center",
+              alignItems: "center",
+              gap: "0.5rem"
+            }}
+          >
+            <Avatar 
+              src={testimonialData[index]?.Profile_picture || "http://localhost:3000/static/mock-images/avatars/avatar_default.jpg"} 
+              srcSet={[
+                testimonialData[index].Profile_picture, 
+                "http://localhost:3000/static/mock-images/avatars/avatar_default.jpg"
+              ]}
+            />
+            <Typography variant='h6'>{testimonialData[index]?.name}</Typography>
+          </div>
+        )
+      }
+    },
+    {
+      name: "email",
+      label: "Email",
+      options: {
+        filter: true,
+        sort: true
+      }
+    },
+    {
+      name: "designation",
+      label: "Designation",
       options: {
         filter: true,
         sort: true
@@ -184,6 +224,25 @@ const CareerSite = () => {
     download: false,
     print: false,
   }
+
+  const [tags, setTags] = useState([
+    {
+      id: 1,
+      name: "HEllo"
+    },
+    {
+      id: 2,
+      name: "World"
+    }
+  ])
+  const [selected, setSelected] = useState([])
+
+  const handleChangeTags = (e) => {
+    setSelected(prev => {
+      console.log(prev)
+    })
+  }
+  console.log(selected)
 
 
   return (
@@ -282,11 +341,12 @@ const CareerSite = () => {
                       labelId="select-tag"
                       id="tags"
                       label="Tags"
-                      value={companyData.tag}
+                      value={selected}
                       name="tag"
-                      onChange={onInputChangeHandler}
+                      onChange={handleChangeTags}
+                      multiple
                     >
-                      {companyTagsData?.types?.map((e, i) => (
+                      {tags.map((e, i) => (
                         <MenuItem value={e.id} key={i}>{e.name}</MenuItem>
                       ))}
                     </Select>

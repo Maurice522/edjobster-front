@@ -172,7 +172,7 @@ const Addresses = () => {
       },
     },
     {
-      name: 'completeAddress',
+      name: 'address',
       label: 'Address',
       options: {
         filter: true,
@@ -215,8 +215,20 @@ const Addresses = () => {
   return (
     <Page title="User">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom/>
+        <Stack 
+          direction="row" 
+          alignItems="center" 
+          justifyContent="space-between" 
+          mb={5}
+        >
+          <h2
+            style={{
+              paddingTop:"0px",
+              marginToppaddingTop:"0px"
+            }}
+          >
+            Addresses
+          </h2>
           <Button
             variant="contained"
             component={RouterLink}
@@ -229,11 +241,21 @@ const Addresses = () => {
         </Stack>
 
         <Card>
-          <MUIDataTable title={' Address List'} data={data?.data} columns={columns} options={options} />
+          <MUIDataTable 
+            title={'Address List'} 
+            data={data?.data} 
+            columns={columns} 
+            options={options} 
+          />
         </Card>
       </Container>
-
-      <SettingModalAddress open={modalOpen} handleClose={modalHandleClose} formData={addData} type={modalType} onSubmitData={onSubmitHandler} />
+      <SettingModalAddress 
+        open={modalOpen} 
+        handleClose={modalHandleClose} 
+        formData={addData} 
+        type={modalType} 
+        onSubmitData={onSubmitHandler} 
+      />
     </Page>
   );
 };
