@@ -188,7 +188,8 @@ const CareerSite = () => {
             />
             <Typography variant='h6'>{testimonialData[index]?.name}</Typography>
           </div>
-        )
+        ),
+        setCellProps: () => ({style: {justifyContent: "start"}})
       }
     },
     {
@@ -196,7 +197,8 @@ const CareerSite = () => {
       label: "Email",
       options: {
         filter: true,
-        sort: true
+        sort: true,
+        setCellProps: () => ({style: {justifyContent: "start"}})
       }
     },
     {
@@ -204,7 +206,8 @@ const CareerSite = () => {
       label: "Designation",
       options: {
         filter: true,
-        sort: true
+        sort: true,
+        setCellProps: () => ({style: {justifyContent: "start"}})
       }
     },
     {
@@ -212,7 +215,8 @@ const CareerSite = () => {
       label: "Testimony",
       options: {
         filter: true,
-        sort: true
+        sort: true,
+        setCellProps: () => ({style: {justifyContent: "start"}})
       }
     }
   ]
@@ -223,6 +227,7 @@ const CareerSite = () => {
     filter: false,
     download: false,
     print: false,
+    selectableRows: false
   }
 
   const [tags, setTags] = useState([
@@ -436,6 +441,7 @@ const CareerSite = () => {
           data={testimonialData}
           columns={columns}
           options={options}
+
         />
       </TabPanel>
     </Container>

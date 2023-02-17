@@ -138,7 +138,21 @@ export default function CreateWebform() {
                         gap: "1rem"
                     }}
                 >
-                    <Button variant="outlined" onClick={() => setModalOpen(true)}>Add Section</Button>
+                    <Button 
+                        variant="outlined" 
+                        onClick={() => {
+                            setModalOpen(true)
+                            setModalData({
+                                name: "",
+                                fields: [{
+                                    name: "",
+                                    type: ""
+                                }]
+                            })
+                        }}
+                    >
+                        Add Section
+                    </Button>
                     <Button variant="contained" onClick={handleSubmit}>Submit</Button>
                 </Container>
             </Container>
@@ -333,7 +347,8 @@ export default function CreateWebform() {
                 handleClose={() => {setSectionFieldsModalOpen(false); setModalData({})}}
                 open={sectionFieldsModalOpen}
                 handleSubmit={() => {
-                    if(!Object.keys(modalData).includes("fields")) {
+                    console.log("data", modalData)
+                    if(!Object.keys(modalData).includes("type") || modalData.type.length === 0) {
                         showToast("error", "Select a field type.")
                         return
                     }

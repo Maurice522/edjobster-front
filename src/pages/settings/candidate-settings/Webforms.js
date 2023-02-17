@@ -26,6 +26,9 @@ const Webforms = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetWebformQuery();
+  useEffect(() => {
+    refetch()
+  }, [data])
   const [DeleteWebform, DeleteWebformInfo] = useDeleteWebformMutation();
 
   const [btnLoader, setBtnLoader] = useState(false);
@@ -160,7 +163,7 @@ const Webforms = () => {
             to="/dashboard/candidate-settings/webforms/new"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
-            New Webform 1
+            New Webform
           </Button>
         </Stack>
         <Card>
