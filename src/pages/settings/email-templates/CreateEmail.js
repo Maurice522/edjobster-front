@@ -180,7 +180,7 @@ function CreateEmail() {
 
                     </Container>
                     <Container className='fileup' style={{
-                        padding: "2rem"
+                        padding: "2rem",
                     }}>
                         <p>Add attachment</p>
                         {/* <Button
@@ -198,7 +198,7 @@ function CreateEmail() {
                                 }
                             />
                         </Button> */}
-                        <div>
+                        <div style={{}}>
                             <FileUploadComponent />
                         </div>
                     </Container>

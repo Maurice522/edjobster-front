@@ -21,7 +21,7 @@ const FileUploadComponent = () => {
         })
     }
     const selectFileInput = ({ accept, onFiles, files, getFilesFromEvent }) => {
-        const textMsg = files.length > 0 ? 'Upload Again' : 'Select Files'
+        const textMsg = files.length > 0 ? 'Upload Again' : 'Upload Files'
         return (
             <label htmlFor='fileupload' className="btn btn-danger mt-4">
                 {textMsg}
@@ -50,7 +50,7 @@ const FileUploadComponent = () => {
             maxFiles={5}
             inputContent="Drop A File"
             styles={{
-                dropzone: { width: 600, height: 400 },
+                dropzone: { width: "100%", height: 100, overflowY:"hidden",overflowX:"hidden" },
                 dropzoneActive: { borderColor: 'green' },
             }}            
         />
