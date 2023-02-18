@@ -272,6 +272,7 @@ const CreateAssessment = () => {
       const savedAssesmentRecord = addAssesmentInfo.data.data.find((item) => item.name === assesmentName);
       setAssesmentId(savedAssesmentRecord.id);
       addAssesmentInfo.reset();
+      navigate("/dashboard/assessments")
     }
     if (addAssesmentInfo.isError) {
       showToast('error', addAssesmentInfo.error.data.msg);
@@ -282,6 +283,7 @@ const CreateAssessment = () => {
       console.log('added assesments question', addAssesmentQuestionsInfo.data);
       setQuestions(addAssesmentQuestionsInfo.data.questions);
       addAssesmentQuestionsInfo.reset();
+      navigate("/dashboard/assessments")
     }
     if (addAssesmentQuestionsInfo.isError) {
       showToast('error', addAssesmentQuestionsInfo.error.data.msg);
