@@ -234,7 +234,7 @@ const PerticularCandidate = (props) => {
         <Grid item md={4}>
           <Grid container
           // style={{ display: 'flex',flexDirection:"row", gap: "5%"}}
-          > 
+          >
             <Grid item md={4}>
               <h3>Last Job Applied</h3>
               <p>
@@ -255,38 +255,38 @@ const PerticularCandidate = (props) => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={7} style={{ display: 'flex', justifyContent: 'flex-end', gap: "5%", alignItems: 'center',                       }}>
-          <AssignmentIcon onClick={() => setOpenAssestmentModal(true)} sx={{cursor:"pointer",fontSize: "50px"}}/>
-          <PersonalVideoIcon onClick={() => navigate('/dashboard/NewInterview')} sx={{cursor:"pointer",fontSize: "50px",}}/>
-          <WorkIcon onClick={assignJobModel} sx={{cursor:"pointer",fontSize: "50px", color:"#3C2A21"}}/>
-          <StackedBarChartIcon 
-           sx={{cursor:"pointer",fontSize: "50px", color:"blue"}}
-           onClick={handleOpenUserMenu}           
-           />
-           <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <>
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                </>
-              ))}
-            </Menu>
+        <Grid item md={7} style={{ display: 'flex', justifyContent: 'flex-end', gap: "5%", alignItems: 'center', }}>
+          <AssignmentIcon onClick={() => setOpenAssestmentModal(true)} sx={{ cursor: "pointer", fontSize: "50px" }} />
+          <PersonalVideoIcon onClick={() => navigate('/dashboard/NewInterview')} sx={{ cursor: "pointer", fontSize: "50px", }} />
+          <WorkIcon onClick={assignJobModel} sx={{ cursor: "pointer", fontSize: "50px", color: "#3C2A21" }} />
+          <StackedBarChartIcon
+            sx={{ cursor: "pointer", fontSize: "50px", color: "blue" }}
+            onClick={handleOpenUserMenu}
+          />
+          <Menu
+            sx={{ mt: '45px' }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map((setting) => (
+              <>
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              </>
+            ))}
+          </Menu>
         </Grid>
       </Grid>
       <Divider variant="middle" />
@@ -315,7 +315,7 @@ const PerticularCandidate = (props) => {
           width: "80%",
           marginLeft: "auto",
           marginRight: "auto",
-         }}>
+        }}>
           {/* <Stack sx={{
             marginTop: "2%"
            }}>
@@ -435,15 +435,21 @@ const PerticularCandidate = (props) => {
               <Stack sx={{
                 marginLeft:"25%",
               }}>
+                {console.log(applicantData)}
                 <Grid container sx={{ mt: 4, display: "flex", flexDirection: "row", gap: "2rem" }} spacing={2}>
                   {Object.keys(applicantData?.[0].form?.form || {})?.map((webformElement, i) => (
-                    <TextField
-                      key={i}
-                      label={webformElement}
-                      value={applicantData?.[0].form?.form?.[webformElement]}
-                      disabled
-                      variant="filled"
-                    />
+                    <div>
+                      {/* <Divider flexItem textAlign='left' style={{ marginBottom: "3em", color: "red" }}>{webformElement.name}</Divider> */}
+                      <div>
+                        <TextField
+                          key={i}
+                          label={webformElement}
+                          value={applicantData?.[0].form?.form?.[webformElement]}
+                          disabled
+                          variant="filled"
+                        />
+                      </div>
+                    </div>
                   ))}
                 </Grid>
               </Stack>
