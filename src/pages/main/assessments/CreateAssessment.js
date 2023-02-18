@@ -272,6 +272,7 @@ const CreateAssessment = () => {
       const savedAssesmentRecord = addAssesmentInfo.data.data.find((item) => item.name === assesmentName);
       setAssesmentId(savedAssesmentRecord.id);
       addAssesmentInfo.reset();
+      navigate("/dashboard/assessments")
     }
     if (addAssesmentInfo.isError) {
       showToast('error', addAssesmentInfo.error.data.msg);
@@ -282,6 +283,7 @@ const CreateAssessment = () => {
       console.log('added assesments question', addAssesmentQuestionsInfo.data);
       setQuestions(addAssesmentQuestionsInfo.data.questions);
       addAssesmentQuestionsInfo.reset();
+      navigate("/dashboard/assessments")
     }
     if (addAssesmentQuestionsInfo.isError) {
       showToast('error', addAssesmentQuestionsInfo.error.data.msg);
@@ -402,8 +404,8 @@ const CreateAssessment = () => {
             </Card>
           </Grid>
 
-          <Grid item xs={6}>
-            <Card variant="outlined" style={{ padding: 20 }}>
+          <Grid item xs={6} sx={{display: "flex", gap: "1rem", flexDirection: "column"}}>
+            <Card variant="outlined" style={{ padding: "0 2rem" }}>
               <Grid item xs={12} style={{ marginBottom: 20 }}>
                 <TextField
                   required
@@ -418,183 +420,155 @@ const CreateAssessment = () => {
                   onChange={onAssesmentNameInputChangeHandler}
                 />
               </Grid>
-              {questions.map((item, index) =>
-                item.type === 'T' ? (
-                  <Grid key={`text-${index}`} item xs={12} style={{ margin: 15 }}>
-                    <Grid display="flex" item xs={12}>
-                      <Grid item xs={11} style={{ margin: 15 }}>
-                        <Typography variant="h5" gutterBottom>
-                          Question {index + 1} : Text Question
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={1}>
-                        <Button style={{ color: 'red' }} onClick={() => onCloseQuestionDeleteHandler(index)}>
-                          &#10005;
-                        </Button>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={11}>
-                      <TextField
-                        required
-                        autoFocus
-                        margin="dense"
-                        variant="standard"
-                        placeholder="Enter Your Question"
-                        fullWidth
-                        name="question"
-                        value={item.question}
-                        onChange={(e) => onAssesmentQuestionNameInputChangeHandler(e, index)}
-                        label="Enter Your Question"
-                      />
-                    </Grid>
-
-                    <Grid item xs={5}>
-                      <TextField
-                        required="true"
-                        autoFocus
-                        margin="dense"
-                        variant="standard"
-                        placeholder="Enter Marks"
-                        fullWidth
-                        name="Marks"
-                        value={item.marks}
-                        onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
-                        label="Marks"
-                        type="number"
-                      />
-                    </Grid>
-                  </Grid>
-                ) : (
-                  <div>
-                    {(item.type === 'C') ||
-                      (item.type === 'R') ? (
-                      <div key={`multiple-${index}`}>
-                        <Grid item xs={12} style={{ margin: 15 }}>
-                          <Grid display="flex" item xs={12}>
-                            <Grid item xs={11}>
-                              <Typography variant="h6" gutterBottom>
-                                Question {index + 1} : {item.type === "R" ? "Multiple Choice" : "Multi Select"} Question
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={1}>
-                              <Button style={{ color: 'red' }} onClick={() => onCloseQuestionDeleteHandler(index)}>
-                                &#10005;
-                              </Button>
-                            </Grid>
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              required
-                              autoFocus
-                              margin="dense"
-                              variant="standard"
-                              placeholder="Enter Your Question"
-                              fullWidth
-                              name="question"
-                              value={item.question}
-                              onChange={(e) => onAssesmentQuestionNameInputChangeHandler(e, index)}
-                              label="Enter Your Question"
-                            />
-                          </Grid>
-
-                          {item.options.map((opt, optIndex) => (
-                            <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
-                              <Grid item xs={11} gap={10} sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center"
-                               }}>
-                                <TextField
-                                  required
-                                  autoFocus
-                                  margin="dense"
-                                  variant="standard"
-                                  placeholder={`Enter Option ${optIndex + 1}`}
-                                  
-                                  name={opt}
-                                  value={opt}
-                                  onChange={(e) => onAssesmentOptionInputChangeHandler(e, optIndex, index)}
-                                  label={`Option ${optIndex + 1}`}
-                                />
-                                <TextField
-                                  type="number"
-                                  sx={{
-                                    width: "30%",
-                                    marginTop:"4.5%"
-                                  }}
-                                  value={item.answers[optIndex]}
-                                  onChange={e => onAssesmentOptionQualifyMarksInputChangeHandler(e, optIndex, index)}
-                                  required
-                                  placeholder='Qualifying marks'
-                                  variant='standard'
-                                />
-                              </Grid>
-                              {item.options.length === optIndex + 1 && (
-                                <Grid item xs={1}>
-                                  <Button onClick={() => addOptionsSelection(index, optIndex)}>&#10010;</Button>
-                                </Grid>
-                              )}
-                            </Grid>
-                          ))}
+            </Card>
+            {questions.map((item, index) =>
+              <Card variant="outlined" style={{ padding: 20 }} key={index}>
+                <Grid item xs={12} style={{ marginBottom: 20 }}>
+                  {item.type === 'T' ? (
+                    <Grid key={`text-${index}`} item xs={12} style={{ margin: 15 }}>
+                      <Grid display="flex" item xs={12}>
+                        <Grid item xs={11} style={{ margin: 15 }}>
+                          <Typography variant="h5" gutterBottom>
+                            Question {index + 1} : Text Question
+                          </Typography>
                         </Grid>
-                        {/* <Grid item display={'flex'} xs={12}> */}
-                        {(item.type === 'C') && (
-                          <Grid item xs={5} style={{ margin: '10px' }}>
-                            <TextField
-                              required
-                              autoFocus
-                              margin="dense"
-                              variant="standard"
-                              placeholder="Enter Qualifying Marks"
-                              fullWidth
-                              name="Marks"
-                              value={item.marks}
-                              onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
-                              label="Marks"
-                              type="number"
-                            />
-                          </Grid>
-                        )}
+                        <Grid item xs={1}>
+                          <Button style={{ color: 'red' }} onClick={() => onCloseQuestionDeleteHandler(index)}>
+                            &#10005;
+                          </Button>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={11}>
+                        <TextField
+                          required
+                          autoFocus
+                          margin="dense"
+                          variant="standard"
+                          placeholder="Enter Your Question"
+                          fullWidth
+                          name="question"
+                          value={item.question}
+                          onChange={(e) => onAssesmentQuestionNameInputChangeHandler(e, index)}
+                          label="Enter Your Question"
+                        />
+                      </Grid>
 
-                        {(item.type === 'R') && (
-                          <Container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            {/* <Grid item xs={5} style={{ margin: '10px' }}>
+                      <Grid item xs={5}>
+                        <TextField
+                          required="true"
+                          autoFocus
+                          margin="dense"
+                          variant="standard"
+                          placeholder="Enter Marks"
+                          fullWidth
+                          name="Marks"
+                          value={item.marks}
+                          onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
+                          label="Marks"
+                          type="number"
+                        />
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <div>
+                      {(item.type === 'C') ||
+                        (item.type === 'R') ? (
+                        <div key={`multiple-${index}`}>
+                          <Grid item xs={12} style={{ margin: 15 }}>
+                            <Grid display="flex" item xs={12}>
+                              <Grid item xs={11}>
+                                <Typography variant="h6" gutterBottom>
+                                  Question {index + 1} : {item.type === "R" ? "Multiple Choice" : "Multi Select"} Question
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={1}>
+                                <Button style={{ color: 'red' }} onClick={() => onCloseQuestionDeleteHandler(index)}>
+                                  &#10005;
+                                </Button>
+                              </Grid>
+                            </Grid>
+                            <Grid item xs={12}>
                               <TextField
                                 required
                                 autoFocus
                                 margin="dense"
                                 variant="standard"
-                                placeholder="Enter Answer"
+                                placeholder="Enter Your Question"
                                 fullWidth
-                                name="Answer"
+                                name="question"
+                                value={item.question}
+                                onChange={(e) => onAssesmentQuestionNameInputChangeHandler(e, index)}
+                                label="Enter Your Question"
+                              />
+                            </Grid>
+
+                            {item.options.map((opt, optIndex) => (
+                              <Grid key={`options-${optIndex}`} display="flex" alignItems="end" item xs={12}>
+                                <Grid item xs={11} gap={10} sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center"
+                                }}>
+                                  <TextField
+                                    required
+                                    autoFocus
+                                    margin="dense"
+                                    variant="standard"
+                                    placeholder={`Enter Option ${optIndex + 1}`}
+                                    
+                                    name={opt}
+                                    value={opt}
+                                    onChange={(e) => onAssesmentOptionInputChangeHandler(e, optIndex, index)}
+                                    label={`Option ${optIndex + 1}`}
+                                  />
+                                  <TextField
+                                    type="number"
+                                    sx={{
+                                      width: "30%",
+                                      marginTop:"4.5%"
+                                    }}
+                                    value={item.answers[optIndex]}
+                                    onChange={e => onAssesmentOptionQualifyMarksInputChangeHandler(e, optIndex, index)}
+                                    required
+                                    placeholder='Qualifying marks'
+                                    variant='standard'
+                                  />
+                                </Grid>
+                                {item.options.length === optIndex + 1 && (
+                                  <Grid item xs={1}>
+                                    <Button onClick={() => addOptionsSelection(index, optIndex)}>&#10010;</Button>
+                                  </Grid>
+                                )}
+                              </Grid>
+                            ))}
+                          </Grid>
+                          {/* <Grid item display={'flex'} xs={12}> */}
+                          {(item.type === 'C') || item.type === 'R' && (
+                            <Grid item xs={5} style={{ margin: '10px' }}>
+                              <TextField
+                                required
+                                autoFocus
+                                margin="dense"
+                                variant="standard"
+                                placeholder="Enter Qualifying Marks"
+                                fullWidth
+                                name="Marks"
+                                value={item.marks}
+                                onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
+                                label="Marks"
                                 type="number"
-                                value={item.answer}
-                                onChange={(e) => onAssesmentAnswerInputChangeHandler(e, index)}
-                                label="Answer"
-                                select
-                                SelectProps={{
-                                  native: true
-                                }}
-                              >
-                                <option value={"0"} key={"0"}>Select Answer</option>
-                                {item.options?.map((optionValue, key) => (
-                                  <option key={key} value={`${key + 1}`}>{optionValue}</option>
-                                ))}
-                              </TextField>
-                            </Grid> */}
-                            <Container>
-                              Total Marks: {item.answers.reduce((partialSum, a) => +partialSum + +a, 0)}
-                            </Container>
-                          </Container>
-                        )}
-                      </div>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                )
-              )}
-            </Card>
+                              />
+                            </Grid>
+                          )}
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                  )}
+                </Grid>
+              </Card>
+            )}
           </Grid>
         </Grid>
       </Container>
