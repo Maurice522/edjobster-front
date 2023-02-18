@@ -11,10 +11,12 @@ import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import { makeStyles } from '@mui/styles';
 import { CardContent, Card, Grid, Divider, TextField, Box, Menu, MenuItem, InputLabel } from '@mui/material';
+// eslint-disable-next-line import/no-unresolved
+import { showToast } from 'src/utils/toast';
 import Notes from '../../../components/Notes/Notes';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import ViewAllCandidatesModel from '../../../components/Mains/ViewAllCandidatesModel';
-import { useAddJobMutation, useGetJobeDetailsQuery, useJobStatsQuery } from '../../../redux/services/jobs/JobServices';
+import { useGetJobeDetailsQuery, useJobStatsQuery, useUpdateJobStatusMutation } from '../../../redux/services/jobs/JobServices';
 import ToDoApp from '../../../components/homePage/ToDoApp';
 
 const useStyles = makeStyles({
@@ -35,8 +37,14 @@ const Transition = React.forwardRef((props, ref) => {
 const PerticularJob = (props) => {
   const navigate = useNavigate();
   const { id } = useParams()
-  const {data:cardData,refetch: cardRefetch}=useJobStatsQuery(id);
-  console.log(cardData?.data?.pipeline_stage_status_stats)
+  const {data: cardData, refetch: cardRefetch} = useJobStatsQuery(id);
+  const [updateJobStatus, updateJobStatusInfo] = useUpdateJobStatusMutation()
+  const handleChangeJobStatus = async (e) => {
+    await updateJobStatus({
+      job: id,
+      status: e
+    })
+  }
   const { data: jobData, refetch } = useGetJobeDetailsQuery(id);
   console.log(jobData)
   const [textValue, setTextValue] = useState({
@@ -109,6 +117,17 @@ const PerticularJob = (props) => {
     cardRefetch()
   }, [id])
 
+  useEffect(() => {
+    if(updateJobStatusInfo.isError) {
+      showToast("error", "Unable to update job status!")
+    }
+    if(updateJobStatusInfo.isSuccess) {
+      showToast("success", "Successfully updated job status!")
+      cardRefetch()
+      handleCloseUserMenu()
+    }
+  }, [updateJobStatusInfo])
+
   return (
     <div>
       <AppBar sx={{ position: 'relative' }} style={{ backgroundColor: '#f9fafb' }}>
@@ -134,7 +153,7 @@ const PerticularJob = (props) => {
                   onClick={handleOpenUserMenu}
                   style={{ textTransform: 'capitalize' }}
                 >
-                  Job Status
+                  Job Status{cardData?.data?.job_status && `: ${cardData?.data?.job_status}`}
                 </Button>
                 <Menu
                   sx={{ mt: '45px' }}
@@ -153,8 +172,8 @@ const PerticularJob = (props) => {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                    <MenuItem key={setting} value={setting} onClick={() => handleChangeJobStatus(setting)}> 
+                      {setting}
                     </MenuItem>
                   ))}
                 </Menu>

@@ -433,7 +433,7 @@ const PerticularCandidate = (props) => {
                 <h3 id='candidateprofile' className='canhead'>Filled Webform</h3>
               </Grid>
               <Stack sx={{
-                marginLeft: "25%",
+                marginLeft:"25%",
               }}>
                 {console.log(applicantData)}
                 <Grid container sx={{ mt: 4, display: "flex", flexDirection: "row", gap: "2rem" }} spacing={2}>
