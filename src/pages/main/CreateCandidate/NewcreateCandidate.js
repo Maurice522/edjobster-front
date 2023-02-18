@@ -17,7 +17,7 @@ import {
   useGetStateQuery,
   useGetCityQuery,
 } from '../../../redux/services/settings/CountryStateCityService';
-import { useGetAssesmentCategoryQuery } from '../../../redux/services/main/AssesmentCatagoriesservice';
+import { useGetAssesmentQuery } from '../../../redux/services/main/AssesmentService';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 import Back from '../../../assets/images/back.svg';
 
@@ -75,7 +75,7 @@ function NewcreateCandidate() {
     }
   }, [AddCandidateInfo, navigate])
 
-  const { data: assessmentData, refetch: assessmentDataRefetech } = useGetAssesmentCategoryQuery();
+  const { data: assessmentData, refetch: assessmentDataRefetech } = useGetAssesmentQuery();
   const [assessment, setAssessment] = useState(1);
   const handleChangeAssessment = (e) => setAssessment(e.target.value);
   const [UploadedFileName, setUploadedFileName] = useState("")

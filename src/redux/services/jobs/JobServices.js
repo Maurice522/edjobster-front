@@ -48,6 +48,16 @@ const extendedApi = apiBasePath.injectEndpoints({
         }
       })
     }),
+    updateJobStatus: build.mutation({
+      query: (data) => ({
+        url: `${apiUrl.jobs}job-stats/`,
+        method: 'POST',
+        body: data,
+        headers: {
+          'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+        }
+      })
+    })
   }),
   overrideExisting: false,
 });
@@ -58,4 +68,5 @@ export const {
   useGetJobeDetailsQuery,
   useAddJobMutation,
   useDeleteJobMutation,
+  useUpdateJobStatusMutation
 } = extendedApi;

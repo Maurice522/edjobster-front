@@ -50,9 +50,9 @@ const SelectAssessment = () => {
 
   const onInputChangeHandler = (e) => {
     const myObj = { ...textValue };
-    if(e.target.name === "assesment") {
-      myObj[e.target.name] = [...myObj.assesment, e.target.value];
-    }
+    // if(e.target.name === "assesment") {
+    //   myObj[e.target.name] = [...myObj.assesment, e.target.value];
+    // }
     myObj[e.target.name] = e.target.value;
     setTextValue({ ...myObj });
   };
@@ -80,7 +80,6 @@ const SelectAssessment = () => {
                 name="assesment"
                 // renderValue={renderMultiSelectValues}
                 //  MenuProps={MenuProps}
-
               >
                 {selectAssesmentData &&
                   selectAssesmentData?.data?.map((item) => (
