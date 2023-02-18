@@ -290,10 +290,11 @@ const PerticularCandidate = (props) => {
         </Grid>
       </Grid>
       <Divider variant="middle" />
-      <Stack sx={{
+      {/* <Stack sx={{
         display: "flex",
-        flexDirection: "row"
-      }}>
+        flexDirection: "row",
+        position: "static"
+      }}> */}
         <Card sx={{
           width: "200px",
           height: "216px",
@@ -311,6 +312,12 @@ const PerticularCandidate = (props) => {
           <a className='quickaccess' href='#notes'>Notes</a>
 
         </Card>
+      {/* </Stack> */}
+      <Stack sx={{
+        display: "flex",
+        flexDirection: "row",
+        position: "static"
+      }}>
         <Container sx={{
           width: "80%",
           marginLeft: "auto",
