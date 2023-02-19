@@ -43,7 +43,7 @@ import Notes from '../../../components/Notes/Notes';
 import Iconify from '../../../components/Iconify';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../redux/services/notes/NotesServices';
-import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery, useUpdateCandidateStatusMutation } from '../../../redux/services/candidate/CandidateServices';
+import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery, useUpdateCandidateStatusMutation, useCandidateStatsQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 import ToDoApp from '../../../components/homePage/ToDoApp';
 import AssesmentModal from './AssestmentModal';
@@ -55,16 +55,19 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={r
 
 const PerticularCandidate = (props) => {
   const { id: candidateId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate()
   const [assignJob, assignJobInfo] = useAssignJobMutation()
+  const { data: cardData, refetch: cardRefetch } = useCandidateStatsQuery(id);
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
   const [updateCandidateStatus, updateCandidateStatusInfo] = useUpdateCandidateStatusMutation()
   const handleChangeCandidateStatus = async (e) => {
     await updateCandidateStatus({
-      candidate: candidateId,
+      candidate: id,
       status: e
     })
   }
+  console.log("carddata=", cardData)
   const { data: applicantData } = useGetApplicantsQuery(candidateId)
   console.log("applicant data", applicantData)
   const { data: jobListData } = useGetJobListQuery();
@@ -132,6 +135,22 @@ const PerticularCandidate = (props) => {
       assignJobModelClosed()
     }
   }, [assignJobInfo])
+
+  useEffect(() => {
+    refetch()
+    cardRefetch()
+  }, [id])
+
+  useEffect(() => {
+    if (updateCandidateStatusInfo.isError) {
+      showToast("error", "Unable to update candidate status!")
+    }
+    if (updateCandidateStatusInfo.isSuccess) {
+      showToast("success", "Successfully updated candidate status!")
+      cardRefetch()
+      handleCloseUserMenu()
+    }
+  }, [updateCandidateStatusInfo])
 
   return (
     <div>
@@ -287,13 +306,14 @@ const PerticularCandidate = (props) => {
             onClose={handleCloseUserMenu}
           >
             {settings.map((setting) => (
-              <>
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              </>
+              <MenuItem key={setting} value={setting} onClick={() => handleChangeCandidateStatus(setting)}>
+                <Typography textAlign="center">{setting}</Typography>
+              </MenuItem>
             ))}
           </Menu>
+          <Button style={{ minWidth: 0 }} variant="outlined">
+            Status{cardData?.data?.candidate_status && `: ${cardData?.data?.candidate_status}`}
+          </Button>
         </Grid>
       </Grid>
       <Divider variant="middle" />
@@ -302,29 +322,29 @@ const PerticularCandidate = (props) => {
         flexDirection: "row",
         marginLeft: "1%"
       }}>
-          <Card sx={{
-            width: "200px",
-            height: "216px",
-            padding: "1%",
-            paddingLeft: "2%",
-            marginRight: "0",
-            marginTop: "5%",
-             position: "fixed",
-            // marginLeft:"5%",
-            boxShadow: "rgba(0, 0, 0, 0.25)"
-          }}>
-            <h3>Quick Access</h3>
-            <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
-            <a className='quickaccess' href='#work'>Work Experiance</a>
-            <a className='quickaccess' href='#education'>Education Details</a>
-            <a className='quickaccess' href='#notes'>Notes</a>
+        <Card sx={{
+          width: "200px",
+          height: "216px",
+          padding: "1%",
+          paddingLeft: "2%",
+          marginRight: "0",
+          marginTop: "5%",
+          position: "fixed",
+          // marginLeft:"5%",
+          boxShadow: "rgba(0, 0, 0, 0.25)"
+        }}>
+          <h3>Quick Access</h3>
+          <a className='quickaccess' href='#candidateprofile'>Candidate Profile</a>
+          <a className='quickaccess' href='#work'>Work Experiance</a>
+          <a className='quickaccess' href='#education'>Education Details</a>
+          <a className='quickaccess' href='#notes'>Notes</a>
 
-          </Card>
+        </Card>
         <Container sx={{
           width: "80%",
           marginLeft: "15%",
           // marginRight: "auto",
-         }}>
+        }}>
           {/* <Stack sx={{
             marginTop: "2%"
            }}>

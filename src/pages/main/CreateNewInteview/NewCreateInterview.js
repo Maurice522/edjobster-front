@@ -150,7 +150,7 @@ function NewCreateInterview() {
         flexDirection: "row",
         gap: "5%"
       }} ml={5} mb={5}>
-        <Link to="/dashboard/interviews">
+        <Link to={-1}>
           <img src={Back} alt="Go Back" />
         </Link>
         <h2>Schedule Interview</h2>

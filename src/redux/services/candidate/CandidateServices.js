@@ -115,7 +115,15 @@ const extendedApi = apiBasePath.injectEndpoints({
           'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
         }
       })
-    })
+    }),
+    candidateStats: build.query({
+      query: (id) => ({
+        url: `${apiUrl.candidate}update-candidate-stats/?candidate=${id}`,
+        headers: {
+          'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+        }
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -132,5 +140,6 @@ export const {
   useAddCandidateWithResumeMutation,
   useAssignJobMutation,
   useGetApplicantsQuery,
-  useUpdateCandidateStatusMutation
+  useUpdateCandidateStatusMutation,
+  useCandidateStatsQuery
 } = extendedApi;
