@@ -121,8 +121,8 @@ export default function Router() {
         // { path: '/dashboard/interviews/interview-details', element: <InterviewDetails /> },
         // { path: '/dashboard/assessments', element: <Assessments /> },
         // { path: '/dashboard/assessments/create-assessment', element: <CreateAssessment /> },
-        { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
-        { path: '/dashboard/career-site', element: <CareerSite /> },
+        // { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
+        // { path: '/dashboard/career-site', element: <CareerSite /> },
         { path: 'institute-setting/departments', element: <Departments /> },
         { path: 'institute-setting/designations', element: <Designations /> },
         { path: 'institute-setting/addresses', element: <Addresses /> },
@@ -229,6 +229,8 @@ export default function Router() {
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
         { path: '/dashboard/interviews/interview-details', element: <InterviewDetails /> },
         { path: '/dashboard/assessments', element: <Assessments /> },
+        { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
+        { path: '/dashboard/career-site', element: <CareerSite /> },
         // { path: '/', element: <Navigate to="/dashboard/app" /> },
 
 
