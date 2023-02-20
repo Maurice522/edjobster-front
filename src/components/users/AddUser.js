@@ -4,6 +4,10 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
 // import { useHistory } from "react-router-dom";
 // import { Link as RouterLink } from 'react-router-dom';
+// eslint-disable-next-line import/no-unresolved
+import { useDepartmentGetQuery } from 'src/redux/services/settings/DepartmentService';
+// eslint-disable-next-line import/no-unresolved
+import { useDesignationGetQuery } from 'src/redux/services/settings/DesignationService';
 import { Stack, TextField, IconButton, InputAdornment, Divider, Select, MenuItem, Card, Button } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useEffect, useState } from 'react';
@@ -17,8 +21,17 @@ import Iconify from '../Iconify';
 function AddUser() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [AddUser, AddUserInfo] = useAddUserMutation();
+  const { data: departmentData, refetch: departmentDataRefetch } = useDepartmentGetQuery();
+  console.log("department", departmentData)
+  useEffect(() => {
+    departmentDataRefetch()
+  }, [departmentData])
+  const { data: designationData, refetch: designationDataRefetch } = useDesignationGetQuery();
+  console.log("designation", designationData)
+  useEffect(() => {
+    designationDataRefetch()
+  }, [designationData])
 
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
   const RegisterSchema = Yup.object().shape({
@@ -78,8 +91,8 @@ function AddUser() {
     initialValues: {
       first_name: "",
       last_name: "",
-      department: "",
-      designation: "",
+      department: 0,
+      designation: 0,
       role: "",
       email: "",
       mobile: "",
@@ -186,7 +199,16 @@ function AddUser() {
                   {...getFieldProps('department')}
                   error={Boolean(touched.department && errors.department)}
                   helperText={touched.department && errors.department}
-                />
+                  select
+                  SelectProps={{
+                    native: true
+                  }}
+                >
+                  <option value={0}>Select Department</option>
+                  {departmentData?.data?.map((e, i) => (
+                    <option item key={i} value={e.id}>{e.name}</option>
+                  ))}
+                </TextField>
               </div>
               <div className='passwordrow'>
 
@@ -196,7 +218,16 @@ function AddUser() {
                   {...getFieldProps('designation')}
                   error={Boolean(touched.designation && errors.designation)}
                   helperText={touched.designation && errors.designation}
-                />
+                  select
+                  SelectProps={{
+                    native: true
+                  }}
+                >
+                  <option value={0}>Select Designation</option>
+                  {designationData?.data?.map((e, i) => (
+                    <option item key={i} value={e.id}>{e.name}</option>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className='divrow'>
@@ -207,7 +238,15 @@ function AddUser() {
                   {...getFieldProps('role')}
                   error={Boolean(touched.role && errors.role)}
                   helperText={touched.role && errors.role}
-                />
+                  select
+                  SelectProps={{
+                    native: true
+                  }}
+                >
+                  <option value={""}>Select Role</option>
+                  <option value={"A"}>Admin</option>
+                  <option value={"U"}>User</option>
+                </TextField>
               </div>
             </div>
             <div className='divrow'>

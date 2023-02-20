@@ -542,7 +542,7 @@ const CreateAssessment = () => {
                             ))}
                           </Grid>
                           {/* <Grid item display={'flex'} xs={12}> */}
-                          {(item.type === 'C') || item.type === 'R' && (
+                          {(item.type === 'C' || item.type === 'R') && (
                             <Grid item xs={5} style={{ margin: '10px' }}>
                               <TextField
                                 required
