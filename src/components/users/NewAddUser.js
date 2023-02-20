@@ -2,20 +2,35 @@
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-unresolved
+import { useDepartmentGetQuery } from 'src/redux/services/settings/DepartmentService';
+// eslint-disable-next-line import/no-unresolved
+import { useDesignationGetQuery } from 'src/redux/services/settings/DesignationService';
 import { 
-    TextField, 
-    IconButton, 
-    InputAdornment, 
-    Divider,  
-    Button,
-    Card, 
-    Stack } from '@mui/material';
+  TextField, 
+  IconButton, 
+  InputAdornment, 
+  Divider,  
+  Button,
+  Card, 
+  Stack } from '@mui/material';
 import { LoadingButton} from '@mui/lab';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useEffect } from 'react';
 
 
 
 function AddUser() {
+  const { data: departmentData, refetch: departmentDataRefetch } = useDepartmentGetQuery();
+  console.log(departmentData)
+  useEffect(() => {
+    departmentDataRefetch()
+  }, [departmentData])
+  const { data: designationData, refetch: designationDataRefetch } = useDesignationGetQuery();
+  console.log(designationData)
+  useEffect(() => {
+    designationDataRefetch()
+  }, [designationData])
   const baseUrl= "http://127.0.0.1:8000";
 
   const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -33,9 +48,9 @@ function AddUser() {
       initialValues: {
         first_name: "",
         last_name: "",
-        department: "",
-        designation: "",
-        role: "",
+        department: 0,
+        designation: 0,
+        role: "U",
         email: "",
         mobile: "",
       },
