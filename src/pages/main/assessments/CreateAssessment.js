@@ -405,18 +405,17 @@ const CreateAssessment = () => {
           </Grid>
 
           <Grid item xs={6} sx={{display: "flex", gap: "1rem", flexDirection: "column"}}>
-            <Card variant="outlined" style={{ padding: "0 2rem" }}>
+            <Card variant="outlined" style={{ padding: "0.5rem 1rem", paddingTop: "0.5rem" }}>
               <Grid item xs={12} style={{ marginBottom: 20 }}>
                 <TextField
                   required
                   autoFocus
                   margin="dense"
                   variant="standard"
-                  placeholder="Enter Assesment Name"
                   fullWidth
                   name="aasesmentName"
                   value={assesmentName}
-                  label="Give Name to Your Assessment"
+                  placeholder="Enter Assessment Name"
                   onChange={onAssesmentNameInputChangeHandler}
                 />
               </Grid>
@@ -429,7 +428,7 @@ const CreateAssessment = () => {
                       <Grid display="flex" item xs={12}>
                         <Grid item xs={11} style={{ margin: 15 }}>
                           <Typography variant="h5" gutterBottom>
-                            Question {index + 1} : Text Question
+                            Question {index + 1}: Text Question
                           </Typography>
                         </Grid>
                         <Grid item xs={1}>
@@ -459,12 +458,12 @@ const CreateAssessment = () => {
                           autoFocus
                           margin="dense"
                           variant="standard"
-                          placeholder="Enter Marks"
+                          placeholder="Enter Qualifying Marks"
                           fullWidth
                           name="Marks"
                           value={item.marks}
                           onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
-                          label="Marks"
+                          label="Qualifying Marks"
                           type="number"
                         />
                       </Grid>
@@ -530,7 +529,7 @@ const CreateAssessment = () => {
                                     value={item.answers[optIndex]}
                                     onChange={e => onAssesmentOptionQualifyMarksInputChangeHandler(e, optIndex, index)}
                                     required
-                                    placeholder='Qualifying marks'
+                                    placeholder='Marks'
                                     variant='standard'
                                   />
                                 </Grid>
@@ -552,10 +551,10 @@ const CreateAssessment = () => {
                                 variant="standard"
                                 placeholder="Enter Qualifying Marks"
                                 fullWidth
-                                name="Marks"
+                                name="marks"
                                 value={item.marks}
                                 onChange={(e) => onAssesmentMarksInputChangeHandler(e, index)}
-                                label="Marks"
+                                label="Qualifying Marks"
                                 type="number"
                               />
                             </Grid>
