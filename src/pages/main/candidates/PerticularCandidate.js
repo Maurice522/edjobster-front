@@ -43,7 +43,7 @@ import Notes from '../../../components/Notes/Notes';
 import Iconify from '../../../components/Iconify';
 import AssignJobModel from '../../../components/Mains/AssignJobModel';
 import { useGetCandidateNotesListQuery, useGetNotesTypesQuery } from '../../../redux/services/notes/NotesServices';
-import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery } from '../../../redux/services/candidate/CandidateServices';
+import { useGetCandidateDetailsQuery, useAssignJobMutation, useGetApplicantsQuery, useUpdateCandidateStatusMutation, useCandidateStatsQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 import ToDoApp from '../../../components/homePage/ToDoApp';
 import AssesmentModal from './AssestmentModal';
@@ -55,9 +55,19 @@ const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={r
 
 const PerticularCandidate = (props) => {
   const { id: candidateId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate()
   const [assignJob, assignJobInfo] = useAssignJobMutation()
+  const { data: cardData, refetch: cardRefetch } = useCandidateStatsQuery(id);
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
+  const [updateCandidateStatus, updateCandidateStatusInfo] = useUpdateCandidateStatusMutation()
+  const handleChangeCandidateStatus = async (e) => {
+    await updateCandidateStatus({
+      candidate: id,
+      status: e
+    })
+  }
+  console.log("carddata=", cardData)
   const { data: applicantData } = useGetApplicantsQuery(candidateId)
   console.log("applicant data", applicantData)
   const { data: jobListData } = useGetJobListQuery();
@@ -125,6 +135,22 @@ const PerticularCandidate = (props) => {
       assignJobModelClosed()
     }
   }, [assignJobInfo])
+
+  useEffect(() => {
+    refetch()
+    cardRefetch()
+  }, [id])
+
+  useEffect(() => {
+    if (updateCandidateStatusInfo.isError) {
+      showToast("error", "Unable to update candidate status!")
+    }
+    if (updateCandidateStatusInfo.isSuccess) {
+      showToast("success", "Successfully updated candidate status!")
+      cardRefetch()
+      handleCloseUserMenu()
+    }
+  }, [updateCandidateStatusInfo])
 
   return (
     <div>
@@ -280,28 +306,30 @@ const PerticularCandidate = (props) => {
             onClose={handleCloseUserMenu}
           >
             {settings.map((setting) => (
-              <>
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              </>
+              <MenuItem key={setting} value={setting} onClick={() => handleChangeCandidateStatus(setting)}>
+                <Typography textAlign="center">{setting}</Typography>
+              </MenuItem>
             ))}
           </Menu>
+          <Button style={{ minWidth: 0 }} variant="outlined">
+            Status{cardData?.data?.candidate_status && `: ${cardData?.data?.candidate_status}`}
+          </Button>
         </Grid>
       </Grid>
       <Divider variant="middle" />
-      {/* <Stack sx={{
+      <Stack sx={{
         display: "flex",
         flexDirection: "row",
-        position: "static"
-      }}> */}
+        marginLeft: "1%"
+      }}>
         <Card sx={{
           width: "200px",
           height: "216px",
           padding: "1%",
           paddingLeft: "2%",
           marginRight: "0",
-          marginTop: "10%",
+          marginTop: "5%",
+          position: "fixed",
           // marginLeft:"5%",
           boxShadow: "rgba(0, 0, 0, 0.25)"
         }}>
@@ -312,27 +340,19 @@ const PerticularCandidate = (props) => {
           <a className='quickaccess' href='#notes'>Notes</a>
 
         </Card>
-      {/* </Stack> */}
-      <Stack sx={{
-        display: "flex",
-        flexDirection: "row",
-        position: "static"
-      }}>
         <Container sx={{
           width: "80%",
-          marginLeft: "auto",
-          marginRight: "auto",
+          marginLeft: "15%",
+          // marginRight: "auto",
         }}>
           {/* <Stack sx={{
             marginTop: "2%"
            }}>
-
             <Stack sx={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
               gap: "20%"
-
              }}>
               <Card sx={{
                 width: "200px",
@@ -349,7 +369,6 @@ const PerticularCandidate = (props) => {
                 <a className='quickaccess' href='#work'>Work Experiance</a>
                 <a className='quickaccess' href='#education'>Education Details</a>
                 <a className='quickaccess' href='#notes'>Notes</a>
-
               </Card>
               <Stack>
                 <TextField
@@ -440,23 +459,17 @@ const PerticularCandidate = (props) => {
                 <h3 id='candidateprofile' className='canhead'>Filled Webform</h3>
               </Grid>
               <Stack sx={{
-                marginLeft:"25%",
+                marginLeft: "25%",
               }}>
-                {console.log(applicantData)}
                 <Grid container sx={{ mt: 4, display: "flex", flexDirection: "row", gap: "2rem" }} spacing={2}>
                   {Object.keys(applicantData?.[0].form?.form || {})?.map((webformElement, i) => (
-                    <div>
-                      {/* <Divider flexItem textAlign='left' style={{ marginBottom: "3em", color: "red" }}>{webformElement.name}</Divider> */}
-                      <div>
-                        <TextField
-                          key={i}
-                          label={webformElement}
-                          value={applicantData?.[0].form?.form?.[webformElement]}
-                          disabled
-                          variant="filled"
-                        />
-                      </div>
-                    </div>
+                    <TextField
+                      key={i}
+                      label={webformElement}
+                      value={applicantData?.[0].form?.form?.[webformElement]}
+                      disabled
+                      variant="filled"
+                    />
                   ))}
                 </Grid>
               </Stack>
