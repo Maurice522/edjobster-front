@@ -458,7 +458,7 @@ const PerticularCandidate = (props) => {
               <Grid item md={12}>
                 <h3 id='candidateprofile' className='canhead'>Filled Webform</h3>
               </Grid>
-              <Stack sx={{
+              {/* <Stack sx={{
                 marginLeft: "25%",
               }}>
                 <Grid container sx={{ mt: 4, display: "flex", flexDirection: "row", gap: "2rem" }} spacing={2}>
@@ -472,7 +472,7 @@ const PerticularCandidate = (props) => {
                     />
                   ))}
                 </Grid>
-              </Stack>
+              </Stack> */}
             </Container>
           </Grid>
           <Grid container sx={{ mt: 1, justifyContent: "center", marginLeft: "0" }} spacing={2}>

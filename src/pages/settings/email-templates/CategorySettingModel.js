@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -10,6 +10,7 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { LoadingButton } from '@mui/lab';
+import { InputLabel } from '@mui/material';
 
 const CategorySettingModal = (props) => {
   // eslint-disable-next-line react/prop-types
@@ -85,7 +86,7 @@ const CategorySettingModal = (props) => {
             <Box>
               {/* {console.log('stageData', stageData)} */}
               <FormControl sx={{ mt: 5, width: 390 }}>
-                {/* <InputLabel id="Stage label">Add Category</InputLabel> */}
+                <InputLabel id="Stage label">Add Category</InputLabel>
                 <Select
                   labelId="Stage label"
                   id="Category"
@@ -98,21 +99,21 @@ const CategorySettingModal = (props) => {
               </FormControl>
             </Box>
           </DialogContent>
-          <DialogActions>
-            <Box>
+           <DialogActions>
+           <Box>
               <Button onClick={handleClose} autoFocus variant="outlined" style={{ marginRight: 5 }}>
                 Cancel
               </Button>
               <LoadingButton onClick={addClickhandler} variant="contained" loading={loadingbtn}>
                 {buttonlabel}
               </LoadingButton>
-            </Box>
+            </Box> 
           </DialogActions>
         </div>
-      </Dialog>
+      </Dialog> 
     </>
   );
 };
 
 export default CategorySettingModal;
-;
+

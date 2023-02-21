@@ -44,9 +44,9 @@ function NewCreateInterview() {
   const label = { inputProps: { 'aria-label': 'Mode' } };
   const [value, setValue] = useState(dayjs(Date.now()));
   const handleChange = (e) => setValue(e)
-  const [startTime, setStartTime] = React.useState(dayjs(Date.now()));
+  const [startTime, setStartTime] = useState(dayjs(Date.now()));
   const handleChangeStartTime = (e) => setStartTime(e)
-  const [endTime, setEndTime] = React.useState(dayjs(Date.now()));
+  const [endTime, setEndTime] = useState(dayjs(Date.now()));
   const handleChangeEndTime = (e) => setEndTime(e)
 
   const modules = {
@@ -449,6 +449,9 @@ function NewCreateInterview() {
                     type="file"
                     accept='.pdf'
                     hidden
+                    onChange={e => {
+                      handleChangeFormData("attachment", e.target.files[0])
+                    }}
                   />
                   Browse
                 </label>

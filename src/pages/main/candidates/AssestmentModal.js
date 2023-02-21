@@ -31,7 +31,7 @@ const AssesmentModal = (props) => {
                     }}>
                         {data?.[0]?.form?.assesment?.map((e, i) => (
                             <Container key={i}>
-                                <Container>{i + 1}{") "}{e.question}</Container>
+                                <Container>{i + 1}{") "}{e.question}- Marks Obtained{e?.eval}</Container>
                                 {e.type === "T" && (
                                     <Container
                                         sx={{
@@ -53,7 +53,6 @@ const AssesmentModal = (props) => {
                                         }}
                                     >
                                         {e.options.map((option, index) => {
-                                            console.log(+e.answer - 1 === index)
                                             return (
                                                 <FormControlLabel
                                                     control={<Radio disabled />}
@@ -74,7 +73,6 @@ const AssesmentModal = (props) => {
                                          }}
                                      >
                                         {e.options.map((option, index) => {
-                                            console.log(+e.answer - 1 === index)
                                             return (
                                                 <FormControlLabel
                                                     control={<Checkbox disabled  />}
