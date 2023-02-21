@@ -28,6 +28,7 @@ import {
 
 const Assessments = () => {
   const { data = [],  refetch } = useGetAssesmentQuery();
+  useEffect(() => refetch(), [])
   const [addAssesment, addAssesmentInfo] = useAddAssesmentMutation();
   const [updateAssesment, updateAssesmentInfo] = useUpdateAssesmentMutation();
   const [deleteAssesment, deleteAssesmentInfo] = useDeleteAssesmentMutation();
@@ -174,7 +175,7 @@ useEffect(() => {
           <>
             <Button style={{ minWidth: 0 }} 
              // variant="contained" 
-             component={RouterLink} to={`/dashboard/assessments/edit-assessment/${data.data[dataIndex].id}`}>
+             component={RouterLink} to={`/dashboard/assessments/edit-assessment/${data.data?.[dataIndex].id}`}>
             <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} color={'blue'} />
               </ListItemIcon>

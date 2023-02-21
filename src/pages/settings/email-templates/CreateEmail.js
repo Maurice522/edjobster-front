@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 // import { useForm } from "react-hook-form";
 
 import ReactQuill from 'react-quill';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import { showToast } from 'src/utils/toast';
 import FileUploadComponent from '../../../components/FileUploadComponent';
 
 import { useGetEmailCategoryQuery } from "../../../redux/services/settings/EmailCategoryService";
-import { useAddEmailTemplateMutation } from "../../../redux/services/settings/EmailTamplateService";
+import { useAddEmailTemplateMutation, useUpdateEmailTemplateMutation, useGetEmailTemplateByIdQuery } from "../../../redux/services/settings/EmailTamplateService";
 
 
 
@@ -41,10 +41,14 @@ const state = {
 
 
 function CreateEmail() {
-
+    const { id } = useParams()
     const navigate = useNavigate()
+    const { data: emailTemplateData, refetch: emailTemplateDataRefetch } = useGetEmailTemplateByIdQuery(id)
+    console.log(emailTemplateData)
+    useEffect(() => emailTemplateDataRefetch(), [])
     const { data: emailCategoryData, refetch } = useGetEmailCategoryQuery()
     const [addEmailTemplate, addEmailTemplateInfo] = useAddEmailTemplateMutation()
+    const {updateEmailTemplate, updateEmailTemplateInfo} = useUpdateEmailTemplateMutation()
     console.log(emailCategoryData)
     const navigateCancel = () => {
         navigate("/dashboard/email-templates/templates")
@@ -62,7 +66,7 @@ function CreateEmail() {
         message: "",
         type: ""
     }
-    const [formData, setFormData] = useState(initialValues)
+    const [formData, setFormData] = useState(emailTemplateData || initialValues)
     const handleChangeFormData = (name, value) => {
         setFormData(prev => ({ ...prev, [name]: value }))
         console.log(formData)
