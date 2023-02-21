@@ -42,7 +42,8 @@ const apiUrl = {
   notesType:`${baseUrl}common/note-types/`,
   signUp: `${baseUrl}account/sign-up/`,
   approveUser: `${baseUrl}account/approve-user/`,
-  companyTags: `${baseUrl}common/company-tags/`
+  companyTags: `${baseUrl}common/company-tags/`,
+  contacts: `${baseUrl}settings/contacts`
 };
 
 export { baseUrl, apiUrl };

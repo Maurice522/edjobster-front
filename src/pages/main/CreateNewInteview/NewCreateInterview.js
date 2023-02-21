@@ -80,7 +80,7 @@ function NewCreateInterview() {
   const { data: candidateData, refetch: candidateDataRefetch } = useGetCandidateListQuery()
   const { data: locationData, refetch: locationDataRefetch } = useGetLocationQuery()
   const { data: interviewerData, refetch: interviewerDataRefetch } = useGetInterviewerDetailsQuery()
-  console.log(interviewerData)
+  useEffect(() => interviewerDataRefetch(), [])
   const [emailTemplateId,setEmailTemplateId] = useState(skipToken)
   const {data: emailTemplateDetails, refetch: emailTemplateDetailsRefetch} = useGetEmailTemplateByIdQuery(emailTemplateId)
 
@@ -344,13 +344,11 @@ function NewCreateInterview() {
                   }
                 // onChange={(e) => handleChangeFormData()}
                 >
-                  {interviewerData ? interviewerData?.data?.data?.map((e) =>
+                  {interviewerData?.data?.map((e) =>
                     <MenuItem key={e?.id} value={e?.id}>
-                      {e?.mobile}
-                    </MenuItem>) : <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>}
-
+                      {e.name} • {e?.mobile}
+                    </MenuItem>)
+                  }
                 </Select>
               </FormControl>
             </Stack>
