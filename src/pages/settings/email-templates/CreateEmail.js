@@ -192,9 +192,17 @@ function CreateEmail() {
                                 type="file"
                                 hidden
                                 name="attachment"
-                                onChange={(e) => setUploaded(true) &&
-                                    setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &&
-                                    handleChangeFormData("attachment", e?.target.files[0])
+                                onChange={(e) => {
+
+                                    setUploaded(true) 
+                                
+                                    setUploadedFileName(e?.target?.value.split("\\").slice(-1)) 
+                                
+                                    const tempData= new FormData()
+                                    tempData.append("file",e?.target?.files[0])
+                                    handleChangeFormData("attachment", tempData)
+                                
+                                }
                                 }
                             />
                         </Button>

@@ -443,14 +443,15 @@ function NewCreateInterview() {
                 alignItems: "center",
               }}>
                 <label htmlFor="file-input" flow-btn>
-
                   <input
                     id="file-input"
                     type="file"
                     accept='.pdf'
                     hidden
                     onChange={e => {
-                      handleChangeFormData("attachment", e.target.files[0])
+                      const tempData= new FormData()
+                      tempData?.append(e?.target?.files[0])
+                      handleChangeFormData("attachment", tempData)
                     }}
                   />
                   Browse

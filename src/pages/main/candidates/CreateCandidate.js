@@ -101,7 +101,8 @@ function NewcreateCandidate() {
     exp_months: 0,
     exp_years: 0,
     marital_status: "",
-    institute: ""
+    institute: "",
+    attachment:""
   })
   const [countryId, setCountryId] = useState(skipToken)
   const [stateId, setStateId] = useState(skipToken)
@@ -500,20 +501,24 @@ function NewcreateCandidate() {
             </TextField>
           </Stack>
           <Stack>
-          <Button
+          {/* <Button
             sx={{
               width:"40%"
             }}
             variant="contained"
             component="label"
             name
-          >
+          > */}
+          <label htmlFor='attachment'>
             Upload Resume
             <input
+              name='attachment'
               type="file"
               hidden
-            />
-          </Button>
+              onChange={(e)=>handleChangeFormData("attachment",e?.target?.files[0])}
+              />
+          </label>
+          {/* </Button> */}
           </Stack>
         </Stack>
       </Stack>
