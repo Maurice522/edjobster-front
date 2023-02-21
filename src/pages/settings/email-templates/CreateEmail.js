@@ -1,7 +1,7 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Button, Container, MenuItem, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useForm } from "react-hook-form";
+// import { useForm } from "react-hook-form";
 
 import ReactQuill from 'react-quill';
 import { useNavigate } from 'react-router-dom';
@@ -183,7 +183,7 @@ function CreateEmail() {
                         padding: "2rem",
                     }}>
                         <p>Add attachment</p>
-                        {/* <Button
+                        <Button
                             variant="contained"
                             component="label"
                         >
@@ -194,10 +194,10 @@ function CreateEmail() {
                                 name="attachment"
                                 onChange={(e) => setUploaded(true) &&
                                     setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &&
-                                    handleChangeFormData(e?.target?.name, e?.target.files[0])
+                                    handleChangeFormData("attachment", e?.target.files[0])
                                 }
                             />
-                        </Button> */}
+                        </Button>
                         <div style={{}}>
                             <FileUploadComponent />
                         </div>
