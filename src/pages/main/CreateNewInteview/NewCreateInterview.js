@@ -28,6 +28,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 // eslint-disable-next-line import/no-unresolved
 import { useGetInterviewerDetailsQuery } from 'src/redux/services/settings/interviewContact';
+import FileUploadComponent from '../../../components/FileUploadComponent';
 import { useGetJobListQuery } from "../../../redux/services/jobs/JobListService";
 import { useGetEmailTamplateQuery, useGetEmailTemplateByIdQuery } from '../../../redux/services/settings/EmailTamplateService';
 import { useGetUsersApiQuery } from '../../../redux/services/settings/UserService';
@@ -35,7 +36,6 @@ import { useGetLocationQuery } from "../../../redux/services/settings/LocationSe
 import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useAddInterviewMutation } from "../../../redux/services/interview/InterviewServices"
 import Back from "../../../assets/images/back.svg"
-import FileUploadComponent from 'src/components/FileUploadComponent';
 
 
 function NewCreateInterview() {
