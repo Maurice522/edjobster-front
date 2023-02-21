@@ -86,7 +86,7 @@ const CategorySettingModal = (props) => {
             <Box>
               {/* {console.log('stageData', stageData)} */}
               <FormControl sx={{ mt: 5, width: 390 }}>
-                <InputLabel id="Stage label">Add Category</InputLabel>
+                {/* <InputLabel id="Stage label">Add Category</InputLabel> */}
                 <Select
                   labelId="Stage label"
                   id="Category"
