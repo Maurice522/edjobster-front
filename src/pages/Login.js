@@ -92,23 +92,23 @@ export default function Login() {
 
         <Container maxWidth="sm">
           <ContentStyle>
-            <Typography variant="h4" gutterBottom>
+            <h2>
               Sign in to edjobster
-            </Typography>
+            </h2>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Enter your details below.</Typography>
+            <p style={{ color: 'text.secondary', marginBottom: "5%" }}>Enter your details below.</p>
 
             <AuthSocial />
 
             <LoginForm />
 
             {!smUp && (
-              <Typography variant="body2" align="center" sx={{ mt: 3 }}>
+              <p style={{textAlign:"center", marginTop: "3%" }}>
                 Don’t have an account?{' '}
                 <Link variant="subtitle2" component={RouterLink} to="/register">
                   Get started
                 </Link>
-              </Typography>
+              </p>
             )}
           </ContentStyle>
         </Container>

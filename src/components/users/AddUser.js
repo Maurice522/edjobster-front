@@ -191,7 +191,7 @@ function AddUser() {
 
             </div>
             <div className='divrow'>
-              <div className='passwordrow'>
+              <div className='passwordrow' style={{width:"20%"}}>
 
                 <TextField
                   fullWidth
@@ -210,7 +210,7 @@ function AddUser() {
                   ))}
                 </TextField>
               </div>
-              <div className='passwordrow'>
+              <div className='passwordrow' style={{width:"20%"}}>
 
                 <TextField
                   fullWidth
@@ -231,7 +231,7 @@ function AddUser() {
               </div>
             </div>
             <div className='divrow'>
-              <div className='passwordrow'>
+              <div className='passwordrow' style={{width:"20%"}}>
                 <TextField
                   fullWidth
                   label="Role"
