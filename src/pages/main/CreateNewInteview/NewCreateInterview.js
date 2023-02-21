@@ -35,6 +35,7 @@ import { useGetLocationQuery } from "../../../redux/services/settings/LocationSe
 import { useGetCandidateListQuery } from '../../../redux/services/candidate/CandidateServices';
 import { useAddInterviewMutation } from "../../../redux/services/interview/InterviewServices"
 import Back from "../../../assets/images/back.svg"
+import FileUploadComponent from 'src/components/FileUploadComponent';
 
 
 function NewCreateInterview() {
@@ -436,7 +437,18 @@ function NewCreateInterview() {
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mt={5} mb={5} ml={0} mr={0}>
               <div>Attachment:</div>
-              <Button sx={{
+              <FileUploadComponent onChange={(e)=>
+            {
+          console.log(e)
+           const tempData= new FormData()
+           tempData.append("file",e)
+           handleChangeFormData("attachment", tempData)
+          //  ("attachment",tempData)
+            }
+            }
+            
+            />
+              {/* <Button sx={{
                 textAlign: "center",
                 alignItems: "center",
               }}>
@@ -454,7 +466,7 @@ function NewCreateInterview() {
                   />
                   Browse
                 </label>
-              </Button>
+              </Button> */}
             </Stack>
           </Stack>
         </Stack>

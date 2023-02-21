@@ -187,7 +187,7 @@ function CreateEmail() {
                         padding: "2rem",
                     }}>
                         <p>Add attachment</p>
-                        <Button
+                        {/* <Button
                             variant="contained"
                             component="label"
                         >
@@ -209,9 +209,18 @@ function CreateEmail() {
                                 }
                                 }
                             />
-                        </Button>
+                        </Button> */}
                         <div style={{}}>
-                            <FileUploadComponent />
+                            <FileUploadComponent onChange={(e)=>
+            {
+          console.log(e)
+           const tempData= new FormData()
+           tempData.append("file",e)
+           handleChangeFormData("attachment",tempData)
+            }
+            }
+            
+            />
                         </div>
                     </Container>
                 </div>
