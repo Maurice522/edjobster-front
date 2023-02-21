@@ -58,8 +58,9 @@ const PerticularCandidate = (props) => {
   const { id } = useParams();
   const navigate = useNavigate()
   const [assignJob, assignJobInfo] = useAssignJobMutation()
-  const { data: cardData, refetch: cardRefetch } = useCandidateStatsQuery(id);
   const { data: candidateData, refetch } = useGetCandidateDetailsQuery(+candidateId)
+  const { data: cardData, refetch: cardRefetch } = useCandidateStatsQuery(id);
+  console.log(cardData)
   const [updateCandidateStatus, updateCandidateStatusInfo] = useUpdateCandidateStatusMutation()
   const handleChangeCandidateStatus = async (e) => {
     await updateCandidateStatus({

@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoadingButton } from '@mui/lab';
 // material
 import {
@@ -40,9 +40,11 @@ import Iconify from '../../../components/Iconify';
 // mock
 
 const Templates = () => {
+  const navigate = useNavigate()
   const [modalOpen, setModalOpen] = useState(false);
   const [editmodalOpen, setEditModalOpen] = useState(false);
   const { data = [], isLoading, refetch } = useGetEmailTamplateQuery();
+  useEffect(() => refetch(), [])
   console.log(data)
   const { data: categoryData, isLoading: isCategoryLoading } = useGetEmailCategoryQuery();
   const { data: variableData, isLoading: isVariableLoading } = useGetEmailVariableTamplateQuery();
@@ -150,7 +152,7 @@ const Templates = () => {
         sort: false,
         customBodyRenderLite: (dataIndex) => (
           <>
-            <Button style={{ minWidth: 0 }}  onClick={() => onEditModalHandler(dataIndex)}>
+            <Button style={{ minWidth: 0 }}  onClick={() => navigate(`/dashboard/updateEmail/${sortData[dataIndex]?.id}`)}>
               <ListItemIcon style={{ color: '#fff', padding: '0px', minWidth: 0 }}>
                 <Iconify icon="ep:edit" width={24} height={24} color={'blue'}/>
               </ListItemIcon>

@@ -29,11 +29,13 @@ const CreateAssessment = () => {
   const [btnLoader, setBtnLoader] = useState(false);
   const navigate = useNavigate()
   const [modalOpen, setModalOpen] = useState(false);
-  const { assessmentEditId } = useParams();
-  const { data: assesmentCategoryData } = useGetAssesmentCategoryQuery();
+  const { id: assessmentEditId } = useParams();
+  const { data: assesmentCategoryData, refetch: categoryRefetch } = useGetAssesmentCategoryQuery();
+  useEffect(() => categoryRefetch(), [])
   const { data: assesmentQuestionsData, refetch } = useGetAssesmentQuestionsQuery(assessmentEditId, {
     skip: assessmentEditId === undefined,
   });
+  console.log(assesmentQuestionsData?.assesment?.form)
   const [addAssesmentQuestions, addAssesmentQuestionsInfo] = useAddAssesmentQuestionsMutation();
   const [deleteAssesmentQuestions] = useDeleteAssesmentQuestionsMutation();
   // const [textAssesmentQuestions, textAssesmentQuestionsInfo] = useTextAssesmentQuestionsMutation();
@@ -45,15 +47,19 @@ const CreateAssessment = () => {
     assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.assesment.name : ''
   );
   const [selectedAssesmentCategory, setSelectedAssesmentCategory] = useState(
-    assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.assesment.categpry_id : ''
+    assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.assesment.category : ''
   );
   const [assesmentId, setAssesmentId] = useState(assessmentEditId);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState();
 
-  const [questions, setQuestions] = useState(
-    assessmentEditId && assesmentQuestionsData ? assesmentQuestionsData.questions : []
-  );
+  const [questions, setQuestions] = useState([]);
+  useEffect(() => {
+    if(assesmentQuestionsData?.assesment?.form) {
+      // console.log(assesmentQuestionsData?.assesment?.form)
+      setQuestions(assesmentQuestionsData?.assesment?.form)
+    }
+  }, [])
   console.log(questions)
   const [modal2Open, setModal2Open] = useState(false);
   const [modal2Name, setModal2Name] = useState('add');
@@ -420,7 +426,7 @@ const CreateAssessment = () => {
                 />
               </Grid>
             </Card>
-            {questions.map((item, index) =>
+            {(assesmentQuestionsData?.assesment?.form?assesmentQuestionsData?.assesment?.form:questions)?.map((item, index) =>
               <Card variant="outlined" style={{ padding: 20 }} key={index}>
                 <Grid item xs={12} style={{ marginBottom: 20 }}>
                   {item.type === 'T' ? (

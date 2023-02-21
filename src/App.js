@@ -26,9 +26,6 @@ export default function App() {
       <Routes>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        {/* { this.state.authenticated && 
-        <Route exact path="/Welcome" component={Welcome} />
-      } */}
       </Routes>
     }
     // else {

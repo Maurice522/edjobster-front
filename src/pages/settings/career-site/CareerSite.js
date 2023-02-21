@@ -230,24 +230,17 @@ const CareerSite = () => {
     selectableRows: false
   }
 
-  const [tags, setTags] = useState([
-    {
-      id: 1,
-      name: "HEllo"
-    },
-    {
-      id: 2,
-      name: "World"
-    }
-  ])
+  const [tags, setTags] = useState(data?.company?.tag)
   const [selected, setSelected] = useState([])
 
   const handleChangeTags = (e) => {
-    setSelected(prev => {
-      console.log(prev)
-    })
+    // console.log(e.target.value)
+    setSelected(e.target.value)
   }
   console.log(selected)
+
+  const [modalData, setModalData] = useState({})
+  const handleChangeModalData = (e) => setModalData(prev => ({...prev, [e.target.name]: e.target.value}))
 
 
   return (
@@ -256,6 +249,7 @@ const CareerSite = () => {
         <h1>
           Career Site
         </h1>
+        <Button>Add Testimony</Button>
       </Stack>
       <Tabs value={tabIndex} onChange={hangeChangeTabIndex} sx={{display: "flex", justifyContent: "center"}}>
         <Tab label="Company Details" {...a11yProps(0)} />
@@ -346,13 +340,14 @@ const CareerSite = () => {
                       labelId="select-tag"
                       id="tags"
                       label="Tags"
+                      multiple
                       value={selected}
                       name="tag"
                       onChange={handleChangeTags}
-                      multiple
+                      
                     >
                       {tags.map((e, i) => (
-                        <MenuItem value={e.id} key={i}>{e.name}</MenuItem>
+                        <MenuItem value={e} key={i}>{e}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>

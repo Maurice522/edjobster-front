@@ -147,6 +147,7 @@ export default function Router() {
         { path: '/dashboard/InstituteSettings/address', element: <InstitueAddress /> },
         { path: '/dashboard/NewHiringPipeline', element: <NewHiringPipeline /> },
         { path: '/dashboard/createEmail', element: <CreateEmail /> },
+        { path: '/dashboard/updateEmail/:id', element: <CreateEmail /> },
         { path: '/dashboard/newuserlist', element: <NewUserList /> },
       ],
     },
@@ -229,7 +230,7 @@ export default function Router() {
         { path: '/dashboard/interviews/edit-interview', element: <EditInterview /> },
         { path: '/dashboard/interviews/interview-details', element: <InterviewDetails /> },
         { path: '/dashboard/assessments', element: <Assessments /> },
-        { path: '/dashboard/assessments/edit-assessment', element: <EditAssessment /> },
+        { path: '/dashboard/assessments/edit-assessment/:id', element: <CreateAssessment /> },
         { path: '/dashboard/career-site', element: <CareerSite /> },
         // { path: '/', element: <Navigate to="/dashboard/app" /> },
 

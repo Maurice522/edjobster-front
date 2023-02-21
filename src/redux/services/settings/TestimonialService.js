@@ -13,6 +13,16 @@ const extendedApi = apiBasePath?.injectEndpoints({
                 }
             }),
         }),
+        addTestimonial: build.mutation({
+            query: (data) => ({
+                url: apiUrl.testimonials,
+                method: "POST",
+                body: data,
+                headers: {
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                }
+            })
+        })
     }),
     overrideExisting: false,
 });
