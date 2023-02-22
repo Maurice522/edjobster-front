@@ -29,7 +29,7 @@ const AssesmentModal = (props) => {
                         marginLeft:"auto",
                         marginRight:"auto"
                     }}>
-                        {data?.[0]?.form?.assesment?.map((e, i) => (
+                        {data?.map((e, i) => (
                             <Container key={i}>
                                 <Container>{i + 1}{") "}{e.question}- Marks Obtained{e?.eval}</Container>
                                 {e.type === "T" && (

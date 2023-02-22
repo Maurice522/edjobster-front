@@ -20,6 +20,8 @@ import {
 import { useGetAssesmentQuery } from '../../../redux/services/main/AssesmentService';
 import { useGetJobListQuery } from '../../../redux/services/jobs/JobListService';
 import Back from '../../../assets/images/back.svg';
+import FileUploadComponent from "../../../components/FileUploadComponent"
+
 
 function NewcreateCandidate() {
   const navigate = useNavigate();
@@ -85,7 +87,7 @@ function NewcreateCandidate() {
   const [job, setJob] = useState(0);
   const handleChangeJob = (e) => setJob(e.target.value);
 
-  const [formData, setFormData] = useState({
+  const [newFormData, setNewFormData] = useState({
     job_id: 1,
     first_name: "",
     last_name: "",
@@ -101,7 +103,8 @@ function NewcreateCandidate() {
     exp_months: 0,
     exp_years: 0,
     marital_status: "",
-    institute: ""
+    institute: "",
+    attachment: "" ,
   })
   const [countryId, setCountryId] = useState(skipToken)
   const [stateId, setStateId] = useState(skipToken)
@@ -126,27 +129,27 @@ function NewcreateCandidate() {
   // useEffect(()=>{
   //   console?.log("hii")
   //   stateDataRefetch()
-  // },[formData?.country])
+  // },[newFormData?.country])
   useEffect(() => {
     countryDataRefetch()
   }, [])
 
-  const handleChangeFormData = (name, value) => {
+  const handleChangenewFormData = (name, value) => {
     if (name === "country") {
       setCountryId(value)
     } if (name === "state") {
       setStateId(value)
     }
-    setFormData(prev => {
+    setNewFormData(prev => {
       prev[name] = value
       return prev
     })
-    console.log(formData)
+    console.log(newFormData)
   }
 
   const handleSubmit = async () => {
-    console.log(formData)
-    await AddCandidate(formData)
+    console.log(newFormData)
+    await AddCandidate(newFormData)
   }
 
   useEffect(() => {
@@ -201,7 +204,7 @@ function NewcreateCandidate() {
                 label="First Name"
                 variant="standard"
                 name="first_name"
-                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                onChange={(e) => handleChangenewFormData(e.target.name, e.target.value)}
               />
               <TextField
                 sx={{
@@ -212,7 +215,7 @@ function NewcreateCandidate() {
                 label="Last Name"
                 variant="standard"
                 name="last_name"
-                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                onChange={(e) => handleChangenewFormData(e.target.name, e.target.value)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -225,7 +228,7 @@ function NewcreateCandidate() {
                 label="Email"
                 variant="standard"
                 name="email"
-                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                onChange={(e) => handleChangenewFormData(e.target.name, e.target.value)}
               />
               <TextField
                 sx={{
@@ -236,7 +239,7 @@ function NewcreateCandidate() {
                 label="Mobile Number"
                 variant="standard"
                 name="mobile"
-                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                onChange={(e) => handleChangenewFormData(e.target.name, e.target.value)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={12} mb={5} ml={0} mr={0}>
@@ -250,7 +253,7 @@ function NewcreateCandidate() {
                   onChange={e => {
                     // handleChange(e)
                     const date = dayjs(e)
-                    handleChangeFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
+                    handleChangenewFormData("date_of_birth", `${date.get("year")}-${String(date.get("month") + 1).padStart(2, 0)}-${String(date.get("date")).padStart(2, 0)}`)
                   }}
                   renderInput={(params) =>
                     <TextField
@@ -269,7 +272,7 @@ function NewcreateCandidate() {
                 label="Street"
                 variant="standard"
                 name="street"
-                onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                onChange={(e) => handleChangenewFormData(e.target.name, e.target.value)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={8} mb={5} ml={0} mr={0}>
@@ -283,7 +286,7 @@ function NewcreateCandidate() {
                   fullWidth
                   name="country"
                   label="country"
-                  onChange={(e) => handleChangeFormData(e?.target?.name, e?.target?.value)}
+                  onChange={(e) => handleChangenewFormData(e?.target?.name, e?.target?.value)}
                 >
                   {countryData &&
                     countryData?.countries?.map((item) => (
@@ -298,7 +301,7 @@ function NewcreateCandidate() {
                 <Select
                   labelId="select-state"
                   id="state"
-                  onChange={(e) => handleChangeFormData(e?.target?.name, e?.target?.value)}
+                  onChange={(e) => handleChangenewFormData(e?.target?.name, e?.target?.value)}
                   label="State"
                   name="state"
                 >
@@ -315,7 +318,7 @@ function NewcreateCandidate() {
                   labelId="select-city"
                   id="city"
                   name="city"
-                  onChange={(e) => handleChangeFormData(e?.target?.name, e?.target?.value)}
+                  onChange={(e) => handleChangenewFormData(e?.target?.name, e?.target?.value)}
                   label="Select City"
                 >
                   {cityData ? cityData?.cities?.map((city) =>
@@ -334,7 +337,7 @@ function NewcreateCandidate() {
                   label="Zip-code"
                   variant="standard"
                   name="pincode"
-                  onChange={(e) => handleChangeFormData(e.target.name, e.target.value)}
+                  onChange={(e) => handleChangenewFormData(e.target.name, e.target.value)}
                 />
             </Stack>
           </Stack>
@@ -370,7 +373,7 @@ function NewcreateCandidate() {
                 label="Years of Experience"
                 variant="standard"
                 name="exp_years"
-                onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                onChange={(e) => handleChangenewFormData(e.target.name, +e.target.value)}
               />
               <TextField
                 sx={{
@@ -381,7 +384,7 @@ function NewcreateCandidate() {
                 label="Month of Experience"
                 variant="standard"
                 name="exp_months"
-                onChange={(e) => handleChangeFormData(e.target.name, +e.target.value)}
+                onChange={(e) => handleChangenewFormData(e.target.name, +e.target.value)}
               />
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" gap={10} mb={5} ml={0} mr={0}>
@@ -441,7 +444,7 @@ function NewcreateCandidate() {
               name="job_id"
               onChange={(e) => {
                 handleChangeJob(e)
-                handleChangeFormData(e.target.name, +e.target.value)
+                handleChangenewFormData(e.target.name, +e.target.value)
               }}
             >
               <option
@@ -499,20 +502,16 @@ function NewcreateCandidate() {
             </TextField>
           </Stack>
           <Stack>
-          <Button
-                sx={{
-                  width:"40%"
-                }}
-                variant="contained"
-                component="label"
-                name
-               >
-                Upload Resume
-                <input
-                  type="file"
-                  hidden
-                />
-              </Button>
+          <FileUploadComponent onChange={(e)=>
+            {
+          console.log(e)
+           const tempData= new FormData()
+           tempData.append("file",e)
+           handleChangenewFormData("attachment",tempData)
+            }
+            }
+            
+            />
           </Stack>
         </Stack>
       </Stack>

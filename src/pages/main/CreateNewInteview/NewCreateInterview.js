@@ -28,6 +28,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 // eslint-disable-next-line import/no-unresolved
 import { useGetInterviewerDetailsQuery } from 'src/redux/services/settings/interviewContact';
+import FileUploadComponent from '../../../components/FileUploadComponent';
 import { useGetJobListQuery } from "../../../redux/services/jobs/JobListService";
 import { useGetEmailTamplateQuery, useGetEmailTemplateByIdQuery } from '../../../redux/services/settings/EmailTamplateService';
 import { useGetUsersApiQuery } from '../../../redux/services/settings/UserService';
@@ -436,24 +437,36 @@ function NewCreateInterview() {
             </Stack>
             <Stack direction="row" alignItems="center" justifyContent="flex-start" width={400} gap={10} mt={5} mb={5} ml={0} mr={0}>
               <div>Attachment:</div>
-              <Button sx={{
+              <FileUploadComponent onChange={(e)=>
+            {
+          console.log(e)
+           const tempData= new FormData()
+           tempData.append("file",e)
+           handleChangeFormData("attachment", tempData)
+          //  ("attachment",tempData)
+            }
+            }
+            
+            />
+              {/* <Button sx={{
                 textAlign: "center",
                 alignItems: "center",
               }}>
                 <label htmlFor="file-input" flow-btn>
-
                   <input
                     id="file-input"
                     type="file"
                     accept='.pdf'
                     hidden
                     onChange={e => {
-                      handleChangeFormData("attachment", e.target.files[0])
+                      const tempData= new FormData()
+                      tempData?.append(e?.target?.files[0])
+                      handleChangeFormData("attachment", tempData)
                     }}
                   />
                   Browse
                 </label>
-              </Button>
+              </Button> */}
             </Stack>
           </Stack>
         </Stack>

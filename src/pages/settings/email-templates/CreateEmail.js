@@ -187,7 +187,7 @@ function CreateEmail() {
                         padding: "2rem",
                     }}>
                         <p>Add attachment</p>
-                        <Button
+                        {/* <Button
                             variant="contained"
                             component="label"
                         >
@@ -196,14 +196,31 @@ function CreateEmail() {
                                 type="file"
                                 hidden
                                 name="attachment"
-                                onChange={(e) => setUploaded(true) &&
-                                    setUploadedFileName(e?.target?.value.split("\\").slice(-1)) &&
-                                    handleChangeFormData("attachment", e?.target.files[0])
+                                onChange={(e) => {
+
+                                    setUploaded(true) 
+                                
+                                    setUploadedFileName(e?.target?.value.split("\\").slice(-1)) 
+                                
+                                    const tempData= new FormData()
+                                    tempData.append("file",e?.target?.files[0])
+                                    handleChangeFormData("attachment", tempData)
+                                
+                                }
                                 }
                             />
-                        </Button>
+                        </Button> */}
                         <div style={{}}>
-                            <FileUploadComponent />
+                            <FileUploadComponent onChange={(e)=>
+            {
+          console.log(e)
+           const tempData= new FormData()
+           tempData.append("file",e)
+           handleChangeFormData("attachment",tempData)
+            }
+            }
+            
+            />
                         </div>
                     </Container>
                 </div>
