@@ -4,7 +4,26 @@ import PropTypes from 'prop-types';
 import DialogContent from '@mui/material/DialogContent';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import { Card, Box, Stack, Button, TextField, Container, CircularProgress, ListItem, Grid, FormControl, InputLabel, Select, Tabs, Tab, Avatar } from '@mui/material';
+import { 
+  Card, 
+  Box, 
+  Stack, 
+  Button, 
+  TextField, 
+  Container, 
+  CircularProgress, 
+  ListItem, 
+  Grid, 
+  FormControl, 
+  InputLabel, 
+  Select, 
+  Tabs, 
+  Tab, 
+  Avatar, 
+  Divider, 
+  Chip 
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import FileUpload from 'react-material-file-upload';
 import { LoadingButton } from '@mui/lab';
 // eslint-disable-next-line import/no-unresolved
@@ -55,6 +74,7 @@ const CareerSite = () => {
   const [tag, setTag] = useState('');
   const [files, setFiles] = React.useState([]);
   const { data, isLoading, refetch } = useGetCompanyInfoQuery();
+  useEffect(() => refetch(), [])
   const { data: countryData } = useGetCountryQuery();
   const [countryId, setCountryId] = useState(skipToken);
   const [stateId, setStateId] = useState(skipToken);
@@ -100,7 +120,7 @@ const CareerSite = () => {
         city: response.city_id,
         pincode: response.pincode,
         description: response.description,
-        tag: [response.tag]
+        tag: response.tag
       });
       setCountryId(data?.company?.country_id);
       setStateId(data?.company?.state_id)
@@ -128,17 +148,16 @@ const CareerSite = () => {
   }
 
   const updateCareerSite = async () => {
-    const formData = new FormData();
-    formData.append('company', companyData.company);
-    formData.append('address', companyData.address);
-    formData.append('landmark', companyData.landmark);
-    formData.append('city', companyData.city);
-    formData.append('pincode', companyData.pincode);
-    formData.append('website', companyData.website);
-    formData.append('description', companyData.description);
-    formData.append('tag', companyData.tag);
-    await UpdateCompany(formData);
-
+    // const formData = new FormData();
+    // formData.append('company', companyData.company);
+    // formData.append('address', companyData.address);
+    // formData.append('landmark', companyData.landmark);
+    // formData.append('city', companyData.city);
+    // formData.append('pincode', companyData.pincode);
+    // formData.append('website', companyData.website);
+    // formData.append('description', companyData.description);
+    // formData.append('tag', companyData.tag);
+    await UpdateCompany(companyData);
   }
 
   const companyLogoChangeHandler = async (file) => {
@@ -231,13 +250,23 @@ const CareerSite = () => {
   }
 
   const [tags, setTags] = useState(data?.company?.tag)
-  const [selected, setSelected] = useState([])
+  const [newTagValue, setNewTagValue] = useState("")
+  const handleChangeNewTagValue = (e) => setNewTagValue(e.target.value) 
 
-  const handleChangeTags = (e) => {
-    // console.log(e.target.value)
-    setSelected(e.target.value)
+  const handleAddTag = () => {
+    setTags(prev => [...prev,newTagValue])
+    setNewTagValue("")
+    setCompanyData(prev => ({...prev, tag: tags}))
   }
-  console.log(selected)
+  const handleDeleteTag = (index) => {
+    console.log(index)
+    setTags(prev => {
+      const newTags = [...prev]
+      newTags?.splice(index, 1)
+      return newTags
+    })
+    setCompanyData(prev => ({...prev, tag: tags}))
+  }
 
   const [modalData, setModalData] = useState({})
   const handleChangeModalData = (e) => setModalData(prev => ({...prev, [e.target.name]: e.target.value}))
@@ -333,7 +362,7 @@ const CareerSite = () => {
                     </Grid>
                   </Stack>
                 </Grid>
-                <Grid item xs={12} md={7}>
+                {/* <Grid item xs={12} md={7}>
                   <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
                     <InputLabel id="select-tag">Tags</InputLabel>
                     <Select
@@ -351,7 +380,7 @@ const CareerSite = () => {
                       ))}
                     </Select>
                   </FormControl>
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} md={7}>
                   <FormControl variant="outlined" sx={{ minWidth: '100%' }}>
@@ -410,7 +439,7 @@ const CareerSite = () => {
                 <Grid item xs={12} md={7}>
                   <TextField
                     multiline
-                    rows={4}
+                    rows={10}
                     margin="dense"
                     variant="outlined"
                     fullWidth
@@ -419,6 +448,49 @@ const CareerSite = () => {
                     name="description"
                     onChange={onInputChangeHandler}
                   />
+                </Grid>
+                <Grid item sx={12} md={7}>
+                  <Divider flexItem sx={{paddingBottom: "1rem"}}>Company Tags</Divider>
+                  <Container
+                    sx={{
+                      display: "flex",
+                      gap: ".5rem",
+                      flexWrap: "wrap"
+                    }}
+                  >
+                    {tags?.map((e, i) => (
+                      <Chip 
+                        key={i} 
+                        variant="outlined" 
+                        label={e}
+                        onDelete={() => handleDeleteTag(i)}
+                        sx={{
+                          flex: "0 1 auto"
+                        }}
+                      />
+                    ))}
+                  </Container>
+                  <Container
+                    sx={{
+                      display: "flex",
+                      gap: "2rem",
+                      paddingTop: "1rem"
+                    }}
+                  >
+                    <TextField 
+                      fullWidth
+                      label="Add Company Tag"
+                      value={newTagValue}
+                      onChange={handleChangeNewTagValue}
+                    />
+                    <Button
+                      variant='contained'
+                      size='small'
+                      onClick={handleAddTag}
+                    >
+                      <AddIcon />
+                    </Button>
+                  </Container>
                 </Grid>
                 <Grid item xs={12} md={7}>
                   <Box style={{ display: 'flex', justifyContent: 'center' }}>
@@ -436,7 +508,6 @@ const CareerSite = () => {
           data={testimonialData}
           columns={columns}
           options={options}
-
         />
       </TabPanel>
     </Container>
