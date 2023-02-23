@@ -319,11 +319,6 @@ const CreateAssessment = () => {
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="right">
           <Grid style={{ marginRight: 5 }}>
-            <Button variant="contained" onClick={onAssesmentSaveClick}>
-              Save
-            </Button>
-          </Grid>
-          <Grid style={{ marginRight: 5 }}>
             <Button variant="contained" onClick={onPreviewModalOpen}>
               Preview
             </Button>

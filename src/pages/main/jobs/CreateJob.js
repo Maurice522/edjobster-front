@@ -354,11 +354,11 @@ const CreateJob = () => {
           </Grid>
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="right">
-          <Grid style={{ marginRight: 5 }}>
+          {/* <Grid style={{ marginRight: 5 }}>
             <Button variant="contained" onClick={handleComplete} component={RouterLink} to="#">
               Save
             </Button>
-          </Grid>
+          </Grid> */}
           {/* <Grid style={{ marginRight: 5 }}>
             <Button variant="contained" component={RouterLink} to="#" onClick={onJobPreviewModel}>
               Preview
@@ -400,7 +400,7 @@ const CreateJob = () => {
                     Back
                   </Button>
                   <Button variant="contained" color="primary" onClick={handleNext} style={{ marginRight: '5px' }}>
-                    Next
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                   </Button>
                   {/* {activeStep !== steps.length &&
                     (completed[activeStep] ? (

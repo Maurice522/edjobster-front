@@ -84,7 +84,7 @@ const Header = () => {
             </NavLink> */}
           </div>
           <div className="Header-lower-bar">
-            <div className="header-search">
+            {/* <div className="header-search">
               <img src={Search} alt="" className="header-search-icon" />
               <input
                 type="text"
@@ -94,7 +94,7 @@ const Header = () => {
             </div>
             <div>
               <img src={Notification} alt="" />
-            </div>
+            </div> */}
             <AccountPopover />
             <div className="header-user">
               <div>

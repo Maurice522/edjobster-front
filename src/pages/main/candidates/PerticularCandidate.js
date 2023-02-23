@@ -175,7 +175,8 @@ const PerticularCandidate = (props) => {
                 color: "black",
                 marginLeft: "10%"
               }}>
-                {candidateData?.data.qualification} +91-{candidateData?.data.mobile}
+                {candidateData?.data.email} 
+                +91-{candidateData?.data.mobile}
               </h4>
             </Grid>
             <Grid item md={2} style={{ textAlign: 'end', }}>
@@ -263,13 +264,13 @@ const PerticularCandidate = (props) => {
           // style={{ display: 'flex',flexDirection:"row", gap: "5%"}}
           >
             <Grid item md={4}>
-              <h3>Last Job Applied</h3>
+              <h3>Department</h3>
               <p>
                 HOD,Civil
               </p>
             </Grid>
             <Grid item md={4}>
-              <h3>Last Job Applied</h3>
+              <h3>Stage</h3>
               <p>
                 Shortlisted
               </p>
@@ -283,35 +284,44 @@ const PerticularCandidate = (props) => {
           </Grid>
         </Grid>
         <Grid item md={7} style={{ display: 'flex', justifyContent: 'flex-end', gap: "5%", alignItems: 'center', }}>
-          <AssignmentIcon onClick={() => setOpenAssestmentModal(true)} sx={{ cursor: "pointer", fontSize: "50px" }} />
-          <PersonalVideoIcon onClick={() => navigate('/dashboard/NewInterview')} sx={{ cursor: "pointer", fontSize: "50px", }} />
-          <WorkIcon onClick={assignJobModel} sx={{ cursor: "pointer", fontSize: "50px", color: "#3C2A21" }} />
-          <StackedBarChartIcon
-            sx={{ cursor: "pointer", fontSize: "50px", color: "blue" }}
-            onClick={handleOpenUserMenu}
-          />
-          <Menu
-            sx={{ mt: '45px' }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {settings.map((setting) => (
-              <MenuItem key={setting} value={setting} onClick={() => handleChangeCandidateStatus(setting)}>
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
+          <Tooltip title="Assesment" arrow>
+            <AssignmentIcon onClick={() => setOpenAssestmentModal(true)} sx={{ cursor: "pointer", fontSize: "50px" }} />
+          </Tooltip>
+          <Tooltip title="Schedule Interview" arrow>
+            <PersonalVideoIcon onClick={() => navigate('/dashboard/NewInterview')} sx={{ cursor: "pointer", fontSize: "50px", }} />
+          </Tooltip>
+          <Tooltip title="Assign Job" arrow>
+            <WorkIcon onClick={assignJobModel} sx={{ cursor: "pointer", fontSize: "50px", color: "#3C2A21" }} />
+          </Tooltip>
+          <Tooltip title="Hiring Stage" arrow>
+            <StackedBarChartIcon
+              sx={{ cursor: "pointer", fontSize: "50px", color: "blue" }}
+              onClick={handleOpenUserMenu}
+            />
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} value={setting} onClick={() => handleChangeCandidateStatus(setting)}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          
           <Button style={{ minWidth: 0 }} variant="outlined">
             Status{cardData?.data?.candidate_status && `: ${cardData?.data?.candidate_status}`}
           </Button>
