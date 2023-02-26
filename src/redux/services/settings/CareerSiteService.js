@@ -8,12 +8,18 @@ const extendedApi = apiBasePath.injectEndpoints({
         getCompanyInfo: build.query({
             query: () => ({
                 url: `${apiUrl.companyInfo}`
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
             }),
         }),
         updateCompanyInfo: build.mutation({
             query: (data) => ({
                 url: `${apiUrl.companyInfo}`,
                 method: "POST",
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
@@ -21,12 +27,18 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: (data) => ({
                 url: `${apiUrl.companyLogo}`,
                 method: "POST",
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
         getCompanyTags: build.query({
             query: () => ({
-                url: apiUrl.companyTags
+                url: apiUrl.companyTags,
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
             })
         })
     }),
