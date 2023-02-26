@@ -6,12 +6,18 @@ const extendedApi = apiBasePath.injectEndpoints({
         designationGet: build.query({
             query: () => ({
                 url: `${apiUrl.designation}`,
+                headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
             }),
         }),
         addDesignation: build.mutation({
             query: (data) => ({
                 url: `${apiUrl.designation}`,
                 method: "POST",
+                headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
@@ -19,6 +25,9 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: (data) => ({
                 url: `${apiUrl.designation}`,
                 method: "POST",
+                headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
@@ -26,6 +35,9 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: (id) => ({
                 url: `${apiUrl.designation}?id=${id}`,
                 method: "DELETE",
+                headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
             })
         }),
     }),
