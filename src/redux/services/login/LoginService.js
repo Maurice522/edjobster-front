@@ -7,6 +7,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (data) => ({
         url: `${apiUrl.signIn}`,
         method: "POST",
+        headers:{
+        "referrerPolicy": "unsafe_url" 
+        },
         body: data,
       }),
       transformResponse: (data) => {
