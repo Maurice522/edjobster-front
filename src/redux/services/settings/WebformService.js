@@ -6,18 +6,27 @@ const extendedApi = apiBasePath.injectEndpoints({
     getWebform: build.query({
       query: () => ({
         url: `${apiUrl.webform}`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
     getWebformDetails: build.query({
       query: (id) => ({
         url: `${apiUrl.webform}?id=${id}`,
         method: 'GET',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
     addWebformApi: build.mutation({
       query: (data) => ({
         url: `${apiUrl.webform}`,
         method: 'POST',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         body: data,
       }),
     }),
@@ -25,6 +34,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (data) => ({
         url: `${apiUrl.webform}`,
         method: 'POST',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         body: data,
       }),
     }),
@@ -32,6 +44,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (id) => ({
         url: `${apiUrl.webform}?id=${id}`,
         method: 'DELETE',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
   }),
