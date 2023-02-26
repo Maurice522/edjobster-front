@@ -9,7 +9,8 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: () => ({
                 url: `${baseUrl}settings/contacts`,
                 headers: {
-                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`,
+                    "referrerPolicy": "unsafe_url",
                 }
             }),
         }),
