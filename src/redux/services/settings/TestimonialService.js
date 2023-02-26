@@ -9,7 +9,8 @@ const extendedApi = apiBasePath?.injectEndpoints({
             query: () => ({
                 url: apiUrl.testimonials,
                 headers: {
-                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`,
+                    "referrerPolicy": "unsafe_url",
                 }
             }),
         }),
@@ -19,7 +20,8 @@ const extendedApi = apiBasePath?.injectEndpoints({
                 method: "POST",
                 body: data,
                 headers: {
-                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`
+                    'Authorization': `Token ${JSON.parse(localStorage.getItem("globalUser")).access}`,
+                    "referrerPolicy": "unsafe_url",
                 }
             })
         })
