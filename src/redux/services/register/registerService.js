@@ -11,7 +11,8 @@ const extendedApi = apiBasePath.injectEndpoints({
           method: "POST",
           body: data,
           headers: {
-            'Content-Type': "application/json"
+            'Content-Type': "application/json",
+            "referrerPolicy": "unsafe_url"
           }
         }
       }
