@@ -6,12 +6,18 @@ const extendedApi = apiBasePath.injectEndpoints({
     getPipeline: build.query({
       query: () => ({
         url: `${apiUrl.pipeline}`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
     addPipelineApi: build.mutation({
       query: (data) => ({
         url: `${apiUrl.pipeline}`,
         method: 'POST',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         body: data,
       }),
     }),
@@ -19,6 +25,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (data) => ({
         url: `${apiUrl.pipeline}`,
         method: 'POST',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         body: data,
       }),
     }),
@@ -26,6 +35,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (id) => ({
         url: `${apiUrl.pipeline}?id=${id}`,
         method: 'DELETE',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
   }),
