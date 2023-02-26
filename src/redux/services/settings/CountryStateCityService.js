@@ -9,20 +9,23 @@ const extendedApi = apiBasePath?.injectEndpoints({
             query: () => ({
                 url: `${apiUrl.country}`,
                 headers: {
-                  'Authorization': `Token ${localStorage?.getItem("globalUser")?.access}`
+                  'Authorization': `Token ${localStorage?.getItem("globalUser")?.access}`,
+                  "referrerPolicy": "unsafe_url",
                 }
             }),
         }),
         getState: build.query({
             query: (id) => `${apiUrl.state}${id}`,
             headers: {
-              'Authorization': `Token ${localStorage?.getItem("globalUser")?.access}`
+              'Authorization': `Token ${localStorage?.getItem("globalUser")?.access}`,
+                  "referrerPolicy": "unsafe_url",
             }
         }),
         getCity: build.query({
             query: (id) => `${apiUrl.city}${id}`,
             headers: {
-              'Authorization': `Token ${localStorage?.getItem("globalUser")?.access}`
+              'Authorization': `Token ${localStorage?.getItem("globalUser")?.access}`,
+                  "referrerPolicy": "unsafe_url",
             }
         }),
     }),
