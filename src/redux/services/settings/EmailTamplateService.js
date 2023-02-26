@@ -6,16 +6,25 @@ const extendedApi = apiBasePath.injectEndpoints({
     getEmailTamplate: build.query({
       query: () => ({
         url: `${apiUrl.emailtamplate}`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
     getEmailVariableTamplate: build.query({
       query: () => ({
         url: `${apiUrl.emailVariables}`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
     getEmailTemplateById: build.query({
       query: (id) => ({
         url: `${apiUrl.emailtamplate}${id}`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
     updateEmailTemplate: build.mutation({
@@ -24,7 +33,8 @@ const extendedApi = apiBasePath.injectEndpoints({
         method: 'POST',
         body: data,
         headers: {
-          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`,
+                  "referrerPolicy": "unsafe_url",
         }
       }),
     }),
@@ -34,13 +44,17 @@ const extendedApi = apiBasePath.injectEndpoints({
         method: 'POST',
         body: data,
         headers: {
-          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`,
+                  "referrerPolicy": "unsafe_url",
         }
       }),
     }),
     deleteEmailTemplate: build.mutation({
       query: (id) => ({
         url: `${apiUrl.emailtamplate}?id=${id}`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         method: 'DELETE',
       }),
     }),
