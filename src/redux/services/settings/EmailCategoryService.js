@@ -7,7 +7,8 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: () => ({
         url: `${apiUrl.emailCategory}`,
         headers: {
-          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`,
+          "referrerPolicy": "unsafe_url",
         }
       }),
     }),
@@ -17,7 +18,8 @@ const extendedApi = apiBasePath.injectEndpoints({
         method: 'POST',
         body: data,
         headers: {
-          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`,
+          "referrerPolicy": "unsafe_url",
         }
       }),
     }),
@@ -27,7 +29,8 @@ const extendedApi = apiBasePath.injectEndpoints({
         method: 'POST',
         body: data,
         headers: {
-          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`,
+          "referrerPolicy": "unsafe_url",
         }
       }),
     }),
@@ -36,7 +39,8 @@ const extendedApi = apiBasePath.injectEndpoints({
         url: `${apiUrl.emailCategory}?id=${id}`,
         method: 'DELETE',
         headers: {
-          'Authorization': `Token ${localStorage.getItem("globalUser").access}`
+          'Authorization': `Token ${localStorage.getItem("globalUser").access}`,
+          "referrerPolicy": "unsafe_url",
         }
       }),
     }),
