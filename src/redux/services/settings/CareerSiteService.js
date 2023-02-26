@@ -7,7 +7,7 @@ const extendedApi = apiBasePath.injectEndpoints({
     endpoints: (build) => ({
         getCompanyInfo: build.query({
             query: () => ({
-                url: `${apiUrl.companyInfo}`
+                url: `${apiUrl.companyInfo}`,
                  headers: {
                   "referrerPolicy": "unsafe_url",
                 }
