@@ -6,12 +6,18 @@ const extendedApi = apiBasePath.injectEndpoints({
         degreeGet: build.query({
             query: () => ({
                 url: `${apiUrl.degree}`,
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
             }),
         }),
         addDegree: build.mutation({
             query: (data) => ({
                 url: `${apiUrl.degree}`,
                 method: "POST",
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
@@ -19,6 +25,9 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: (data) => ({
                 url: `${apiUrl.degree}`,
                 method: "POST",
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
@@ -26,6 +35,9 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: (id) => ({
                 url: `${apiUrl.degree}?id=${id}`,
                 method: "DELETE",
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
             })
         }),
     }),
