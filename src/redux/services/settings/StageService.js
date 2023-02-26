@@ -6,12 +6,18 @@ const extendedApi = apiBasePath.injectEndpoints({
     getStages: build.query({
       query: () => ({
         url: `${apiUrl.stage}`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
     addStageApi: build.mutation({
       query: (data) => ({
         url: `${apiUrl.stage}`,
         method: 'POST',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         body: data,
       }),
     }),
@@ -19,6 +25,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (data) => ({
         url: `${apiUrl.stage}`,
         method: 'POST',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         body: data,
       }),
     }),
@@ -26,6 +35,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (id) => ({
         url: `${apiUrl.stage}?id=${id}`,
         method: 'DELETE',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                }
       }),
     }),
   }),
