@@ -6,6 +6,9 @@ const extendedApi = apiBasePath.injectEndpoints({
     getStatusApi: build.query({
       query: (id) => ({
         url: `${apiUrl.status}${id}/`,
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         method: 'GET',
       }),
     }),
@@ -13,6 +16,9 @@ const extendedApi = apiBasePath.injectEndpoints({
       query: (data) => ({
         url: `${apiUrl.status}`,
         method: 'POST',
+        headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
         body: data,
       }),
     }),
