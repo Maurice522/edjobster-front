@@ -8,12 +8,18 @@ const extendedApi = apiBasePath.injectEndpoints({
         departmentGet: build.query({
             query: () => ({
                 url: `${apiUrl.department}`,
+                 headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
             }),
         }),
         addDepartment: build.mutation({
             query: (data) => ({
                 url: `${apiUrl.department}`,
                 method: "POST",
+                headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
@@ -21,6 +27,9 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: (data) => ({
                 url: `${apiUrl.department}`,
                 method: "POST",
+                headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
                 body: data,
             })
         }),
@@ -28,6 +37,9 @@ const extendedApi = apiBasePath.injectEndpoints({
             query: (id) => ({
                 url: `${apiUrl.department}?id=${id}`,
                 method: "DELETE",
+                headers: {
+                  "referrerPolicy": "unsafe_url",
+                },
             })
         }),
     }),
